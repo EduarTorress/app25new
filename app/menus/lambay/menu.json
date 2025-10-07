@@ -1,0 +1,392 @@
+[
+    {
+        "main": "Ventas",
+        "class": "fas fa-cart-plus",
+        "elementos": [
+            {
+                "item": "Registrar Venta Rápida",
+                "ruta": "/ventasrapidas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Registrar Venta Normal",
+                "ruta": "/vtas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Notas de Crédito",
+                "ruta": "/notascredito/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Facturar Guías",
+                "ruta": "/vtas/canjes",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Facturar Cotizaciones",
+                "ruta": "/vtas/canjespedidos",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Informe de Ventas",
+                "ruta": "/vtas/vtasresumidas",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Rpte de Vtas x Vendedor",
+                "ruta": "/vtas/indexvtasxvendedor",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Rotación de Productos",
+                "ruta": "/vtas/indexventadproducto",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Informe de Vtas x Cliente",
+                "ruta": "/vtas/indexlistavxcliente",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Informe de Vtas x Año",
+                "ruta": "/vtas/indexlistaventasxano",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Registro de ventas",
+                "ruta": "/vtas/rvtas",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Reporte de Ventas Anuladas",
+                "ruta": "/vtas/indexvtasanuladas",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Por Informar a SUNAT",
+                "ruta": "/cpe/fxe",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Reportes Estadísticos",
+                "ruta": "/dashboard",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Compras",
+        "class": "fas fa-cart-plus",
+        "elementos": [
+            {
+                "item": "Registrar Compra",
+                "ruta": "/compras/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Otras Compras",
+                "ruta": "ocompras/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+             {
+                "item": "Notas de Crédito",
+                "ruta": "/compras/indexnotascredito",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Informe de Compras",
+                "ruta": "/compras/listar",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Compras x Proveedor",
+                "ruta": "/compras/indexlistacomprasxprov",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Rotación de Productos.",
+                "ruta": "/compras/indexcompradproducto",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Registro de compras",
+                "ruta": "/compras/listarPLE",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Orden de Compra",
+        "class": "fas fa-cart-plus",
+        "elementos": [
+            {
+                "item": "Registrar Orden Compra",
+                "ruta": "/ordenescompra/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Informe de Ordenes",
+                "ruta": "/ordenescompra/listar",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            }
+        ]
+    },
+    {
+        "main": "Guias Remisión",
+        "class": "fa fa-truck",
+        "elementos": [
+            {
+                "item": "Guia Remitente Ventas",
+                "ruta": "/guiasr/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Guia Remitente Compras",
+                "ruta": "/guiasc/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Listar Guias Remitente",
+                "ruta": "/guiasr/listar",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Por Informar a SUNAT",
+                "ruta": "/guias/listarxenviar",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            }
+        ]
+    },
+    {
+        "main": "Guias x Traspaso",
+        "class": "fa fa-truck",
+        "elementos": [
+            {
+                "item": "Registrar Traspaso",
+                "ruta": "/traspasos/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Listar Traspasos",
+                "ruta": "/traspasos/indexlistar",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Aceptar Traspasos",
+                "ruta": "/traspasos/indexlistarxrecibir",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Cotizaciones",
+        "class": "fas fa-cart-plus",
+        "elementos": [
+            {
+                "item": "Precios y Stock",
+                "ruta": "/productos/index/1",
+                "class": "far fa-circle nav-icon",
+                "opt": "AVS"
+            },
+            {
+                "item": "Registrar Cotización",
+                "ruta": "/pedidos/listarpedido",
+                "class": "far fa-circle nav-icon",
+                "opt": "AVS"
+            },
+            {
+                "item": "Informe de Cotizaciones",
+                "ruta": "/pedido/listarpedidos",
+                "class": "far fa-circle nav-icon",
+                "opt": "AVS"
+            }
+        ]
+    },
+    {
+        "main": "Inventario",
+        "class": "fa fa-check",
+        "elementos": [
+            {
+                "item": "Ajuste de Inventario",
+                "ruta": "/productos/index/5",
+                "class": "far fa-circle nav-icon",
+                "opt": "AS"
+            },
+            {
+                "item": "Ver Ajustes de Inv.",
+                "ruta": "/inventarios/indexlistaajustes",
+                "class": "far fa-circle nav-icon",
+                "opt": "AS"
+            },
+            {
+                "item": "Ver Kardex",
+                "ruta": "/inventarios/kardex",
+                "class": "far fa-circle nav-icon",
+                "opt": "AS"
+            },
+            {
+                "item": "Stock x Almacen",
+                "ruta": "/inventarios/indexstockxalmacen",
+                "class": "far fa-circle nav-icon",
+                "opt": "AS"
+            }
+        ]
+    },
+    {
+        "main": "Caja",
+        "class": "fas fa-credit-card",
+        "elementos": [
+            {
+                "item": "Reporte de Caja",
+                "ruta": "/cajas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Ingresos y Egresos",
+                "ruta": "/cajas/indexIngresosEgresos",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            }
+        ]
+    },
+    {
+        "main": "Créditos",
+        "class": "fas fa-credit-card",
+        "elementos": [
+            {
+                "item": "Vencimientos x Cliente",
+                "ruta": "/cobranzas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Resumen x Cobrar",
+                "ruta": "cobranzas/indexlistacobranzastodo",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Administración",
+        "class": "fas fa-address-card",
+        "elementos": [
+            {
+                "item": "Productos",
+                "ruta": "/productos/index/4",
+                "class": "far fa-circle nav-icon",
+                "opt": "AVS"
+            },
+            {
+                "item": "Clientes",
+                "ruta": "/cliente/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Proveedores",
+                "ruta": "/proveedor/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Unidades de Medida",
+                "ruta": "/unidadesmedida/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AS"
+            },
+            {
+                "item": "Sucursales",
+                "ruta": "/sucursales/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Vendedores",
+                "ruta": "/vendedores/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Marcas",
+                "ruta": "/marcas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AS"
+            },
+            {
+                "item": "Categorias",
+                "ruta": "/categorias/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AS"
+            },
+            {
+                "item": "Fletes",
+                "ruta": "/fletes/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Transportistas",
+                "ruta": "/transportista/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Direcciones",
+                "ruta": "/direccion/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Usuarios",
+                "ruta": "/usuarios/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Mantenimiento",
+        "class": "fas fa-address-card",
+        "elementos": [
+            {
+                "item": "Eliminar Comprobante",
+                "ruta": "/cpe/indexAnular",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    }
+]

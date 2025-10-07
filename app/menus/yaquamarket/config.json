@@ -1,0 +1,17 @@
+[
+   {
+      "utilidad": "D",
+      "valorutilidad": "0.8",
+      "cambiarproductoxposicion": "N",
+      "validarstock": "N",
+      "guardarpedidocomonuevo": "N",
+      "combos": "N",
+      "facturardolares": "N",
+      "allcamposproductos": "S",
+      "variasunidmed": "S",
+      "idprovajuste": "2",
+      "multiigv": "N",
+      "codigobarras": "S",
+      "usuarioxalmacen": "S"
+   }
+]

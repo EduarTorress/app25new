@@ -1,0 +1,18 @@
+[
+   {
+      "utilidad": "D",
+      "valorutilidad": "0.8",
+      "cambiarproductoxposicion": "N",
+      "validarstock": "S",
+      "guardarpedidocomonuevo": "N",
+      "combos": "N",
+      "facturardolares": "N",
+      "allcamposproductos": "N",
+      "variasunidmed": "S",
+      "idprovajuste": "2",
+      "multiigv": "N",
+      "ventasexon": "S",
+      "tipobotica": "S",
+      "cajaxtienda": "S"
+   }
+]

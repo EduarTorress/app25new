@@ -1,0 +1,7 @@
+[
+{"entidad":"sunat","urlenvio":"https://e-factura.sunat.gob.pe/ol-ti-itcpfegem/billService","urlconsulta":"https://e-factura.sunat.gob.pe/ol-it-wsconscpegem/billConsultService"},
+{"entidad":"nubefact","urlenvio":"https://ose.nubefact.com/ol-ti-itcpe/billService","urlconsulta":"https://ose.nubefact.com/ol-ti-itcpe/billService"},
+{"entidad":"efact","urlenvio":"https://ose.efact.pe/ol-ti-itcpe/billService","urlconsulta":"https://ose.efact.pe/ol-ti-itcpe/billService"},
+{"entidad":"bizlinks","urlenvio":"https://ose.bizlinks.com.pe/ol-ti-itcpe/billService","urlconsulta":"https://ose.bizlinks.com.pe/ol-ti-itcpe/billService"},
+{"entidad":"conastec","urlenvio":"https://prod.conose.pe/ol-ti-itcpe/billService","urlconsulta":"https://prod.conose.pe/ol-ti-itcpe/billService"}
+]
