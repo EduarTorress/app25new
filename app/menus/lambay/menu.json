@@ -16,24 +16,6 @@
                 "opt": "AV"
             },
             {
-                "item": "Notas de Crédito",
-                "ruta": "/notascredito/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Facturar Guías",
-                "ruta": "/vtas/canjes",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Facturar Cotizaciones",
-                "ruta": "/vtas/canjespedidos",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
                 "item": "Informe de Ventas",
                 "ruta": "/vtas/vtasresumidas",
                 "class": "far fa-circle nav-icon",
@@ -80,12 +62,6 @@
                 "ruta": "/cpe/fxe",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
-            },
-            {
-                "item": "Reportes Estadísticos",
-                "ruta": "/dashboard",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
             }
         ]
     },
@@ -96,18 +72,6 @@
             {
                 "item": "Registrar Compra",
                 "ruta": "/compras/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Otras Compras",
-                "ruta": "ocompras/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-             {
-                "item": "Notas de Crédito",
-                "ruta": "/compras/indexnotascredito",
                 "class": "far fa-circle nav-icon",
                 "opt": "AV"
             },
@@ -128,12 +92,6 @@
                 "ruta": "/compras/indexcompradproducto",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
-            },
-            {
-                "item": "Registro de compras",
-                "ruta": "/compras/listarPLE",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
             }
         ]
     },
@@ -152,60 +110,6 @@
                 "ruta": "/ordenescompra/listar",
                 "class": "far fa-circle nav-icon",
                 "opt": "AV"
-            }
-        ]
-    },
-    {
-        "main": "Guias Remisión",
-        "class": "fa fa-truck",
-        "elementos": [
-            {
-                "item": "Guia Remitente Ventas",
-                "ruta": "/guiasr/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Guia Remitente Compras",
-                "ruta": "/guiasc/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Listar Guias Remitente",
-                "ruta": "/guiasr/listar",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Por Informar a SUNAT",
-                "ruta": "/guias/listarxenviar",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            }
-        ]
-    },
-    {
-        "main": "Guias x Traspaso",
-        "class": "fa fa-truck",
-        "elementos": [
-            {
-                "item": "Registrar Traspaso",
-                "ruta": "/traspasos/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Listar Traspasos",
-                "ruta": "/traspasos/indexlistar",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Aceptar Traspasos",
-                "ruta": "/traspasos/indexlistarxrecibir",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
             }
         ]
     },
@@ -350,24 +254,6 @@
                 "ruta": "/categorias/index",
                 "class": "far fa-circle nav-icon",
                 "opt": "AS"
-            },
-            {
-                "item": "Fletes",
-                "ruta": "/fletes/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Transportistas",
-                "ruta": "/transportista/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Direcciones",
-                "ruta": "/direccion/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
             },
             {
                 "item": "Usuarios",

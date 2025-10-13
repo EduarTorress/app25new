@@ -109,7 +109,7 @@ $this->startSection('javascript');
 
     $('#modal-mantenimiento').on('shown.bs.modal', function() {
         $('#txtnombre').focus();
-    })
+    });
 
     function cerrarmodal() {
         $('#modal-mantenimiento').modal('hide');
@@ -128,7 +128,7 @@ $this->startSection('javascript');
             if (respuesta.isConfirmed) {
                 const ruta = '/cliente/darBaja/' + id;
                 axios.post(ruta).then(function(respuesta) {
-                    toastr.success('Eliminado correctamente');
+                    toastr.success('Eliminado correctamente','Mensaje del Sistema');
                 }).catch(function(error) {
                     if (error.hasOwnProperty('response')) {
                         toastr.error(error.response.data.message, 'Mensaje del sistema');
@@ -171,7 +171,7 @@ $this->startSection('javascript');
                     axios.post('/cliente/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente');
+                            toastr.success('Registrado correctamente','Mensaje del Sistema');
                             // buscar();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -189,7 +189,7 @@ $this->startSection('javascript');
             const ruta = '/cliente/update/' + id;
             Swal.fire({
                 title: '¿Actualizar cliente?',
-                text: "Se modificará con los nuevos datos.",
+                text: "Se actualizará en el sistema con los nuevos datos.",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -202,7 +202,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             // buscar();
-                            toastr.success('Actualizado correctamente');
+                            toastr.success('Actualizado correctamente','Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {

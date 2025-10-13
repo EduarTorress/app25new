@@ -107,15 +107,15 @@ $this->startSection('javascript');
         let txtciudad = document.getElementById("txtciudad").value
         let cmbUbigeo = document.getElementById("cmbUbigeo").value;
         if (txtciudad.length == 0) {
-            toastr.info('Ingrese la ciudad');
+            toastr.info('Ingrese la ciudad', 'Mensaje del Sistema');
             return;
         }
         if (txtnombre.length == 0) {
-            toastr.info('Ingrese el nombre');
+            toastr.info('Ingrese el nombre', 'Mensaje del Sistema');
             return;
         }
         if (txtdireccion.length == 0) {
-            toastr.info('Ingrese la dirección');
+            toastr.info('Ingrese la dirección', 'Mensaje del Sistema');
             return;
         }
         const formulario = document.getElementById('formulario-crear');
@@ -133,7 +133,7 @@ $this->startSection('javascript');
                     axios.post('/sucursales/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             buscar();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -159,7 +159,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             buscar();
-                            toastr.success('Actualizado correctamente');
+                            toastr.success('Actualizado correctamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 toastr.error('Hubo error al actualizar' + error, 'Mensaje del sistema');

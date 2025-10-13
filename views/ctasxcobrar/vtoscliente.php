@@ -116,7 +116,7 @@ $this->startSection("javascript");
 
     function listarvtos() {
         if (idcliente === 0) {
-            toastr["warning"]("Seleccione un Cliente")
+            toastr.warning("Seleccione un Cliente", 'Mensaje del Sistema')
             return;
         }
         axios.get('/ctascobrar/listaxcliente', {
@@ -127,7 +127,7 @@ $this->startSection("javascript");
             const contenido_tabla = respuesta.data;
             $('#resultados').html(contenido_tabla);
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado de documentos')
+            toastr.error('Error al cargar el listado de documentos', 'Mensaje del Sistema')
         });
     }
 </script>

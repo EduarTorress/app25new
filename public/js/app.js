@@ -161,7 +161,7 @@ function consultarclientes() {
   var noption;
   var abuscar = document.querySelector("#txtbuscar").value;
   if (abuscar.length == 0) {
-    toastr.info("Ingrese dato a buscar");
+    toastr.info("Ingrese dato a buscar", 'Mensaje del Sistema');
     return;
   }
   noption = obtenertipobusquedacliente();
@@ -399,7 +399,7 @@ function pulsarenterbuscarproveedor(e) {
     e.preventDefault();
     var valorbusqueda = document.getElementById("txtbuscarprov").value;
     if (valorbusqueda.length == 0) {
-      toastr.info("Ingrese dato a buscar",'Mensaje del Sistema');
+      toastr.info("Ingrese dato a buscar", 'Mensaje del Sistema');
       return;
     }
     buscarProveedor();

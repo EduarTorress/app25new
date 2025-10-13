@@ -202,19 +202,19 @@ $this->startSection('javascript');
         ctdoc = $('#cmbdcto option:selected').val();
         ruc = document.querySelector('#txtruccliente').value;
         if (idcliente == 0) {
-            toastr.info("Seleccione un Cliente");
+            toastr.info("Seleccione un Cliente", 'Mensaje del Sistema');
             return false;
         }
         if (total == 0) {
-            toastr.info("Ingrese Importes Válidos");
+            toastr.info("Ingrese Importes Válidos", 'Mensaje del Sistema');
             return false;
         }
         if (ctdoc === '01' && ruc.trim() === '') {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura");
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
             return false;
         }
         if (ctdoc === '01' && ruc === 0) {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura");
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
             return false;
         }
         return true;

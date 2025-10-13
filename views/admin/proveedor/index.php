@@ -98,6 +98,7 @@ $this->startSection('javascript');
                 $('#modal-mantenimiento-contenido').html(respuesta.data);
                 $('#modal-mantenimiento').modal('show');
             }).catch(function(error) {
+                console.log(error);
                 toastr.error('Error al cargar el modal de crear ' + error, 'Mensaje del sistema')
             })
     }
@@ -136,7 +137,7 @@ $this->startSection('javascript');
                 axios.post(ruta)
                     .then(function(respuesta) {
                         // console.log(respuesta.data);
-                        toastr.success('Eliminado correctamente');
+                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                         // buscar();
                     }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {
@@ -181,7 +182,7 @@ $this->startSection('javascript');
                     axios.post('/proveedor/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             // buscar();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -209,7 +210,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             // buscar();
-                            toastr.success('Actualizado correctamente');
+                            toastr.success('Actualizado correctamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 toastr.error('Error al modificar' + error.response.data.message, 'Mensaje del sistema');

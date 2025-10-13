@@ -176,11 +176,11 @@ $this->startSection('javascript');
         let txtclave = document.getElementById("txtclave").value
         let cmbtipousuario = document.getElementById("cmbtipousuario").value;
         if (txtnombre.length == 0) {
-            toastr.info('Ingrese un nombre del usuario');
+            toastr.info('Ingrese un nombre del usuario', 'Mensaje del Sistema');
             return;
         }
         if (txtclave.length == 0) {
-            toastr.info('Ingrese la clave del usuario');
+            toastr.info('Ingrese la clave del usuario', 'Mensaje del Sistema');
             return;
         }
         const formulario = document.getElementById('formulario-crear');

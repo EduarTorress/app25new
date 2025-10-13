@@ -108,7 +108,7 @@ $this->startSection("javascript")
             $("#search").html(respuesta.data);
         }).catch(function(error) {
             $("#btnconsultar").attr('disabled', false);
-            toastr.error("Error al Cargar el Informe", "Error del sistema")
+            toastr.error("Error al cargar el Informe", "Error del sistema")
         });
     }
 

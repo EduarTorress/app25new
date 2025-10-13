@@ -451,8 +451,9 @@ $this->startSection('javascript');
                             e = error['response']['data']['errors']
                         }
                         result = []
-                        for (var i in e)
+                        for (var i in e) {
                             result.push([i, e[i]]);
+                        }
                         // console.log(result)
                         result.forEach(function(numero) {
                             toastr.error(numero[1])
@@ -509,7 +510,6 @@ $this->startSection('javascript');
                 data.append("txtFechaTraslado", $("#txtFechaTraslado").val());
                 data.append("txtReferencia", $("#txtReferencia").val());
                 data.append("detalle", JSON.stringify(detalle));
-
                 axios.post("/guias/registrar", data)
                     .then(function(respuesta) {
                         toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
@@ -545,14 +545,14 @@ $this->startSection('javascript');
                         };
                         xhr.send();
                         limpiar();
-
                     }).catch(function(error) {
                         console.log(error)
                         e = error['response']['data']['errors']
                         // console.log(e)
                         result = []
-                        for (var i in e)
+                        for (var i in e) {
                             result.push([i, e[i]]);
+                        }
                         result.forEach(function(numero) {
                             toastr.error(numero[1])
                         });
@@ -567,16 +567,16 @@ $this->startSection('javascript');
         idDestinatario = $("#txtIdDestinatario").val();
 
         if (idDestinatario == "") {
-            toastr.info("Ingrese el Destinatario")
+            toastr.info("Ingrese el Destinatario", 'Mensaje del Sistema')
             return false;
         }
         if (idRemitente == "") {
-            toastr.info("Ingrese el Remitente")
+            toastr.info("Ingrese el Remitente", 'Mensaje del Sistema')
             return false;
         }
         tpeso = document.getElementById("txttpeso").value;
         if (tpeso == "0.00") {
-            toastr.info("El peso es obloigatorio")
+            toastr.info("El peso es obligatorio", 'Mensaje del Sistema')
             return false;
         }
         return true
@@ -610,11 +610,11 @@ $this->startSection('javascript');
                 $('#lista').html(contenido_tabla);
                 $("#modal_direcciones").modal('show');
             }).catch(function(error) {
-                toastr.error('Error al cargar el listado de Direcciones')
+                toastr.error('Error al cargar el listado de direcciones', 'Mensaje del Sistema')
             });
         }).catch(function(error) {
             $('#modal_remitente').modal('toggle');
-            toastr.error(error);
+            toastr.error(error, 'Mensaje del Sistema');
         });
     }
 
@@ -622,7 +622,7 @@ $this->startSection('javascript');
         // data-toggle="modal" data-target="#modal_direcciones"
         id = $("#txtIdRemitente").val()
         if (id == '') {
-            toastr.error("Seleccione un remitente")
+            toastr.error("Seleccione un remitente", 'Mensaje del Sistema')
             return
         }
         axios.get('/direccion/lista1', {
@@ -634,7 +634,7 @@ $this->startSection('javascript');
             $('#lista').html(contenido_tabla);
             $("#modal_direcciones").modal('show');
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado de Direcciones')
+            toastr.error('Error al cargar el listado de direcciones', 'Mensaje del Sistema')
         });
     });
 
@@ -671,7 +671,7 @@ $this->startSection('javascript');
             $("#modal_direcciones").modal('hide');
         }).catch(function(error) {
             $("#modal_direcciones").modal('hide');
-            toastr.error(error);
+            toastr.error(error, 'Mensaje del Sistema');
         });
     }
 </script>

@@ -203,15 +203,15 @@ $this->startSection('javascript');
         let ncant = $("#cantidad" + num).val();
         //LUEGO DESCOMENTAR
         // if (!cdesc) {
-        //     toastr.info("Ingrese Descripcíon");
+        //     toastr.info("Ingrese Descripcíon",'Mensaje del Sistema');
         //     return
         // }
         // if (!ncant) {
-        //     toastr.info("Ingrese Cantidad");
+        //     toastr.info("Ingrese Cantidad",'Mensaje del Sistema');
         //     return
         // }
         // if (!npeso) {
-        //     toastr.info("Ingrese Peso");
+        //     toastr.info("Ingrese Peso",'Mensaje del Sistema');
         //     return
         // }
         $('#tabla tbody')
@@ -243,7 +243,6 @@ $this->startSection('javascript');
         var cantidades = [];
         var pesos = [];
         var pesoTotal = [];
-
         var total = 0;
         $("#tabla tbody > tr").each(function(index) {
             var cantidad = Number($(this).find('.cantidad').val());
@@ -252,7 +251,6 @@ $this->startSection('javascript');
             var pesot = cantidad * peso;
             $(this).find('.subt').val(pesot.toFixed(2));
             pesoTotal.push(pesot);
-
             total += pesot;
         });
         // $("h2").text('Total: ' + total + ' €');
@@ -263,13 +261,11 @@ $this->startSection('javascript');
             igv = (total - subtotal);
             $("#txtigv").val(igv.toFixed(2));
             $("#txtsubtotal").val(subtotal.toFixed(2));
-
         } else {
             $("#txttotal").val("0.00");
             $("#txtigv").val("0.00");
             $("#txtsubtotal").val("0.00");
         }
-
         if (total > 400) {
             txtvalordetraccion = $("#txtvalordetraccion").val();
             txtdetraccion = (Number(txtvalordetraccion) * total) / 100;
@@ -278,7 +274,6 @@ $this->startSection('javascript');
         } else {
             $("#txtdetraccion").val("0.00");
         }
-        // console.log(total)
     }
 
     function agregarprimeriten() {
@@ -306,25 +301,24 @@ $this->startSection('javascript');
     }
 
     function validarVenta() {
-
         idcliente = document.querySelector('#txtidcliente').value;
         total = document.querySelector('#txttotal').value;
         ctdoc = $('#cmbdcto option:selected').val();
         ruc = document.querySelector('#txtruccliente').value;
         if (idcliente == 0) {
-            toastr.info("Seleccione un Cliente");
+            toastr.info("Seleccione un Cliente",'Mensaje del Sistema');
             return false;
         }
         if (total == 0) {
-            toastr.info("Ingrese Importes Válidos");
+            toastr.info("Ingrese Importes Válidos",'Mensaje del Sistema');
             return false;
         }
         if (ctdoc === '01' && ruc.trim() === '') {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura");
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura",'Mensaje del Sistema');
             return false;
         }
         if (ctdoc === '01' && ruc === 0) {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura");
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura",'Mensaje del Sistema');
             return false;
         }
         return true;
@@ -381,7 +375,6 @@ $this->startSection('javascript');
                 data.append("total", $("#txttotal").val());
                 data.append("detalle", JSON.stringify(detalle));
                 data.append("detraccion",$("#txtdetraccion").val());
-                
                 axios.post("/vtas/registrarcanjetr", data)
                     .then(function(respuesta) {
                         toastr.success(' Se Genero el documento: ' + respuesta.data.ndoc);
@@ -417,7 +410,6 @@ $this->startSection('javascript');
                             }
                         };
                         xhr.send();
-
                     }).catch(function(error) {
                         mostrarerroresvalidacion(error);
                     });

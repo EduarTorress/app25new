@@ -147,7 +147,6 @@ $this->startSection('javascript');
         let txtplaca1 = document.querySelector("#txtplaca1").value;
         let txtbrevete = document.getElementById("txtbrevete").value
         let txtmarca = document.getElementById("txtmarca").value;
-
         if (txttransportista.length == 0) {
             toastr.error('Ingrese un nombre del transportista', 'Mensaje del sistema');
             return;
@@ -156,7 +155,6 @@ $this->startSection('javascript');
             toastr.error('Ingrese un nombre de empresa', 'Mensaje del sistema');
             return;
         }
-
         const formulario = document.getElementById('formulario-crear');
         const data = new FormData(formulario);
         if (modo == 'N') {

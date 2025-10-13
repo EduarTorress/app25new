@@ -128,7 +128,7 @@ $this->startSection('javascript');
                 const ruta = '/unidades/darBaja/' + id;
                 axios.post(ruta)
                     .then(function(respuesta) {
-                        toastr.success('Eliminado correctamente');
+                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                         buscar();
                     }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {

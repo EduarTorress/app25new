@@ -139,10 +139,9 @@ $this->startSection('javascript');
                     axios.post('/admin/flete/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             buscar();
-                        })
-                        .catch(function(error) {
+                        }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {
                                     const respuesta_servidor = error.response.data;
@@ -171,7 +170,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             buscar();
-                            toastr.success('Actualizado correctamente');
+                            toastr.success('Actualizado correctamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {

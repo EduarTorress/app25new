@@ -309,7 +309,7 @@ $this->startSection('javascript');
         data.append("txtPassword", document.getElementById("txtPassword").value);
         axios.post("/vtas/verutilidad", data)
             .then(function(respuesta) {
-                //toastr.success("Eliminado correctamente");
+                //toastr.success("Eliminado correctamente",'Mensaje del Sistema');
                 Swal.fire({
                     title: "La ganancia calculada correctamente",
                     text: "La ganancia es: " + respuesta.data.message,

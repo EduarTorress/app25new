@@ -186,7 +186,6 @@ $this->startSection('javascript');
             t = $(this).find('td').eq(6).text();
             total_col += parseFloat(t);
         });
-
         if (igv == 'I') {
             $('#griddetalle tbody tr').each(function() {
                 $(this).find(".preciosgv").html("");
@@ -198,14 +197,12 @@ $this->startSection('javascript');
                 $(this).find(".preciosgv").html(Number(preciosgv).toFixed(2));
             });
         }
-
         let impo = (Number(total_col)).toFixed(2);
         let valor = (impo / valorigv).toFixed(2);
         let nigv = (impo - valor).toFixed(2);
         $("#igv").val(nigv);
         $("#subtotal").val(valor);
         $("#total").val(impo);
-
         let impor = $("#total").val();
         if (isNaN(impor)) {
             $("#subtotal").val("0.00");
@@ -220,19 +217,19 @@ $this->startSection('javascript');
         ctdoc = $('#cmbdcto option:selected').val();
         ruc = document.querySelector('#txtruccliente').value;
         if (idcliente == 0) {
-            toastr.info("Seleccione un Cliente");
+            toastr.info("Seleccione un Cliente", 'Mensaje del Sistema');
             return false;
         }
         if (total == 0) {
-            toastr.info("Ingrese Importes Válidos");
+            toastr.info("Ingrese Importes Válidos", 'Mensaje del Sistema');
             return false;
         }
         if (ctdoc == '01' && ruc.trim() == '') {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura");
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
             return false;
         }
         if (ctdoc == '01' && ruc == 0) {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura");
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
             return false;
         }
         return true;

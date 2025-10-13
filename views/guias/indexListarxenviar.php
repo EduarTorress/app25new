@@ -108,7 +108,7 @@ $this->startSection('javascript');
                 // console.log(respuesta);
             }
         }).catch(function(error) {
-            toastr.error("Error al Enviar Guia a SUNAT");
+            toastr.error("Error al Enviar Guia a SUNAT", 'Mensaje del Sistema');
             console.log(error);
         });
     }
@@ -147,11 +147,11 @@ $this->startSection('javascript');
                 //     toastr.info("!!!!" + respuesta.data.rpta);
                 // }
             } else {
-                toastr.warning('No se Pudo leer la respuesta');
+                toastr.warning('No se Pudo leer la respuesta', 'Mensaje del Sistema');
             }
             search();
         }).catch(function(error) {
-            toastr.error("Error al Enviar Guia a SUNAT");
+            toastr.error("Error al Enviar Guia a SUNAT", 'Mensaje del Sistema');
             console.log(error);
         });
     }
@@ -187,7 +187,8 @@ $this->startSection('javascript');
             // console.log(respuesta.data.message)
         }).catch(function(error) {
             // 400, 500
-            toastr.error('Error al cargar el listado')
+            console.log(error);
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
 

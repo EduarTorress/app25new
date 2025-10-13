@@ -130,7 +130,7 @@ $this->startSection('javascript');
                     axios.post('/admin/categoria/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             search();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -161,7 +161,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             search();
-                            toastr.success('Categoria actualizada satisfactoriamente');
+                            toastr.success('Categoria actualizada satisfactoriamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {

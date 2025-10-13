@@ -15,6 +15,6 @@ $dotenv = \Dotenv\Dotenv::createImmutable($rootdir);
 $dotenv->load();
 $config = require $rootdir . "/config/app.php";
 $app = Application::getInstance($rootdir, $config,"");
-$app->empresa='yaquamarket';
+$app->empresa='lambay';
 require $rootdir . "/routes/web.php";
 $app->run();

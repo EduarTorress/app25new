@@ -319,7 +319,7 @@ $this->startSection('javascript');
                 const contenido_tabla = respuesta.data;
                 $('#detalle').html(contenido_tabla);
             }).catch(function(error) {
-                toastr.error(error);
+                toastr.error(error, 'Mensaje del Sistema');
             });
     }
 
@@ -380,12 +380,12 @@ $this->startSection('javascript');
             detalle.push(obj)
         });
         if (validar() == false) {
-            toastr.error("Faltan datos para modificar");
+            toastr.error("Faltan datos para modificar", 'Mensaje del Sistema');
             return;
         }
         Swal.fire({
             title: '¿Modificar Guia?',
-            text: "Se Modificará ",
+            text: "Se modificará en el sistema ",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -426,8 +426,9 @@ $this->startSection('javascript');
                             e = error['response']['data']['errors']
                         }
                         result = []
-                        for (var i in e)
+                        for (var i in e) {
                             result.push([i, e[i]]);
+                        }
                         result.forEach(function(numero) {
                             toastr.error(numero[1])
                         });
@@ -460,11 +461,7 @@ $this->startSection('javascript');
                     calcularIGV();
                     calcularsubtotal(row);
                 }).catch(function(error) {
-                    if (error.hasOwnProperty("response")) {
-                        if (error.response.status == 422) {
-                            console.log(error);
-                        }
-                    }
+                    console.log(error);
                 });
         });
     }
@@ -552,17 +549,17 @@ $this->startSection('javascript');
     function validar() {
         idDestinatario = $("#txtidproveedor").val();
         if (idDestinatario == "") {
-            toastr.warning("Ingrese el Remitente")
+            toastr.warning("Ingrese el Remitente", 'Mensaje del Sistema')
             return false;
         }
         idtr = $("#txtIdTransportista").val();
         if (idtr == "") {
-            toastr.warning("Ingrese el Transportista")
+            toastr.warning("Ingrese el Transportista", 'Mensaje del Sistema')
             return false;
         }
         idtotal = $("#total").val();
         if (idtotal == "" || idtotal == '0.00') {
-            toastr.warning("Ingrese el Peso de Los Productos ")
+            toastr.warning("Ingrese el Peso de Los Productos ", 'Mensaje del Sistema')
             return false;
         }
         return true
@@ -720,9 +717,7 @@ $this->startSection('javascript');
                 .then(function(respuesta) {
                     //console.log('correctamente editado')
                 }).catch(function(error) {
-                    if (error.hasOwnProperty("response")) {
-                        console.log(error)
-                    }
+                   console.log(error)
                 });
         });
     }

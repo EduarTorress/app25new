@@ -121,7 +121,7 @@ $this->startSection('javascript');
     function store(modo, id) {
         let cnombre = document.querySelector("#txtnombre").value;
         if (cnombre.length == 0) {
-            toastr.warning('Ingrese el nombre de la marca');
+            toastr.warning('Ingrese el nombre de la marca', 'Mensaje del Sistema');
             return;
         }
         const formulario = document.getElementById('formulario-crear');
@@ -141,7 +141,7 @@ $this->startSection('javascript');
                     axios.post('/admin/marca/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             buscar();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -172,7 +172,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             buscar();
-                            toastr.success('Marca actualizada satisfactoriamente');
+                            toastr.success('Marca actualizada satisfactoriamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {

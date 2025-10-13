@@ -1277,8 +1277,10 @@ class Imprimir
         $pdf->Ln(4);
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->setx(5);
-        $pdf->MultiCell(70, 6, trim($this->rucempresa), 0, 'C');
-        $pdf->setx(5);
+        if (trim($this->rucempresa) != '-') {
+            $pdf->MultiCell(70, 6, trim($this->rucempresa), 0, 'C');
+            $pdf->setx(5);
+        }
         $pdf->MultiCell(70, 6, trim($this->tipocomprobante), 0, 'C');
         $pdf->setx(5);
         $pdf->MultiCell(70, 6, trim($this->numero), 0, 'C');
@@ -1639,7 +1641,7 @@ class Imprimir
     }
     public function generarticketcaja($rutapdf, $estilo = '')
     {
-        $pdf = new FPDF('P', 'mm', array(80,220));
+        $pdf = new FPDF('P', 'mm', array(80, 220));
         $pdf->AddPage();
         $pdf->SetMargins(-5, -10, 5);
         $pdf->SetFont('Arial', 'B', 12);
@@ -1695,7 +1697,7 @@ class Imprimir
         $pdf->Cell(15, 4, 'S/ ' . (Round($this->efectivo - $this->sobrante - $this->apertura, 2)), 0, 1, 'L');
         $pdf->ln();
 
-          $pdf->setx(5);
+        $pdf->setx(5);
         $pdf->Cell(50, 4, 'APERTURA: ', 0, 0, 'L');
         $pdf->Cell(15, 4, 'S/ ' . (Round($this->apertura, 2)), 0, 1, 'L');
         $pdf->ln();
