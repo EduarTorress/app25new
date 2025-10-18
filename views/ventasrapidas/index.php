@@ -632,30 +632,33 @@ $this->startSection('javascript');
         if (!validarVenta()) {
             return;
         }
-        txttotal = $("#txttotal").val();
-        var txtpago = document.getElementById("txtpago").value;
-        if (txtpago == "0.00" || txtpago.length == 0) {
-            toastr.info("Ingrese el pago", 'Mensaje del Sistema');
-            $("#btngrabar").removeAttr("disabled");
-            return;
-        }
-        txtpagoefectivo = $("#txtefectivo").val();
-        pago = Number(txtpago) + Number(txtpagoefectivo)
-        if (Number(pago) < Number(txttotal)) {
-            toastr.info("El pago debe ser mayor o igual al total", 'Mensaje del Sistema');
-            $("#txtpago").select()
-            $("#btngrabar").removeAttr("disabled");
-            return;
-        }
         cmbforma = $("#cmbforma").val();
-        if ((cmbforma == 'T') || (cmbforma == 'Y') || (cmbforma == 'P') || (cmbforma == 'D')) {
-            //console.log(Number(txtpagoefectivo));
-            if (Number(txtpagoefectivo) <= 0) {
-                if (Number(pago) > Number(txttotal)) {
-                    toastr.info("El pago debe ser igual al total", 'Mensaje del Sistema');
-                    $("#txtpago").select()
-                    $("#btngrabar").removeAttr("disabled");
-                    return;
+        if (cmbforma != 'C') {
+            txttotal = $("#txttotal").val();
+            var txtpago = document.getElementById("txtpago").value;
+            if (txtpago == "0.00" || txtpago.length == 0) {
+                toastr.info("Ingrese el pago", 'Mensaje del Sistema');
+                $("#btngrabar").removeAttr("disabled");
+                return;
+            }
+            txtpagoefectivo = $("#txtefectivo").val();
+            pago = Number(txtpago) + Number(txtpagoefectivo)
+            if (Number(pago) < Number(txttotal)) {
+                toastr.info("El pago debe ser mayor o igual al total", 'Mensaje del Sistema');
+                $("#txtpago").select()
+                $("#btngrabar").removeAttr("disabled");
+                return;
+            }
+            cmbforma = $("#cmbforma").val();
+            if ((cmbforma == 'T') || (cmbforma == 'Y') || (cmbforma == 'P') || (cmbforma == 'D')) {
+                //console.log(Number(txtpagoefectivo));
+                if (Number(txtpagoefectivo) <= 0) {
+                    if (Number(pago) > Number(txttotal)) {
+                        toastr.info("El pago debe ser igual al total", 'Mensaje del Sistema');
+                        $("#txtpago").select()
+                        $("#btngrabar").removeAttr("disabled");
+                        return;
+                    }
                 }
             }
         }

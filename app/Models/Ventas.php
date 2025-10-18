@@ -1657,7 +1657,7 @@ class Ventas extends Modelo
         // GROUP BY idcliente,k.codv,mone) AS e
         // INNER JOIN fe_clie AS d ON d.idclie=e.idcliente 
         // inner JOIN fe_vend AS c ON c.idven=e.codv GROUP BY e.idcliente,nomv,mone ";
-        $sql = "SELECT c.nomv AS nomb,e.mone,d.razo,e.idcliente,IF(mone='S',impo,ROUND(impo*dolar,2)) AS impo,
+        $sql = "SELECT e.idauto,c.nomv AS nomb,e.mone,d.razo,e.idcliente,IF(mone='S',impo,ROUND(impo*dolar,2)) AS impo,
                 IF(mone='S',valor,ROUND(valor*dolar,2)) AS valor,
                 IF(mone='S',igv,ROUND(igv*dolar,2)) AS igv
                 FROM fe_rcom AS e
@@ -1665,7 +1665,7 @@ class Ventas extends Modelo
                 INNER JOIN fe_clie AS d ON d.idclie=e.idcliente
                 INNER JOIN fe_vend AS c ON c.idven=k.codv
                 WHERE fech BETWEEN :dfi AND :dff
-                AND k.`codv`=:nidv AND idclie>0 and impo<>0 group by ndoc";
+                AND k.`codv`=:nidv AND idclie>0 and impo<>0 group by e.idauto,ndoc";
         $query = $this->prepare($sql);
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute([
@@ -1689,7 +1689,7 @@ class Ventas extends Modelo
             where tcom='k' AND r.`acti`='A' AND k.`acti`='A' and r.idprov=0
             AND a.`prod_acti`='A' AND 
             r.`fech` BETWEEN :dfi AND :dff
-            GROUP BY a.`idart`";
+            GROUP BY a.`idart`,kar_unid";
         $query = $this->prepare($sql);
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute([

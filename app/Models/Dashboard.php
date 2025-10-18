@@ -87,7 +87,7 @@ class Dashboard extends Modelo
             COUNT(*) AS total
             FROM fe_rcom 
             WHERE acti='A' AND idcliente>0 
-            GROUP BY MONTH(fech)";
+            GROUP BY MONTH(fech),fech";
             $query = $this->prepare($sql);
             $query->execute();
             $resultado = $query->fetchAll();
@@ -103,7 +103,7 @@ class Dashboard extends Modelo
             COUNT(*) AS total
             FROM fe_rped 
             WHERE acti='A' AND idclie>0 
-            GROUP BY MONTH(fech)";
+            GROUP BY MONTH(fech),fech";
             $query = $this->prepare($sql);
             $query->execute();
             $resultado = $query->fetchAll();

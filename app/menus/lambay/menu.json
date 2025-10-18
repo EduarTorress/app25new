@@ -114,30 +114,6 @@
         ]
     },
     {
-        "main": "Cotizaciones",
-        "class": "fas fa-cart-plus",
-        "elementos": [
-            {
-                "item": "Precios y Stock",
-                "ruta": "/productos/index/1",
-                "class": "far fa-circle nav-icon",
-                "opt": "AVS"
-            },
-            {
-                "item": "Registrar Cotización",
-                "ruta": "/pedidos/listarpedido",
-                "class": "far fa-circle nav-icon",
-                "opt": "AVS"
-            },
-            {
-                "item": "Informe de Cotizaciones",
-                "ruta": "/pedido/listarpedidos",
-                "class": "far fa-circle nav-icon",
-                "opt": "AVS"
-            }
-        ]
-    },
-    {
         "main": "Inventario",
         "class": "fa fa-check",
         "elementos": [

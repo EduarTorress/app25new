@@ -156,7 +156,7 @@ $this->startSection('contenido');
                     <div class="card border-primary ">
                         <div class="card-header">Monto total de ventas por año</div>
                         <div class="card-body text-primary">
-                            <canvas id="barra" style="width:100%;max-width:600px;height:380px;"></canvas>
+                            <canvas id="barra" style="width:100%;max-width:600px;height:180px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ $this->startSection('contenido');
                     <div class="card border-primary ">
                         <div class="card-header">Pedidos por mes</div>
                         <div class="card-body text-primary">
-                            <canvas id="circularpedidos" style="width:100%;max-width:600px;"></canvas>
+                            <canvas id="circularpedidos" style="width:50%;max-width:300px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -236,7 +236,7 @@ $this->startSection('javascript');
 
     function graficobarras() {
         var xValues = [<?php echo ("'" . (empty($totalmontoventas[0]['ano']) ? '' : $totalmontoventas[0]['ano']) . "'" . "," . "'" . (empty($totalmontoventas[1]['ano']) ? '' : $totalmontoventas[1]['ano']) . "'" . "," .
-                            "'" . (empty($totalmontoventas[2]['ano']) ? '' : $totalmontoventas[2]['ano']) . "'" )
+                            "'" . (empty($totalmontoventas[2]['ano']) ? '' : $totalmontoventas[2]['ano']) . "'")
                         ?>];
         var yValues = [<?php echo ("'" . (empty($totalmontoventas[0]['total']) ? '0' : $totalmontoventas[0]['total']) . "'" . "," . "'" . (empty($totalmontoventas[1]['total']) ? '0' : $totalmontoventas[1]['total']) . "'" . "," .
                             "'" . (empty($totalmontoventas[2]['total']) ? '0' : $totalmontoventas[2]['total']) . "'")
@@ -256,6 +256,8 @@ $this->startSection('javascript');
                 legend: {
                     display: false
                 },
+                responsive: true,
+                maintainAspectRatio: false,
                 title: {
                     display: true,
                     text: "Monto total de ventas x año en S/"
@@ -315,6 +317,8 @@ $this->startSection('javascript');
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 title: {
                     display: true,
                     text: "Cantidad total de pedidos"

@@ -105,7 +105,7 @@
                 "class": "far fa-circle nav-icon",
                 "opt": "AV"
             },
-             {
+            {
                 "item": "Notas de Crédito",
                 "ruta": "/compras/indexnotascredito",
                 "class": "far fa-circle nav-icon",
@@ -134,24 +134,6 @@
                 "ruta": "/compras/listarPLE",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
-            }
-        ]
-    },
-    {
-        "main": "Orden de Compra",
-        "class": "fas fa-cart-plus",
-        "elementos": [
-            {
-                "item": "Registrar Orden Compra",
-                "ruta": "/ordenescompra/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Informe de Ordenes",
-                "ruta": "/ordenescompra/listar",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
             }
         ]
     },

@@ -80,14 +80,16 @@
                             ?>
                         </div>
                     </div>
-                   <div class="p-2"></div>
+                    <div class="p-2"></div>
                     <div class="row">
                         <div class="col-12">
                             <div class="input-group">
                                 <label class="form-control form-control-sm" for="">Tipo de Acceso:</label>
                                 <select class="form-select form-control form-control-sm" id="cmbtipoacceso" name="cmbtipoacceso">
                                     <option value="T">ADMINISTRATIVA</option>
-                                    <option value="C">CONTABILIDAD</option>
+                                    <?php if (count(cargarmenucontabilidad()) > 0) : ?>
+                                        <option value="C">CONTABILIDAD</option>
+                                    <?php endif; ?>
                                 </select>
                             </div>
                         </div>
@@ -124,4 +126,5 @@
         }
     }
 </script>
+
 </html>

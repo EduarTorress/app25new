@@ -3,6 +3,7 @@
         <tr>
             <th>Fecha</th>
             <th>N° Documento</th>
+            <th>Forma de Pago</th>
             <th>Tipo de Documento</th>
             <th class="text-right" data-footer-formatter="formatTotal">Sub Total</th>
             <th class="text-right" data-footer-formatter="formatTotal">IGV</th>
@@ -14,6 +15,28 @@
             <tr onclick='consultarDetalle(<?php echo json_encode($item); ?>);'>
                 <td><?php echo $item[0]['fech']; ?></td>
                 <td><?php echo $item[0]['ndoc']; ?></td>
+                <td>
+                    <?php switch ($item[0]['form']) {
+                        case 'E':
+                            echo 'EFECTIVO';
+                            break;
+                        case 'C':
+                            echo 'CRÉDITO';
+                            break;
+                        case 'D':
+                            echo 'DEPÓSITO';
+                            break;
+                        case 'T':
+                            echo 'TARJETA';
+                            break;
+                        case 'Y':
+                            echo 'YAPE';
+                            break;
+                        case 'P':
+                            echo 'PLIN';
+                            break;
+                    } ?>
+                </td>
                 <td><?php
                     switch ($item[0]['tdoc']):
                         case '01':
@@ -35,7 +58,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="5" style="text-align:right">Total:</th>
+            <th colspan="6" style="text-align:right">Total:</th>
             <th class="text-right"></th>
         </tr>
     </tfoot>
@@ -115,7 +138,7 @@
                 // Total over all pages
                 //COmienza desde cero contando desde la primera columna
                 total = api
-                    .column(5)
+                    .column(6)
                     .data()
                     .reduce(function(a, b) {
                         return intVal(a) + intVal(b);
@@ -132,7 +155,7 @@
                 //     }, 0);
                 // Update footer
                 //COmienza desde cero contando desde la primera columna
-                $(api.column(5).footer()).html(addCommas(total.toFixed(2)));
+                $(api.column(6).footer()).html(addCommas(total.toFixed(2)));
             }
         });
 
