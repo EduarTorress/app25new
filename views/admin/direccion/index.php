@@ -85,6 +85,7 @@ $this->startSection('javascript');
     function buscar() {
         var abuscar = document.querySelector('#txtbuscar').value;
         if (abuscar.length = 0) {
+            toastr.error("Ingrese un parametro a buscar", 'Mensaje del Sistema')
             return;
         }
         axios.get('/direccion/lista', {
@@ -222,7 +223,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             buscar();
-                            toastr.success('Actualizado correctamente', 'Mensaje del Sistema');
+                            toastr.success('Actualizado satisfactoriamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status == 422) {

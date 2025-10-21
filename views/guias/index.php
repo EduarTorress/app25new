@@ -406,7 +406,6 @@ $this->startSection('javascript');
                 data.append("txtReferencia", $("#txtReferencia").val());
                 data.append("txtFechaTraslado", $("#txtFechaTraslado").val());
                 data.append("arrayEliminados", arrayEliminados);
-
                 axios.post("/guias/modificar", data)
                     .then(function(respuesta) {
                         toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);

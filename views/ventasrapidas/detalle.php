@@ -386,7 +386,7 @@
         columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 7 : 9; ?>";
         var campo = _tr.find("td").eq(columantotal);
         if (isNaN(subt)) {
-            toastr.info("Dígite un número correcto")
+            toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
         } else {
             campo.html(subt.toFixed(2));
             var total_col1 = 0;

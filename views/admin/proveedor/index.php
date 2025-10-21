@@ -78,6 +78,7 @@ $this->startSection('javascript');
     function buscar() {
         var abuscar = document.querySelector('#txtbuscar').value;
         if (abuscar.length = 0) {
+            toastr.error("Ingrese el parametro a buscar", 'Mensaje del Sistema')
             return;
         }
         axios.get('/proveedor/lista', {

@@ -72,6 +72,7 @@ $this->startSection('javascript');
     function buscar() {
         var abuscar = document.querySelector('#txtbuscar').value;
         if (abuscar.length == 0) {
+            toastr.error("Ingrese un cliente a buscar", 'Mensaje del Sistema')
             return;
         }
         axios.get('/cliente/lista', {
@@ -128,7 +129,7 @@ $this->startSection('javascript');
             if (respuesta.isConfirmed) {
                 const ruta = '/cliente/darBaja/' + id;
                 axios.post(ruta).then(function(respuesta) {
-                    toastr.success('Eliminado correctamente','Mensaje del Sistema');
+                    toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                 }).catch(function(error) {
                     if (error.hasOwnProperty('response')) {
                         toastr.error(error.response.data.message, 'Mensaje del sistema');
@@ -171,7 +172,7 @@ $this->startSection('javascript');
                     axios.post('/cliente/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente','Mensaje del Sistema');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             // buscar();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -202,7 +203,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             // buscar();
-                            toastr.success('Actualizado correctamente','Mensaje del Sistema');
+                            toastr.success('Actualizado correctamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {

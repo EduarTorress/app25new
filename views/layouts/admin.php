@@ -228,10 +228,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Aplicacion -->
     <script src="js/app.js"> </script>
-      <script src="https://yaquamarket.compania-sysven.com/jsgeneral/index.js"></script>
+    <script src="https://yaquamarket.compania-sysven.com/jsgeneral/index.js"></script>
     <!-- para compornentes React -->
     <script type="module" src="js/fechas.js"></script>
     <?php echo $this->section('javascript') ?>
+    <script>
+        pago = "<?php echo (empty($_SESSION['config']['pago']) ? 'S' : $_SESSION['config']['pago']); ?>";
+        if (pago == 'N') {
+            window.location.href = '/login';
+        }
+        if (pago == 'P') {
+            mostrarvenciopago();
+        }
+        async function mostrarvenciopago() {
+            for (let i = 0; i < 1000; i++) {
+                toastr.error("No ha realizado el pago, el sistema esta pronto a cortarse.", "Realice el pago correspondiente");
+                await new Promise(r => setTimeout(r, 8000));
+            }
+        }
+    </script>
 </body>
 <style>
     p.classmenu {
