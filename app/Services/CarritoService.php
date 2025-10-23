@@ -413,7 +413,8 @@ class CarritoService
             'checkafecto' => "false",
             'lote' => '',
             'fechavto' => '',
-            'activo' => 'A'
+            'activo' => 'A',
+            'caant' => $producto['caant']
         ];
         session()->set('carritoc', $carritoc);
     }

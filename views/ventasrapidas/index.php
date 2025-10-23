@@ -573,6 +573,13 @@ $this->startSection('javascript');
             toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
             return false;
         }
+        txtdnicliente = $("#txtdnicliente").val();
+        if (Number(total) >= 700) {
+            if (txtdnicliente.length == 0 && (ctdoc == '03')) {
+                toastr.error("No se puede emitir un monto mayor a 700 soles sin DNI", "Mensaje del Sistema");
+                return false;
+            }
+        }
         return true;
     }
 
