@@ -414,7 +414,7 @@ class CarritoService
             'lote' => '',
             'fechavto' => '',
             'activo' => 'A',
-            'caant' => $producto['caant']
+            'caant' => $producto['cantidad']
         ];
         session()->set('carritoc', $carritoc);
     }

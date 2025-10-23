@@ -282,6 +282,24 @@
         ]
     },
     {
+        "main": "Cuentas x Pagar",
+        "class": "fas fa-credit-card",
+        "elementos": [
+            {
+                "item": "Vencimientos x Proveedor",
+                "ruta": "/pagosproveedor/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Resumen x Cobrar",
+                "ruta": "pagosproveedor/indexlistarctasxpagartodo",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
         "main": "Administración",
         "class": "fas fa-address-card",
         "elementos": [

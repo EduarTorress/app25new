@@ -126,6 +126,7 @@ $app->router->get('/compras/indexnotascredito', [\App\Controllers\ComprasControl
 $app->router->post('/compras/registrarnotacredito', [\App\Controllers\ComprasController::class, "registrarnotacredito"]);
 $app->router->get("/compras/listarcomprasnota", [\App\Controllers\ComprasController::class, 'listarcomprastonota']);
 $app->router->get("/compras/listardetallenota", [\App\Controllers\ComprasController::class, 'listardetallenota']);
+
 #rutas para otras compras
 $app->router->get('/ocompras/index', [\App\Controllers\ComprasController::class, 'indexocompra']);
 $app->router->get('/ocompra/getvaluedolar', [\App\Controllers\ValorDolarController::class, 'getvaluedolarocompra']);
@@ -167,6 +168,16 @@ $app->router->get('/cobranzas/listarcobranzastodo', [\App\Controllers\CobranzasC
 $app->router->post('/cobranzas/registrarcobranzas', [\App\Controllers\CobranzasController::class, 'registrarcobranzas']);
 $app->router->get('/cobranzas/listarestadocuenta', [\App\Controllers\CobranzasController::class, 'listarestadocuenta']);
 $app->router->get('/cobranzas/consultardetalleventa', [\App\Controllers\CobranzasController::class, 'consultardetalleventa']);
+
+
+#rutas para cuentas por pagar
+$app->router->get('/pagosproveedor/index', [\App\Controllers\CuentasxPagarController::class, 'index']);
+$app->router->get('/pagosproveedor/listarvtos', [\App\Controllers\CuentasxPagarController::class, 'listarvtos']);
+$app->router->post('/pagosproveedor/registrar', [\App\Controllers\CuentasxPagarController::class, 'registrarpagos']);
+$app->router->get('/pagosproveedor/listarestadocuenta', [\App\Controllers\CuentasxPagarController::class, 'listarestadocuenta']);
+$app->router->get('/pagosproveedor/indexlistarctasxpagartodo', [\App\Controllers\CuentasxPagarController::class, 'indexlistarctasxpagartodo']);
+$app->router->get('/pagosproveedor/listartodasctasxpagar', [\App\Controllers\CuentasxPagarController::class, 'listartodasctasxpagar']);
+
 
 #rutas de guias transportista
 $app->router->get('/guias/index', [\App\Controllers\GuiasController::class, 'index']);

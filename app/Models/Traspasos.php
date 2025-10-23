@@ -231,7 +231,7 @@ class Traspasos extends Modelo
                         'karunid' => $item['unidad'],
                         'karequi' => $item['cantequi'],
                         'lote' => $item['lote'],
-                        'fechavto' => $item['fechavto']
+                        'fechavto' => empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto']
                     ]);
                     if ($execiki->errorCode() != '00000') {
                         enviarmensajerror($execiki, $execiki->errorInfo());
