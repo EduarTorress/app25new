@@ -275,10 +275,10 @@ class ComprasController extends Controller
         foreach ($listado as $l) {
             if ($l['tdoc'] == '07' || $l['tdoc'] == '09') {
                 foreach ($listadonc as $lnc) {
-                    if ($l['tdoc'] == $lnc['ndoc']) {
+                    if ($l['ndoc'] == $lnc['ndoc']) {
                         $fechanota = $lnc['fech'];
-                        $ndocnota = substr($lnc['ndoc'], 0, 4);
-                        $serienota = substr($lnc['ndoc'], 5, 12);
+                        $serienota = substr($lnc['ndoc'], 0, 4);
+                        $ndocnota = substr($lnc['ndoc'], 5, 12);
                         $tiponota = $lnc['tdoc'];
                     }
                 }

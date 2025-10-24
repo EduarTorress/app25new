@@ -74,10 +74,10 @@ class CpeController extends Controller
         foreach ($listado as $l) {
             if ($l['tdoc'] == '07' || $l['tdoc'] == '09') {
                 foreach ($listadonc as $lnc) {
-                    if ($l['tdoc'] == $lnc['ndoc']) {
+                    if (trim($l['serie'] . $l['ndoc']) == $lnc['ndocc']) {
                         $fechanota = $lnc['fech'];
-                        $ndocnota = substr($lnc['ndoc'], 0, 4);
-                        $serienota = substr($lnc['ndoc'], 5, 12);
+                        $serienota = substr($lnc['ndoc'], 0, 4);
+                        $ndocnota = substr($lnc['ndoc'], 5, 12);
                         $tiponota = $lnc['tdoc'];
                     }
                 }
@@ -86,6 +86,10 @@ class CpeController extends Controller
                 . trim($l['tipodoc']) . "|" . trim($l['nruc']) . "|" . trim($l['razo']) . "|" . "0" . "|" . $l['valor'] . "|" . "0" . "|" . $l['vigv'] . "|" . "0" . "|"
                 . $l['exon'] . "|" . (isset($l['grati']) ? $l['grati'] : $l['inafecto']) . "|" . "0" . "|" . "0" . "|" . $l['icbper'] . "|" . "0" . "|" . $l['importe'] . "|"
                 . $l['mone'] . "|" . ($l['mone'] == 'S' ? '' : $_SESSION['gene_dola']) . "|" . $fechanota . "|" . $tiponota . "|" . $serienota . "|" . $ndocnota . "|" . "" . "|" . "\n";
+            $fechanota = "";
+            $ndocnota = "";
+            $serienota = "";
+            $tiponota = "";
         }
         // $st = $app->envio->obtenerxmlycdr($request->get("nidauto"));
         $namefile = 'LE' . $_SESSION['gene_nruc'] . trim($request->get('ano')) . trim($request->get('mes')) . '00080100001011';

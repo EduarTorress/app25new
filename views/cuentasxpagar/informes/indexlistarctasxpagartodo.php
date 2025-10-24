@@ -19,20 +19,10 @@ $this->startSection('contenido');
                                 <br>
                                 <label class="my-1 mr-2" for="txtfechai">Fecha:</label>
                                 <input type="date" class="form-control form-control-sm" value="<?php echo date('Y-m-d'); ?>" id="txtfecha" name="txtfecha"> &nbsp;
-                                <?php
-                                $ec = new EmpresaComponent('');
-                                echo $ec->render();
-                                ?>
                                 &nbsp;&nbsp;
                                 <label class="my-1 mr-2" for="">Forma/Pago:</label>
                                 <select name="select" class="form-control form-control-sm" id="cmbForma">
-                                    <option value="0" selected>Todas</option>
-                                    <option value="E">Efectivo</option>
                                     <option value="C" selected>Crédito</option>
-                                    <option value="D">Deposito</option>
-                                    <option value="T">Tarjeta</option>
-                                    <option value="Y">YAPE</option>
-                                    <option value="P">PLIN</option>
                                 </select>
                                 <select name="" id="cmbmoneda" class="form-control form-control-sm">
                                     <option value="S">SOLES</option>
@@ -101,8 +91,6 @@ $this->startSection('javascript');
 
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
-        $("#cmbAlmacen").attr("disabled", false);
-        $("#cmbAlmacen").val("<?php echo $_SESSION['idalmacen'] ?>");
     }
 
     function search() {
@@ -115,7 +103,7 @@ $this->startSection('javascript');
                 "cmbformapago": cmbForma,
                 "txtfechaf": txtfecha,
                 "cmbalmacen": cmbalmacen,
-                "cmbmoneda":$("#cmbmoneda").val()
+                "cmbmoneda": $("#cmbmoneda").val()
             }
         }).then(function(respuesta) {
             // const contenido_tabla = respuesta.data;
@@ -137,7 +125,7 @@ $this->startSection('javascript');
                         ['type', 'text']
                     ])],
                 ],
-               
+
                 ['Tienda', 'Tienda',
                     [new Map([
                         ['class', ''],
