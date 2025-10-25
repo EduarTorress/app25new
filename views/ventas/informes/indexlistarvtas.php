@@ -21,11 +21,12 @@ $this->startSection('contenido');
                                 <input type="date" class="form-control form-control-sm" id="txtfechai" name="txtfechai"> &nbsp;
                                 <label class="my-1 mr-2" for="txtfechai">Hasta:</label>
                                 <input type="date" class="form-control form-control-sm" id="txtfechaf" name="txtfechaf"> &nbsp;
-                                <label class="my-1 mr-2" for="" style="display:none;">Venta:</label>
-                                <select name="select" class="form-control form-control-sm" id="tipovta" style="display:none;">
-                                    <option value="0" selected>Todos</option>
-                                    <option value="K">Productos</option>
-                                    <option value="T">Servicios</option>
+                                <label class="my-1 mr-2" for="">Venta:</label>
+                                <select name="select" class="form-control form-control-sm" id="tipovta">
+                                    <option value="0" selected>TODOS</option>
+                                    <!-- <option value="K">Productos</option> -->
+                                    <!-- <option value="T">Servicios</option> -->
+                                    <option value="C">SOLO CONTABLES</option>
                                 </select>
                                 <?php
                                 $ec = new EmpresaComponent('');

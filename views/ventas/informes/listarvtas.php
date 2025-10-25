@@ -4,6 +4,7 @@
             <th>Fecha</th>
             <th>Documento</th>
             <th>Cliente</th>
+            <th>Forma</th>
             <th>Mon.</th>
             <th class="text-end" data-footer-formatter="formatTotal">Grav.</th>
             <th class="text-end" data-footer-formatter="formatTotal">Exon.</th>
@@ -20,6 +21,28 @@
                 <td><?php echo $item['fech'] ?></td>
                 <td><?php echo $item['dcto'] ?></td>
                 <td><?php echo $item['razo'] ?></td>
+                <td>
+                    <b> <?php switch ($item['form']) {
+                            case 'E':
+                                echo 'EFECTIVO';
+                                break;
+                            case 'C':
+                                echo 'CRÉDITO';
+                                break;
+                            case 'D':
+                                echo 'DEPÓSITO';
+                                break;
+                            case 'T':
+                                echo 'TARJETA';
+                                break;
+                            case 'Y':
+                                echo 'YAPE';
+                                break;
+                            case 'P':
+                                echo 'PLIN';
+                                break;
+                        } ?></b>
+                </td>
                 <td><?php echo $item['mone'] ?></td>
                 <td class="text-end"><?php echo empty($_SESSION['config']['ventasexon']) ?  evaluarvalortdoc($item['tdoc'], $item['valor']) : '0.00'; ?></td>
                 <td class="text-end"><?php echo empty($_SESSION['config']['ventasexon']) ?  '0.00' : evaluarvalortdoc($item['tdoc'], $item['rcom_exon']); ?></td>
