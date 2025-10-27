@@ -251,7 +251,7 @@ class ComprasController extends Controller
     }
     function indexListaComprasPLE()
     {
-        return \view('compras/informes/cab_lcomprasPLE', ['titulo' => 'Registro de compras PLE']);
+        return \view('compras/informes/cab_lcomprasPLE', ['titulo' => 'Registro de compras']);
     }
     function listarComprasXFechaPLE(Request $request)
     {
