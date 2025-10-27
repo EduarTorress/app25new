@@ -256,8 +256,8 @@ class ComprasController extends Controller
     function listarComprasXFechaPLE(Request $request)
     {
         // $compra = new Compra();
-        $datapost = array('mes' => $request->get('mes'), 'ano' => $request->get('ano'), 'ruc' => $_SESSION['gene_nruc']);
         // $lista = $compra->listarComprasxFechaPLE($request->get('mes'), $request->get('ano'));
+        $datapost = array('mes' => $request->get('mes'), 'ano' => $request->get('ano'), 'ruc' => $_SESSION['gene_nruc']);
         $listado = $this->obtenerlistadople($datapost);
         return \view('compras/informes/listacomprasPLE', ['listado' => $listado]);
     }
