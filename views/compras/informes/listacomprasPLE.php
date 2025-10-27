@@ -10,7 +10,7 @@
             <th>Proveedor</th>
             <th>Forma</th>
             <th>Moneda</th>
-            <th style="text-align: right;"  data-footer-formatter="formatTotal">Valor</th>
+            <th style="text-align: right;" data-footer-formatter="formatTotal">Valor</th>
             <th style="text-align: right;" data-footer-formatter="formatTotal">IGV</th>
             <th style="text-align: right;" data-footer-formatter="formatTotal">Importe</th>
         </tr>
@@ -25,7 +25,7 @@
                 <td><?php echo $item['fech'] ?></td>
                 <td><?php echo $item['fecr'] ?></td>
                 <td><?php echo $item['razo'] ?></td>
-                <td><?php echo $item['form'] == 'C' ? 'CRÉDITO' : 'EFECTIVO' ?></td>
+                <td> <?php echo mostrarformapago($item['form']); ?></td>
                 <td><?php echo $item['mone'] == 'S' ? 'SOLES' : 'DÓLARES' ?></td>
                 <td style="text-align: right;"><?php echo $item['valor'] ?></td>
                 <td style="text-align: right;"><?php echo $item['igv'] ?></td>
