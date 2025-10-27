@@ -59,8 +59,8 @@ class VentasController extends Controller
     {
         // $ventas = new Ventas();
         // $listado = $ventas->registroventasple($request->get('mes'), $request->get('ano'));
-        $datapost = array('mes' => $request->get('mes'), 'ano' => $request->get('ano'), 'ruc' => $_SESSION['gene_nruc']);
         // return view('ventas/informes/listarple', ['listado' => $this->obtenerlistadople($datapost)]);
+        $datapost = array('mes' => $request->get('mes'), 'ano' => $request->get('ano'), 'ruc' => $_SESSION['gene_nruc']);
         return response()->json(['message' => 'Se logró listar correctamente', 'listado' =>  $this->obtenerlistadople($datapost)], 200);
     }
     function obtenerlistadople($datapost)

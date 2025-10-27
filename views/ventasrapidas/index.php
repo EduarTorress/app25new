@@ -48,7 +48,7 @@ echo $login->render();
                     </div>
                     <div class="col-sm-4">
                         <?php
-                        $ctdoc = isset($datosclientev['tdocv']) ? $datosclientev['tdocv'] : '20';
+                        $ctdoc = isset($datosclientev['tdocv']) ? $datosclientev['tdocv'] : '03';
                         $dctos = new DocumentoComponent($ctdoc);
                         echo $dctos->render();
                         ?>
@@ -885,7 +885,7 @@ $this->startSection('javascript');
         $("#subtotal").val("0.00");
         $("#totalitems").val("0.00");
         $("#txtreferencia").val("");
-        $("#cmbdcto").val("20");
+        $("#cmbdcto").val("03");
         $("#divefectivo").css("display", "none")
         $("#searchP").empty();
         document.getElementById("grabar").innerHTML = "Grabar";
