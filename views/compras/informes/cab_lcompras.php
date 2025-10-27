@@ -1,6 +1,7 @@
 <?php
 
 use App\View\Components\EmpresaComponent;
+use App\View\Components\TipoMonedaComponent;
 
 $this->setLayout('layouts/admin');
 ?>
@@ -25,11 +26,10 @@ $this->startSection('contenido');
                                 echo $ec->render();
                                 ?> &nbsp;
                                 &nbsp;&nbsp;
-                                <label class="my-1 mr-2" for="">Moneda:</label>
-                                <select name="select" class="form-control form-control-sm" id="cmbmoneda">
-                                    <option value="S" selected>Soles</option>
-                                    <option value="D">Dólares</option>
-                                </select>
+                                <?php
+                                $mon = new TipoMonedaComponent('');
+                                echo $mon->renderreports();
+                                ?>
                                 <button class="btn btn-primary my-1">Consultar</button>
                             </form>
                         </div>

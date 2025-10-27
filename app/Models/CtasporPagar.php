@@ -18,43 +18,43 @@ class CtasporPagar extends Modelo
     function vencimientosporproveedor($idclie, $dfi, $dff)
     {
     }
-    function listarcobranzastodo($formapago, $codt, $fecha)
-    {
-        try {
-            $lista = array();
-            //   And rcre_form='<<this.cformapago>>'
-            //   And rcre_codt=<<This.Tienda>>
-            //   a.fech<='<<df>>'
-            $f = ($formapago == '0') ? ' and rcre_form<>:formapago  ' : ' and rcre_form=:formapago ';
-            $a = ($codt == '0') ? ' and rcre_codt<>:codt  ' : ' and rcre_codt=:codt ';
-            $sql = "Select idauto,c.nruc,c.razo As proveedor,c.idclie As codp,a.mone,If(a.mone='S',saldo,0) As tsoles,If(a.mone='D',saldo,0) As tdolar,
-                        c.clie_idzo,ifnull(T.ndoc,a.ndoc) As ndoc,
-                        ifnull(T.tdoc,'') As tdoc,ifnull(T.fech,a.fech) As fech,b.fech As fecha,v.nomv As vendedor,a.tipo,s.nomb As Tienda From
-                        (Select a.Ncontrol,Min(fevto) As fech,Sum(a.Impo-a.acta) As saldo
-                        From fe_cred As a
-                        INNER Join fe_rcred As xx  On xx.rcre_idrc=a.cred_idrc
-                        Where a.fech<=:fecha And a.Acti<>'I' and xx.rcre_Acti<>'I'" . $f . $a .
-                "Group By a.Ncontrol Having saldo<>0) As b
-                        INNER Join fe_cred As a On a.idcred=b.Ncontrol
-                        INNER Join fe_rcred As r On r.rcre_idrc=a.cred_idrc
-                        INNER Join fe_clie As c On c.idclie=r.rcre_idcl
-                        INNER Join fe_vend As v On v.idven=r.rcre_codv
-                        INNER Join fe_sucu As s On s.idalma=r.rcre_codt
-                        Left Join (Select idauto,ndoc,tdoc,fech From fe_rcom Where Acti='A' And idcliente>0) As T On T.Idauto=r.rcre_idau
-                        Order By proveedor";
-            $exec = $this->prepare($sql);
-            $exec->execute([
-                'fecha' => $fecha,
-                'formapago' => $formapago,
-                'codt' => $codt,
-            ]);
-            $lista = $exec->fetchAll(PDO::FETCH_ASSOC);
-            $data = ["estado" => true, 'lista' => $lista, 'mensaje' => "Todo ok"];
-        } catch (PDOException $e) {
-            $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar " . $e];
-        }
-        return $data;
-    }
+    // function listarcobranzastodo($formapago, $codt, $fecha)
+    // {
+    //     try {
+    //         $lista = array();
+    //         //   And rcre_form='<<this.cformapago>>'
+    //         //   And rcre_codt=<<This.Tienda>>
+    //         //   a.fech<='<<df>>'
+    //         $f = ($formapago == '0') ? ' and rcre_form<>:formapago  ' : ' and rcre_form=:formapago ';
+    //         $a = ($codt == '0') ? ' and rcre_codt<>:codt  ' : ' and rcre_codt=:codt ';
+    //         $sql = "Select idauto,c.nruc,c.razo As proveedor,c.idclie As codp,a.mone,If(a.mone='S',saldo,0) As tsoles,If(a.mone='D',saldo,0) As tdolar,
+    //                     c.clie_idzo,ifnull(T.ndoc,a.ndoc) As ndoc,
+    //                     ifnull(T.tdoc,'') As tdoc,ifnull(T.fech,a.fech) As fech,b.fech As fecha,v.nomv As vendedor,a.tipo,s.nomb As Tienda From
+    //                     (Select a.Ncontrol,Min(fevto) As fech,Sum(a.Impo-a.acta) As saldo
+    //                     From fe_cred As a
+    //                     INNER Join fe_rcred As xx  On xx.rcre_idrc=a.cred_idrc
+    //                     Where a.fech<=:fecha And a.Acti<>'I' and xx.rcre_Acti<>'I'" . $f . $a .
+    //             "Group By a.Ncontrol Having saldo<>0) As b
+    //                     INNER Join fe_cred As a On a.idcred=b.Ncontrol
+    //                     INNER Join fe_rcred As r On r.rcre_idrc=a.cred_idrc
+    //                     INNER Join fe_clie As c On c.idclie=r.rcre_idcl
+    //                     INNER Join fe_vend As v On v.idven=r.rcre_codv
+    //                     INNER Join fe_sucu As s On s.idalma=r.rcre_codt
+    //                     Left Join (Select idauto,ndoc,tdoc,fech From fe_rcom Where Acti='A' And idcliente>0) As T On T.Idauto=r.rcre_idau
+    //                     Order By proveedor";
+    //         $exec = $this->prepare($sql);
+    //         $exec->execute([
+    //             'fecha' => $fecha,
+    //             'formapago' => $formapago,
+    //             'codt' => $codt,
+    //         ]);
+    //         $lista = $exec->fetchAll(PDO::FETCH_ASSOC);
+    //         $data = ["estado" => true, 'lista' => $lista, 'mensaje' => "Todo ok"];
+    //     } catch (PDOException $e) {
+    //         $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar " . $e];
+    //     }
+    //     return $data;
+    // }
     function exportarreportecreditoscondetalle($idcliente, $fechai, $fechaf)
     {
         try {
@@ -90,31 +90,31 @@ class CtasporPagar extends Modelo
         }
         return $data;
     }
-    function listarestadocuenta($idcliente, $cmbalmancen, $cmbmoneda)
-    {
-        try {
-            $lista = array();
-            $a = ($cmbalmancen == '0') ? ' and rcre_codt<>:cmbalmancen  ' : ' and rcre_codt=:cmbalmancen ';
-            $sql = "select b.rcre_idcl,a.fech as fepd,a.fevto as fevd,a.ndoc,b.rcre_impc as impc,b.rcre_inic as inic,a.impo as impd,a.acta as actd,a.dola,
-		    a.tipo,a.banc,ifnull(c.ndoc,'00000000000') as docd,a.mone as mond,a.estd,a.idcred as nr,b.rcre_idrc,dolar,
-		    b.rcre_codv as codv,b.rcre_idau as idauto,ifnull(c.tdoc,'00') as refe,d.nomv FROM fe_cred as a
-		    inner join fe_rcred as b ON(b.rcre_idrc=a.cred_idrc) left join fe_rcom as c ON(c.idauto=b.rcre_idau)
-		    inner join fe_vend as d ON(d.idven=b.rcre_codv)
-		    WHERE b.rcre_idcl=:idcliente AND a.mone=:cmbmoneda" . $a . "
-		    and a.acti<>'I' and rcre_acti<>'I' ORDER BY a.ncontrol,a.idcred,a.fech";
-            $exec = $this->prepare($sql);
-            $exec->execute([
-                'idcliente' => $idcliente,
-                'cmbalmancen' => $cmbalmancen,
-                'cmbmoneda' => $cmbmoneda
-            ]);
-            $lista = $exec->fetchAll(PDO::FETCH_ASSOC);
-            $data = ["estado" => true, 'lista' => $lista, 'mensaje' => "Todo ok"];
-        } catch (PDOException $e) {
-            $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar " . $e];
-        }
-        return $data;
-    }
+    // function listarestadocuenta($idcliente, $cmbalmancen, $cmbmoneda)
+    // {
+    //     try {
+    //         $lista = array();
+    //         $a = ($cmbalmancen == '0') ? ' and rcre_codt<>:cmbalmancen  ' : ' and rcre_codt=:cmbalmancen ';
+    //         $sql = "select b.rcre_idcl,a.fech as fepd,a.fevto as fevd,a.ndoc,b.rcre_impc as impc,b.rcre_inic as inic,a.impo as impd,a.acta as actd,a.dola,
+	// 	    a.tipo,a.banc,ifnull(c.ndoc,'00000000000') as docd,a.mone as mond,a.estd,a.idcred as nr,b.rcre_idrc,dolar,
+	// 	    b.rcre_codv as codv,b.rcre_idau as idauto,ifnull(c.tdoc,'00') as refe,d.nomv FROM fe_cred as a
+	// 	    inner join fe_rcred as b ON(b.rcre_idrc=a.cred_idrc) left join fe_rcom as c ON(c.idauto=b.rcre_idau)
+	// 	    inner join fe_vend as d ON(d.idven=b.rcre_codv)
+	// 	    WHERE b.rcre_idcl=:idcliente AND a.mone=:cmbmoneda" . $a . "
+	// 	    and a.acti<>'I' and rcre_acti<>'I' ORDER BY a.ncontrol,a.idcred,a.fech";
+    //         $exec = $this->prepare($sql);
+    //         $exec->execute([
+    //             'idcliente' => $idcliente,
+    //             'cmbalmancen' => $cmbalmancen,
+    //             'cmbmoneda' => $cmbmoneda
+    //         ]);
+    //         $lista = $exec->fetchAll(PDO::FETCH_ASSOC);
+    //         $data = ["estado" => true, 'lista' => $lista, 'mensaje' => "Todo ok"];
+    //     } catch (PDOException $e) {
+    //         $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar " . $e];
+    //     }
+    //     return $data;
+    // }
     function registrarpagosproveedores($detalle)
     {
         $data = array();

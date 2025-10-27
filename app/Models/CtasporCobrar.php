@@ -70,14 +70,13 @@ class CtasporCobrar extends Modelo
         }
         return $data;
     }
-    function listarcobranzastodo($formapago, $codt, $fecha)
+    function listarcobranzastodo($codt, $fecha)
     {
         try {
             $lista = array();
             //   And rcre_form='<<this.cformapago>>'
             //   And rcre_codt=<<This.Tienda>>
             //   a.fech<='<<df>>'
-            $f = ($formapago == '0') ? ' and rcre_form<>:formapago  ' : ' and rcre_form=:formapago ';
             $a = ($codt == '0') ? ' and rcre_codt<>:codt  ' : ' and rcre_codt=:codt ';
             $sql = "Select idauto,c.nruc,c.razo As proveedor,c.idclie As codp,a.mone,If(a.mone='S',saldo,0) As tsoles,If(a.mone='D',saldo,0) As tdolar,
                         c.clie_idzo,ifnull(T.ndoc,a.ndoc) As ndoc,
@@ -85,7 +84,7 @@ class CtasporCobrar extends Modelo
                         (Select a.Ncontrol,Min(fevto) As fech,Sum(a.Impo-a.acta) As saldo
                         From fe_cred As a
                         INNER Join fe_rcred As xx  On xx.rcre_idrc=a.cred_idrc
-                        Where a.fech<=:fecha And a.Acti<>'I' and xx.rcre_Acti<>'I'" . $f . $a .
+                        Where a.fech<=:fecha And a.Acti<>'I' and xx.rcre_Acti<>'I'" . $a .
                 "Group By a.Ncontrol Having saldo<>0) As b
                     INNER Join fe_cred As a On a.idcred=b.Ncontrol
                     INNER Join fe_rcred As r On r.rcre_idrc=a.cred_idrc
@@ -97,7 +96,6 @@ class CtasporCobrar extends Modelo
             $exec = $this->prepare($sql);
             $exec->execute([
                 'fecha' => $fecha,
-                'formapago' => $formapago,
                 'codt' => $codt,
             ]);
             $lista = $exec->fetchAll(PDO::FETCH_ASSOC);

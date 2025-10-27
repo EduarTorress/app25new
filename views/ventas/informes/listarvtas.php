@@ -22,26 +22,9 @@
                 <td><?php echo $item['dcto'] ?></td>
                 <td><?php echo $item['razo'] ?></td>
                 <td>
-                    <b> <?php switch ($item['form']) {
-                            case 'E':
-                                echo 'EFECTIVO';
-                                break;
-                            case 'C':
-                                echo 'CRÉDITO';
-                                break;
-                            case 'D':
-                                echo 'DEPÓSITO';
-                                break;
-                            case 'T':
-                                echo 'TARJETA';
-                                break;
-                            case 'Y':
-                                echo 'YAPE';
-                                break;
-                            case 'P':
-                                echo 'PLIN';
-                                break;
-                        } ?></b>
+                    <b>
+                        <?php echo mostrarformapago($item['form']); ?>
+                    </b>
                 </td>
                 <td><?php echo $item['mone'] ?></td>
                 <td class="text-end"><?php echo empty($_SESSION['config']['ventasexon']) ?  evaluarvalortdoc($item['tdoc'], $item['valor']) : '0.00'; ?></td>

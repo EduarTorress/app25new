@@ -2,11 +2,17 @@
 
 use App\View\Components\DocumentoComponent;
 use App\View\Components\EmpresaComponent;
+use App\View\Components\FormadepagoComponent;
+use App\View\Components\ModalDetalleDctoComponent;
 
 $this->setLayout('layouts/admin');
 ?>
 <?php
 $this->startSection('contenido');
+?>
+<?php
+$md = new ModalDetalleDctoComponent();
+echo $md->render();
 ?>
 <div class="content-wrapper">
     <div class="content">
@@ -23,17 +29,6 @@ $this->startSection('contenido');
                                 $ec = new EmpresaComponent('');
                                 echo $ec->render();
                                 ?>
-                                &nbsp;&nbsp;
-                                <label class="my-1 mr-2" for="">Forma/Pago:</label>
-                                <select name="select" class="form-control form-control-sm" id="cmbForma">
-                                    <option value="0" selected>Todas</option>
-                                    <option value="E">Efectivo</option>
-                                    <option value="C" selected>Crédito</option>
-                                    <option value="D">Deposito</option>
-                                    <option value="T">Tarjeta</option>
-                                    <option value="Y">YAPE</option>
-                                    <option value="P">PLIN</option>
-                                </select>
                                 <button type="submit" id="btnbuscar" class="btn btn-primary my-1">Consultar</button>
                             </form>
                         </div>
@@ -45,39 +40,7 @@ $this->startSection('contenido');
         </div>
     </div>
 </div>
-<div id="modaldetalle" class="modal fade " tabindex="-1" data-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="lblmodaldetalle">Detalle del comprobante</h5>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered" id="tbldetalle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Unidad</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Sub. Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="float-right">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text form-control-sm" id=""><b>Total:</b> </span>
-                        <input type="text" id="txtimportemodal" class=" form-control" value="0.00" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnEliminar" class="btn btn-danger" onclick="cerrarModal();" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 <?php
 $this->endSection('contenido');
 ?>
@@ -103,12 +66,10 @@ $this->startSection('javascript');
 
     function search() {
         var txtfecha = document.getElementById("txtfecha").value;
-        cmbForma = $("#cmbForma").val();
         cmbalmacen = $("#cmbAlmacen").val();
         $("#btnbuscar").attr('disabled', true);
         axios.get('/cobranzas/listarcobranzastodo', {
             "params": {
-                "cmbformapago": cmbForma,
                 "txtfecha": txtfecha,
                 "cmbalmacen": cmbalmacen
             }
@@ -270,7 +231,7 @@ $this->startSection('javascript');
         xhr.send();
     }
 
-     function descargarpdf(nidauto, e) {
+    function descargarpdf(nidauto, e) {
         nombrepdf = $(e).parent().parent().find(".ndoc").html();
         nombrepdf = nombrepdf + ".pdf";
         tipo = 'K';

@@ -21,21 +21,21 @@ class CobranzasController extends Controller
         $idcliente = $request->get("idcliente");
         $txtfechai = $request->get("txtfechai");
         $txtfechaf = $request->get("txtfechaf");
-        $lista = $ctas->vencimientosporcliente($idcliente,$txtfechai,$txtfechaf);
+        $lista = $ctas->vencimientosporcliente($idcliente, $txtfechai, $txtfechaf);
         return view('cobranzas/listarvtos', ['lista' => $lista]);
     }
     function indexlistacobranzastodo()
     {
-         verificaradmin();
+        verificaradmin();
         return \view('cobranzas/informes/indexlistarcobranzastodo', ['titulo' => 'Listar Cobranzas']);
     }
     function listarcobranzastodo(Request $request)
     {
         $ctas = new CtasporCobrar();
-        $cmbformapago = $request->get("cmbformapago");
+        // $cmbformapago = $request->get("cmbformapago");
         $cmbalmacen = $request->get("cmbalmacen");
         $fecha = $request->get("txtfecha");
-        $rpta = $ctas->listarcobranzastodo($cmbformapago, $cmbalmacen, $fecha);
+        $rpta = $ctas->listarcobranzastodo($cmbalmacen, $fecha);
         // return view('cobranzas/informes/listarcobranzastodo', ['listado' => $rpta['lista']]);
         return response()->json(['message' => 'Se logró listar correctamente', 'listado' =>  $rpta['lista']], 200);
     }

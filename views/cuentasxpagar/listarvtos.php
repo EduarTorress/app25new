@@ -37,26 +37,7 @@
                     <td class="docd"><?php echo $item['docd'] ?></td>
                     <td class="nomv"><?php echo " " ?></td>
                     <td class="form">
-                        <?php switch ($item['form']) {
-                            case 'E':
-                                echo 'EFECTIVO';
-                                break;
-                            case 'C':
-                                echo 'CRÉDITO';
-                                break;
-                            case 'D':
-                                echo 'DEPÓSITO';
-                                break;
-                            case 'T':
-                                echo 'TARJETA';
-                                break;
-                            case 'Y':
-                                echo 'YAPE';
-                                break;
-                            case 'P':
-                                echo 'PLIN';
-                                break;
-                        } ?>
+                         <?php echo mostrarformapago($item['form']); ?>
                     </td>
                     <td class="importe" data-footer-formatter="formatTotal" style="text-align:end;"><?php echo $item['importe'] ?></td>
                     <td class="cancelar" style="width: 10px;"><input type="text" value="0" onclick="this.select()" onkeyup="calculartotal(this);" onblur="verificarvalor()" onkeypress="return isNumber(event);" class="form-control form-control-sm text-end" name="" id=""></td>

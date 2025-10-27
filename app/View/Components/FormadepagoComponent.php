@@ -15,4 +15,8 @@ class FormadepagoComponent extends Component
     {
         return view('components/formadepago', ['cform' => $this->cformapago]);
     }
+    function renderreports()
+    {
+        return view('components/formadepagoreports');
+    }
 }

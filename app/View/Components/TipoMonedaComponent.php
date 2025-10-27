@@ -15,4 +15,8 @@ class TipoMonedaComponent extends Component
     {
         return view('components/tipomoneda', ['cmon' => $this->cmoneda]);
     }
+    function renderreports()
+    {
+        return view('components/tipomonedareport');
+    }
 }

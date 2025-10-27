@@ -2,6 +2,8 @@
 
 use App\View\Components\DocumentoComponent;
 use App\View\Components\EmpresaComponent;
+use App\View\Components\FormadepagoComponent;
+use App\View\Components\TipoMonedaComponent;
 
 $this->setLayout('layouts/admin');
 ?>
@@ -37,21 +39,14 @@ $this->startSection('contenido');
                                 echo $dctos->renderreports();
                                 ?>
                                 &nbsp;&nbsp;
-                                <label class="my-1 mr-2" for="">Forma/Pago:</label>
-                                <select name="select" class="form-control form-control-sm" id="cmbFormaP">
-                                    <option value="0" selected>Todas</option>
-                                    <option value="E">Efectivo</option>
-                                    <option value="C">Crédito</option>
-                                    <option value="D">Deposito</option>
-                                    <option value="T">Tarjeta</option>
-                                    <option value="Y">YAPE</option>
-                                    <option value="P">PLIN</option>
-                                </select>
-                                <label class="my-1 mr-2" for="">Moneda:</label>
-                                <select name="select" class="form-control form-control-sm" id="cmbmoneda">
-                                    <option value="S" selected>Soles</option>
-                                    <option value="D">Dólares</option>
-                                </select>
+                                <?php
+                                $formrepor = new FormadepagoComponent('');
+                                echo $formrepor->renderreports();
+                                ?>
+                                <?php
+                                $mon = new TipoMonedaComponent('');
+                                echo $mon->renderreports();
+                                ?>
                                 <button type="submit" id="btnbuscar" class="btn btn-primary my-1">Consultar</button>
                             </form>
                         </div>
@@ -94,7 +89,7 @@ $this->startSection('javascript');
         var dfechai = document.getElementById("txtfechai").value;
         var dfechaf = document.getElementById("txtfechaf").value;
         tipovta = $("#tipovta").val();
-        cmbFormaP = $("#cmbFormaP").val();
+        cmbForma = $("#cmbForma").val();
         cmbmoneda = $("#cmbmoneda").val();
         cmbtdoc = $("#dctos").val();
         cmbAlmacen = $("#cmbAlmacen").val();
@@ -102,7 +97,7 @@ $this->startSection('javascript');
         axios.get('/vtas/listavtasr', {
             "params": {
                 "tipovta": tipovta,
-                "cmbFormaP": cmbFormaP,
+                "cmbFormaP": cmbForma,
                 "dfechai": dfechai,
                 "dfechaf": dfechaf,
                 "cmbmoneda": cmbmoneda,

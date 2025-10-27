@@ -2,11 +2,18 @@
 
 use App\View\Components\DocumentoComponent;
 use App\View\Components\EmpresaComponent;
+use App\View\Components\FormadepagoComponent;
+use App\View\Components\ModalDetalleDctoComponent;
+use App\View\Components\TipoMonedaComponent;
 
 $this->setLayout('layouts/admin');
 ?>
 <?php
 $this->startSection('contenido');
+?>
+<?php
+$md = new ModalDetalleDctoComponent();
+echo $md->render();
 ?>
 <div class="content-wrapper">
     <div class="content">
@@ -20,14 +27,10 @@ $this->startSection('contenido');
                                 <label class="my-1 mr-2" for="txtfechai">Fecha:</label>
                                 <input type="date" class="form-control form-control-sm" value="<?php echo date('Y-m-d'); ?>" id="txtfecha" name="txtfecha"> &nbsp;
                                 &nbsp;&nbsp;
-                                <label class="my-1 mr-2" for="">Forma/Pago:</label>
-                                <select name="select" class="form-control form-control-sm" id="cmbForma">
-                                    <option value="C" selected>Crédito</option>
-                                </select>
-                                <select name="" id="cmbmoneda" class="form-control form-control-sm">
-                                    <option value="S">SOLES</option>
-                                    <option value="D">DOLARES</option>
-                                </select>
+                                <?php
+                                $mon = new TipoMonedaComponent('');
+                                echo $mon->renderreports();
+                                ?>
                                 <button type="submit" id="btnbuscar" class="btn btn-primary my-1">Consultar</button>
                             </form>
                         </div>
@@ -35,39 +38,6 @@ $this->startSection('contenido');
                 </div>
             </div>
             <div class="col-12" id="resultado">
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modaldetalle" class="modal fade " tabindex="-1" data-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="lblmodaldetalle">Detalle del comprobante</h5>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered" id="tbldetalle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Unidad</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Sub. Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="float-right">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text form-control-sm" id=""><b>Total:</b> </span>
-                        <input type="text" id="txtimportemodal" class=" form-control" value="0.00" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnEliminar" class="btn btn-danger" onclick="cerrarModal();" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
@@ -95,17 +65,19 @@ $this->startSection('javascript');
 
     function search() {
         var txtfecha = document.getElementById("txtfecha").value;
-        cmbForma = $("#cmbForma").val();
         cmbalmacen = $("#cmbAlmacen").val();
         $("#btnbuscar").attr('disabled', true);
         axios.get('/pagosproveedor/listartodasctasxpagar', {
             "params": {
-                "cmbformapago": cmbForma,
                 "txtfechaf": txtfecha,
                 "cmbalmacen": cmbalmacen,
                 "cmbmoneda": $("#cmbmoneda").val()
             }
         }).then(function(respuesta) {
+            $totalxmoneda = 'tsoles';
+            if ($("#cmbmoneda").val() == 'D') {
+                $totalxmoneda = 'tdolar';
+            }
             // const contenido_tabla = respuesta.data;
             // $('#search').html(contenido_tabla);
             listado = respuesta.data.listado;
@@ -141,7 +113,7 @@ $this->startSection('javascript');
                         ['type', 'text']
                     ])],
                 ],
-                ['Total', 'tsoles',
+                ['Total', $totalxmoneda,
                     [new Map([
                         ['class', 'text-end'],
                         ['width', ''],

@@ -19,26 +19,7 @@
                 <td><?php echo $item['razo'] ?></td>
                 <td><?php echo $item['ndo2'] ?></td>
                 <td>
-                    <?php switch ($item['form']) {
-                        case 'E':
-                            echo 'EFECTIVO';
-                            break;
-                        case 'C':
-                            echo 'CRÉDITO';
-                            break;
-                        case 'D':
-                            echo 'DEPÓSITO';
-                            break;
-                        case 'T':
-                            echo 'TARJETA';
-                            break;
-                        case 'Y':
-                            echo 'YAPE';
-                            break;
-                        case 'P':
-                            echo 'PLIN';
-                            break;
-                    } ?>
+                    <?php echo mostrarformapago($item['form']); ?>
                 </td>
                 <td><?php echo $item['mone'] == 'S' ? 'SOLES' : 'DÓLARES' ?></td>
                 <td style="text-align: right;"><?php echo ($item['tdoc'] != '07' ?  number_format($item['impo'], 2, '.', '')  : '-' . number_format($item['impo'], 2, '.', '')) ?></td>

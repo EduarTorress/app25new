@@ -15,7 +15,7 @@ function verificarSesion()
 }
 function verificaradmin()
 {
-    if ((session()->get('tipousuario'))<>'A') {
+    if ((session()->get('tipousuario')) <> 'A') {
         header('Location: /');
     }
 }
@@ -326,4 +326,27 @@ function convertirformatofecha($fecha)
     $fechac = str_replace('/', '-', $fecha);
     $fechaconvertida = date("Y-m-d", strtotime($fechac));
     return $fechaconvertida;
+}
+function mostrarformapago($formapago)
+{
+    switch ($formapago) {
+        case 'E':
+            return 'EFECTIVO';
+            break;
+        case 'C':
+            return 'CRÉDITO';
+            break;
+        case 'D':
+            return 'DEPÓSITO';
+            break;
+        case 'T':
+            return 'TARJETA';
+            break;
+        case 'Y':
+            return 'YAPE';
+            break;
+        case 'P':
+            return 'PLIN';
+            break;
+    }
 }

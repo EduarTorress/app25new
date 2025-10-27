@@ -2,6 +2,7 @@
 
 use App\View\Components\EmpresaComponent;
 use App\View\Components\FormadepagoComponent;
+use App\View\Components\ModalDetalleDctoComponent;
 use App\View\Components\ModalProveedorComponent;
 use App\View\Components\TipoMonedaComponent;
 
@@ -13,6 +14,10 @@ $this->startSection('contenido');
 <?php
 $clie = new ModalProveedorComponent();
 echo $clie->render();
+?>
+<?php
+$md = new ModalDetalleDctoComponent();
+echo $md->render();
 ?>
 <div class="content-wrapper">
     <div class="content">
@@ -52,10 +57,10 @@ echo $clie->render();
                                     <input type="date" class="form-control form-control-sm" value="2025-01-01" id="txtfechai" name="txtfechai"> &nbsp;
                                     <label class="my-1 mr-2" for="">Hasta:</label>
                                     <input type="date" class="form-control form-control-sm" value="<?php echo date('Y-m-d') ?>" id="txtfechaf" name="txtfechaf"> &nbsp;
-                                    <select name="" id="cmbmoneda" class="form-control form-control-sm">
-                                        <option value="S">SOLES</option>
-                                        <option value="D">DOLARES</option>
-                                    </select>
+                                    <?php
+                                    $mon = new TipoMonedaComponent('');
+                                    echo $mon->renderreports();
+                                    ?>
                                     <button class="btn btn-success" onclick="listarvtos();">Listar Vencimientos</button>
                                     <!-- <button class="btn btn-outline-warning" onclick="consultardocumentoscondetalle();">Exportar Créditos</button> -->
                                 </div>
@@ -73,11 +78,10 @@ echo $clie->render();
                                     echo $ec->render();
                                     ?>
                                     &nbsp;&nbsp;
-                                    <label class="my-1 mr-2" for="">Moneda:</label>
-                                    <select name="select" class="form-control form-control-sm" id="cmbmoneda">
-                                        <option value="S" selected>Soles</option>
-                                        <option value="D">Dólares</option>
-                                    </select>
+                                    <?php
+                                    $mon = new TipoMonedaComponent('');
+                                    echo $mon->renderreports();
+                                    ?>
                                     <button class="btn btn-success" onclick="listarestadocuenta();">Consultar Estado de Cuenta</button>
                                 </div>
                             </div>
@@ -127,39 +131,6 @@ echo $clie->render();
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" onclick="grabartransacciones();" class="btn btn-success">Registrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="modaldetalle" class="modal fade " tabindex="-1" data-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="lblmodaldetalle">Detalle del comprobante</h5>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered" id="tbldetalle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Unidad</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Sub. Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="float-right">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text form-control-sm" id=""><b>Total:</b> </span>
-                        <input type="text" id="txtimportemodal" class=" form-control" value="0.00" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnEliminar" class="btn btn-danger" onclick="cerrarModal();" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
