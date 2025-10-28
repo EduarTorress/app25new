@@ -805,7 +805,7 @@ $this->startSection('javascript');
         var subt = parseFloat(peso) * parseFloat(cant);
         // var campo = _tr.find("td").eq(6);
         if (isNaN(subt)) {
-            toastr.info("Dígite un número correcto")
+            toastr.info("Dígite un número correcto",'Mensaje del Sistema')
         }
         // campo.html(subt.toFixed(2));
         // var total_col1 = 0;

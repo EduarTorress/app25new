@@ -593,8 +593,8 @@ $this->startsection("javascript");
                 data.append("nt2", $("#txtbase2").val());
                 data.append("nt3", $("#txtbase3").val());
                 data.append("nt4", $("#txtbase4").val());
-                data.append("nt5", $("#txtExon").val());
-                data.append("nt6", $("#txtigv").val());
+                data.append("nt5", $("#txtigv").val());
+                data.append("nt6", $("#txtExon").val());
                 data.append("nt7", $("#txtotros").val());
                 data.append("nt8", $("#txttotal").val());
 
@@ -602,8 +602,8 @@ $this->startsection("javascript");
                 data.append("nidcta2", $("#cmbvalorcompra2 option:selected").attr("id"));
                 data.append("nidcta3", $("#cmbvalorcompra3 option:selected").attr("id"));
                 data.append("nidcta4", $("#cmbvalorcompra4 option:selected").attr("id"));
-                data.append("nidcta5", $("#cmbvalorexonerado option:selected").attr("id"));
-                data.append("nidcta6", $("#cmbvalorigv option:selected").attr("id"));
+                data.append("nidcta5", $("#cmbvalorigv option:selected").attr("id"));
+                data.append("nidcta6", $("#cmbvalorexonerado option:selected").attr("id"));
                 data.append("nidcta7", $("#cmbotrostributos option:selected").attr("id"));
                 data.append("nidcta8", $("#cmbtotalcompra option:selected").attr("id"));
 
@@ -611,8 +611,8 @@ $this->startsection("javascript");
                 data.append("ct2", $("#txtdesccompra2").val());
                 data.append("ct3", $("#txtdesccompra3").val());
                 data.append("ct4", $("#txtdesccompra4").val());
-                data.append("ct5", $("#txtdescexonerado").val());
-                data.append("ct6", $("#txtdescigv").val());
+                data.append("ct5", $("#txtdescigv").val());
+                data.append("ct6", $("#txtdescexonerado").val());
                 data.append("ct7", $("#txtdescotros").val());
                 data.append("ct8", $("#txtdesctotal").val());
 
@@ -663,8 +663,8 @@ $this->startsection("javascript");
                 data.append("nt2", $("#txtbase2").val());
                 data.append("nt3", $("#txtbase3").val());
                 data.append("nt4", $("#txtbase4").val());
-                data.append("nt5", $("#txtExon").val());
-                data.append("nt6", $("#txtigv").val());
+                data.append("nt5", $("#txtigv").val());
+                data.append("nt6", $("#txtExon").val());
                 data.append("nt7", $("#txtotros").val());
                 data.append("nt8", $("#txttotal").val());
 
@@ -672,8 +672,8 @@ $this->startsection("javascript");
                 data.append("nidcta2", $("#cmbvalorcompra2 option:selected").attr("id"));
                 data.append("nidcta3", $("#cmbvalorcompra3 option:selected").attr("id"));
                 data.append("nidcta4", $("#cmbvalorcompra4 option:selected").attr("id"));
-                data.append("nidcta5", $("#cmbvalorexonerado option:selected").attr("id"));
-                data.append("nidcta6", $("#cmbvalorigv option:selected").attr("id"));
+                data.append("nidcta5", $("#cmbvalorigv option:selected").attr("id"));
+                data.append("nidcta6", $("#cmbvalorexonerado option:selected").attr("id"));
                 data.append("nidcta7", $("#cmbotrostributos option:selected").attr("id"));
                 data.append("nidcta8", $("#cmbtotalcompra option:selected").attr("id"));
 
@@ -690,8 +690,8 @@ $this->startsection("javascript");
                 data.append("ct2", $("#txtdesccompra2").val());
                 data.append("ct3", $("#txtdesccompra3").val());
                 data.append("ct4", $("#txtdesccompra4").val());
-                data.append("ct5", $("#txtdescexonerado").val());
-                data.append("ct6", $("#txtdescigv").val());
+                data.append("ct5",$("#txtdescigv").val() );
+                data.append("ct6", $("#txtdescexonerado").val());
                 data.append("ct7", $("#txtdescotros").val());
                 data.append("ct8", $("#txtdesctotal").val());
 

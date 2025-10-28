@@ -1270,7 +1270,7 @@ $this->startSection('javascript');
         if (clicksubtotal == 0) {
             var subt = parseFloat(cant) * parseFloat(prec);
             if (isNaN(subt)) {
-                toastr.info("Dígite un número correcto")
+                toastr.info("Dígite un número correcto",'Mensaje del Sistema')
             } else {
                 $(campo).val(subt.toFixed(2));
                 $('#griddetalle tbody').find('tr').each(function(i, el) {

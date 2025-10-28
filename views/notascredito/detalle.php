@@ -202,7 +202,7 @@
         var subt = parseFloat(cant) * parseFloat(prec);
         var campo = _tr.find("td").eq(5);
         if (isNaN(subt)) {
-            toastr.info("Dígite un número correcto")
+            toastr.info("Dígite un número correcto",'Mensaje del Sistema')
         } else {
             campo.html(subt.toFixed(2));
             var total_col1 = 0;

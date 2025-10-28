@@ -183,6 +183,7 @@
                 $("#modallotesfvto").modal('show');
                 $("#txtidartselect").val(idart);
             }).catch(function(error) {
+                console.log(error);
                 if (error.hasOwnProperty('response')) {
                     toastr.error(error.response.data.message, 'Mensaje del sistema');
                 }
@@ -407,7 +408,6 @@
             var id = _tr.find("td").eq(1).html();
             var cant = _tr.find("td").eq(4).find("input").val();
             var precio = _tr.find("td").eq(5).find("input").val();
-
             const resultado = premiun.find(elemento => elemento.coda == id);
             cmbmoneda = $("#cmbmoneda").val();
             if (cmbmoneda == 'D') {
@@ -443,7 +443,6 @@
             } else {
                 preciomenor = resultado.precio3;
             }
-
             preciomenor = Number(preciomenor).toFixed(2);
             // if (Number(precio) < preciomenor) {
             //     _tr.find("td").eq(5).css("backgroundColor", "#F67979");
