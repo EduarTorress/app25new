@@ -318,7 +318,6 @@ $this->startsection("javascript");
 <script>
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
-        obtenerFechas();
         idautocompra = $("#idautocompra").val();
         if (idautocompra != '0') {
             $("#btngrabar").text("Modificar")

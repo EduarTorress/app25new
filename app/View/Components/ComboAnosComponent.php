@@ -15,4 +15,12 @@ class ComboAnosComponent extends Component
     {
         return view('components/comboanos', ['canos' => $this->canos]);
     }
+    function renderreport()
+    {
+        return view('components/comboanosreport', ['canos' => $this->canos]);
+    }
+    function renderreportmes()
+    {
+        return view('components/combomesreport');
+    }
 }

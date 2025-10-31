@@ -19,6 +19,12 @@
             </div>
         </div>
         <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="">Sueldo:</label>
+            <div class="col-sm-8">
+                <input type="text" name="txtsueldo" id="txtsueldo" onkeypress="return isNumber(event);" class="form-control txtsueldo" value="<?php echo ($modo == 'A' ?  $lista['sueldo'] : '0') ?>">
+            </div>
+        </div>
+        <div class="form-group row">
             <?php
             $tipo = isset($lista['tipo']) ? $lista['tipo'] : '';
             $tipos = new \App\View\Components\TiposUsuarioComponent($tipo);

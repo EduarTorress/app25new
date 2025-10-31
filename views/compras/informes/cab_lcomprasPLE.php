@@ -1,4 +1,7 @@
 <?php
+
+use App\View\Components\ComboAnosComponent;
+
 $this->setLayout('layouts/admin');
 ?>
 <?php
@@ -23,30 +26,15 @@ $this->startSection('contenido');
                                 <input type="date" class="form-control form-control-sm" id="txtfechai" name="txtfechai">
                                 <input type="date" class="form-control form-control-sm" id="txtfechaf" name="txtfechaf"> -->
                                 <label class="my-1 mr-2" for="">Mes</label>
-                                <select class="form-control form-control-sm" name="cmbmes" id="cmbmes">
-                                    <option value="01">Enero</option>
-                                    <option value="02">Febrero</option>
-                                    <option value="03">Marzo</option>
-                                    <option value="04">Abril</option>
-                                    <option value="05">Mayo</option>
-                                    <option value="06">Junio</option>
-                                    <option value="07">Julio</option>
-                                    <option value="08">Agosto</option>
-                                    <option value="09">Septiembre</option>
-                                    <option value="10">Octubre</option>
-                                    <option value="11">Noviembre</option>
-                                    <option value="12">Diciembre</option>
-                                </select>
+                                 <?php
+                                    $mes = new ComboAnosComponent('');
+                                    echo $mes->renderreportmes();
+                                    ?>
                                 <label class="my-1 mr-2" for="">Año</label>
-                                <select class="form-control form-control-sm" name="cmbano" id="cmbano">
-                                    <option value="2025">2025</option>
-                                    <option value="2026">2026</option>
-                                    <option value="2027">2027</option>
-                                    <option value="2028">2028</option>
-                                    <option value="2029">2029</option>
-                                    <option value="2030">2030</option>
-                                    <option value="2031">2031</option>
-                                </select>
+                                 <?php
+                                    $ano = new ComboAnosComponent('');
+                                    echo $ano->renderreport();
+                                    ?>
                                 <button type="submit" class="btn btn-primary my-1" id="btnconsultar">Consultar</button>
                                 <button type="button" class="btn btn-success my-1" onclick="exportarsire();" id="btndescargarsire">Exportar SIRE</button>
                             </form>

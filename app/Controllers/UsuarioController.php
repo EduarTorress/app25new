@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\PagosPlanilla;
 use App\Models\TipoUsuarios;
 use App\Models\Usuario;
 use Core\Http\Request;
@@ -49,6 +50,8 @@ class UsuarioController extends Controller
             $usuario->txtnombre = $request->get('txtnombre');
             $usuario->txtclave = $request->get('txtclave');
             $usuario->cmbtipousuario = $request->get('cmbtipousuario');
+            $usuario->sueldo = $request->get('txtsueldo');
+
             if ($usuario->save()) {
                 return response()->json(['message' => 'Registrado correctamente'], 200); // Created
             } else {
@@ -84,8 +87,19 @@ class UsuarioController extends Controller
             $usuario->txtnombre = $request->get('txtnombre');
             $usuario->txtclave = $request->get('txtclave');
             $usuario->cmbtipousuario = $request->get('cmbtipousuario');
+            $usuario->sueldo = $request->get('txtsueldo');
+            $sueldo = $usuario->consultarsueldoxusuario($request->get('txtidusua'));
+            if (floatval($sueldo[0]['sueldo']) <> floatval($request->get('txtsueldo'))) {
+                $pp = new PagosPlanilla();
+                $rptapp = $pp->buscarsihaysaldopendientexusuario($request->get('txtidusua'));
+                foreach ($rptapp['lista'] as $pp) {
+                    if (floatval($pp['pendiente']) > 0) {
+                        return response()->json(['message' => 'No se puede actualizar el sueldo porque hay cuentas pendientes'], 400);
+                    }
+                }
+            }
             if ($usuario->update()) {
-                return response()->json(['message' => 'Actualizado correctamente'], 200);
+                return response()->json(['message' => 'Actualizado satisfactoriamente'], 200);
             } else {
                 return response()->json(['message' => 'Error al actualizar'], 400);
             }

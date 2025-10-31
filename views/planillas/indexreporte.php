@@ -15,21 +15,17 @@ $this->startSection('contenido');
                     <div class="card card-primary card-outline">
                         <div class="card-body">
                             <form class="form-inline" id="form-search"><br>
-                                <!-- <label class="my-1 mr-2" for="txtfechai">Inicio</label>
-                                <input type="date" class="form-control form-control-sm" id="txtfechai" name="txtfechai">
-                                <input type="date" class="form-control form-control-sm" id="txtfechaf" name="txtfechaf"> -->
                                 <label class="my-1 mr-2" for="">Mes</label>
                                 <?php
-                                    $mes = new ComboAnosComponent('');
-                                    echo $mes->renderreportmes();
-                                    ?>
+                                $mes = new ComboAnosComponent('');
+                                echo $mes->renderreportmes();
+                                ?>
                                 <label class="my-1 mr-2" for="">Año</label>
-                                   <?php
-                                    $ano = new ComboAnosComponent('');
-                                    echo $ano->renderreport();
-                                    ?>
+                                <?php
+                                $ano = new ComboAnosComponent('');
+                                echo $ano->renderreport();
+                                ?>
                                 <button type="submit" class="btn btn-primary my-1" id="btnconsultar">Consultar</button>
-                                <button type="button" class="btn btn-success my-1" onclick="exportarsire();" id="btndescargarsire">Exportar SIRE</button>
                             </form>
                         </div>
                     </div>
@@ -54,43 +50,22 @@ $this->startSection('javascript');
 
     window.onload = function() {
         $("#titulo").html("<?php echo $titulo ?>");
-        mes = "<?php echo date('m'); ?>";
-        year = "<?php echo date('Y'); ?>";
-        $("#cmbmes").val(mes);
-        $("#cmbano").val(year);
     }
 
     function search() {
         var mes = document.getElementById("cmbmes").value;
         var ano = document.getElementById("cmbano").value;
         $("#btnconsultar").attr('disabled', true);
-        axios.get('/vtas/regvtas', {
+        axios.get('/pagosplanilla/buscarreporte', {
             "params": {
                 "mes": mes,
-                "ano": ano
+                "ano": ano,
+                "descripcionmes": $("#cmbmes option:selected").text()
             }
         }).then(function(respuesta) {
-            // const contenido_tabla = respuesta.data;
-            // $('#search').html(contenido_tabla);
-            // console.log(respuesta.data.listado)
             listado = (respuesta.data.listado);
             detalletabla = [
-                ['Fecha', 'fech',
-                    [new Map([
-                        ['class', ''],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', ''],
-                    ])],
-                    [new Map([
-                        ['class', ''],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', ''],
-                        ['type', 'fech']
-                    ])],
-                ],
-                ['Tipo', 'tdoc',
+                ['Usuario', 'nomb',
                     [new Map([
                         ['class', ''],
                         ['width', ''],
@@ -105,7 +80,7 @@ $this->startSection('javascript');
                         ['type', 'text']
                     ])],
                 ],
-                ['Serie', 'serie',
+                ['Tipo', 'cargo',
                     [new Map([
                         ['class', ''],
                         ['width', ''],
@@ -120,9 +95,9 @@ $this->startSection('javascript');
                         ['type', 'text']
                     ])],
                 ],
-                ['Documento', 'ndoc',
+                ['Año', 'ano',
                     [new Map([
-                        ['class', ''],
+                        ['class', 'text-center'],
                         ['width', ''],
                         ['id', ''],
                         ['attr', ''],
@@ -133,37 +108,14 @@ $this->startSection('javascript');
                         ['id', ''],
                         ['attr', ''],
                         ['type', 'text']
-                    ])],
+                    ])]
                 ],
-                ['RUC/DNI', 'nruc',
+                ['Periodo', 'mes',
                     [new Map([
-                        ['class', ''],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', '']
-                    ])],
-                    [new Map([
-                        ['class', ''],
+                        ['class', 'text-center'],
                         ['width', ''],
                         ['id', ''],
                         ['attr', ''],
-                        ['condition',
-                            new Map([
-                                ['valorcondicion', 'tdoc'],
-                                ['valoraevaluar', '03'],
-                                ['sicumple', 'ndni'],
-                                ['nocumple', 'nruc']
-                            ])
-                        ],
-                        ['type', 'text']
-                    ])],
-                ],
-                ['Cliente', 'razo',
-                    [new Map([
-                        ['class', ''],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', '']
                     ])],
                     [new Map([
                         ['class', ''],
@@ -171,54 +123,9 @@ $this->startSection('javascript');
                         ['id', ''],
                         ['attr', ''],
                         ['type', 'text']
-                    ])],
+                    ])]
                 ],
-                ['Grav.', 'valor',
-                    [new Map([
-                        ['class', 'text-end'],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', 'data-footer-formatter="formatTotal"']
-                    ])],
-                    [new Map([
-                        ['class', 'text-end'],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', 'data-footer-formatter="formatTotal"'],
-                        ['type', 'number']
-                    ])],
-                ],
-                ['Exon.', 'exon',
-                    [new Map([
-                        ['class', 'text-end'],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', 'data-footer-formatter="formatTotal"']
-                    ])],
-                    [new Map([
-                        ['class', 'text-end'],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', 'data-footer-formatter="formatTotal"'],
-                        ['type', 'number']
-                    ])],
-                ],
-                ['Inaf.', 'inafecto',
-                    [new Map([
-                        ['class', 'text-end'],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', 'data-footer-formatter="formatTotal"']
-                    ])],
-                    [new Map([
-                        ['class', 'text-end'],
-                        ['width', ''],
-                        ['id', ''],
-                        ['attr', 'data-footer-formatter="formatTotal"'],
-                        ['type', 'number']
-                    ])],
-                ],
-                ['IGV', 'igv',
+                ['Sueldo Laboral', 'sueldo',
                     [new Map([
                         ['class', 'text-end'],
                         ['width', ''],
@@ -231,9 +138,9 @@ $this->startSection('javascript');
                         ['id', ''],
                         ['attr', 'data-footer-formatter="formatTotal"'],
                         ['type', 'number']
-                    ])],
+                    ])]
                 ],
-                ['Importe', 'importe',
+                ['Pago Procesado', 'saldopago',
                     [new Map([
                         ['class', 'text-end'],
                         ['width', ''],
@@ -246,22 +153,23 @@ $this->startSection('javascript');
                         ['id', ''],
                         ['attr', 'data-footer-formatter="formatTotal"'],
                         ['type', 'number']
-                    ])],
+                    ])]
                 ],
-                ['Rpta SUNAT', 'mensaje',
+
+                ['Saldo Pendiente', 'saldopendiente',
                     [new Map([
-                        ['class', ''],
+                        ['class', 'text-end'],
                         ['width', ''],
                         ['id', ''],
-                        ['attr', ''],
+                        ['attr', 'data-footer-formatter="formatTotal"'],
                     ])],
                     [new Map([
-                        ['class', ''],
+                        ['class', 'text-end'],
                         ['width', ''],
                         ['id', ''],
-                        ['attr', '"'],
-                        ['type', '']
-                    ])],
+                        ['attr', 'data-footer-formatter="formatTotal"'],
+                        ['type', 'number']
+                    ])]
                 ]
                 // ['', 'buttons',
                 //     [new Map([
@@ -292,30 +200,9 @@ $this->startSection('javascript');
             reportetablebt("#table");
             $("#btnconsultar").attr('disabled', false);
         }).catch(function(error) {
-            $("#btnconsultar").attr('disabled', false);
-            toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
-        });
-    }
-
-    function exportarsire() {
-        nruc = "<?php echo $_SESSION['gene_nruc'] ?>";
-        namefile = "LE" + nruc + $("#cmbano").val() + $("#cmbmes").val() + '00080400021112.zip';
-        axios.get('/cpe/exportarsire', {
-            "params": {
-                "mes": $("#cmbmes").val(),
-                "namemes": $('#cmbmes').find(":selected").text(),
-                "ano": $("#cmbano").val()
-            }
-        }).then(function(respuesta) {
-            // var fileURL = window.URL.createObjectURL();
-            var fileLink = document.createElement('a');
-            fileLink.href = namefile;
-            fileLink.setAttribute('download', namefile);
-            document.body.appendChild(fileLink);
-            fileLink.click();
-        }).catch(function(error) {
             console.log(error);
-            toastr.error("Error al exportar " + error, 'Mensaje del sistema');
+            $("#btnconsultar").attr('disabled', false);
+            toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
         });
     }
 </script>

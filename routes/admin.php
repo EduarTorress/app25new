@@ -250,6 +250,18 @@ $app->router->get('/inventarios/listaajustes', [\App\Controllers\InventarioContr
 $app->router->get('/inventarios/verdetalleajuste', [\App\Controllers\InventarioController::class, 'verdetalleajuste']);
 $app->router->get('/inventarios/calcularstock', [\App\Controllers\InventarioController::class, 'calcularstock']);
 
+
+#rutas de planillas
+$app->router->get('/pagosplanilla/indexpagos', [\App\Controllers\PagoPlanillaController::class, 'indexpagos']);
+$app->router->get('/pagosplanilla/buscarsaldoxusuario', [\App\Controllers\PagoPlanillaController::class, 'buscarsaldoxusuario']);
+$app->router->post('/pagosplanilla/registrarpago', [\App\Controllers\PagoPlanillaController::class, 'registrarpago']);
+$app->router->get('/pagosplanilla/indexreporte', [\App\Controllers\PagoPlanillaController::class, 'indexreporte']);
+$app->router->get('/pagosplanilla/buscarreporte', [\App\Controllers\PagoPlanillaController::class, 'buscarreporte']);
+$app->router->get('/pagosplanilla/mostrarmodalpagosausuarios', [\App\Controllers\PagoPlanillaController::class, 'mostrarmodalpagosausuarios']);
+$app->router->post('/pagosplanilla/eliminar/{id}', [\App\Controllers\PagoPlanillaController::class, 'eliminar']);
+
+
+
 #rutas generales
 $app->router->get('/empresa/importarucydni', [\App\Controllers\EmpresaController::class, 'importarucyotros']);
 $app->router->get('/empresa/obtenervalordolar', [\App\Controllers\EmpresaController::class, 'obtenervalordolar']);

@@ -13,6 +13,7 @@ class Usuario extends Modelo
     var $txtnombre = "";
     var $txtclave = "";
     var $cmbtipousuario = "";
+    var $sueldo = "";
 
     public function encryptacontraseñas()
     {
@@ -150,7 +151,8 @@ class Usuario extends Modelo
                         "idusua" => $row['idusua'],
                         "nomb" => $row['nomb'],
                         "tipo" => $row['tipo'],
-                        "clave" => $row['clave']
+                        "clave" => $row['clave'],
+                        'sueldo' => empty($row['sueldo']) ? 0 : $row['sueldo']
                     );
                     array_push($lista["items"], $item);
                 }
@@ -207,6 +209,16 @@ class Usuario extends Modelo
         $sql = "select * from fe_usua where activo='S' and tipo='Administrador'";
         $query = $this->prepare($sql);
         $query->execute();
+        $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $resultado;
+    }
+    function consultarsueldoxusuario($idusua)
+    {
+        $sql = "select sueldo from fe_usua where activo='S' and idusua=:idusua";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'idusua' => $idusua
+        ]);
         $resultado = $query->fetchAll(PDO::FETCH_ASSOC);
         return $resultado;
     }
