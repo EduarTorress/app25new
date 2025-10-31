@@ -265,30 +265,32 @@ class Compra extends Modelo
                 $acre = $total;
             }
 
-            $sqll = "CALL ProIngresaDatosLcajaeEfectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
-            :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
-            $queryy = $pdo->prepare($sqll);
-            $queryy->execute([
-                'fech' => $this->dfecha,
-                'cdeta' => $cabecera["txtproveedor"],
-                'idcta' => $nidcta3,
-                'sacreedor' => $acre,
-                'cmone' => $cabecera["mon"],
-                'ndolar' => $cabecera["dolar"],
-                'nidus' => $cabecera["nidus"],
-                'nidauto' => $id,
-                'cform' => $cabecera["form"],
-                'cdcto' => $cabecera["cndoc"],
-                'ctdoc' => $cabecera["tdoc"],
-                'nidtda' => $cabecera["alm"]
-            ]);
-            $queryy->closeCursor();
+            if ($cabecera['form'] == 'E') {
+                $sqll = "CALL ProIngresaDatosLcajaeEfectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
+                :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
+                $queryy = $pdo->prepare($sqll);
+                $queryy->execute([
+                    'fech' => $this->dfecha,
+                    'cdeta' => $cabecera["txtproveedor"],
+                    'idcta' => $nidcta3,
+                    'sacreedor' => $acre,
+                    'cmone' => $cabecera["mon"],
+                    'ndolar' => $cabecera["dolar"],
+                    'nidus' => $cabecera["nidus"],
+                    'nidauto' => $id,
+                    'cform' => $cabecera["form"],
+                    'cdcto' => $cabecera["cndoc"],
+                    'ctdoc' => $cabecera["tdoc"],
+                    'nidtda' => $cabecera["alm"]
+                ]);
+                $queryy->closeCursor();
 
-            if ($queryy->errorCode() != '00000') {
-                $queryy->debugDumpParams();
-                // \print_r($queryy->errorInfo());
-                $pdo->rollBack();
-                return false;
+                if ($queryy->errorCode() != '00000') {
+                    $queryy->debugDumpParams();
+                    // \print_r($queryy->errorInfo());
+                    $pdo->rollBack();
+                    return false;
+                }
             }
 
             if ($cabecera['form'] == 'C') {
@@ -511,28 +513,30 @@ class Compra extends Modelo
                 $acre = $total;
             }
 
-            $sqlc = "CALL ProIngresaDatosLcajaEefectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
-            :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
-            $queryc = $pdo->prepare($sqlc);
-            $queryc->execute([
-                'fech' => $this->dfecha,
-                'cdeta' => $cabecera["txtproveedor"],
-                'idcta' => session()->get("gene_idctat"),
-                'sacreedor' => $acre,
-                'cmone' => $cabecera["mon"],
-                'ndolar' => $cabecera["dolar"],
-                'nidus' => $cabecera["nidus"],
-                'nidauto' => $cabecera["nidauto"],
-                'cform' => $cabecera["form"],
-                'cdcto' => $cabecera["cndoc"],
-                'ctdoc' => $cabecera["tdoc"],
-                'nidtda' => $_SESSION['idalmacen']
-            ]);
-            $queryc->closeCursor();
-            if ($queryc->errorCode() != '00000') {
-                $queryc->debugDumpParams();
-                $pdo->rollBack();
-                return false;
+            if ($cabecera['form'] == 'E') {
+                $sqlc = "CALL ProIngresaDatosLcajaEefectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
+                :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
+                $queryc = $pdo->prepare($sqlc);
+                $queryc->execute([
+                    'fech' => $this->dfecha,
+                    'cdeta' => $cabecera["txtproveedor"],
+                    'idcta' => session()->get("gene_idctat"),
+                    'sacreedor' => $acre,
+                    'cmone' => $cabecera["mon"],
+                    'ndolar' => $cabecera["dolar"],
+                    'nidus' => $cabecera["nidus"],
+                    'nidauto' => $cabecera["nidauto"],
+                    'cform' => $cabecera["form"],
+                    'cdcto' => $cabecera["cndoc"],
+                    'ctdoc' => $cabecera["tdoc"],
+                    'nidtda' => $_SESSION['idalmacen']
+                ]);
+                $queryc->closeCursor();
+                if ($queryc->errorCode() != '00000') {
+                    $queryc->debugDumpParams();
+                    $pdo->rollBack();
+                    return false;
+                }
             }
 
             $sqlinserta = "SELECT FunIngresaKardex1(:nid,:cc,:ct,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:vcom,:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS IDD";
