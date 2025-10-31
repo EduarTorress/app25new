@@ -63,8 +63,14 @@
         "info": false,
         "autoWidth": false,
     });
-    
+
     $('#modalpagos').on('hidden.bs.modal', function() {
-        listarsaldoxusuario();
+         var cantfilas = $('#tabla >tbody >tr').length;
+        if (cantfilas != 0) {
+            listarsaldoxusuario();
+        } else {
+            $("#btnregistrar").attr('disabled', 'disabled');
+            $("#txtapagar").attr('disabled', 'disabled');
+        }
     });
 </script>
