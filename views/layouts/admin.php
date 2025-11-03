@@ -171,7 +171,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer small">
             <!-- To the right -->
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2020-2025 <a href="">Sysven</a>.</strong> Todos los
+            <strong>Copyright &copy; 2020-<?php echo date('Y'); ?> <a href="">Sysven</a>.</strong> Todos los
             derechos reservados. - <?php echo session()->get("gene_empresa") . ' - ' . $_SESSION['tienda']; ?>
         </footer>
     </div>

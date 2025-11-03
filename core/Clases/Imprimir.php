@@ -1774,7 +1774,6 @@ class Imprimir
 
         $pdf->AddFont('Tahoma', '', 'tahoma.php');
         $pdf->AddFont('Tahomab', '', 'tahomab.php');
-
         $i = 1;
 
         if ($_SERVER['SERVER_NAME'] == 'app25.test') {
@@ -1939,7 +1938,6 @@ class Imprimir
 
         $y = $pdf->GetY();
         $pdf->setx(37);
-
         $pdf->SetY($y);
 
         $pdf->SetFont('Tahomab', '', 7);
@@ -1976,7 +1974,6 @@ class Imprimir
     function generarPDFguiatraspaso($rutapdf, $estilo = '')
     {
         require('tfpdf.php');
-
         $pdf = new tFPDF();
         $pdf->AddPage('P', 'A4');
         $pdf->AddFont('DejaVu', '', 'DejaVuSansCondensed.ttf', true);
@@ -2059,7 +2056,6 @@ class Imprimir
         $pdf->cell(100, 5, 'RUC: ' . trim($_SESSION['gene_nruc']));
         $pdf->SetAutoPageBreak('auto', 2);
         $pdf->SetDisplayMode(75);
-
         $pdf->ln();
         $pdf->SetFont('Tahomab', '', 6);
         $pdf->SetFillColor(240, 240, 240);
