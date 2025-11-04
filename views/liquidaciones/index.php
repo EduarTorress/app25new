@@ -186,7 +186,8 @@ $this->startSection('javascript');
                 'egresos': egresos,
                 "txtreferencia": $("#txtreferencia").val(),
                 "sobrante": $("#txtsobrante").val(),
-                'nidusua': $("#cmbusuarios").val()
+                'nidusua': $("#cmbusuarios").val(),
+                'ingresos': $("#ingresos").val()
             }
         }).then(function(respuesta) {
             // var fileLink = document.createElement('a');

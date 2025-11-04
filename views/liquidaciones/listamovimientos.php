@@ -47,8 +47,9 @@
             <div class="col">
                 <input readonly type="text" style="text-align:right;" class="form-control form-control-sm" id="txttotalvtas" value="<?php echo round($total, 2); ?>">
                 <input type="hidden" style="text-align:right;" class="form-control form-control-sm" id="txtsobrante" value="<?php echo round($sobrante, 2); ?>">
+                <input type="hidden" id="ingresos" value="<?php echo $ingresos; ?>">
             </div>
-               <label for="" class="col-sm-0.5 col-form-label col-form-label-sm">Total Liquidez: </label>
+            <label for="" class="col-sm-0.5 col-form-label col-form-label-sm">Total Liquidez: </label>
             <div class="col">
                 <input type="text" readonly style="text-align:right;" class="form-control form-control-sm" id="" value="<?php echo round($totalliquidez, 2); ?>">
             </div>

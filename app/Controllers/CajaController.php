@@ -33,6 +33,7 @@ class CajaController extends Controller
         $total = 0;
         $liquidez = 0;
         $egresos = 0;
+        $ingresos = 0;
         foreach ($lista as $l) {
             // if ($l['tdoc'] == '03' || $l['tdoc'] == '01' || $l['tdoc'] == '20') {
             if ((floatval($l['egresos']) <= 0) && ($l['tipo'] == 'I')) {
@@ -42,6 +43,9 @@ class CajaController extends Controller
             }
             if (floatval($l['efectivo']) > 0) {
                 $liquidez = $liquidez + floatval($l['efectivo']);
+                if (intval($l['idauto']) == 0) {
+                    $ingresos = $ingresos + floatval($l['efectivo']);
+                }
             }
             // }
         }
@@ -49,7 +53,14 @@ class CajaController extends Controller
         $listasobrantes = $caja->buscarsobrante($fech, $nidusua, $codt);
         $txtsobrante = empty($listasobrantes['lista'][0]['efectivo']) ? 0 : $listasobrantes['lista'][0]['efectivo'];
         $saldo = $caja->verSaldo('2021-01-01', $fech, $nidusua);
-        return \view('liquidaciones/listamovimientos', ['lista' => $lista, 'total' => $total, 'saldo' => $saldo['lista'][0], 'sobrante' => $txtsobrante, 'totalliquidez' => $totalliquidez]);
+        return \view('liquidaciones/listamovimientos', [
+            'lista' => $lista,
+            'total' => $total,
+            'saldo' => $saldo['lista'][0],
+            'sobrante' => $txtsobrante,
+            'totalliquidez' => $totalliquidez,
+            'ingresos' => $ingresos
+        ]);
     }
     function indexIngresosEgresos()
     {
@@ -82,9 +93,7 @@ class CajaController extends Controller
             return response()->json(['message' => $rpta['mensaje'], 'data' => $rpta['data'], 'estado' => '0'], 422);
         }
     }
-    function registrarTransferencia(Request $request)
-    {
-    }
+    function registrarTransferencia(Request $request) {}
     function enviarresumenxcorreo(Request $request)
     {
         $caja = new Caja();
@@ -153,6 +162,7 @@ class CajaController extends Controller
         $oimp->apertura = empty($dataaperturacaja['lista'][0]['lcaj_deud']) ? 0 : $dataaperturacaja['lista'][0]['lcaj_deud'];
         $efectivoconegreso = floatval($request->get('efectivo')) - floatval($request->get('egresos'));
         $oimp->total =  $efectivoconegreso + floatval($request->get('yape')) + floatval($request->get('plin')) + floatval($request->get('tarjeta')) + floatval($request->get('deposito')) + floatval($request->get('credito'));
+        $oimp->ingresos = $request->get('ingresos');
         $rutapdf = 'ticketcaja.pdf';
         $oimp->generarticketcaja($rutapdf, 'I');
     }

@@ -72,6 +72,7 @@ class Imprimir
     var $sobrante;
     var $egresos;
     var $apertura;
+    var $ingresos;
     var $items = array();
     var $urlguiasunat = "https://e-factura.sunat.gob.pe/v1/contribuyente/gre/comprobantes/descargaqr?";
     var $qrsunat;
@@ -1693,8 +1694,13 @@ class Imprimir
         $pdf->SetFont('Arial', '', 9);
         $pdf->Ln();
         $pdf->setx(5);
-        $pdf->Cell(50, 4, 'EFECTIVO: ', 0, 0, 'L');
-        $pdf->Cell(15, 4, 'S/ ' . (Round($this->efectivo - $this->sobrante - $this->apertura, 2)), 0, 1, 'L');
+        $pdf->Cell(50, 4, 'EFECTIVO VENTAS: ', 0, 0, 'L');
+        $pdf->Cell(15, 4, 'S/ ' . (Round(($this->efectivo - $this->sobrante - $this->apertura) - ($this->ingresos - $this->sobrante - $this->apertura), 2)), 0, 1, 'L');
+        $pdf->ln();
+
+        $pdf->setx(5);
+        $pdf->Cell(50, 4, 'INGRESOS: ', 0, 0, 'L');
+        $pdf->Cell(15, 4, 'S/ ' . (Round($this->ingresos - $this->sobrante - $this->apertura, 2)), 0, 1, 'L');
         $pdf->ln();
 
         $pdf->setx(5);
