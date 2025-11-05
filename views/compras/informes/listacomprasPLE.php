@@ -1,18 +1,19 @@
 <table id="tablacompras" class="table table-bordered table-hover table table-sm small">
     <thead>
-        <tr class="text-center">
-            <th>ID</th>
-            <th>Tipo D.</th>
-            <th>Documento</th>
-            <th>Guía</th>
-            <th>Fecha</th>
-            <th>Fecha R.</th>
-            <th>Proveedor</th>
-            <th>Forma</th>
-            <th>Moneda</th>
-            <th style="text-align: right;" data-footer-formatter="formatTotal">Valor</th>
-            <th style="text-align: right;" data-footer-formatter="formatTotal">IGV</th>
-            <th style="text-align: right;" data-footer-formatter="formatTotal">Importe</th>
+        <tr>
+            <th class="text-center">ID</th>
+            <th class="text-center">Tipo D.</th>
+            <th class="text-center">Documento</th>
+            <th class="text-center">Guía</th>
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Fecha R.</th>
+            <th class="text-center">Proveedor</th>
+            <th class="text-center">Forma</th>
+            <th class="text-center">Moneda</th>
+            <th class="text-end" style="text-align: right;" data-footer-formatter="formatTotal">Valor</th>
+            <th class="text-end" style="text-align: right;" data-footer-formatter="formatTotal">Exon</th>
+            <th class="text-end" style="text-align: right;" data-footer-formatter="formatTotal">IGV</th>
+            <th class="text-end" style="text-align: right;" data-footer-formatter="formatTotal">Importe</th>
         </tr>
     </thead>
     <tbody>
@@ -25,9 +26,10 @@
                 <td><?php echo $item['fech'] ?></td>
                 <td><?php echo $item['fecr'] ?></td>
                 <td><?php echo $item['razo'] ?></td>
-                <td> <?php echo mostrarformapago($item['form']); ?></td>
+                <td><?php echo mostrarformapago($item['form']); ?></td>
                 <td><?php echo $item['mone'] == 'S' ? 'SOLES' : 'DÓLARES' ?></td>
                 <td style="text-align: right;"><?php echo $item['valor'] ?></td>
+                <td style="text-align: right;"><?php echo $item['exon'] ?></td>
                 <td style="text-align: right;"><?php echo $item['igv'] ?></td>
                 <td style="text-align: right;"><?php echo number_format($item['impo'], 2, '.', '') ?></td>
             </tr>
