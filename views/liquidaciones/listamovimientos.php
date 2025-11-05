@@ -3,14 +3,14 @@
         <tr>
             <th scope="col">Detalle</th>
             <th scope="col">N° Documento</th>
-            <th scope="col" data-footer-formatter="formatTotal">Efectivo</th>
-            <th scope="col" data-footer-formatter="formatTotal">Crédito</th>
-            <th scope="col" data-footer-formatter="formatTotal">Depósito</th>
-            <th scope="col" data-footer-formatter="formatTotal">Tarjeta</th>
-            <th scope="col" data-footer-formatter="formatTotal">YAPE</th>
-            <th scope="col" data-footer-formatter="formatTotal">PLIN</th>
-            <th scope="col" data-footer-formatter="formatTotal">Contra Ent.</th>
-            <th scope="col" data-footer-formatter="formatTotal">Egresos</th>
+            <th scope="col" class="text-end" data-footer-formatter="formatTotal">Efectivo</th>
+            <th scope="col" class="text-end" data-footer-formatter="formatTotal">Crédito</th>
+            <th scope="col" class="text-end" data-footer-formatter="formatTotal">Depósito</th>
+            <th scope="col" class="text-end" data-footer-formatter="formatTotal">Tarjeta</th>
+            <th scope="col" class="text-end" data-footer-formatter="formatTotal">YAPE</th>
+            <th scope="col" class="text-end" data-footer-formatter="formatTotal">PLIN</th>
+            <th scope="col" class="text-end" data-footer-formatter="formatTotal">Contra Ent.</th>
+            <th scope="col" class="text-end" data-footer-formatter="formatTotal">Egresos</th>
             <th scope="col">Usuario</th>
             <th scope="col">Moneda</th>
             <th scope="col">Fecha/Hora</th>
@@ -30,7 +30,7 @@
                 <td><?php echo evaluarvalortdoccaja($l['ndoc'], $l['Centrega']); ?></td>
                 <td><?php echo evaluarvalortdoccaja($l['ndoc'], $l['egresos']); ?></td>
                 <td><?php echo $l['usua']; ?></td>
-                <td><?php echo $l['mone']; ?></td>
+                <td><?php echo $l['mone'] == 'S' ? 'SOLES' : 'DÓLARES' ?></td>
                 <td><?php echo $l['fechao']; ?></td>
             </tr>
         <?php endforeach; ?>
