@@ -1642,7 +1642,7 @@ class Imprimir
     }
     public function generarticketcaja($rutapdf, $estilo = '')
     {
-        $pdf = new FPDF('P', 'mm', array(80, 220));
+        $pdf = new FPDF('P', 'mm', array(80,250));
         $pdf->AddPage();
         $pdf->SetMargins(-5, -10, 5);
         $pdf->SetFont('Arial', 'B', 12);
