@@ -79,6 +79,7 @@ $this->startSection('javascript');
     function buscar() {
         var abuscar = document.querySelector('#txtbuscar').value;
         if (abuscar.length == 0) {
+            toastr.error("Ingrese un parametro a buscar", 'Mensaje del Sistema');
             return;
         }
         axios.get('/usuarios/buscar', {
@@ -89,7 +90,7 @@ $this->startSection('javascript');
             const contenido_tabla = respuesta.data;
             $('#search').html(contenido_tabla);
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
+            toastr.error('Error al cargar el listado ' + error, 'Mensaje del Sistema')
         });
     }
 
@@ -99,7 +100,7 @@ $this->startSection('javascript');
                 $('#modal-mantenimiento-contenido').html(respuesta.data)
                 $("#modal-mantenimiento").modal('show')
             }).catch(function(error) {
-                toastr.error('Error al cargar el modal de crear ' + error, 'Mensaje del sistema')
+                toastr.error('Error al cargar el modal de crear ' + error, 'Mensaje del Sistema')
             })
     }
 
@@ -119,7 +120,7 @@ $this->startSection('javascript');
             }).catch(function(error) {
                 if (error.hasOwnProperty("response")) {
                     if (error.response.status === 422) {
-                        toastr.error(error.response.data.message, 'Mensaje del sistema');
+                        toastr.error(error.response.data.message, 'Mensaje del Sistema');
                     }
                 }
             });

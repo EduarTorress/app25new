@@ -145,7 +145,7 @@ $this->startSection('javascript');
     function store(modo, id) {
         let cnombre = document.querySelector("#txtNombre").value;
         if (cnombre.length == 0) {
-            toastr.error('Ingrese un nombre del vendedor');
+            toastr.error('Ingrese un nombre del vendedor', 'Mensaje del Sistema');
             return;
         }
         const formulario = document.getElementById('formulario-crear');

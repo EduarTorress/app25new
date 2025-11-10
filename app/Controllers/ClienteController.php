@@ -71,7 +71,7 @@ class ClienteController extends Controller
     function store(Request $request)
     {
         $validator = new Validator($request->getBody());
-        $validator->rule('required', 'txtNombre')->message('El nombre del Cliente es obligatorio');
+        $validator->rule('required', 'txtNombre')->message('El nombre del cliente es obligatorio');
         $validator->labels([
             'nombre' => 'txtnombre'
         ]);
