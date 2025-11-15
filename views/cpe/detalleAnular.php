@@ -65,10 +65,10 @@
     <script>
         function abrirModalEliminar(idauto, numeroDocumento, estado, tdoc) {
             if (estado == '0') {
-                toastr.error("El comprobante ya fue informado a SUNAT");
+                toastr.error("El comprobante ya fue informado a SUNAT", 'Mensaje del Sistema');
             } else {
                 $("#modalConfirmarLogin").modal("show");
-                $("#lbltitle").text("Eliminar Venta: " + numeroDocumento)
+                $("#lbltitle").text("Eliminar Documento: " + numeroDocumento)
                 $("#txtIdauto").val(idauto)
                 $("#txttdoc").val(tdoc)
             }
@@ -76,7 +76,7 @@
 
         function abrirModalBaja(idauto, numeroDocumento, estado, dfecha, tdoc) {
             if (estado != '0') {
-                toastr.error("El comprobante no esta registrado en SUNAT, por lo tanto se debe anular por la opción del lado.");
+                toastr.error("El comprobante no esta registrado en SUNAT, por lo tanto se debe anular por la opción del lado.", 'Mensaje del Sistema');
             } else {
                 $("#modalbajaventa").modal("show");
                 $("#lblBajaVenta").text("Dar de Baja : " + numeroDocumento)
@@ -96,12 +96,12 @@
             data.append("cmbTipoMovimiento", $("#cmbTipoMovimiento").val());
             axios.post("/cpe/eliminarDocumento", data)
                 .then(function(respuesta) {
-                    toastr.success("Eliminado correctamente");
+                    toastr.success("Eliminado correctamente", 'Mensaje del Sistema');
                     $("#modalConfirmarLogin").modal("hide");
                 }).catch(function(error) {
                     if (error.hasOwnProperty("response")) {
                         if (error.response.status === 422) {
-                            toastr.error(error.response.data.message);
+                            toastr.error(error.response.data.message, 'Mensaje del Sistema');
                         }
                     }
                 });
@@ -118,12 +118,12 @@
             data.append("txtfecha", document.getElementById("txtfecha").value);
             axios.post("/cpe/bajadocumento", data)
                 .then(function(respuesta) {
-                    toastr.success("Eliminado correctamente");
+                    toastr.success("Eliminado correctamente", 'Mensaje del Sistema');
                     $("#modalbajaventa").modal("hide");
                 }).catch(function(error) {
                     if (error.hasOwnProperty("response")) {
                         if (error.response.status === 422) {
-                            toastr.error(error.response.data.message);
+                            toastr.error(error.response.data.message, 'Mensaje del Sistema');
                         }
                     }
                 });

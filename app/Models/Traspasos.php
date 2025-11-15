@@ -31,6 +31,7 @@ class Traspasos extends Modelo
     public $transportista = "";
     public $ubigeo = 0;
     public $total = 0;
+    public $idautoc = "";
 
     function listarxFecha($dfi, $dff, $codt)
     {
@@ -308,6 +309,18 @@ class Traspasos extends Modelo
                 $pdo->rollBack();
                 return false;
             }
+
+            $sqlrcomestado = "update fe_rcom set rcom_ccaj='E' where idauto=:idautoc";
+            $execrcomestado = $pdo->prepare($sqlrcomestado);
+            $execrcomestado->execute([
+                'idautoc' => $this->idautoc
+            ]);
+
+            if ($execrcomestado->errorCode() != '00000') {
+                $pdo->rollBack();
+                return false;
+            }
+
             if (!Serie::aumentarcorrelativo($idserie, $pdo)) {
                 $pdo->rollBack();
                 $rpta = array('mensaje' => 'Error al aumentar correlativo', "ndoc" => "", "estado" => '0');

@@ -201,7 +201,9 @@ class TraspasoController extends Controller
         //     'carritoc' => session()->get("carritoc", [])
         // ], 200);
         return view($cvista, [
-            'carritot' => $carritot, 'total' => $total, 'items' => $numero_items
+            'carritot' => $carritot,
+            'total' => $total,
+            'items' => $numero_items
         ]);
     }
     function quitaritem(Request $request)
@@ -328,6 +330,7 @@ class TraspasoController extends Controller
         }
 
         $t = new Traspasos();
+        $t->idautoc = $request->get('idautoc');
         $t->dfecha = $request->get('fechaemision');
         $t->dfechat = $request->get('fechatraslado');
         $t->referencia = $request->get('referencia');
@@ -339,7 +342,6 @@ class TraspasoController extends Controller
         $t->transportista = $request->get('txtIdTransportista');
         $t->n1 = session()->get('gene_idctav');
         $t->n2 = session()->get('gene_idctai');
-        $t->n3 = session()->get('gene_idctat');
         $t->n3 = session()->get('gene_idctat');
         $t->nv = 0;
         $t->nigv = 0;

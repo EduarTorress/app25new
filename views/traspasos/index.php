@@ -250,6 +250,7 @@ echo $oimp->render();
         </div>
     </div>
 </div>
+<input type="hidden" name="" id="idautoc" value="0">
 <div id="divpresentaciones"></div>
 <div id="cargamodalcompras"></div>
 <?php
@@ -315,7 +316,7 @@ $this->startSection('javascript');
             $('#detalle').html(contenido_tabla);
             calcularPesoTotal();
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
         $("#modal_compras").modal('hide');
     }
@@ -442,6 +443,7 @@ $this->startSection('javascript');
         document.getElementById("txtmarca").value = "";
         document.getElementById("txtregmtc").value = "";
         document.getElementById("txttipot").value = "";
+        $("#idautoc").val("0");
         <?php
         session()->remove('transportista');
         ?>
@@ -470,7 +472,6 @@ $this->startSection('javascript');
         // }
         return true;
     }
-    // Modal Registro Cuentas x Pagar  END
 
     function grabarTraspaso() {
         if (!validarTraspaso()) {
@@ -480,10 +481,11 @@ $this->startSection('javascript');
         if (document.querySelector('#txtidautot').value == '0') {
             cmensaje = '¿Registrar Traspaso?';
             grabar(cmensaje);
-        } else {
-            cmensaje = '¿Actualizar Traspaso?';
-            actualizar(cmensaje);
         }
+        // else {
+        // cmensaje = '¿Actualizar Traspaso?';
+        // actualizar(cmensaje);
+        //}
     }
 
     function grabar(cmensaje) {
@@ -558,6 +560,7 @@ $this->startSection('javascript');
                 data.append("txtIdTransportista", $("#txtIdTransportista").val());
                 data.append("txtChoferVehiculo", $("#txtChoferVehiculo").val());
                 data.append("txtregmtc", $("#txtregmtc").val());
+                data.append("idautoc", $("#idautoc").val());
                 // data.append("ndo2", ndo2);
                 // data.append("mon", mon);
                 // data.append("dolar", dolar);
@@ -582,7 +585,6 @@ $this->startSection('javascript');
                             icon: "success"
                         });
                         // cancelarTraspaso();
-
                         var cruta = '/traspasos/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', cruta, true);
@@ -687,80 +689,80 @@ $this->startSection('javascript');
         }
     }
 
-    function actualizar(cmensaje, actualizarprecios) {
-        Swal.fire({
-            title: cmensaje,
-            text: "Se actualizará en el sistema ",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si'
-        }).then(function(respuesta) {
-            if (respuesta.isConfirmed) {
-                let tdoc = document.getElementById("cmbdcto").value;
-                let num = document.querySelector("#cndoc2").value
-                if (num.length < 8) {
-                    while (num.length < 8)
-                        num = '0' + num;
-                }
-                let cndoc = (document.querySelector("#cndoc1").value + num).toUpperCase();
-                let form = document.getElementById("cmbforma").value;
-                let deta = document.querySelector("#txtdetalle").value;
-                let impo = document.querySelector("#total").value;
-                let ndo2 = document.querySelector("#ndo2").value;
-                let mon = document.getElementById("cmbmoneda").value;
-                let fechi = document.getElementById("txtfechai").value;
-                let fechf = document.getElementById("txtfechaf").value;
-                let dolar = document.getElementById("txtdolar").value;
-                let idprov = document.getElementById("txtidproveedor").value;
-                let alm = document.getElementById("cmbAlmacen").value;
-                let valor = document.querySelector("#subtotal").value;
-                let nigv = document.querySelector("#igv").value;
-                let igv = obtenerTipoIGV();
-                data = new FormData();
-                data.append("tdoc", tdoc);
-                data.append("cndoc", cndoc);
-                data.append("form", form);
-                data.append("fechi", fechi);
-                data.append("fechf", fechf);
-                data.append("deta", deta);
-                data.append("valor", valor);
-                data.append("nigv", nigv);
-                data.append("impo", impo);
-                data.append("ndo2", ndo2);
-                data.append("mon", mon);
-                data.append("dolar", dolar);
-                data.append("idprov", idprov);
-                data.append("txtproveedor", $("#txtproveedor").val());
-                data.append("alm", alm);
-                data.append("pimpo", $("#txtpercepcion").val());
-                data.append("igv", igv);
-                data.append("actualizarprecios", $("#actualizarprecios").val());
-                data.append("exonerado", $("#exonerado").val())
-                axios.post("/compras/actualizar", data)
-                    .then(function(respuesta) {
-                        const tabla = respuesta.data;
-                        // console.log(data);
-                        $('#detalle').html(tabla);
-                        // $('#totalpedido').html(document.querySelector("#total").value);
-                        // nropedido = document.querySelector("#nropedido").value;
-                        cancelarTraspaso();
-                        limpiardatos();
-                        Swal.fire(' Se actualizó la Compra satisfactoriamente ');
-                    }).catch(function(error) {
-                        if (error.hasOwnProperty("response")) {
-                            if (error.response.status === 422) {
-                                //mostrarErrores("formulario-agregar-presentacion", error.response.data.errors);
-                                toastr.error(error.response.data.errors, 'Mensaje del sistema');
-                            }
-                        } else {
-                            toastr.error("Error al registrar compra" + error, "Mensaje del sistema");
-                        }
-                    });
-            }
-        });
-    }
+    // function actualizar(cmensaje, actualizarprecios) {
+    //     Swal.fire({
+    //         title: cmensaje,
+    //         text: "Se actualizará en el sistema ",
+    //         icon: 'question',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Si'
+    //     }).then(function(respuesta) {
+    //         if (respuesta.isConfirmed) {
+    //             let tdoc = document.getElementById("cmbdcto").value;
+    //             let num = document.querySelector("#cndoc2").value
+    //             if (num.length < 8) {
+    //                 while (num.length < 8)
+    //                     num = '0' + num;
+    //             }
+    //             let cndoc = (document.querySelector("#cndoc1").value + num).toUpperCase();
+    //             let form = document.getElementById("cmbforma").value;
+    //             let deta = document.querySelector("#txtdetalle").value;
+    //             let impo = document.querySelector("#total").value;
+    //             let ndo2 = document.querySelector("#ndo2").value;
+    //             let mon = document.getElementById("cmbmoneda").value;
+    //             let fechi = document.getElementById("txtfechai").value;
+    //             let fechf = document.getElementById("txtfechaf").value;
+    //             let dolar = document.getElementById("txtdolar").value;
+    //             let idprov = document.getElementById("txtidproveedor").value;
+    //             let alm = document.getElementById("cmbAlmacen").value;
+    //             let valor = document.querySelector("#subtotal").value;
+    //             let nigv = document.querySelector("#igv").value;
+    //             let igv = obtenerTipoIGV();
+    //             data = new FormData();
+    //             data.append("tdoc", tdoc);
+    //             data.append("cndoc", cndoc);
+    //             data.append("form", form);
+    //             data.append("fechi", fechi);
+    //             data.append("fechf", fechf);
+    //             data.append("deta", deta);
+    //             data.append("valor", valor);
+    //             data.append("nigv", nigv);
+    //             data.append("impo", impo);
+    //             data.append("ndo2", ndo2);
+    //             data.append("mon", mon);
+    //             data.append("dolar", dolar);
+    //             data.append("idprov", idprov);
+    //             data.append("txtproveedor", $("#txtproveedor").val());
+    //             data.append("alm", alm);
+    //             data.append("pimpo", $("#txtpercepcion").val());
+    //             data.append("igv", igv);
+    //             data.append("actualizarprecios", $("#actualizarprecios").val());
+    //             data.append("exonerado", $("#exonerado").val())
+    //             axios.post("/compras/actualizar", data)
+    //                 .then(function(respuesta) {
+    //                     const tabla = respuesta.data;
+    //                     // console.log(data);
+    //                     $('#detalle').html(tabla);
+    //                     // $('#totalpedido').html(document.querySelector("#total").value);
+    //                     // nropedido = document.querySelector("#nropedido").value;
+    //                     cancelarTraspaso();
+    //                     limpiardatos();
+    //                     Swal.fire(' Se actualizó la Compra satisfactoriamente ');
+    //                 }).catch(function(error) {
+    //                     if (error.hasOwnProperty("response")) {
+    //                         if (error.response.status === 422) {
+    //                             //mostrarErrores("formulario-agregar-presentacion", error.response.data.errors);
+    //                             toastr.error(error.response.data.errors, 'Mensaje del sistema');
+    //                         }
+    //                     } else {
+    //                         toastr.error("Error al registrar compra" + error, "Mensaje del sistema");
+    //                     }
+    //                 });
+    //         }
+    //     });
+    // }
 
     function actualizarProducto(o, i) {
         $(o).each(function() {
@@ -919,7 +921,7 @@ $this->startSection('javascript');
         if (clicksubtotal == 0) {
             var subt = parseFloat(cant) * parseFloat(prec);
             if (isNaN(subt)) {
-                toastr.info("Dígite un número correcto",'Mensaje del Sistema')
+                toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
             } else {
                 $(campo).val(subt.toFixed(2));
                 $('#griddetalle tbody').find('tr').each(function(i, el) {

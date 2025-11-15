@@ -799,7 +799,7 @@ class Compra extends Modelo
                     CONCAT(v.nruc,'-',tdoc,'-',LEFT(ndoc,4),'-',SUBSTR(ndoc,5),'.xml') AS nombrexml
                     FROM fe_rcom AS a 
                     INNER JOIN fe_prov AS b ON (a.idprov=b.idprov),fe_gene AS v
-                    WHERE a.acti='A' AND tdoc<>'09' AND tdoc<>'07' and tdoc<>'AJ' and codt=:codt AND DATEDIFF(a.fech, LOCALTIME())<65 ORDER BY fech DESC";
+                    WHERE a.acti='A' AND tdoc<>'09' AND tdoc<>'07' and tdoc<>'AJ' and codt=:codt and rcom_ccaj='P' AND DATEDIFF(a.fech, LOCALTIME())<65 ORDER BY fech DESC";
             $query = $this->prepare($sql);
             $query->execute([
                 'codt' => $_SESSION['idalmacen']

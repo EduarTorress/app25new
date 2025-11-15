@@ -10,7 +10,7 @@
             </div>
             <div class="modal-body" id="">
                 <div class="input-group mb-3">
-                    <div class="col-12" id="searchcompra">
+                    <div class="col-12 table-responsive" id="searchcompra">
                         <table id="tablacompras" class="table table-bordered table-hover table-sm small">
                             <thead>
                                 <tr>
@@ -61,7 +61,7 @@
         $("#txtproveedor").val(datos.parametro7)
         $("#txtptopartida").val(datos.parametro4);
         $("#txtrucproveedor").val(datos.parametro5)
-        $("#idautot").val(datos.parametro1);
+        $("#idautoc").val(datos.parametro1);
         axios.get('/traspasos/listardetallecompratocanje', {
             "params": {
                 "idauto": datos.parametro1
