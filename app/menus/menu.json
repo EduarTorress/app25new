@@ -202,12 +202,6 @@
                 "opt": "AV"
             },
             {
-                "item": "Combos",
-                "ruta": "/productos/index/3",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
                 "item": "Clientes",
                 "ruta": "/cliente/index",
                 "class": "far fa-circle nav-icon",

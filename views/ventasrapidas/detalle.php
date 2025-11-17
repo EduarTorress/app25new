@@ -56,7 +56,14 @@
                                 </select>
                             </td>
                             <td name="tdcant" class="text-center cantidad" onclick="funcionEnterCant(this,<?php echo $indice ?>)" contenteditable="false" name="cantidad"><input type="text" class="inputright" onkeyup="abrirmodalvtas(event);" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
-                            <td name="tdprec" class="precio text-center" id="precio" contenteditable="false" name="precio"><input readonly onkeypress="return isNumber(event);" type="text" class="inputright" onkeyup="abrirmodalvtas(event);" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
+                            <?php
+                            $e = "readonly";
+                            $propiedad = (empty($_SESSION['config']['precioeditable']) ? 'N' :  $_SESSION['config']['precioeditable']);
+                            if ($propiedad == 'S') {
+                                $e = "";
+                            }
+                            ?>
+                            <td name="tdprec" class="precio text-center" id="precio" contenteditable="false" name="precio"><input <?php echo $e; ?> onkeypress="return isNumber(event);" type="text" class="inputright" onkeyup="abrirmodalvtas(event);" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
                             <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
                                 <td class="text-center" class="lote"><input readonly onclick="this.select(); clicksubtotal=0;" ondblclick="listarlotes(<?php echo $item['coda']; ?>);" type="text" id="<?php echo 'txtlote' . $item['coda'] ?>" class="" value="<?php echo (empty($item['lote']) ? ' ' : $item['lote']); ?>"></td>
                                 <td class="text-center" class="fechavto"><input readonly class="fechavtoproducto" onclick="this.select(); clicksubtotal=0;" type="date" id="<?php echo 'txtfechavto' . $item['coda'] ?>" value="<?php echo (empty($item['fechavto']) ? ' ' : $item['fechavto']); ?>"></td>

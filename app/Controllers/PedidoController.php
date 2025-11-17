@@ -423,7 +423,7 @@ class PedidoController extends Controller
             'optigvp' => $request->get('optigvp')
         );
         $carrito = $request->get("carrito");
-        if ($_SESSION['config']['cambiarproductoxposicion'] == 'S') {
+        if (!empty($_SESSION['config']['cambiarproductoxposicion'])) {
             $prta = $pedido->actualizarpedidoxposicion($cabecera);
         } else {
             $prta = $pedido->actualizarpedido($cabecera);

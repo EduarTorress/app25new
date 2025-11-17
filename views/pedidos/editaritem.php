@@ -67,7 +67,7 @@
     </div>
     <div class="modal-footer">
         <?php
-        if ($_SESSION['config']['combos'] == 'S') : ?>
+        if (!empty($_SESSION['config']['combos'])) : ?>
             <button type="button" onclick="verdetalle()" class="btn btn-success">Ver detalle</button>
         <?php endif; ?>
         <button type="submit button" class="btn btn-primary" onclick="<?php echo ($tipo <> 'N') ? "actualizaritem()" : "agregarItem()" ?>">Aceptar</button>

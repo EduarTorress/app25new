@@ -34,7 +34,7 @@
                     <td>
                         <button class="btn btn-warning" onclick="quitaritem(<?php echo $indice ?>)"><a style="color:white" class="fas fa-trash-alt"></a></button>
                         <button class="btn btn-success" onclick='editaritem(<?php echo $cadena_json ?>);'><a style="color:white" class="fas fa-edit"></a></button>
-                        <?php if ($_SESSION['config']['cambiarproductoxposicion'] == 'S') : ?>
+                        <?php if (!empty($_SESSION['config']['cambiarproductoxposicion'])) : ?>
                             <button class="btn btn-secondary" onclick='cambiaritem(<?php echo $cadena_json ?>);'><a style="color:white" class="fa fa-exchange"></a></button>
                         <?php endif; ?>
                     </td>
@@ -68,7 +68,7 @@
                     <!-- <button class="btn btn-warning btn-sm" onclick="verutilidad();">Ver Utilidad</button> -->
                 <?php endif; ?>
                 <?php if (!empty($_SESSION['idpedido'])) : ?>
-                    <?php if ($_SESSION['config']['guardarpedidocomonuevo'] == 'S') : ?>
+                    <?php if (!empty($_SESSION['config']['guardarpedidocomonuevo'])) : ?>
                         <button class="btn btn-success btn-sm" role="button" onclick="guardarpedido('Registrar Pedido como nuevo')">Grabar Nuevo </button>
                     <?php endif; ?>
                 <?php endif; ?>

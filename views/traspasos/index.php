@@ -531,7 +531,6 @@ $this->startSection('javascript');
                 // let valor = document.querySelector("#subtotal").value;
                 // let nigv = document.querySelector("#igv").value;
                 // let igv = obtenerTipoIGV();
-
                 // "valor" => $request->get("valor"),
                 // "nigv" => $request->get("nigv"),
                 // "impo" => $request->get("impo"),

@@ -2,10 +2,7 @@
    {
       "utilidad": "D",
       "valorutilidad": "0.8",
-      "cambiarproductoxposicion": "N",
       "validarstock": "S",
-      "guardarpedidocomonuevo": "N",
-      "combos": "N",
       "facturardolares": "N",
       "allcamposproductos": "N",
       "variasunidmed": "S",
@@ -13,6 +10,7 @@
       "multiigv": "N",
       "ventasexon": "S",
       "tipobotica": "S",
-      "cajaxtienda": "S"
+      "cajaxtienda": "S",
+      "precioeditable": "S"
    }
 ]

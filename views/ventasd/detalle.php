@@ -18,7 +18,9 @@
         </thead>
         <tbody id="carritoventas">
             <?php
+
             use Core\Foundation\Application;
+
             $i = 0; ?>
             <?php foreach ($carritov as $indice => $item) : ?>
                 <?php if ($item['activo'] == 'A') { ?>
@@ -57,7 +59,14 @@
                             </select>
                         </td>
                         <td class="text-center cantidad" onclick="funcionEnterCant(this,<?php echo $indice ?>)" contenteditable="false" name="cantidad"><input type="text" class="inputright" onkeyup="abrirmodalregistro(event)" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
-                        <td class="precio text-center" id="precio" contenteditable="false" name="precio"><input readonly onkeypress="return isNumber(event);" type="text" class="inputright" onkeyup="abrirmodalregistro(event)" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
+                        <?php
+                        $e = "readonly";
+                        $propiedad = (empty($_SESSION['config']['precioeditable']) ? 'N' :  $_SESSION['config']['precioeditable']);
+                        if ($propiedad == 'S') {
+                            $e = "";
+                        }
+                        ?>
+                        <td class="precio text-center" id="precio" contenteditable="false" name="precio"><input <?php echo $e; ?> onkeypress="return isNumber(event);" type="text" class="inputright" onkeyup="abrirmodalregistro(event)" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
                         <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
                             <td class="text-center" class="lote"><input readonly onclick="this.select(); clicksubtotal=0;" ondblclick="listarlotes(<?php echo $item['coda']; ?>);" type="text" id="<?php echo 'txtlote' . $item['coda'] ?>" class="" value="<?php echo (empty($item['lote']) ? ' ' : $item['lote']); ?>"></td>
                             <td class="text-center" class="fechavto"><input readonly class="fechavtoproducto" onclick="this.select(); clicksubtotal=0;" type="date" id="<?php echo 'txtfechavto' . $item['coda'] ?>" value="<?php echo (empty($item['fechavto']) ? ' ' : $item['fechavto']); ?>"></td>
@@ -89,7 +98,7 @@
                     <button class="btn btn-danger btn-sm" id="cancelar" role="button" onclick="cancelarVenta()">Limpiar</button>
                     <button class="btn btn-success btn-sm" id="grabar" role="button" onclick="preregistro();"><?php echo (isset($btn) ? $btn : 'Grabar') ?></button>
                     <!-- <?php if ($_SESSION['tipousuario'] == 'A') : ?> -->
-                        <!-- <button class="btn btn-warning btn-sm" onclick="verutilidad();">Ver Utilidad</button> -->
+                    <!-- <button class="btn btn-warning btn-sm" onclick="verutilidad();">Ver Utilidad</button> -->
                     <!-- <?php endif; ?> -->
                 </div>
             </div>
@@ -185,7 +194,7 @@
         }
     });
 
-     function listarlotes(idart) {
+    function listarlotes(idart) {
         const ruta = '/productos/listarlotesyfechasvto/' + idart;
         axios.post(ruta)
             .then(function(respuesta) {
@@ -285,7 +294,7 @@
             data.append("cmbmoneda", $("#cmbmoneda").val());
             data.append("cantequi", textpresentacion[1]);
             data.append("presseleccionada", cmbpresentacion[0])
-              tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
+            tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
             if (tipobotica == 'S') {
                 data.append("lote", _tr.find("td").eq(6).find("input").val());
                 data.append("fechavto", _tr.find("td").eq(7).find("input").val());
@@ -383,10 +392,10 @@
         var cant = _tr.find("td").eq(4).find("input").val();
         var prec = _tr.find("td").eq(5).find("input").val();
         var subt = parseFloat(cant) * parseFloat(prec);
-         columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 7 : 9; ?>";
+        columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 7 : 9; ?>";
         var campo = _tr.find("td").eq(columantotal);
         if (isNaN(subt)) {
-            toastr.info("Dígite un número correcto",'Mensaje del Sistema')
+            toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
         } else {
             campo.html(subt.toFixed(2));
             var total_col1 = 0;
