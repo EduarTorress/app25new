@@ -109,7 +109,7 @@ $this->startSection('javascript');
             // console.log(respuesta.data.message)
         }).catch(function(error) {
             // 400, 500
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sitema')
         });
     }
 
@@ -130,7 +130,7 @@ $this->startSection('javascript');
                     search();
                 }
             } else {
-                toastr.info("No se obtuvo una respuesta válida del Servidor");
+                toastr.info("No se obtuvo una respuesta válida del Servidor", 'Mensaje del Sistema');
             }
         }).catch(function(error) {
             console.log(error);

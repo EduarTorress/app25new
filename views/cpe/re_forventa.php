@@ -198,36 +198,36 @@ $this->startSection('javascript');
     function consultardata(valorBusqueda) {
         //  console.log(window.location.href);
         axios.get('/clientes/lista', {
-                "params": {
-                    "buscar": valorBusqueda
-                }
-            }).then(function(respuesta) {
-                // 100, 200, 300
-                const contenido_tabla = respuesta.data;
-                // console.log(respuesta.data);
-                $('#search').html(contenido_tabla);
-                // console.log(respuesta.data.message)
-            }).catch(function(error) {
-                // 400, 500
-                toastr.error('Error al cargar el listado')
-            });
+            "params": {
+                "buscar": valorBusqueda
+            }
+        }).then(function(respuesta) {
+            // 100, 200, 300
+            const contenido_tabla = respuesta.data;
+            // console.log(respuesta.data);
+            $('#search').html(contenido_tabla);
+            // console.log(respuesta.data.message)
+        }).catch(function(error) {
+            // 400, 500
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+        });
     }
 
     // Funcion para consultar producto
     function consultardata1(valorBusqueda) {
         axios.get('/productos/lista', {
-                "params": {
-                    "buscar1": valorBusqueda
-                }
-            }).then(function(respuesta) {
-                // 100, 200, 300
-                const contenido_tabla = respuesta.data;
-                $('#search1').html(contenido_tabla);
-                // console.log(respuesta.data.message)
-            }).catch(function(error) {
-                // 400, 500
-                toastr.error('Error al cargar el listado')
-            });
+            "params": {
+                "buscar1": valorBusqueda
+            }
+        }).then(function(respuesta) {
+            // 100, 200, 300
+            const contenido_tabla = respuesta.data;
+            $('#search1').html(contenido_tabla);
+            // console.log(respuesta.data.message)
+        }).catch(function(error) {
+            // 400, 500
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+        });
     }
 
     //Evento con enter
@@ -327,7 +327,7 @@ $this->startSection('javascript');
         console.log(carrito);
     }
 
-    // Funcion para agregar cantidad con input
+    // Funcion para agregar cantidad con el evento enter
     function enter_cant(fila) {
         // Obtenga el valor y la cantidad en la etiqueta de entrada
         let cantidad = document.getElementById("cant").value;
@@ -421,7 +421,7 @@ $this->startSection('javascript');
                             toastr.error(error.response.data.errors);
                         }
                     } else {
-                        toastr.error("Error al registrar  pedido", "Mensaje del Sistema");
+                        toastr.error("Error al registrar pedido", "Mensaje del Sistema");
                     }
                 });
             }

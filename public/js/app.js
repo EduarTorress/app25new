@@ -326,7 +326,7 @@ function consultarDestinatarios() {
   var abuscar = document.querySelector("#txtbuscar").value;
 
   if (abuscar.length == 0) {
-    toastr.info("Ingrese Dato a buscar");
+    toastr.info("Ingrese Dato a buscar", 'Mensaje del Sistema');
     return;
   }
   noption = obtenertipobusquedacliente();

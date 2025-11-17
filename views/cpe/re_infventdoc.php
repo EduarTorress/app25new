@@ -69,27 +69,27 @@ $this->startSection('javascript');
     function search() {
         const empresasel = empresaseleccionada();
         if (empresasel == 'Seleccione') {
-            toastr.info("Seleccione una empresa");
+            toastr.info("Seleccione una empresa", 'Mensaje del Sistema');
             return;
         }
         var dfechai = document.getElementById("txtfechai").value;
         var dfechaf = document.getElementById("txtfechaf").value;
 
         axios.get('/vtas/listavtasr', {
-                "params": {
-                    "empresa": empresasel,
-                    "dfechai": dfechai,
-                    "dfechaf": dfechaf
-                }
-            }).then(function(respuesta) {
-                // 100, 200, 300
-                const contenido_tabla = respuesta.data;
-                $('#search').html(contenido_tabla);
-                // console.log(respuesta.data.message)
-            }).catch(function(error) {
-                // 400, 500
-                toastr.error('Error al cargar el listado')
-            });
+            "params": {
+                "empresa": empresasel,
+                "dfechai": dfechai,
+                "dfechaf": dfechaf
+            }
+        }).then(function(respuesta) {
+            // 100, 200, 300
+            const contenido_tabla = respuesta.data;
+            $('#search').html(contenido_tabla);
+            // console.log(respuesta.data.message)
+        }).catch(function(error) {
+            // 400, 500
+            toastr.error('Error al cargar el listado')
+        });
     }
 
     function enviarboletas(dfecha, nimpo) {
@@ -109,7 +109,7 @@ $this->startSection('javascript');
                     search();
                 }
             } else {
-                toastr.info("No se obtuvo una respuesta Válida del Servidor");
+                toastr.info("No se obtuvo una respuesta Válida del Servidor", 'Mensaje del Sistema');
             }
         }).catch(function(error) {
             console.log(error);

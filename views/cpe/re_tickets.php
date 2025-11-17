@@ -69,7 +69,7 @@ $this->startSection('javascript');
     function search() {
         const empresasel = empresaseleccionada();
         if (empresasel == 'Seleccione') {
-            toastr.info("Seleccione Una Empresa");
+            toastr.info("Seleccione Una Empresa", 'Mensaje del Sistema');
             return;
         }
         var fecha = document.getElementById('txtfecha').value;
@@ -85,7 +85,7 @@ $this->startSection('javascript');
             // console.log(respuesta.data.message)
         }).catch(function(error) {
             // 400, 500
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
 

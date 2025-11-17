@@ -176,7 +176,7 @@ $this->startSection('javascript');
     function consultarcambios() {
         var txtidart = $("#txtidartt").val();
         if (txtidart == '') {
-            toastr.error("Haga clic en un producto para consultar")
+            toastr.error("Haga clic en un producto para consultar", 'Mensaje del Sistema')
             return;
         }
         var cmbano = $("#cmbanov").val();
@@ -383,7 +383,7 @@ $this->startSection('javascript');
     function consultarcompxprod() {
         var txtidart = $("#txtidartt").val();
         if (txtidart == '') {
-            toastr.error("Haga clic en un producto para consultar",'Mensaje del Sistema')
+            toastr.error("Haga clic en un producto para consultar", 'Mensaje del Sistema')
             return;
         }
         var cmbano = $("#cmbanoc").val();

@@ -92,20 +92,18 @@ $this->startSection('javascript');
             // console.log(respuesta.data.rpta);
             if (respuesta.data.hasOwnProperty('rpta')) {
                 if (respuesta.data.rpta.substring(0, 1) == '0' || respuesta.data.rpta.substring(0, 2) == '99') {
-                    res=respuesta.data.rpta
+                    res = respuesta.data.rpta
                     toastr.success(res.replace(/\d+/g, ''));
                     search();
                 } else {
-                    toastr.info("!!!!" + respuesta.data.rpta);
+                    toastr.info("!!!!" + respuesta.data.rpta, 'Mensaje del Sistema');
                 }
             } else {
-                toastr.warning('No se Pudo leer la respuesta');
+                toastr.warning('No se Pudo leer la respuesta', 'Mensaje del Sistema');
             }
-
             search();
-
         }).catch(function(error) {
-            toastr.error("Error al Enviar Guia a SUNAT");
+            toastr.error("Error al Enviar Guia a SUNAT", 'Mensaje del Sistema');
             console.log(error);
         });
     }
@@ -131,27 +129,26 @@ $this->startSection('javascript');
     }
 
     function search() {
-
         var dplaca = document.getElementById("cmbvh").value;
         // console.log(dplaca)
         axios.get('/guias/listarGuiasxenviar', {
-                "params": {
-                    "dplaca": dplaca
-                }
-            }).then(function(respuesta) {
-                // 100, 200, 300
-                const contenido_tabla = respuesta.data;
-                // $('#loading').modal('hide');
-                $('#search').html(contenido_tabla);
-                $('input[type=search]').css('color', 'black');
-                $('.dataTables_filter').css('color', 'black');
-                $('.paginate_button').css('background-color', '#006CA7');
-                $('.previous').removeClass('disabled');
-                // console.log(respuesta.data.message)
-            }).catch(function(error) {
-                // 400, 500
-                toastr.error('Error al cargar el listado')
-            });
+            "params": {
+                "dplaca": dplaca
+            }
+        }).then(function(respuesta) {
+            // 100, 200, 300
+            const contenido_tabla = respuesta.data;
+            // $('#loading').modal('hide');
+            $('#search').html(contenido_tabla);
+            $('input[type=search]').css('color', 'black');
+            $('.dataTables_filter').css('color', 'black');
+            $('.paginate_button').css('background-color', '#006CA7');
+            $('.previous').removeClass('disabled');
+            // console.log(respuesta.data.message)
+        }).catch(function(error) {
+            // 400, 500
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+        });
     }
 </script>
 <?php

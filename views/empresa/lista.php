@@ -19,20 +19,20 @@ $this->startSection('contenido');
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card card-primary card-outline">
-                         <div class="card-body">
+                        <div class="card-body">
                             <form class="form-inline" id="form-search">
-                               <?php
-                                $empresa=new App\View\Components\EmpresaComponent();
+                                <?php
+                                $empresa = new App\View\Components\EmpresaComponent('');
                                 echo $empresa->render();
-                               ?>
+                                ?>
                                 <button type="submit" class="btn btn-primary my-1">Consultar</button>
-                             </form>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                 <div class="col-12" id="search">
+                <div class="col-12" id="search">
                 </div>
             </div>
         </div>
@@ -45,33 +45,32 @@ $this->endSection('contenido');
 $this->startSection('javascript');
 ?>
 <script>
-   document.getElementById('form-search').addEventListener('submit', function(evento) {
+    document.getElementById('form-search').addEventListener('submit', function(evento) {
         evento.preventDefault();
         search();
     });
 
     function search() {
-         const empresasel = empresaseleccionada();
-         if (empresasel=='Seleccione'){
-            toastr.info("Seleccione Una Empresa");
+        const empresasel = empresaseleccionada();
+        if (empresasel == 'Seleccione') {
+            toastr.info("Seleccione Una Empresa", 'Mensaje del Sistema');
             return;
         }
-          axios.get('/empresa/listardatos', {
-                "params": {
-                    "empresa": empresasel
-                }
-            }).then(function(respuesta) {
-                // 100, 200, 300
-                const contenido_tabla = respuesta.data;
-                $('#search').html(contenido_tabla);
-                // console.log(respuesta.data.message)
-            }).catch(function(error) {
-                // 400, 500
-                toastr.error('Error al cargar el listado')
-            });
+        axios.get('/empresa/listardatos', {
+            "params": {
+                "empresa": empresasel
+            }
+        }).then(function(respuesta) {
+            // 100, 200, 300
+            const contenido_tabla = respuesta.data;
+            $('#search').html(contenido_tabla);
+            // console.log(respuesta.data.message)
+        }).catch(function(error) {
+            // 400, 500
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+        });
     }
-
-</script> 
+</script>
 <?php
 $this->endSection('javascript');
 ?>

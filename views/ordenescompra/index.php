@@ -554,11 +554,11 @@ $this->startSection('javascript');
         idProv = document.querySelector('#txtidproveedor').value;
         total = document.querySelector('#total').value;
         if (idProv == 0) {
-            toastr.info("Seleccione un proveedor");
+            toastr.info("Seleccione un proveedor", 'Mensaje del Sistema');
             return false;
         }
         if (total == 0) {
-            toastr.info("Ingrese importes válidos");
+            toastr.info("Ingrese importes válidos", 'Mensaje del Sistema');
             return false;
         }
         return true;
@@ -1088,7 +1088,7 @@ $this->startSection('javascript');
         if (clicksubtotal == 0) {
             var subt = parseFloat(cant) * parseFloat(prec);
             if (isNaN(subt)) {
-                toastr.info("Dígite un número correcto",'Mensaje del Sistema')
+                toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
             } else {
                 $(campo).val(subt.toFixed(2));
                 $('#griddetalle tbody').find('tr').each(function(i, el) {

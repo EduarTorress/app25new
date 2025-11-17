@@ -44,14 +44,14 @@ $this->startSection('javascript');
 
     function search() {
         axios.get('/cpe/lista', {}).then(function(respuesta) {
-                // 100, 200, 300
-                const contenido_tabla = respuesta.data;
-                $('#search').html(contenido_tabla);
-                // console.log(respuesta.data.message)
-            }).catch(function(error) {
-                // 400, 500
-                toastr.error('Error al cargar el listado')
-            });
+            // 100, 200, 300
+            const contenido_tabla = respuesta.data;
+            $('#search').html(contenido_tabla);
+            // console.log(respuesta.data.message)
+        }).catch(function(error) {
+            // 400, 500
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+        });
     }
 </script>
 <?php

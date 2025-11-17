@@ -18,9 +18,7 @@
         </thead>
         <tbody id="carritoventas">
             <?php
-
             use Core\Foundation\Application;
-
             $i = 0; ?>
             <?php foreach ($carritov as $indice => $item) : ?>
                 <?php if ($item['activo'] == 'A') { ?>

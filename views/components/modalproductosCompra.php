@@ -18,7 +18,7 @@
                     <input type="radio" name="optradiosP" value="codigo1" onchange="obtenertipobusquedaProducto()">&nbsp;Código Fab.&nbsp;
                 </label>
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="txtbuscarProducto" name="buscar"  onkeyup="mayusculas(this)" placeholder="Ingrese Parametro de Producto a Buscar" value="<?php echo session()->get('busquedaPV') ?>">
+                    <input type="text" class="form-control" id="txtbuscarProducto" name="buscar" onkeyup="mayusculas(this)" placeholder="Ingrese Parametro de Producto a Buscar" value="<?php echo session()->get('busquedaPV') ?>">
                     <div class="input-group-append">
                         <button class="btn btn-outline-success" id="cmdbuscarP" onclick="buscarProducto()" type="button">Buscar</button>
                     </div>
@@ -55,7 +55,7 @@
         var abuscar = document.getElementById("txtbuscarProducto").value;
         //console.log(abuscar.length)
         if (abuscar.length == 0) {
-            toastr.info("Ingrese Nombre de Producto a Buscar")
+            toastr.info("Ingrese Nombre de producto a Buscar", 'Mensaje del Sistema')
             return;
         }
         var noption = obtenertipobusquedaProducto();
@@ -74,7 +74,7 @@
             // $('#loading').modal('hide');
             toastr.error('Error al cargar el listado')
         });
-    }    
+    }
 
     function cargarprecios(domElement, array) {
         var select = document.getElementsByName(domElement)[0];
@@ -88,5 +88,4 @@
             select.add(option);
         }
     }
-   
 </script>

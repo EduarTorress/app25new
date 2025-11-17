@@ -134,7 +134,7 @@ $this->startSection('javascript');
     function buscar() {
         var abuscar = document.getElementById("txtbuscar").value;
         if (abuscar.length == 0) {
-            toastr.info("Ingrese Nombre de Producto a Buscar")
+            toastr.info("Ingrese Nombre de Producto a Buscar",'Mensaje del Sistema')
             return;
         }
         var noption = obtener();
@@ -332,7 +332,7 @@ $this->startSection('javascript');
     function buscarProductoModal() {
         var abuscar = document.getElementById("txtbuscarProducto").value;
         if (abuscar.length == 0) {
-            toastr.info("Ingrese Nombre de Producto a Buscar")
+            toastr.info("Ingrese Nombre de Producto a Buscar",'Mensaje del Sistema')
             return;
         }
         var noption = 'nombre';

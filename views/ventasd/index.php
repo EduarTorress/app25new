@@ -564,7 +564,7 @@ $this->startSection('javascript');
             txttotal = $("#txttotal").val();
             var txtpago = document.getElementById("txtpago").value;
             if (txtpago == "0.00" || txtpago.length == 0) {
-                toastr.info("Ingrese el pago");
+                toastr.info("Ingrese el pago", 'Mensaje del Sistema');
                 return;
             }
             txtpagoefectivo = $("#txtefectivo").val();
