@@ -192,6 +192,7 @@
         if (ventasexon == 'S') {
             $("#lblsubtotal").text("EXON.")
         }
+        validarvaloresporgrupo();
     });
 
     function listarlotes(idart) {
@@ -425,14 +426,15 @@
             } else {
                 preciomenor = resultado.precio3;
             }
-            preciomenor = Number(preciomenor).toFixed(2);
-            // if (Number(precio) < preciomenor) {
-            //     _tr.find("td").eq(5).css("backgroundColor", "#F67979");
-            //     $("#grabar").attr("disabled", true);
-            // } else {
-            //     _tr.find("td").eq(5).css("backgroundColor", "");
-            //     $("#grabar").attr("disabled", false);
-            // }
+            preciomenor = Number(resultado.costo).toFixed(2);
+            //console.log(resultado);
+            if (Number(precio) < preciomenor) {
+                _tr.find("td").eq(5).css("backgroundColor", "#F67979");
+                $("#grabar").attr("disabled", true);
+            } else {
+                _tr.find("td").eq(5).css("backgroundColor", "");
+                $("#grabar").attr("disabled", false);
+            }
         });
         validarvaloresporgrupo();
     }
@@ -453,14 +455,14 @@
             } else {
                 preciomenor = resultado.precio3;
             }
-
-            preciomenor = Number(preciomenor).toFixed(2);
-            // if (Number(precio) < preciomenor) {
-            //     _tr.find("td").eq(5).css("backgroundColor", "#F67979");
-            //     $("#grabar").attr("disabled", true);
-            // } else {
-            //     _tr.find("td").eq(5).css("backgroundColor", "");
-            // }
+            // console.log(resultado);
+            preciomenor = Number(resultado.costo).toFixed(2);
+            if (Number(precio) < preciomenor) {
+                _tr.find("td").eq(5).css("backgroundColor", "#F67979");
+                $("#grabar").attr("disabled", true);
+            } else {
+                _tr.find("td").eq(5).css("backgroundColor", "");
+            }
         })
     }
 </script>

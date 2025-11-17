@@ -134,9 +134,9 @@
         <div class="modal-footer">
             <div class="form-group col-6 text-start" <?php echo ((empty($_SESSION['config']['ventasexon'])) ? 'style="display:none"' : '')  ?>>
                 <!-- <?php $dp = (empty($datosProducto['prod_tigv']) ? $_SESSION['gene_igv'] : $_SESSION['gene_igv']); ?> -->
-                 <?php $dp = $datosProducto['prod_tigv']; ?>
+                <?php $dp = $datosProducto['prod_tigv']; ?>
                 <?php $prod_tigv = (floatval($dp) == floatval($_SESSION['gene_igv'])) ? $_SESSION['gene_igv'] : $datosProducto['prod_tigv']; ?>
-                  <?php if (empty($_SESSION['config']['ventasexon'])) {
+                <?php if (empty($_SESSION['config']['ventasexon'])) {
                     $prod_tigv = $_SESSION['gene_igv'];
                 } ?>
                 <div class="form-check form-check-inline">
@@ -148,9 +148,7 @@
                     <label class="form-check-label" for="noincluido"><b>No Exonerado</b></label>
                 </div>
             </div>
-            <?php if (($_SESSION['config']['variasunidmed'] == 'S')) : ?>
-                <button class="btn btn-dark" id="btnagregarpresentaciones" onclick="openmodalpresent()" style="<?php echo (empty($datosProducto) ? 'display:none' : '') ?>"><i class="fas fa-plus"></i> Agregar</button>
-            <?php endif; ?>
+            <button class="btn btn-dark" id="btnagregarpresentaciones" onclick="openmodalpresent()" style="<?php echo (empty($datosProducto) ? 'display:none' : '') ?>"><i class="fas fa-plus"></i> Agregar</button>
             <button class="btn btn-primary" onclick="grabarproducto()"><i class="fas fa-save"></i> Grabar</button>
             <?php if (empty($datosProducto)) : ?>
                 <button type="button" id="btncerrarpres" class="btn btn-danger" onclick="cerrarModal()">Cerrar</button>
