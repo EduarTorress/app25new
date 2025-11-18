@@ -25,7 +25,6 @@ class InventarioController extends Controller
         $obj->ntienda = $request->get("ntienda");
         $sucursal = new Sucursal();
         $lista = $obj->listarkardex();
-
         $calma = 0;
         $x = 0;
         $sw = "N";

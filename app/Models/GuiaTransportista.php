@@ -324,15 +324,15 @@ class GuiaTransportista extends Modelo
     function consultarguia($nidauto)
     {
         try {
-            $sql = "SELECT guia_idgui as idauto,guia_fech AS fech,guia_fect AS fecht, c.razo AS remi,guia_ptop AS ptopartida,
+           $sql = "SELECT guia_idgui as idauto,guia_fech AS fech,guia_fect AS fecht, c.razo AS remi,guia_ptop AS ptopartida,
             p.`razo` as dest,guia_ptoll AS ptollegada,guia_ndoc AS ndoc,v.nruc as rucempresa,
             concat(v.nruc,'-31-',left(guia_ndoc,4),'-',substr(guia_ndoc,5)) as nombrexml,
             entr_cant as cant,entr_deta as descri,entr_peso as peso,entr_unid as unid,
             empresa,ptop,c.nruc as rucdestinatario,p.nruc as rucremitente,c.razo as destinatario,
-            p.razo as remitente,vehi_plac as placa,vehi_marc as marca,vehi_cond as chofer,
-            vehi_cons as constancia,vehi_brev as brevete,gene_usol,gene_csol,gene_cert,clavecertificado as
+             p.razo AS remitente,if(g.guia_pla1 IS NULL OR g.guia_pla1='',vehi_plac,g.guia_pla1)  AS placa, if(g.guia_con1 IS NULL OR g.guia_con1='',vehi_cons,g.guia_con1) as constancia,vehi_cond AS chofer,
+            if(g.guia_marca IS NULL OR g.guia_marca='',vehi_marc,g.guia_marca) as marca,vehi_brev as brevete,gene_usol,gene_csol,gene_cert,clavecertificado as
             clavecerti,distrito,ciudad,ubigeo,gene_rmtc,c.idclie,p.`idprov`,vv.vehi_idve,e.entr_iden AS nreg,
-            g.guia_ubi1,g.guia_ubi2,vehi_pla2 as placa1,guia_cond,guia_brev,guia_mens,vehi_ndni,guia_deta
+            g.guia_ubi1,g.guia_ubi2, if(g.guia_pla2 IS NULL OR g.guia_pla2='',vehi_pla2,g.guia_pla2) as placa1,guia_cond,guia_brev,guia_mens,vehi_ndni,guia_deta
             FROM fe_guiastr g
             INNER JOIN fe_clie c ON g.`guia_idde`=c.`idclie`
             INNER JOIN fe_prov p ON g.guia_idre=p.idprov

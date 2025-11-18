@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\PagosPlanilla;
-use App\Models\TipoUsuarios;
 use App\Models\Usuario;
 use Core\Http\Request;
 use Core\Routing\Controller;
@@ -40,7 +39,6 @@ class UsuarioController extends Controller
     {
         $titulo = 'Registrar usuario';
         // $tiposusuarios = new TipoUsuarios();
-        // $listatiposusuarios = $tiposusuarios->listarTipos(); , 'listatiposusuarios' => $listatiposusuarios
         return view('admin/usuarios/create', ['titulo' => $titulo, 'modo' => 'N', 'id' => 0]);
     }
     function store(Request $request)

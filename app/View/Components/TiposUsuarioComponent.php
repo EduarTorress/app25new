@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Models\TiposUsuario;
+use App\Models\Usuario;
 use Core\View\Component;
 
 class TiposUsuarioComponent extends Component
@@ -14,7 +14,7 @@ class TiposUsuarioComponent extends Component
     }
     function render()
     {
-        $tiposusuarios = new TiposUsuario();
+        $tiposusuarios = new Usuario();
         $listatiposusuarios = $tiposusuarios->listarTipos();
         return view('components/tiposusuario', ['lista' => $listatiposusuarios, 'tipo' => $this->tipo]);
     }
