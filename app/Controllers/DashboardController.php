@@ -23,10 +23,6 @@ class DashboardController extends Controller
     }
     public function index()
     {
-        $igv = new ValorIGV();
-        $igv->obtenerIGV();
-        $info = new DatosGlobales();
-        $info->informacion();
         if (empty(session()->get('usuario_id'))) {
             return view('auth/login');
         }
