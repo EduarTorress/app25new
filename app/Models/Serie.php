@@ -41,21 +41,21 @@ class Serie extends Modelo
             echo $e->getMessage();
         }
     }
-    function obtenerUltimoNumero($tdoc)
-    {
-        $csql = "SELECT nume FROM fe_serie WHERE tdoc=:tdoc AND codt=1 AND serie=1";
-        try {
-            $query = $this->prepare($csql);
-            $query->setFetchMode(PDO::FETCH_ASSOC);
-            $query->execute([
-                'tdoc' => $tdoc
-            ]);
-            $resultado = $query->fetchAll();
-            return $resultado;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-    }
+    // function obtenerUltimoNumero($tdoc)
+    // {
+    //     $csql = "SELECT nume FROM fe_serie WHERE tdoc=:tdoc AND codt=1 AND serie=1";
+    //     try {
+    //         $query = $this->prepare($csql);
+    //         $query->setFetchMode(PDO::FETCH_ASSOC);
+    //         $query->execute([
+    //             'tdoc' => $tdoc
+    //         ]);
+    //         $resultado = $query->fetchAll();
+    //         return $resultado;
+    //     } catch (PDOException $e) {
+    //         echo $e->getMessage();
+    //     }
+    // }
     static function aumentarcorrelativo($idserie, $pdo)
     {
         $sql = "update fe_serie set nume=nume+1 where idserie=:idserie";
