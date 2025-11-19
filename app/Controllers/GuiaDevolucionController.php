@@ -265,7 +265,7 @@ class GuiaDevolucionController extends Controller
             'cantidad' => floatval(($request->get('txtcantidad') <= 0.00) ? 1 : $request->get('txtcantidad')),
             'peso' => floatval(($request->get('txtcantidad') <= 0.00) ? 1 : $request->get('txtpeso')),
             // 'cantequi' => $request->get('cantequi'),
-            'scop' => $request->get('txtscop'),
+            'scop' => '',
             // 'presseleccionada' => $request->get('presseleccionada')
         );
         CarritoServicegdevolucion::editar($producto);

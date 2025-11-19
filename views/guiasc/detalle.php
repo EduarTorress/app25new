@@ -8,7 +8,7 @@
                 <th scope="col" style="width:5%">U.M.</th>
                 <th scope="col" class="text-center" style="width:5%">Cantidad</th>
                 <th scope="col" class="text-center" style="width:5%">Peso KG</th>
-                <th scope="col" class="text-center" style="width:5%">SCOP</th>
+                <th scope="col" class="text-center" style="width:5%"></th>
             </tr>
         </thead>
         <tbody id="carritoventas">

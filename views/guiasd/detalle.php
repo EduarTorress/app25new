@@ -8,7 +8,6 @@
                 <th scope="col" style="width:5%">U.M.</th>
                 <th scope="col" class="text-center" style="width:5%">Cantidad</th>
                 <th scope="col" class="text-center" style="width:5%">Peso KG</th>
-                <th scope="col" class="text-center" style="width:5%">SCOP</th>
             </tr>
         </thead>
         <tbody id="carritoventas">
@@ -42,7 +41,6 @@
                         <td class="unidad"><?php echo $item['unidad'] ?></td>
                         <td class="cantidad" style="text-align: center;" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="true" name="cantidad"><?php echo round($item['cantidad'], 4) ?></td>
                         <td class="precio" style="text-align: center;" id="precio" onkeypress="return isNumber(event);" contenteditable="false" name="precio"><?php echo round($item['peso'], 5) ?></td>
-                        <td class="scop" style="text-align: center;" id="scop" contenteditable="false" name="scop"><?php echo $item['scop'] ?></td>
                         <?php $i++; ?>
                     </tr>
                 <?php } ?>
@@ -115,7 +113,6 @@
             var id = _tr.find("td").eq(1).html();
             data.append("txtcantidad", _tr.find("td").eq(4).html());
             data.append("txtpeso", _tr.find("td").eq(5).html());
-            data.append("txtscop", _tr.find("td").eq(6).html());
             // data.append("presseleccionada", cmbpresentacion[0]);
             // data.append("unidad", textpresentacion[0].trim());
             // data.append("cantequi", textpresentacion[1]);
