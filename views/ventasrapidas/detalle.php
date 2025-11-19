@@ -423,15 +423,17 @@
             } else {
                 preciomenor = resultado.precio3;
             }
-           // console.log(resultado);
-            costo = Number(resultado.costo).toFixed(2);
-            if (Number(precio) < costo) {
-                _tr.find("td").eq(5).css("backgroundColor", "#F67979");
-                $("#grabar").attr("disabled", true);
-            } else {
-                _tr.find("td").eq(5).css("backgroundColor", "");
-                $("#grabar").attr("disabled", false);
-            }
+            // console.log(resultado);
+            <?php if (!empty($_SESSION['config']['precioeditable'])): ?>
+                costo = Number(resultado.costo).toFixed(2);
+                if (Number(precio) < costo) {
+                    _tr.find("td").eq(5).css("backgroundColor", "#F67979");
+                    $("#grabar").attr("disabled", true);
+                } else {
+                    _tr.find("td").eq(5).css("backgroundColor", "");
+                    $("#grabar").attr("disabled", false);
+                }
+            <?php endif; ?>
         });
         validarvaloresporgrupo();
     }
@@ -452,13 +454,15 @@
             } else {
                 preciomenor = resultado.precio3;
             }
-            costo = Number(resultado.costo).toFixed(2);
-            if (Number(precio) < costo) {
-                _tr.find("td").eq(5).css("backgroundColor", "#F67979");
-                $("#grabar").attr("disabled", true);
-            } else {
-                _tr.find("td").eq(5).css("backgroundColor", "");
-            }
+            <?php if (!empty($_SESSION['config']['precioeditable'])): ?>
+                costo = Number(resultado.costo).toFixed(2);
+                if (Number(precio) < costo) {
+                    _tr.find("td").eq(5).css("backgroundColor", "#F67979");
+                    $("#grabar").attr("disabled", true);
+                } else {
+                    _tr.find("td").eq(5).css("backgroundColor", "");
+                }
+            <?php endif; ?>
         })
     }
 </script>

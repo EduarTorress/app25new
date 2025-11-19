@@ -18,7 +18,9 @@
         </thead>
         <tbody id="carritoventas">
             <?php
+
             use Core\Foundation\Application;
+
             $i = 0; ?>
             <?php foreach ($carritov as $indice => $item) : ?>
                 <?php if ($item['activo'] == 'A') { ?>
@@ -426,13 +428,15 @@
             }
             preciomenor = Number(resultado.costo).toFixed(2);
             //console.log(resultado);
-            if (Number(precio) < preciomenor) {
-                _tr.find("td").eq(5).css("backgroundColor", "#F67979");
-                $("#grabar").attr("disabled", true);
-            } else {
-                _tr.find("td").eq(5).css("backgroundColor", "");
-                $("#grabar").attr("disabled", false);
-            }
+            <?php if (!empty($_SESSION['config']['precioeditable'])): ?>
+                if (Number(precio) < preciomenor) {
+                    _tr.find("td").eq(5).css("backgroundColor", "#F67979");
+                    $("#grabar").attr("disabled", true);
+                } else {
+                    _tr.find("td").eq(5).css("backgroundColor", "");
+                    $("#grabar").attr("disabled", false);
+                }
+            <?php endif; ?>
         });
         validarvaloresporgrupo();
     }
@@ -454,13 +458,15 @@
                 preciomenor = resultado.precio3;
             }
             // console.log(resultado);
-            preciomenor = Number(resultado.costo).toFixed(2);
-            if (Number(precio) < preciomenor) {
-                _tr.find("td").eq(5).css("backgroundColor", "#F67979");
-                $("#grabar").attr("disabled", true);
-            } else {
-                _tr.find("td").eq(5).css("backgroundColor", "");
-            }
+            <?php if (!empty($_SESSION['config']['precioeditable'])): ?>
+                preciomenor = Number(resultado.costo).toFixed(2);
+                if (Number(precio) < preciomenor) {
+                    _tr.find("td").eq(5).css("backgroundColor", "#F67979");
+                    $("#grabar").attr("disabled", true);
+                } else {
+                    _tr.find("td").eq(5).css("backgroundColor", "");
+                }
+            <?php endif; ?>
         })
     }
 </script>
