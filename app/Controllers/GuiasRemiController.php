@@ -188,7 +188,7 @@ class GuiasRemiController extends Controller
                 $oimp->nombretransportista = $fila['razont'];
                 $oimp->referencia = $fila['detalle'];
                 $oimp->tipotransporte  = $fila['tran_tipo'] == '01' ? 'Público' : 'Privado';
-                if ($request->get("motivo") == 'C') {
+                if ($request->get("motivo") == 'C' || $request->get('motivo')=='D') {
                     $oimp->rucremitente = $fila['rucproveedor'];
                     $oimp->remitente = $fila['proveedor'];
                 }
@@ -201,7 +201,11 @@ class GuiasRemiController extends Controller
         if ($request->get("motivo") == 'V') {
             $oimp->generarPDFGuiaRemitente($rutapdf);
         } else {
-            $oimp->generarPDFGuiaRemitentecompra($rutapdf);
+            if ($request->get('motivo') == 'C') {
+                $oimp->generarPDFGuiaRemitentecompra($rutapdf);
+            } else {
+                $oimp->generarPDFGuiaxdevolucion($rutapdf);
+            }
         }
     }
     function enviarsunat(Request $request)
@@ -408,7 +412,9 @@ class GuiasRemiController extends Controller
         $carritov = session()->get('carritogr', []);
         $cvista = \retornavista('guiasr', 'detalle');
         return view($cvista, [
-            'carritov' => $carritov, 'total' => $total, 'items' => $numero_items,
+            'carritov' => $carritov,
+            'total' => $total,
+            'items' => $numero_items,
             'carritogr' => session()->get("carritogr", [])
         ]);
     }
@@ -601,7 +607,7 @@ class GuiasRemiController extends Controller
                 'presseleccionada' => empty($item['kar_epta']) ? 0 : $item['kar_epta'],
                 'kar_equi' => empty($item['kar_equi']) ? 1 : $item['kar_equi'],
                 'activo' => 'A',
-                'idkar'=>$item['idkar']
+                'idkar' => $item['idkar']
             );
         }
 
@@ -663,8 +669,11 @@ class GuiasRemiController extends Controller
 
         $titulo = 'Actualizar guía';
         return view($cvista, [
-            'titulo' => $titulo, 'carritov' => $carritov, 'total' => $total,
-            'items' => $numero_items, 'guiaidau' => $guiaidau
+            'titulo' => $titulo,
+            'carritov' => $carritov,
+            'total' => $total,
+            'items' => $numero_items,
+            'guiaidau' => $guiaidau
         ]);
     }
     function actualizar(Request $request)

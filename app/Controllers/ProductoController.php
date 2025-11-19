@@ -464,6 +464,12 @@ class ProductoController extends Controller
         $rpta = $p->consultareliminados();
         return view('admin/productos/listareliminados', ['listado' => $rpta['listado']]);
     }
+    function consultarstockxminimos(Request $request)
+    {
+        $p = new Producto();
+        $rpta = $p->consultarstockxminimos();
+        return view('admin/productos/listarstocksminimos', ['listado' => $rpta['listado']]);
+    }
     function verdetallecombo(Request $request)
     {
         $p = new Producto();

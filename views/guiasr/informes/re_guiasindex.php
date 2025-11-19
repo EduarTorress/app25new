@@ -20,10 +20,14 @@
                     <?php
                     if (trim($item['guia_moti']) == 'V') {
                         echo "Venta";
-                        $ruta="/guiasr/buscarGuia/";
+                        $ruta = "/guiasr/buscarGuia/";
                     } else {
-                        echo "Compra";
-                        $ruta="/guiasc/buscarGuia/";
+                        if ($item['guia_moti'] == 'C') {
+                            echo "Compra";
+                            $ruta = "/guiasc/buscarGuia/";
+                        } else {
+                            echo "Devolución";
+                        }
                     }
                     ?>
                 </td>
@@ -34,9 +38,11 @@
                     <a class="btn btn-info" role="button" onclick="descargarxml('<?= $item['idauto'] ?>','<?= $item['nombrexml'] . '.xml' ?>')">
                         <i class="fas fa-cloud-download-alt"></i>
                     </a>
-                    <a class="btn btn-success" role="button" onclick="" href="<?php echo $ruta . $item['idauto'] ?>">
-                        <i class="fas fa-eye"></i>
-                    </a>
+                    <?php if ($item['guia_moti'] != 'D'): ?>
+                        <a class="btn btn-success" role="button" onclick="" href="<?php echo $ruta . $item['idauto'] ?>">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -234,6 +234,22 @@ $app->router->get('/guiasc/limpiar', [\App\Controllers\GuiasRemicompraController
 $app->router->get('/guiasc/listarcomprastocanje', [\App\Controllers\GuiasRemicompraController::class, 'listarcomprastocanje']);
 $app->router->get('/guiasc/listardetallecompratocanje', [\App\Controllers\GuiasRemicompraController::class, 'listardetallecompratocanje']);
 
+
+#rutas de guias x devolucion
+$app->router->get('/guiasd/index', [\App\Controllers\GuiaDevolucionController::class, 'index']);
+$app->router->post('/guiasd/registrar', [\App\Controllers\GuiaDevolucionController::class, 'registrar']);
+$app->router->post('/guiasd/agregaritem', [\App\Controllers\GuiaDevolucionController::class, 'agregaritem']);
+$app->router->post('/guiasd/quitaritem', [\App\Controllers\GuiaDevolucionController::class, 'quitaritem']);
+$app->router->get('/guiasd/imprimir/', [\App\Controllers\GuiaDevolucionController::class, 'imprimir']);
+$app->router->get('/guiasd/descargarxml', [\App\Controllers\GuiaDevolucionController::class, 'descargarxml']);
+$app->router->get('/guiasd/buscarGuia/{id}', [\App\Controllers\GuiaDevolucionController::class, 'consultarGuiaPorId']);
+$app->router->post('/guiasd/modificar', [\App\Controllers\GuiaDevolucionController::class, 'actualizar']);
+$app->router->get("/guiasd/imprimirdirecto/", [\App\Controllers\GuiaDevolucionController::class, 'imprimirdirecto']);
+$app->router->post('/guiasd/EditarUno', [\App\Controllers\GuiaDevolucionController::class, 'soloItem']);
+$app->router->get('/guiasd/limpiar', [\App\Controllers\GuiaDevolucionController::class, 'limpiar']);
+$app->router->get('/guiasd/listarcomprastocanje', [\App\Controllers\GuiaDevolucionController::class, 'listarcomprastocanje']);
+$app->router->get('/guiasd/listardetallecompratocanje', [\App\Controllers\GuiaDevolucionController::class, 'listardetallecompratocanje']);
+
 #rutas de inventario
 $app->router->post('/producto/updateStock', [\App\Controllers\ProductoController::class, 'updateStock']);
 $app->router->get('/inventarios/kardex', [\App\Controllers\InventarioController::class, 'indexkardex']);
@@ -478,6 +494,7 @@ $app->router->get('/productos/consultarvtasxprod', [\App\Controllers\ProductoCon
 $app->router->get('/productos/consultarcompxprod', [\App\Controllers\ProductoController::class, 'consultarcompxprod']);
 $app->router->get('/productos/consultarlogs', [\App\Controllers\ProductoController::class, 'consultarlogs']);
 $app->router->get('/productos/consultareliminados', [\App\Controllers\ProductoController::class, 'consultareliminados']);
+$app->router->get('/productos/consultarstockxminimos', [\App\Controllers\ProductoController::class, 'consultarstockxminimos']);
 
 $app->router->get('/productos/verdetallecombo', [\App\Controllers\ProductoController::class, 'verdetallecombo']);
 

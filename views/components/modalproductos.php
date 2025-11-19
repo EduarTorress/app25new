@@ -66,11 +66,10 @@
         var noption = obtenertipobusquedaProducto();
         if (noption == 'nombre') {
             if (abuscar.length < 3) {
-                toastr.error("La busqueda es muy corta, DELIMITAR BUSQUEDA", 'Mensaje del Sistema');
+                toastr.error("La búsqueda es demasiado corta. Por favor, ingresa al menos 3 caracteres", 'Mensaje del Sistema');
                 return;
             }
         }
-
         // $('#loading').modal('show');
         axios.get('/productos/listaModal', {
             "params": {

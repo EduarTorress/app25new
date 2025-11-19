@@ -35,23 +35,20 @@ echo $oprov->render();
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-sm-0 col-form-label ">Fecha de Emisión:</label>
-                                <input type="date" id="txtFechaEmision" class="form-control " value="<?php echo isset($_SESSION['guiac']['fechaEmision']) ?  $_SESSION['guiac']['fechaEmision'] : date("Y-m-d") ?>" style="width:40%;">
+                                <input type="date" id="txtFechaEmision" class="form-control " value="<?php echo date("Y-m-d") ?>" style="width:40%;">
                             </div>
-                            <?php if (empty($_SESSION['guiac']['txtIdauto'])) : ?>
-                                <button class="btn btn-success" onclick="modalcompras();">Canjear Compra</button>
-                            <?php endif; ?>
-                            <input type="hidden" name="idautoc" id="idautoc" value="0">
+                            <input type="hidden" name="idautoc" id="idautod" value="0">
                         </div>
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-sm-0 col-form-label">Fecha de Traslado:</label>
-                                <input type="date" id="txtFechaTraslado" class="form-control " value="<?php echo isset($_SESSION['guiac']['fechaTraslado']) ?  $_SESSION['guiac']['fechaTraslado'] : date("Y-m-d") ?>" style="width:45%;">
+                                <input type="date" id="txtFechaTraslado" class="form-control " value="<?php echo  date("Y-m-d") ?>" style="width:45%;">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group row">
-                                <label class="col-sm-0 col-form-label">Llegada:</label>
-                                <input type="text" class="form-control " id="txtptollegada" style="width:80%" value="<?php echo isset($_SESSION['guiac']['ptollegada']) ?  $_SESSION['guiac']['ptollegada'] : '' ?>">
+                                <label class="col-sm-0 col-form-label">Partida:</label>
+                                <input type="text" class="form-control " id="txtptopartida" style="width:80%" value="<?php echo $_SESSION['gene_ptop']; ?>">
                             </div>
                         </div>
                     </div>
@@ -64,15 +61,15 @@ echo $oprov->render();
                         <div class="row">
                             <div class="col">
                                 <div class="input-group">
-                                    <input type="hidden" id="txtIdauto" value="<?php echo isset($_SESSION['guiac']['txtIdauto']) ?  $_SESSION['guiac']['txtIdauto'] : '' ?>">
-                                    <input type="hidden" id="txtidproveedor" value="<?php echo isset($_SESSION['proveedor']['idprov']) ?  $_SESSION['proveedor']['idprov'] : '' ?>">
+                                    <input type="hidden" id="txtIdauto" value="<?php echo "" ?>">
+                                    <input type="hidden" id="txtidproveedor" value="<?php "" ?>">
                                     <input type="hidden" id="txtUbigeoproveedor" value="<?php echo isset($_SESSION['proveedor']['ubigprov']) ?  $_SESSION['proveedor']['ubigprov'] : '' ?>">
                                     <input type="hidden" id="txtrucproveedor" value="<?php echo isset($_SESSION['proveedor']['rucprov']) ?  $_SESSION['proveedor']['rucprov'] : '' ?>">
                                     <input type="text" class="form-control form-control-sm" id="txtproveedor" placeholder="Nombre Proveedor" disabled value="<?php echo isset($_SESSION['proveedor']['razoprov']) ?  $_SESSION['proveedor']['razoprov'] : '' ?>">
                                     <button class="btn btn-outline-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_proveedor"><i style="color:black" class="fas fa-user-alt"></i></button>
                                 </div>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Dirección de Punto de Partida" id="txtptopartida" disabled value="<?php echo isset($_SESSION['proveedor']['direprov']) ?  trim($_SESSION['proveedor']['direprov']) . '' . trim($_SESSION['proveedor']['ciudprov']) : '' ?>">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Dirección de Punto de Llegada" id="txtptollegada" disabled value="<?php echo isset($_SESSION['proveedor']['direprov']) ?  trim($_SESSION['proveedor']['direprov']) . '' . trim($_SESSION['proveedor']['ciudprov']) : '' ?>">
                                     <button class="btn btn-outline-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_direcciones"><i style="color:black" class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
                                 </div>
                                 <div class="input-group">
@@ -254,14 +251,13 @@ $this->startSection('javascript');
     }
 
     function modalcompras() {
-        axios.get('/guiasc/listarcomprastocanje', {})
+        axios.get('/guiasd/listarcomprastocanje', {})
             .then(function(respuesta) {
                 const contenido_tabla = respuesta.data;
                 $('#cargamodalcompras').html(contenido_tabla);
                 $("#modal_compras").modal('show');
-            })
-            .catch(function(error) {
-                toastr.error('Error al cargar el listado')
+            }).catch(function(error) {
+                toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
             });
     }
 
@@ -288,7 +284,7 @@ $this->startSection('javascript');
         data.append("cantequi", cantequi);
         data.append("stock", parseFloat(datos.parametro4.toFixed(2)));
         data.append("opt", 0)
-        axios.post('/guiasc/agregaritem', data)
+        axios.post('/guiasd/agregaritem', data)
             .then(function(respuesta) {
                 //window.location.href = '/vtas/index';
                 $('#modal_productos').modal('hide')
@@ -314,7 +310,7 @@ $this->startSection('javascript');
     function quitaritem(pos) {
         const data = new FormData();
         data.append("indice", pos)
-        axios.post('/guiasc/quitaritem', data)
+        axios.post('/guiasd/quitaritem', data)
             .then(function(respuesta) {
                 const contenido_tabla = respuesta.data;
                 $('#detalle').html(contenido_tabla);
@@ -357,113 +353,7 @@ $this->startSection('javascript');
     }
 
     function Guia() {
-        txtIdauto = $("#txtIdauto").val();
-        if (txtIdauto == '') {
-            grabarGuia();
-        } else {
-            modificarGuia();
-        }
-    }
-
-    function modificarGuia() {
-        calcularPesoTotal();
-        const detalle = []
-        $("#griddetalle tbody tr").each(function() {
-            json = "";
-            $(this).find("td:not(.dtr-control)").each(function() {
-                $this = $(this);
-                if ($this.attr("class") != 'undefined') {
-                    json += ',"' + $this.attr("class") + '":"' + $this.text() + '"'
-                }
-            })
-            obj = JSON.parse('{' + json.substr(1) + '}');
-            detalle.push(obj)
-        });
-        if (validar() == false) {
-            toastr.error("Faltan datos para modificar", 'Mensaje del Sistema');
-            return;
-        }
-        Swal.fire({
-            title: '¿Modificar Guia?',
-            text: "Se modificará en el sistema ",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si'
-        }).then(function(respuesta) {
-            if (respuesta.isConfirmed) {
-                data = new FormData();
-                data.append("idProveedor", $("#txtidproveedor").val());
-                data.append("proveedor", $("#txtproveedor").val());
-                data.append("rucproveedor", $("#txtrucproveedor").val());
-                data.append("txtptopartida", $("#txtptopartida").val());
-                data.append("txtptollegada", $("#txtptollegada").val());
-                data.append("txtUbigeoproveedor", $("#txtUbigeoproveedor").val());
-                data.append("txtPlaca1", "");
-                data.append("txtreferencia", $("#txtreferencia").val());
-                data.append("txtFechaEmision", $("#txtFechaEmision").val())
-                data.append("txtFechaTraslado", $("#txtFechaTraslado").val())
-                data.append("txtPlaca", $("#txtplaca").val());
-                data.append("txtmarca", $("#txtmarca").val());
-                data.append("txtreferencia", $("#txtreferencia").val());
-                data.append("txtBrevete", $("#txtbrevete").val());
-                data.append("txtructransportista", $("#txttruc").val());
-                data.append("txttransportista", $("#txttransportista").val());
-                data.append("txtIdTransportista", $("#txtIdTransportista").val());
-                data.append("txtChoferVehiculo", $("#txtChoferVehiculo").val());
-                data.append("txtIdauto", $("#txtIdauto").val());
-                data.append("detalle", JSON.stringify(detalle));
-                axios.post("/guiasc/modificar", data)
-                    .then(function(respuesta) {
-                        swal.fire(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
-                        limpiarGuia()
-                    }).catch(function(error) {
-                        num = error['response']['data']
-                        if (num.length == 1) {
-                            e = error['response']['data']
-                        } else {
-                            e = error['response']['data']['errors']
-                        }
-                        result = []
-                        for (var i in e) {
-                            result.push([i, e[i]]);
-                        }
-                        result.forEach(function(numero) {
-                            toastr.error(numero[1])
-                        });
-                    });
-            }
-        });
-    }
-
-    function cambiarpresentacion(o, i) {
-        row = $(o).parent().parent().parent();
-        $(row).each(function() {
-            var _tr = $(row);
-            // cmbpresentacion = _tr.find("td").eq(3).find("select").val();
-            // cmbpresentacion = cmbpresentacion.split("-");
-            // textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
-            // textpresentacion = textpresentacion.split("-");
-            // _tr.find("td").eq(5).find("input").val(Number(cmbpresentacion[1]).toFixed(2));
-            const data = new FormData();
-            var id = _tr.find("td").eq(1).html();
-            // data.append("txtdescri", _tr.find("td").eq(2).html());
-            data.append("txtcantidad", _tr.find("td").eq(4).html());
-            data.append("txtprecio", _tr.find("td").eq(5).html());
-            // data.append("presseleccionada", cmbpresentacion[0]);
-            data.append("txtscop", _tr.find("td").eq(6).html());
-            // data.append("unidad", textpresentacion[0].trim());
-            // data.append("cantequi", textpresentacion[1]);
-            data.append("indice", i);
-            axios.post('/guiasc/EditarUno', data)
-                .then(function(respuesta) {
-                    calcularIGV();
-                    calcularsubtotal(row);
-                }).catch(function(error) {
-                    console.log(error);
-                });
-        });
+        grabarGuia();
     }
 
     function grabarGuia() {
@@ -493,17 +383,17 @@ $this->startSection('javascript');
                 data.append("txtFechaTraslado", $("#txtFechaTraslado").val())
                 data.append("txtPlaca", $("#txtplaca").val());
                 data.append("txtmarca", $("#txtmarca").val());
-                data.append("txtreferencia", $("#txtreferencia").val());
                 data.append("txtBrevete", $("#txtbrevete").val());
                 data.append("txtructransportista", $("#txttruc").val());
                 data.append("txttransportista", $("#txttransportista").val());
                 data.append("txtIdTransportista", $("#txtIdTransportista").val());
                 data.append("txtChoferVehiculo", $("#txtChoferVehiculo").val());
                 data.append("txtregmtc", $("#txtregmtc").val());
-                axios.post("/guiasc/registrar", data)
+                data.append("txttipot", $("#txttipot").val())
+                axios.post("/guiasd/registrar", data)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
-                        var cruta = '/guiasc/imprimirdirecto/';
+                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
+                        var cruta = '/guiasd/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', cruta, true);
                         xhr.responseType = 'blob';
@@ -585,7 +475,7 @@ $this->startSection('javascript');
     });
 
     function seleccionarDireccion(dire, ciud, ubig) {
-        document.getElementById("txtptopartida").value = dire.trimEnd() + ' ' + ciud.trimEnd()
+        document.getElementById("txtptollegada").value = dire.trimEnd() + ' ' + ciud.trimEnd()
         document.getElementById("txtUbigeoproveedor").value = ubig;
         idRemitente = $("#txtidproveedor").val()
         razo = $("#txtproveedor").val()
@@ -611,19 +501,20 @@ $this->startSection('javascript');
         document.getElementById("txttipot").value = "";
         document.getElementById("totalitems").value = "00";
         document.getElementById("total").value = "0.00";
+        $("#txtptollegada").val("");
 
         $("#griddetalle tbody tr").remove();
         <?php
         session()->remove('proveedor');
         session()->remove('transportista');
-        session()->remove('guiac');
+        session()->remove('guiad');
         session()->set('carritogc', []);
         ?>
-        window.location.href = '/guiasc/index';
+        window.location.href = '/guiasd/index';
     }
 
     function limpiardetallegc() {
-        axios.get('/guiasc/limpiar', {})
+        axios.get('/guiasd/limpiar', {})
             .then(function(respuesta) {
                 const contenido_tabla = respuesta.data;
                 $('#detalle').html(contenido_tabla);
@@ -640,7 +531,6 @@ $this->startSection('javascript');
     function nuevo() {
         document.getElementById('txtidproveedor').value = "";
         document.getElementById('txtproveedor').value = "";
-        document.getElementById('txtptopartida').value = "";
         document.getElementById('txtUbigeoproveedor').value = "";
         document.getElementById('txtrucproveedor').value = "";
         document.getElementById("txtplaca").value = "";
@@ -654,6 +544,7 @@ $this->startSection('javascript');
         document.getElementById("txttipot").value = "";
         document.getElementById("totalitems").value = "00";
         document.getElementById("total").value = "0.00";
+        $("#txtptollegada").val("");
         $("#griddetalle tbody tr").remove();
     }
 
@@ -661,7 +552,7 @@ $this->startSection('javascript');
         document.getElementById("txtidproveedor").value = datos.parametro1;
         document.getElementById("txtproveedor").value = datos.parametro2;
         document.getElementById('txtrucproveedor').value = datos.parametro3;
-        document.getElementById('txtptopartida').value = datos.parametro5 + ' ' + datos.parametro6;
+        document.getElementById('txtptollegada').value = datos.parametro5 + ' ' + datos.parametro6;
         document.getElementById('txtUbigeoproveedor').value = datos.parametro9;
         axios.get('/proveedores/seleccionar', {
             "params": {
@@ -713,11 +604,11 @@ $this->startSection('javascript');
             // data.append("unidad", textpresentacion[0].trim());
             // data.append("cantequi", textpresentacion[1]);
             data.append("indice", i);
-            axios.post('/guiasc/EditarUno', data)
+            axios.post('/guiasd/EditarUno', data)
                 .then(function(respuesta) {
                     //console.log('correctamente editado')
                 }).catch(function(error) {
-                   console.log(error)
+                    console.log(error)
                 });
         });
     }
@@ -805,7 +696,7 @@ $this->startSection('javascript');
         var subt = parseFloat(peso) * parseFloat(cant);
         // var campo = _tr.find("td").eq(6);
         if (isNaN(subt)) {
-            toastr.info("Dígite un número correcto",'Mensaje del Sistema')
+            toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
         }
         // campo.html(subt.toFixed(2));
         // var total_col1 = 0;

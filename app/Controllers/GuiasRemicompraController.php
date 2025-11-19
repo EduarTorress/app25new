@@ -327,7 +327,9 @@ class GuiasRemicompraController extends Controller
         $carritov = session()->get('carritogc', []);
         $cvista = \retornavista('guiasc', 'detalle');
         return view($cvista, [
-            'carritov' => $carritov, 'total' => $total, 'items' => $numero_items,
+            'carritov' => $carritov,
+            'total' => $total,
+            'items' => $numero_items,
             'carritogr' => session()->get("carritogc", [])
         ]);
     }
@@ -357,7 +359,7 @@ class GuiasRemicompraController extends Controller
         $oguia->nidpr =  $request->get("idProveedor");
         $oguia->nidtr = $request->get("txtIdTransportista");
         $oguia->conductor = $request->get("txtChoferVehiculo");
-        $oguia->cdetalle = "";
+        $oguia->cdetalle = $request->get("txtreferencia");
         $oguia->cubigeo1 = 0;
         $oguia->referencia = $request->get("txtreferencia");
         $oguia->cubigeo2 = $request->get("txtUbigeoproveedor");
@@ -389,8 +391,7 @@ class GuiasRemicompraController extends Controller
                 "conductor" => $request->get("txtChoferVehiculo"),
                 "brevete" => $request->get("txtBrevete"),
                 "marca" => $request->get("txtmarca"),
-                "constancia" => $request->get("txtregmtc"),
-                "referencia" => $request->get("txtreferencia")
+                "constancia" => $request->get("txtregmtc")
             );
         }
         $carritodetalle = [];
@@ -525,7 +526,10 @@ class GuiasRemicompraController extends Controller
 
         $titulo = 'Actualizar guía';
         return view($cvista, [
-            'titulo' => $titulo, 'carritov' => $carritov, 'total' => $total, 'items' => $numero_items
+            'titulo' => $titulo,
+            'carritov' => $carritov,
+            'total' => $total,
+            'items' => $numero_items
         ]);
     }
 

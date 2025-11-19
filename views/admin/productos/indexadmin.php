@@ -36,6 +36,9 @@ echo $mdGs->render();
                         <li class="nav-item">
                             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#diveliminados" role="tab" aria-selected="false">Consultar Eliminados</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#divstocks" role="tab" aria-selected="false">Stock Mínimos</a>
+                        </li>
                         <?php if ($_SESSION['tipousuario'] == 'A') : ?>
                             <li class="nav-item">
                                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#divcalcularstock" role="tab" aria-selected="false">Calcular Stock</a>
@@ -124,6 +127,14 @@ echo $mdGs->render();
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="divstocks" role="tabpanel"><br>
+                            <button class="btn btn-warning" onclick="consultarstockminimosymaximos();">Consultar Stock por Mínimos</button>
+                            <br>
+                            <div class="card">
+                                <div class="card-body" id="resultadosminimos">
+                                </div>
+                            </div>
+                        </div>
                         <div class="tab-pane fade" id="divcalcularstock" role="tabpanel"><br>
                             <button class="btn btn-primary" onclick="calcularstock();">Calcular Stock General</button>
                         </div>
@@ -198,9 +209,19 @@ $this->startSection('javascript');
             const contenido_tabla = respuesta.data;
             $('#resultadoeliminados').html(contenido_tabla);
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
+
+    function consultarstockminimosymaximos() {
+        axios.get('/productos/consultarstockxminimos', {}).then(function(respuesta) {
+            const contenido_tabla = respuesta.data;
+            $('#resultadosminimos').html(contenido_tabla);
+        }).catch(function(error) {
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+        });
+    }
+
 
     function calcularstock() {
         axios.get('/inventarios/calcularstock')

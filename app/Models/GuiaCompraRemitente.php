@@ -33,7 +33,7 @@ class GuiaCompraRemitente extends GuiaRemitente
     public string $brevete = "";
     public string $placa1 = "";
     public string $constancia1 = "";
-    public string $motivo = "V";
+    public string $motivo = "C";
     public string $referencia = "";
     public string $tipotransporte = "";
 

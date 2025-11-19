@@ -171,6 +171,12 @@
                 "class": "far fa-circle nav-icon",
                 "opt": "AV"
             },
+              {
+                "item": "Guia por Devolución",
+                "ruta": "/guiasd/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
             {
                 "item": "Listar Guias Remitente",
                 "ruta": "/guiasr/listar",

@@ -612,6 +612,25 @@ class GuiaRemitente extends Modelo
                     INNER JOIN fe_tra AS t ON t.idtra=g.guia_idtr,fe_gene AS v
                     WHERE guia_idgui=:nidg  AND entr_acti='A' AND e.entr_acti='A'";
                     break;
+                case 'D':
+                    $sql = "SELECT guia_ndoc AS ndoc,guia_fech AS fech,guia_fect AS fechat,guia_deta AS detalle,
+                    a.descri,e.entr_unid AS unid,e.entr_cant AS cant,e.entr_peso AS peso,g.guia_ptop AS ptopartida,g.guia_ptoll AS ptollegada,
+                    a.idart AS coda,e.entr_iden AS idem,g.guia_idtr, IFNULL(placa,'') AS placa,IFNULL(t.razon,'') AS razont,
+                    guia_mens,guia_arch,
+                    IFNULL(t.ructr,'') AS ructr, IF(g.guia_cond IS NULL OR g.guia_cond='',t.nombr,g.guia_cond) AS conductor,
+                    IFNULL(t.dirtr,'') AS direcciont, IF(g.guia_cond IS NULL OR g.guia_cond='',t.breve,g.guia_brev) AS brevete,
+                    IFNULL(t.cons,'') AS constancia,IFNULL(t.marca,'') AS marca,c.nruc as rucproveedor,
+                    IFNULL(t.placa1,'') AS placa1,g.guia_ndoc AS dcto,c.idprov,
+                    c.razo as proveedor,guia_idgui AS idgui,'09' AS tdoc,v.nruc AS nruc,v.empresa as razo,
+                    v.ciudad,v.distrito,IFNULL(t.tran_tipo,'01') AS tran_tipo,guia_dcto,
+                    guia_idgui AS idautog,guia_ubi1,guia_ubi2,ubig as ubigprov,e.`entr_codi`,a.tipro as tipoproducto
+                    FROM  fe_guias AS g
+                    INNER JOIN fe_ent AS e ON e.entr_idgu=g.guia_idgui
+                    INNER JOIN fe_art AS a ON a.idart=e.entr_idar
+                    INNER JOIN fe_prov AS c ON c.idprov=g.guia_idpr
+                    INNER JOIN fe_tra AS t ON t.idtra=g.guia_idtr,fe_gene AS v
+                    WHERE guia_idgui=:nidg  AND entr_acti='A' AND e.entr_acti='A'";
+                    break;
             }
             $query = $this->prepare($sql);
             $query->setFetchMode(PDO::FETCH_ASSOC);

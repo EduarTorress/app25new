@@ -695,4 +695,17 @@ class Producto extends Modelo
         }
         return $data;
     }
+    function consultarstockxminimos()
+    {
+        $sql = "SELECT * FROM fe_art a WHERE prod_acti='A' AND prod_smin>0";
+        $st = $this->prepare($sql);
+        $st->execute();
+        $lista = $st->fetchAll(PDO::FETCH_ASSOC);
+        if (count($lista) >= 1) {
+            $data = ['mensaje' => '', 'listado' => $lista, 'estado' => '1'];
+        } else {
+            $data = ['mensaje' => '', 'listado' => [], 'estado' => '0'];
+        }
+        return $data;
+    }
 }

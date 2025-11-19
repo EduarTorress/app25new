@@ -747,7 +747,7 @@ class Imprimir
         $pdf->setx(120);
         $pdf->cell(100, 5,  "Licencia N°: " . trim($this->brevete));
         $pdf->ln();
-        $pdf->cell(100, 5, 'Registro MTC: ');
+        $pdf->cell(100, 5, 'Registro MTC: '.trim($this->constancia));
         $pdf->ln();
         $pdf->SetFont('Tahomab', '', 6);
         $pdf->SetFillColor(240, 240, 240);
@@ -943,7 +943,206 @@ class Imprimir
         $pdf->setx(120);
         $pdf->cell(100, 5,  "Licencia N°: " . trim($this->brevete));
         $pdf->ln();
-        $pdf->cell(100, 5, 'Registro MTC: ');
+        $pdf->cell(100, 5, 'Registro MTC: '. trim($this->constancia));
+        $pdf->ln();
+        $pdf->SetFont('Tahomab', '', 6);
+        $pdf->SetFillColor(240, 240, 240);
+        $pdf->SetTextColor(0);
+        $pdf->cell(8, 6, 'ITEM', 1, 0, 'C', true);
+        $pdf->cell(15, 6, 'CANTIDAD', 1, 0, 'C', true);
+        $pdf->cell(18, 6, 'U.M.', 1, 0, 'C', true);
+        $pdf->cell(129, 6, 'DESCRIPCION', 1, 0, 'C', true);
+        // $pdf->cell(16, 6, 'SCOP', 1, 0, 'C', true);
+        $pdf->cell(22, 6, 'PESO TOTAL', 1, 1, 'C', true);
+        $pdf->SetFillColor(224, 235, 255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('Arial', '', 6);
+        $i = 1;
+        $tpeso = 0;
+        foreach ($this->items as $fila) {
+            $pdf->cell(8, 6, $i, 1, 0, 'C', 0);
+            $pdf->cell(15, 6, number_format($fila['cant'], 4, '.', ','), 1, 0, 'R', 0);
+            $pdf->cell(18, 6, $fila['unid'], 1, 0, 'C', 0);
+            $pdf->cell(129, 6, $fila['descri'], 1, 0, 'L', 0);
+            // $pdf->cell(16, 6, $fila['scop'], 1, 0, 'L', 0);
+            // $pdf->cell(16, 6, number_format($fila['peso'], 2, '.', ','), 1, 0, 'R', 0);
+            $pdf->cell(22, 6, number_format($fila['peso'], 3, '.', ','), 1, 1, 'R', 0);
+            $i++;
+            $tpeso += $fila['peso'];
+        }
+        $pdf->ln();
+
+        $ruta_qr = 'codigoqr' . '.png';
+        $texto_qr = $this->urlguiasunat . $this->qrsunat;
+        $qr = QrCode::create($texto_qr);
+        $writer = new PngWriter();
+        $writer->write($qr)->saveToFile($ruta_qr);
+        $pdf->Image($ruta_qr, 10, $pdf->gety(), 20, 20);
+
+        $pdf->SetFont('Tahomab', '', 8);
+        $pdf->SetX(30);
+        $pdf->cell(100, 8, ' Unidad de Medida del Peso Bruto: KGM');
+        $pdf->SetX(148);
+        $pdf->SetFont('Tahoma', '', 7);
+        $pdf->cell(25, 6, 'TOTAL PESO KG.', 1, 0, 'R', 0);
+        $pdf->cell(29, 6, number_format($tpeso, 3, '.', ','), 1, 0, 'R', 0);
+        $pdf->ln();
+        $pdf->ln();
+        $pdf->ln();
+        $pdf->ln();
+        $pdf->SetFont('DejaVu', '', 6);
+        $pdf->cell(100, 6, 'Representación Impresa de Guia Remitente');
+        $pdf->SetX(90);
+        $pdf->cell(50, 6, 'Conformidad del Cliente');
+        $pdf->SetX(140);
+        $pdf->cell(50, 6, 'P/' . session()->get("gene_empresa"));
+        if ($estilo == 'I') {
+            // $pdf->Output('I', $rutapdf);
+            #GUARDAR EN SERVIDOR
+            $pdf->Output($rutapdf, 'F');
+        } else {
+            // $pdf->Output('D', $rutapdf);
+            $pdf->Output($rutapdf, 'D');
+        }
+    }
+    function generarPDFGuiaxdevolucion($rutapdf, $estilo = '')
+    {
+        require('tfpdf.php');
+
+        $pdf = new tFPDF();
+        $pdf->AddPage('P', 'A4');
+        $pdf->AddFont('DejaVu', '', 'DejaVuSansCondensed.ttf', true);
+        $pdf->AddFont('Tahoma', '', 'tahoma.php');
+        $pdf->AddFont('Tahomab', '', 'tahomab.php');
+
+        $i = 1;
+        if ($_SERVER['SERVER_NAME'] == 'app25.test') {
+            $logo = 'logos/' . trim($this->rucempresa) . '/logo.jpg';
+        } else {
+            $logo = $_SERVER['DOCUMENT_ROOT'] . '/../logos/' . trim($this->rucempresa) . '/logo.jpg';
+        }
+        if (\file_exists($logo)) {
+            $pdf->Image($logo, 10, 10, -220);
+        }
+        $pdf->SetFont('Tahomab', '', 10);
+        $pdf->setx(48);
+        $pdf->cell(40, 5, strtoupper($this->empresa));
+        $pdf->SetFont('Tahomab', '', 12);
+        $pdf->setx(153);
+        $pdf->cell(50, 6, "RUC   " . $this->rucempresa, 'LRT', 1, 'C', 0);
+        $pdf->SetFont('Tahoma', '', 7);
+
+        $pdf->setx(48);
+
+        $current_y = $pdf->GetY();
+        $current_x = $pdf->GetX();
+        $cell_width = 106;
+        $pdf->Multicell(100, 4, $this->direccionempresa, '', '', false);
+        $pdf->SetXY($current_x + $cell_width, $current_y);
+
+        $pdf->setx(153);
+        $pdf->SetFont('DejaVu', '', 8);
+
+        $pdf->SetFont('Tahoma', '', 7);
+        $pdf->setx(50);
+        // $pdf->cell(100, 5, "SERVICIO DE TRANSPORTE DE CARGA A NIVEL NACIONAL", '', '', 'C');
+        $pdf->SetFont('Tahomab', '', 8);
+        $pdf->SetX(153);
+        $pdf->cell(50, 6, "GUIA REMITENTE ELECTRONICA", 'LR', 1, 'C', 0);
+
+        $pdf->setx(153);
+        $pdf->cell(50, 6, "Nro." . $this->numero, 'BLR', 0, 'C', 0);
+
+        $pdf->ln();
+        $pdf->ln();
+        $pdf->ln();
+        $pdf->SetFont('Tahomab', '', 6);
+        $pdf->SetFillColor(240, 240, 240);
+        $pdf->SetTextColor(0);
+        $pdf->cell(192, 5, 'DATOS DEL TRASLADO', 1, 0, 'L', true);
+        $pdf->SetFillColor(224, 235, 255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('DejaVu', '', 7);
+        $pdf->ln();
+        $pdf->cell(100, 5,  "Fecha de Emisión: " . $this->fecha);
+        $pdf->setx(120);
+        $pdf->cell(100, 5,  "Tipo de Transporte: " . $this->tipotransporte);
+        $pdf->ln();
+        $pdf->cell(100, 5,  'Fecha Inicio Traslado: ' . $this->fechat);
+        $pdf->setx(120);
+        $pdf->cell(100, 5,  "Referencia: " . trim($this->referencia));
+        $pdf->ln();
+        $pdf->cell(100, 5,  'Motivo de Traslado: Devolución');
+        $pdf->setx(120);
+        $pdf->ln();
+        $pdf->SetFont('Tahomab', '', 6);
+        $pdf->SetFillColor(240, 240, 240);
+        $pdf->SetTextColor(0);
+        $pdf->cell(192, 5, 'DATOS DEL REMITENTE', 1, 0, 'L', true);
+        $pdf->SetFillColor(224, 235, 255);
+        $pdf->SetTextColor(0);
+        $pdf->ln();
+        $pdf->SetFont('DejaVu', '', 7);
+        $pdf->cell(100, 5, 'DESTINATARIO: ' . trim($this->destinatario));
+        $pdf->ln();
+        $pdf->cell(100, 5, 'RUC: ' . $this->rucdestinatario);
+        $pdf->ln();
+        $pdf->SetFont('Tahomab', '', 6);
+        $pdf->SetFillColor(240, 240, 240);
+        $pdf->SetTextColor(0);
+        $pdf->cell(192, 5, 'DATOS DEL DESTINATARIO', 1, 0, 'L', true);
+        $pdf->SetFillColor(224, 235, 255);
+        $pdf->SetTextColor(0);
+        $pdf->ln();
+        $pdf->SetFont('DejaVu', '', 7);
+        $pdf->cell(100, 5, 'NOMBRE: ' . trim($this->remitente));
+        $pdf->ln();
+        $pdf->cell(100, 5, 'RUC: ' . $this->rucremitente);
+        $pdf->SetAutoPageBreak('auto', 2);
+        $pdf->SetDisplayMode(75);
+        $pdf->ln();
+        $pdf->SetFont('Tahomab', '', 6);
+        $pdf->SetFillColor(240, 240, 240);
+        $pdf->SetTextColor(0);
+        $pdf->cell(192, 5, 'DATOS DE PUNTO DE PARTIDA Y PUNTO DE LLEGADA', 1, 0, 'L', true);
+        $pdf->SetFillColor(224, 235, 255);
+        $pdf->SetTextColor(0);
+        $pdf->ln();
+        $pdf->SetFont('DejaVu', '', 7);
+        // $pdf->SetFont('Tahoma', '', 8);
+        $pdf->cell(100, 5, 'PUNTO PARTIDA: ' . trim($this->ptopartida));
+        $pdf->Ln();
+        $pdf->cell(80, 5, 'PUNTO LLEGADA: ' .  trim($this->ptollegada));
+        $pdf->Ln();
+        $pdf->SetFont('Tahomab', '', 6);
+        $pdf->SetFillColor(240, 240, 240);
+        $pdf->SetTextColor(0);
+        $pdf->cell(192, 5, 'DATOS DEL TRANSPORTISTA', 1, 0, 'L', true);
+        $pdf->SetFillColor(224, 235, 255);
+        $pdf->SetTextColor(0);
+        $pdf->ln();
+        $pdf->SetFont('DejaVu', '', 7);
+        $pdf->cell(100, 5, 'RUC: ' . trim($this->ructransportista));
+        $pdf->ln();
+        $pdf->cell(100, 5, 'Nombre: ' . trim($this->nombretransportista));
+        $pdf->ln();
+        $pdf->SetFont('Tahomab', '', 6);
+        $pdf->SetFillColor(240, 240, 240);
+        $pdf->SetTextColor(0);
+        $pdf->cell(192, 5, 'DATOS DEL TRANSPORTE', 1, 0, 'L', true);
+        $pdf->SetFillColor(224, 235, 255);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('DejaVu', '', 7);
+        $pdf->ln();
+        $pdf->cell(100, 5, 'Placa: ' . trim($this->placa));
+        $pdf->setx(120);
+        $pdf->cell(100, 5,  "Conductor: " . trim($this->conductor));
+        $pdf->ln();
+        $pdf->cell(100, 5, 'Marca: ' . trim($this->marca));
+        $pdf->setx(120);
+        $pdf->cell(100, 5,  "Licencia N°: " . trim($this->brevete));
+        $pdf->ln();
+        $pdf->cell(100, 5, 'Registro MTC: '.trim($this->constancia));
         $pdf->ln();
         $pdf->SetFont('Tahomab', '', 6);
         $pdf->SetFillColor(240, 240, 240);
