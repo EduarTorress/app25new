@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Middlewares\AuthAdminMiddleware;
 use App\Models\Dashboard;
 use App\Models\DatosGlobales;
+use App\Models\Producto;
 use Core\Routing\Controller;
 use App\Models\ValorIGV;
 use Core\Http\Request;
@@ -26,7 +27,11 @@ class DashboardController extends Controller
         if (empty(session()->get('usuario_id'))) {
             return view('auth/login');
         }
-        return view('admin/dashboard');
+        $producto = new Producto();
+        $resultado = $producto->consultarstockxalerta();
+        return view('admin/dashboard', [
+            'estado' => $resultado['estado']
+        ]);
     }
     public function obtenerDatos(Request $request)
     {

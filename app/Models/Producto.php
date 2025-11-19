@@ -708,4 +708,17 @@ class Producto extends Modelo
         }
         return $data;
     }
+    function consultarstockxalerta()
+    {
+        $sql = "SELECT (uno+dos+tre+cua+cin) AS stock,prod_smin FROM fe_art a WHERE prod_acti='A' AND prod_smin>(uno+dos+tre+cua+cin) LIMIT 1;";
+        $st = $this->prepare($sql);
+        $st->execute();
+        $lista = $st->fetchAll(PDO::FETCH_ASSOC);
+        if (count($lista) >= 1) {
+            $data = ['mensaje' => '', 'listado' => $lista, 'estado' => '1'];
+        } else {
+            $data = ['mensaje' => '', 'listado' => [], 'estado' => '0'];
+        }
+        return $data;
+    }
 }
