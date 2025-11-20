@@ -15,6 +15,7 @@ class Cliente extends Modelo
     var $txtDireccion = "";
     var $txtCiudad = "";
     var $txtUbigeo = "";
+    var $clienterete = "";
 
     function buscarClientes($buscar, $opt, $nid)
     {
@@ -38,7 +39,8 @@ class Cliente extends Modelo
                         "dire" => $row['dire'],
                         "ciud" => $row['ciud'],
                         "ndni" => $row['ndni'],
-                        "ubig" => ''
+                        "ubig" => '',
+                        'clie_rete' => $row['clie_rete']
                     );
                     array_push($lista["items"], $item);
                 }
@@ -98,14 +100,16 @@ class Cliente extends Modelo
                 "ndni" => $row['ndni'],
                 "dire" => $row['dire'],
                 "ciud" => $row['ciud'],
-                "ubig" => $row['ubig']
+                "ubig" => $row['ubig'],
+                "clie_rete" => $row['clie_rete']
             );
         }
         return $destinatario;
     }
     function save()
     {
-        $sql = "INSERT INTO fe_clie (razo, nruc, ndni, dire,ciud,ubig,fechclie) VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,:txtUbigeo,now())";
+        $sql = "INSERT INTO fe_clie (razo, nruc, ndni, dire,ciud,ubig,fechclie,clie_rete,clie_idus) 
+        VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,:txtUbigeo,now(),:retencion,_idusua)";
         $query = $this->prepare($sql);
         $query->execute([
             'txtNombre' => $this->txtNombre,
@@ -113,7 +117,9 @@ class Cliente extends Modelo
             'txtDNI' => $this->txtDNI,
             'txtDireccion' => $this->txtDireccion,
             'txtCiudad' => $this->txtCiudad,
-            'txtUbigeo' => $this->txtUbigeo
+            'txtUbigeo' => $this->txtUbigeo,
+            'retencion' => $this->clienterete,
+            'idusua' => $_SESSION['usuario_id']
         ]);
         if ($query->errorCode() != '00000') {
             var_dump($query->errorInfo());
@@ -124,7 +130,10 @@ class Cliente extends Modelo
     }
     function update($id)
     {
-        $sql = "UPDATE fe_clie SET razo=:txtNombre,nruc=:txtRUC,ndni=:txtDNI,dire=:txtDireccion,ciud=:txtCiudad,ubig=:txtUbigeo,clie_feac=NOW(),clie_actu=1 WHERE idclie=:txtID ";
+        $sql = "UPDATE fe_clie SET razo=:txtNombre,nruc=:txtRUC,
+        ndni=:txtDNI,dire=:txtDireccion,ciud=:txtCiudad,
+        ubig=:txtUbigeo,clie_feac=NOW(),clie_actu=:idusua,
+        clie_rete=:retencion WHERE idclie=:txtID ";
         $query = $this->prepare($sql);
         $query->execute([
             'txtRUC' => $this->txtRUC,
@@ -133,7 +142,9 @@ class Cliente extends Modelo
             'txtDireccion' => $this->txtDireccion,
             'txtCiudad' => $this->txtCiudad,
             'txtUbigeo' => $this->txtUbigeo,
-            'txtID' => $id
+            'txtID' => $id,
+            'retencion' => $this->clienterete,
+            'idusua' => $_SESSION['usuario_id']
         ]);
         if ($query->errorCode() != '00000') {
             return false;

@@ -1,4 +1,5 @@
 <?php
+
 use App\View\Components\UbigeosComponent;
 ?>
 <div class="modal-header">
@@ -46,6 +47,17 @@ use App\View\Components\UbigeosComponent;
         $oubg = new UbigeosComponent($modo, ($modo == 'N' ? '' : $lista['ubig']));
         echo $oubg->render();
         ?>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="">Cliente Retención:</label>
+            <div class="col-sm-8">
+                <select class="form-select-sm form-control form-control-sm cmbretencion" id="cmbretencion" name="cmbretencion">
+                    <!-- <?php echo ($cmon == 'D' ? 'selected' : '') ?>  -->
+                    <!-- <?php echo $modo == 'A' ? 'selected ' : ($cmon == 'S' ? 'selected' : '') ?>  -->
+                    <option <?php echo ($modo != 'A' ?  'selected' : ($lista['clie_rete'] == 'S' ? 'selected' : '')) ?> value="S">Si Aplica</option>
+                    <option <?php echo ($modo != 'A' ?  'selected' : ($lista['clie_rete'] == 'N' ? 'selected' : '')) ?> value="N">No Aplica</option>
+                </select>
+            </div>
+        </div>
         <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-danger" id="cmdcerrar" onclick="cerrarmodal()" data-dismiss="modal"><i class="fa fa-window-close"></i> Cerrar
             </button>

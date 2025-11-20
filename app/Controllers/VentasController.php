@@ -362,6 +362,7 @@ class VentasController extends Controller
             'razov' => \session()->get('razov', ''),
             'ruccliev' => \session()->get('ruccliev', 0),
             'tdocv' => \session()->get('tdocv', 0),
+            'clienteretencion' => \session()->get('clienteretencion', 'N'),
             'cndocv' => $serie,
             'numv' => $num,
             'ndo2v' => \session()->get('ndo2v', ''),
@@ -456,7 +457,9 @@ class VentasController extends Controller
         $carritov = session()->get('carritov', []);
         $cvista = \retornavista('ventasd', 'detalle');
         return view($cvista, [
-            'carritov' => $carritov, 'total' => $total, 'items' => $numero_items
+            'carritov' => $carritov,
+            'total' => $total,
+            'items' => $numero_items
         ]);
     }
     function soloItem(Request $request)
@@ -587,6 +590,7 @@ class VentasController extends Controller
             "txtdireccion" => $request->get("txtdireccion"),
             "txtruccliente" => $request->get("txtruccliente"),
             "txtdnicliente" => $request->get("txtdnicliente"),
+            'txtclienteretencion' => $request->get('txtclienteretencion'),
             "ndo2v" => $request->get("ndo2v"),
             "almv" => $request->get("almv"),
             "fechv" => $request->get("fechv"),
@@ -642,6 +646,7 @@ class VentasController extends Controller
             "cndocv" => $numeroDocumento,
             "ndo2v" => $request->get("ndo2v"),
             "razov" => $request->get("razov"),
+            'txtclienteretencion' => $request->get('txtclienteretencion'),
             "almv" => $request->get("almv"),
             "fechv" => $request->get("fechv"),
             "fechvv" => $request->get("fechvv"),
@@ -716,6 +721,7 @@ class VentasController extends Controller
                     'idcliev' => $item['idclie'],
                     'ruccliev' => $item['nruc'],
                     'dnicliev' => $item['ndni'],
+                    'clienteretencion' => $item['clie_rete'],
                     'ndo2v' => $item['ndo2'],
                     'idvenv' => $item['codv'],
                     'optigv' => $item['incl'],
@@ -1026,8 +1032,13 @@ class VentasController extends Controller
         $gene_detra = session()->get('gene_gene_detr', '');
         // session()->set('carritocanje', $carritov);
         return view('canjes/detallecanje', [
-            'carritov' => $carritov, 'total' => $total, 'items' => $numero_items,
-            'guia' => $cguia, 'gene_detra' => $gene_detra, 'idautov' => $idautov, 'idautog' => $idautog
+            'carritov' => $carritov,
+            'total' => $total,
+            'items' => $numero_items,
+            'guia' => $cguia,
+            'gene_detra' => $gene_detra,
+            'idautov' => $idautov,
+            'idautog' => $idautog
         ]);
     }
     function registrarCanje(Request $request)
@@ -1568,7 +1579,9 @@ class VentasController extends Controller
         $carritov = session()->get('carritov', []);
         $cvista = \retornavista('ventasrapidas', 'detalle');
         return view($cvista, [
-            'carritov' => $carritov, 'total' => $total, 'items' => $numero_items,
+            'carritov' => $carritov,
+            'total' => $total,
+            'items' => $numero_items,
             'carrito' => session()->get("carrito", [])
         ]);
     }

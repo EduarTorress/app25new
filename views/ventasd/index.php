@@ -37,6 +37,7 @@ echo $login->render();
                         <input type="hidden" id="txtruccliente" value="<?php echo isset($datosclientev['ruccliev']) ?  $datosclientev['ruccliev'] : '' ?> ">
                         <input type="hidden" id="txtdireccion" value="<?php echo isset($datosclientev['direcliev']) ?  $datosclientev['direcliev'] : '' ?>">
                         <input type="hidden" id="txtdnicliente" value="<?php echo isset($datosclientev['dnicliev']) ?  $datosclientev['dnicliev'] : '' ?>">
+                        <input type="hidden" id="txtclienteretencion" value="<?php echo isset($datosclientev['clienteretencion']) ?  $datosclientev['clienteretencion'] : 'N' ?>">
                         <input type="hidden" id="txtidauto" value="<?php echo isset($idventa) ? $idventa : 0 ?>">
                         <button class="btn btn-outline-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_clientes"><i style="color:black" class="fas fa-user-alt"></i></button>
                         <button class="btn btn-outline-primary" role="button" onclick="mostrardatoscliente()"><i style="color:black" class="fa fa-address-card-o"></i></button>
@@ -302,6 +303,8 @@ $this->startSection('javascript');
         data.append("idcliev", $("#txtidcliente").val());
         data.append("razov", $("#txtcliente").val());
         data.append("ruccliev", $("#txtruccliente").val());
+        data.append("clienteretencion", $("#txtclienteretencion").val());
+
         data.append("tdocv", $("#cmbdcto").val());
         data.append("cndocv", "");
         data.append("numv", "");
@@ -659,6 +662,7 @@ $this->startSection('javascript');
         $("#subtotal").val("0.00");
         $("#totalitems").val("0.00");
         $("#txtreferencia").val("");
+        $("#txtclienteretencion").val("N");
         document.getElementById("grabar").innerHTML = "Grabar";
     }
 
@@ -680,6 +684,7 @@ $this->startSection('javascript');
                 data.append("txtdireccion", $("#txtdireccion").val());
                 data.append("txtruccliente", $("#txtruccliente").val());
                 data.append("txtdnicliente", $("#txtdnicliente").val());
+                data.append("txtclienteretencion", $("#txtclienteretencion").val());
                 data.append("ndo2v", $("#ndo2").val());
                 data.append("almv", $("#cmbAlmacen").val());
                 data.append("fechv", $("#txtfecha").val());
@@ -752,6 +757,7 @@ $this->startSection('javascript');
                 data.append("razov", $("#txtcliente").val());
                 data.append("txtdnicliente", $("#txtdnicliente").val());
                 data.append("txtruccliente", $("#txtruccliente").val());
+                data.append("txtclienteretencion", $("#txtclienteretencion").val());
                 data.append("tdocv", $("#cmbdcto").val());
                 data.append("ndo2v", $("#ndo2").val());
                 data.append("almv", $("#cmbAlmacen").val());

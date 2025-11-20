@@ -39,7 +39,8 @@ class ClienteController extends Controller
             'idcliente' => $request->get('idclie'),
             'ruc' => $request->get('ruc'),
             'txtdnicliente' => $request->get('txtdnicliente'),
-            'txtdireccion' => $request->get('txtdireccion')
+            'txtdireccion' => $request->get('txtdireccion'),
+            'clienteretencion' => empty($request->get('clienteretencion')) ? 'N'  : $request->get('clienteretencion')
         );
         \session()->set('cliente', $cliente);
         return response()->json([
@@ -91,6 +92,7 @@ class ClienteController extends Controller
             $cliente->txtDireccion = $request->get('txtDireccion');
             $cliente->txtCiudad = $request->get('txtCiudad');
             $cliente->txtUbigeo = $request->get('cmbUbigeo');
+            $cliente->clienterete = (empty($request->get('cmbretencion')) ? 'N' : $request->get('cmbretencion'));
             if (!empty($request->get('txtRUC'))) {
                 $existe = $cliente->consultarclientexruc($request->get('txtRUC'));
                 if ($existe == "T") {
@@ -140,6 +142,7 @@ class ClienteController extends Controller
             $cliente->txtDireccion = $request->get('txtDireccion');
             $cliente->txtCiudad = $request->get('txtCiudad');
             $cliente->txtUbigeo = $request->get('cmbUbigeo');
+            $cliente->clienterete = $request->get('cmbretencion');
             // if (!empty($request->get('txtRUC'))) {
             //     $existe = $cliente->consultarclientexruc($request->get('txtRUC'));
             //     if ($existe == "T") {

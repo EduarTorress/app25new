@@ -51,13 +51,17 @@
         document.getElementById("txtruccliente").value = datos.parametro3;
         document.getElementById("txtdireccion").value = datos.parametro5;
         document.getElementById("txtdnicliente").value = datos.parametro4;
+        if ($('#txtclienteretencion').val()) {
+            document.getElementById("txtclienteretencion").value = datos.parametro6;
+        }
         axios.get('/cliente/seleccionar', {
             "params": {
                 'idclie': datos.parametro1,
                 'nombre': razon,
                 'ruc': datos.parametro3,
                 'txtdireccion': datos.parametro5,
-                'dni': datos.parametro4
+                'dni': datos.parametro4,
+                'clienteretencion': datos.parametro6
             }
         }).then(function(respuesta) {
             $('#modal_clientes').modal('toggle');

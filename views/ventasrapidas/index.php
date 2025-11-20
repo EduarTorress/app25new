@@ -41,6 +41,7 @@ echo $login->render();
                             <input type="hidden" id="txtruccliente" value="">
                             <input type="hidden" id="txtdireccion" value="">
                             <input type="hidden" id="txtdnicliente" value="">
+                            <input type="hidden" id="txtclienteretencion" value="<?php echo isset($datosclientev['clienteretencion']) ?  $datosclientev['clienteretencion'] : 'N' ?>">
                             <input type="hidden" id="txtidauto" value="">
                             <button class="btn btn-outline-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_clientes"><i style="color:black" class="fas fa-user-alt"></i></button>
                             <button class="btn btn-outline-primary" role="button" onclick="mostrardatoscliente()"><i style="color:black" class="fa fa-address-card-o"></i></button>
@@ -781,6 +782,7 @@ $this->startSection('javascript');
         data.append("txtdireccion", $("#txtdireccion").val());
         data.append("txtruccliente", $("#txtruccliente").val());
         data.append("txtdnicliente", $("#txtdnicliente").val());
+        data.append("txtclienteretencion", $("#txtclienteretencion").val());
         data.append("ndo2v", $("#ndo2").val());
         data.append("almv", $("#cmbAlmacen").val());
         data.append("fechv", $("#txtfecha").val());
@@ -871,6 +873,7 @@ $this->startSection('javascript');
         $("#txtdias").val("");
         $("#titulo").val("Venta Rápida");
         $("#txtidcliente").val("2");
+        $("#txtclienteretencion").val("N");
         $("#txtruccliente").val("");
         $("#txtdnicliente").val("");
         $("#txtdireccion").val("");

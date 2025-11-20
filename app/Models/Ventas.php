@@ -25,7 +25,7 @@ class Ventas extends Modelo
             if ($tipovta <> 'C') {
                 $tc = ($cmbtdoc == '0') ? ' and tdoc<>:cmbtdoc' : ' and tdoc=:cmbtdoc ';
             } else {
-                   $t = ' and tcom<>:tipovta';
+                $t = ' and tcom<>:tipovta';
                 $tc = "and tdoc in ('07','08','03','01',:cmbtdoc) ";
             }
             $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbAlmacen  ' : ' and codt=:cmbAlmacen ';
@@ -413,7 +413,7 @@ class Ventas extends Modelo
     function buscarVentaPorId($idauto)
     {
         $sql = "select `c`.`rcom_icbper` AS `rcom_icbper`, `a`.`kar_icbper`  AS `kar_icbper`, `c`.`rcom_mens`   AS `rcom_mens`,IFNULL(m.fevto,c.fech) AS fvto,
-                `c`.`idusua`, `a`.`kar_comi`    AS `kar_comi`, `a`.`codv`        AS `codv`,`a`.`idauto`      AS `idauto`,
+                `c`.`idusua`, `a`.`kar_comi`    AS `kar_comi`, `a`.`codv`        AS `codv`,`a`.`idauto`      AS `idauto`,clie_rete,
                 `a`.`alma` , `a`.`kar_idco`    AS `idcosto`, `a`.`idkar`       AS `idkar`, `a`.`idart`       AS `Coda`,
                 `a`.`cant`        AS `cant`, `a`.`prec`        AS `prec`, `c`.`valor`       AS `valor`, `c`.`igv`         AS `igv`,
                 `c`.`impo`        AS `impo`, `c`.`fech`        AS `fech`, `c`.`fecr`        AS `fecr`, `c`.`form`        AS `form`,
@@ -655,16 +655,18 @@ class Ventas extends Modelo
         $this->fechv = $cabecera["fechv"];
         $this->fechvv = $cabecera["fechvv"];
         $sql = "SELECT FunIngresaCabeceraVtasicbper(:tdocv,:formv,:cndocv,:fechv,:txtreferencia,:subtotal,:igv,:total,:ndo2v,:monev,
-            :dola,:vigv,'K',:idcliev,'V',:nidus,:almv,:n1,:n2,:n3,'0','0','0.00',:vuelto) AS ID";
+            :dola,:vigv,'K',:idcliev,'V',:nidus,:almv,:n1,:n2,:n3,'0','0',:reten,:vuelto) AS ID";
 
         if ($cabecera['tdocv'] == '01' || $cabecera['tdocv'] == '03') {
             $nidcta1 = session()->get("gene_idctav");
             $nidcta2 = session()->get("gene_idctai");
             $nidcta3 = session()->get("gene_idctat");
+            $rete = (floatval($_SESSION['gene_montoretencion']) <= floatval($cabecera['total']) ? ($cabecera['txtclienteretencion'] == 'S' ? round($cabecera['total'] * ($_SESSION['gene_retencion'] / 100), 2) : 0) : 0);
         } else {
             $nidcta1 = 0;
             $nidcta2 = 0;
             $nidcta3 = 0;
+            $rete = 0;
         }
 
         try {
@@ -698,6 +700,7 @@ class Ventas extends Modelo
                 'n2' => $nidcta2,
                 'n3' => $nidcta3,
                 'txtreferencia' => $cabecera["txtreferencia"],
+                'reten' => $rete,
                 'vuelto' => empty($cabecera['txtvuelto']) ? '0' : $cabecera['txtvuelto']
             ]);
             if ($st->errorCode() != '00000') {
@@ -706,6 +709,7 @@ class Ventas extends Modelo
                 $rpta = array('mensaje' => "No se registro en la cabecera", "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
+
             $id = $st->fetchColumn();
             if ($cabecera['formv'] == 'C') {
                 $sqlcreditos = "select FunRegistraCreditos(:nauto,:nid,:cndoc,'C',:cmon,:crefe,:dfecha,:dfevto,
@@ -882,16 +886,18 @@ class Ventas extends Modelo
     {
         $this->fechv = $cabecera["fechv"];
         $ls = "CALL ProActualizaCabeceraCVtasicbper(:ctdoc,:cform,:cndoc,:dfecha,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,:ndolar,:ni,:ctg,:ccodp,
-            :cmvto,:nus,:nicbper,:nidcodt,:n1,:n2,:n3,:nitems,:npvta,:nidauto)";
+            :cmvto,:nus,:reten,:nidcodt,:n1,:n2,:n3,:nitems,:npvta,:nidauto)";
 
         if ($cabecera['tdocv'] == '01' || $cabecera['tdocv'] == '03') {
             $nidcta1 = session()->get("gene_idctav");
             $nidcta2 = session()->get("gene_idctai");
             $nidcta3 = session()->get("gene_idctat");
+            $rete = (floatval($_SESSION['gene_montoretencion']) <= floatval($cabecera['total']) ? ($cabecera['txtclienteretencion'] == 'S' ? round($cabecera['total'] * ($_SESSION['gene_retencion'] / 100), 2) : 0) : 0);
         } else {
             $nidcta1 = 0;
             $nidcta2 = 0;
             $nidcta3 = 0;
+            $rete = 0;
         }
 
         try {
@@ -916,7 +922,7 @@ class Ventas extends Modelo
                 'ccodp' => $cabecera["idcliev"],
                 'cmvto' => 'V',
                 'nus' => $cabecera["nidus"],
-                'nicbper' => '1',
+                'reten' => $rete,
                 'nidcodt' => $cabecera["almv"],
                 'n1' => $nidcta1,
                 'n2' =>  $nidcta2,

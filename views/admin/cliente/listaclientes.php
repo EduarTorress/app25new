@@ -4,6 +4,7 @@
             <tr>
                 <th>Nombre</th>
                 <th>RUC</th>
+                <th>DNI</th>
                 <th class="text-center">Opciones</th>
             </tr>
         </thead>
@@ -12,6 +13,7 @@
                 <tr>
                     <td><?php echo $item['razo'] ?></td>
                     <td><?php echo $item['nruc'] ?></td>
+                          <td><?php echo $item['ndni'] ?></td>
                     <td class="text-center" id="iniciar">
                         <?php
                         $parametro1 = $item['razo'];

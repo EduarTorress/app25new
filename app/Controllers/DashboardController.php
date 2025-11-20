@@ -36,7 +36,7 @@ class DashboardController extends Controller
     public function obtenerDatos(Request $request)
     {
         $validar = new Validator($request->getBody());
-        $validar->rule("required", "alm")->message('Almacen es Obligatorio');
+        $validar->rule("required", "alm")->message('Alamcen es Obligatorio');
         $validar->rule("required", "serie")->message('Serie es Obligatorio');
         if (!$validar->validate()) {
             $data = ["errors" => $validar->errors()];
@@ -46,7 +46,7 @@ class DashboardController extends Controller
         \session()->set('serie', $request->get('serie'));
         // return view('admin/dashboard');
         return response()->json([
-            'message' => 'Se grabo correctamente'
+            'message' => 'Se grabaron los datos satisfactoriamente'
         ], 200);
     }
     public function obtenerpanel()
