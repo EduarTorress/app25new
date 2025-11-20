@@ -19,9 +19,7 @@ use ZipArchive;
 
 class CpeController extends Controller
 {
-    function __construct()
-    {
-    }
+    function __construct() {}
     function consultafne()
     {
         $ctitulo = 'CPE-EMITIDOS POR INFORMAR';
@@ -452,6 +450,7 @@ class CpeController extends Controller
                 $oimp->ruccliente = $fila['nruc'];
                 $oimp->dnicliente = $fila['ndni'];
                 $oimp->guiaremision = $fila['ndo2'];
+                $oimp->clienteretencion = $fila['clie_rete'];
                 $oimp->referencia = isset($fila['deta']) ? $fila['deta'] : '';
                 if ($tipo == 'S' or $tipo == 'T') {
                     $oimp->detraccion = $fila['rcom_detr'];
@@ -546,6 +545,7 @@ class CpeController extends Controller
                 $oimp->ruccliente = $fila['nruc'];
                 $oimp->dnicliente = $fila['ndni'];
                 $oimp->guiaremision = $fila['ndo2'];
+                $oimp->clienteretencion = $fila['clie_rete'];
                 $oimp->referencia = isset($fila['deta']) ? $fila['deta'] : '';
                 if ($tipo == 'S' or $tipo == 'T') {
                     $oimp->detraccion = $fila['rcom_detr'];
@@ -558,7 +558,7 @@ class CpeController extends Controller
                 $oimp->direccioncliente =  ($fila['direccion']);
                 switch ($fila['form']) {
                     case 'E':
-                        $formapago = "CONTADO";
+                        $formapago = "EFECTIVO";
                         break;
                     case 'C':
                         $formapago = "CREDITO";

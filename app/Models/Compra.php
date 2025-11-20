@@ -204,7 +204,7 @@ class Compra extends Modelo
     {
         $this->dfecha = $cabecera["fechi"];
         $this->dfechar = $cabecera["fechf"];
-        $igv = $_SESSION["igv"];
+        $igv = $_SESSION["gene_igv"];
         $sql = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,
             :nv,:nigv,:nt,:cndo2,:cm,:ndolar,:vigv,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,
             :n1,:n2,:n3,:nitem,:npvta,:exon) AS ID";

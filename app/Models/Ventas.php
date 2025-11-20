@@ -194,7 +194,7 @@ class Ventas extends Modelo
         if ($ctipovta === 'S' or $ctipovta === 'T') {
             $consulta = "SELECT  r.idauto,r.ndoc,r.tdoc,r.fech AS dfecha,IF(r.mone='S','PEN','USD') AS mone,valor,
             cast(0 as decimal(12,2)) as  inafectas,CAST(0 AS DECIMAL(12,2)) AS gratificaciones,r.mone AS moneda,
-            CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,
+            CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,clie_rete,
             v.nruc AS rucempresa,v.empresa,v.ubigeo,r.mone AS moneda,
             v.ptop,v.ciudad,v.distrito,c.nruc,IF(tdoc='01','6','1') AS tipodoccliente,c.razo,
             CONCAT(TRIM(c.dire)) AS direccion,c.ndni,rcom_otro,CAST(0 AS DECIMAL(10,2)) AS costoref,deta,
@@ -213,7 +213,7 @@ class Ventas extends Modelo
             WHERE r.idauto=:nidauto AND r.acti='A' AND detv_item>0 AND detv_acti='A'";
         } else {
             $consulta = "SELECT r.idauto,r.ndoc,r.tdoc,r.fech AS dfecha,IF(r.mone='S','PEN','USD') AS mone,valor,rcom_vuelto,
-            CAST(0 AS DECIMAL(12,2)) AS inafectas,CAST(0 AS DECIMAL(12,2)) AS gratificaciones,r.mone AS moneda,
+            CAST(0 AS DECIMAL(12,2)) AS inafectas,CAST(0 AS DECIMAL(12,2)) AS gratificaciones,r.mone AS moneda,clie_rete,
             CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,
             v.nruc AS rucempresa,v.empresa,v.ubigeo,r.mone AS moneda, v.ptop,v.ciudad,v.distrito,fusua,
             c.nruc,IF(tdoc='01','6','1') AS tipodoccliente,c.razo, CONCAT(TRIM(c.dire)) AS direccion,
@@ -661,12 +661,14 @@ class Ventas extends Modelo
             $nidcta1 = session()->get("gene_idctav");
             $nidcta2 = session()->get("gene_idctai");
             $nidcta3 = session()->get("gene_idctat");
-            $rete = (floatval($_SESSION['gene_montoretencion']) <= floatval($cabecera['total']) ? ($cabecera['txtclienteretencion'] == 'S' ? round($cabecera['total'] * ($_SESSION['gene_retencion'] / 100), 2) : 0) : 0);
         } else {
             $nidcta1 = 0;
             $nidcta2 = 0;
             $nidcta3 = 0;
-            $rete = 0;
+        }
+        $rete = 0;
+        if ($cabecera['tdocv'] == '01') {
+            $rete = (floatval($_SESSION['gene_montoretencion']) <= floatval($cabecera['total']) ? ($cabecera['txtclienteretencion'] == 'S' ? round($cabecera['total'] * ($_SESSION['gene_retencion'] / 100), 2) : 0) : 0);
         }
 
         try {
@@ -892,12 +894,14 @@ class Ventas extends Modelo
             $nidcta1 = session()->get("gene_idctav");
             $nidcta2 = session()->get("gene_idctai");
             $nidcta3 = session()->get("gene_idctat");
-            $rete = (floatval($_SESSION['gene_montoretencion']) <= floatval($cabecera['total']) ? ($cabecera['txtclienteretencion'] == 'S' ? round($cabecera['total'] * ($_SESSION['gene_retencion'] / 100), 2) : 0) : 0);
         } else {
             $nidcta1 = 0;
             $nidcta2 = 0;
             $nidcta3 = 0;
-            $rete = 0;
+        }
+        $rete = 0;
+        if ($cabecera['tdocv'] == '01') {
+            $rete = (floatval($_SESSION['gene_montoretencion']) <= floatval($cabecera['total']) ? ($cabecera['txtclienteretencion'] == 'S' ? round($cabecera['total'] * ($_SESSION['gene_retencion'] / 100), 2) : 0) : 0);
         }
 
         try {

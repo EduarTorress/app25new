@@ -926,6 +926,7 @@ class VentasController extends Controller
                 // $oimp->tipocomprobante = $fila['tdoc'];
                 $oimp->fecha = date("d/m/Y", strtotime($fila['fechv']));
                 $oimp->hora = date("H:i:s");
+                $oimp->clienteretencion = ($fila['tdocv'] == '01') ? $fila['txtclienteretencion'] : 'N';
                 $oimp->guiaremision = $fila['ndo2v'];
                 $oimp->optigv = $fila['optigv'];
                 $oimp->referencia = $fila['txtreferencia'];
@@ -941,7 +942,7 @@ class VentasController extends Controller
                 $oimp->direccioncliente = $fila['txtdireccion'];
                 switch ($fila['formv']) {
                     case 'E':
-                        $formapago = "CONTADO";
+                        $formapago = "EFECTIVO";
                         break;
                     case 'C':
                         $formapago = "CREDITO";

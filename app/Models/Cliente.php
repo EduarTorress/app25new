@@ -109,7 +109,7 @@ class Cliente extends Modelo
     function save()
     {
         $sql = "INSERT INTO fe_clie (razo, nruc, ndni, dire,ciud,ubig,fechclie,clie_rete,clie_idus) 
-        VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,:txtUbigeo,now(),:retencion,_idusua)";
+        VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,:txtUbigeo,now(),:retencion,:idusua)";
         $query = $this->prepare($sql);
         $query->execute([
             'txtNombre' => $this->txtNombre,

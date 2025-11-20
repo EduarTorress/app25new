@@ -73,6 +73,7 @@ class Imprimir
     var $egresos;
     var $apertura;
     var $ingresos;
+    var $clienteretencion;
     var $items = array();
     var $urlguiasunat = "https://e-factura.sunat.gob.pe/v1/contribuyente/gre/comprobantes/descargaqr?";
     var $qrsunat;
@@ -747,7 +748,7 @@ class Imprimir
         $pdf->setx(120);
         $pdf->cell(100, 5,  "Licencia N°: " . trim($this->brevete));
         $pdf->ln();
-        $pdf->cell(100, 5, 'Registro MTC: '.trim($this->constancia));
+        $pdf->cell(100, 5, 'Registro MTC: ' . trim($this->constancia));
         $pdf->ln();
         $pdf->SetFont('Tahomab', '', 6);
         $pdf->SetFillColor(240, 240, 240);
@@ -943,7 +944,7 @@ class Imprimir
         $pdf->setx(120);
         $pdf->cell(100, 5,  "Licencia N°: " . trim($this->brevete));
         $pdf->ln();
-        $pdf->cell(100, 5, 'Registro MTC: '. trim($this->constancia));
+        $pdf->cell(100, 5, 'Registro MTC: ' . trim($this->constancia));
         $pdf->ln();
         $pdf->SetFont('Tahomab', '', 6);
         $pdf->SetFillColor(240, 240, 240);
@@ -1142,7 +1143,7 @@ class Imprimir
         $pdf->setx(120);
         $pdf->cell(100, 5,  "Licencia N°: " . trim($this->brevete));
         $pdf->ln();
-        $pdf->cell(100, 5, 'Registro MTC: '.trim($this->constancia));
+        $pdf->cell(100, 5, 'Registro MTC: ' . trim($this->constancia));
         $pdf->ln();
         $pdf->SetFont('Tahomab', '', 6);
         $pdf->SetFillColor(240, 240, 240);
@@ -1654,6 +1655,35 @@ class Imprimir
         // $pdf->Image($ruta_qr, 10, $pdf->gety(), 20, 20);
         $pdf->Cell(70, 3, $pdf->Image($ruta_qr, 32, $pdf->GetY(), 15), 0, 'C');
 
+        $y = $pdf->GetY();
+        if ($this->clienteretencion == 'S') {
+            if (floatval($_SESSION['gene_montoretencion']) <= floatval($this->total)) {
+                $pdf->SetFont('Arial', '', 5);
+                $pdf->ln(17);
+                if (substr($this->formadepago, 0, 1) == 'C') {
+                    $pdf->SetX(5);
+                    $pdf->cell(20, 4, 'CUOTA', 1, 0, 'C');
+                    $pdf->cell(16, 4, 'RETENCION', 1, 0, 'C');
+                    $pdf->cell(16, 4, 'IMPORTE CUOTA', 1, 0, 'C');
+                    $pdf->cell(16, 4, 'FECHA VENC.', 1, 0, 'C');
+                    $pdf->SetY($y + 21);
+                    $pdf->SetX(5);
+                    $pdf->cell(20, 3, 'CUOTA 01', 1, 0, 'C', 0);
+                    $pdf->cell(16, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
+                    $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                    $pdf->cell(16, 3, $this->fechavto, 1, 1, 'C', 0);
+                } else {
+                    $pdf->SetX(22);
+                    $pdf->cell(16, 4, 'RETENCION', 1, 0, 'C');
+                    $pdf->cell(16, 4, 'A PAGAR', 1, 0, 'C');
+                    $pdf->SetY($y + 21);
+                    $pdf->SetX(22);
+                    $pdf->cell(16, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
+                    $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                }
+            }
+        }
+
         // Cerrar conexiones y generar el PDF
         if ($estilo == 'I') {
             // $pdf->Output('I', $rutapdf);
@@ -1841,7 +1871,7 @@ class Imprimir
     }
     public function generarticketcaja($rutapdf, $estilo = '')
     {
-        $pdf = new FPDF('P', 'mm', array(80,250));
+        $pdf = new FPDF('P', 'mm', array(80, 250));
         $pdf->AddPage();
         $pdf->SetMargins(-5, -10, 5);
         $pdf->SetFont('Arial', 'B', 12);
