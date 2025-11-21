@@ -451,6 +451,7 @@ class CpeController extends Controller
                 $oimp->dnicliente = $fila['ndni'];
                 $oimp->guiaremision = $fila['ndo2'];
                 $oimp->clienteretencion = $fila['clie_rete'];
+                $oimp->retencion = $fila['rcom_mret'];
                 $oimp->referencia = isset($fila['deta']) ? $fila['deta'] : '';
                 if ($tipo == 'S' or $tipo == 'T') {
                     $oimp->detraccion = $fila['rcom_detr'];
@@ -545,6 +546,7 @@ class CpeController extends Controller
                 $oimp->ruccliente = $fila['nruc'];
                 $oimp->dnicliente = $fila['ndni'];
                 $oimp->guiaremision = $fila['ndo2'];
+                $oimp->retencion = $fila['rcom_mret'];
                 $oimp->clienteretencion = $fila['clie_rete'];
                 $oimp->referencia = isset($fila['deta']) ? $fila['deta'] : '';
                 if ($tipo == 'S' or $tipo == 'T') {

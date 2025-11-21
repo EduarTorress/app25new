@@ -74,6 +74,7 @@ class Imprimir
     var $apertura;
     var $ingresos;
     var $clienteretencion;
+    var $retencion;
     var $items = array();
     var $urlguiasunat = "https://e-factura.sunat.gob.pe/v1/contribuyente/gre/comprobantes/descargaqr?";
     var $qrsunat;
@@ -324,29 +325,37 @@ class Imprimir
         $y = $pdf->GetY();
         if ($this->clienteretencion == 'S') {
             if (floatval($_SESSION['gene_montoretencion']) <= floatval($this->total)) {
-                $pdf->SetFont('Arial', '', 5);
-                $pdf->ln(7);
-                if (substr($this->formadepago, 0, 1) == 'C') {
-                    $pdf->SetX(140);
-                    $pdf->cell(14, 4, 'CUOTA', 1, 0, 'C');
-                    $pdf->cell(14, 4, 'RETENCION', 1, 0, 'C');
-                    $pdf->cell(16, 4, 'IMPORTE CUOTA', 1, 0, 'C');
-                    $pdf->cell(14, 4, 'FECHA VENC.', 1, 0, 'C');
-                    $pdf->SetY($y + 11);
-                    $pdf->SetX(140);
-                    $pdf->cell(14, 3, 'CUOTA 01', 1, 0, 'C', 0);
-                    $pdf->cell(14, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
-                    $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
-                    $pdf->cell(14, 3, $this->fechavto, 1, 1, 'C', 0);
+                if ($this->retencion > 0) {
+                    $pdf->SetFont('Arial', '', 5);
+                    $pdf->ln(7);
+                    if (substr($this->formadepago, 0, 1) == 'C') {
+                        $pdf->SetX(140);
+                        $pdf->cell(14, 4, 'CUOTA', 1, 0, 'C');
+                        $pdf->cell(14, 4, 'RETENCION', 1, 0, 'C');
+                        $pdf->cell(16, 4, 'IMPORTE CUOTA', 1, 0, 'C');
+                        $pdf->cell(14, 4, 'FECHA VENC.', 1, 0, 'C');
+                        $pdf->SetY($y + 11);
+                        $pdf->SetX(140);
+                        $pdf->cell(14, 3, 'CUOTA 01', 1, 0, 'C', 0);
+                        $pdf->cell(14, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
+                        $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                        $pdf->cell(14, 3, $this->fechavto, 1, 1, 'C', 0);
+                    } else {
+                        $pdf->SetX(144);
+                        $pdf->cell(26, 4, 'RETENCION', 1, 0, 'C');
+                        $pdf->cell(28, 4, 'A PAGAR', 1, 0, 'C');
+                        $pdf->SetY($y + 11);
+                        $pdf->SetX(144);
+                        $pdf->cell(26, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
+                        $pdf->cell(28, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                    }
                 } else {
-                    $pdf->SetX(144);
-                    $pdf->cell(26, 4, 'RETENCION', 1, 0, 'C');
-                    $pdf->cell(28, 4, 'A PAGAR', 1, 0, 'C');
-                    $pdf->SetY($y + 11);
-                    $pdf->SetX(144);
-                    $pdf->cell(26, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
-                    $pdf->cell(28, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                    $pdf->ln();
+                    $pdf->ln();
                 }
+            } else {
+                $pdf->ln();
+                $pdf->ln();
             }
         } else {
             $pdf->ln();
@@ -1688,28 +1697,30 @@ class Imprimir
         $y = $pdf->GetY();
         if ($this->clienteretencion == 'S') {
             if (floatval($_SESSION['gene_montoretencion']) <= floatval($this->total)) {
-                $pdf->SetFont('Arial', '', 5);
-                $pdf->ln(17);
-                if (substr($this->formadepago, 0, 1) == 'C') {
-                    $pdf->SetX(5);
-                    $pdf->cell(20, 4, 'CUOTA', 1, 0, 'C');
-                    $pdf->cell(16, 4, 'RETENCION', 1, 0, 'C');
-                    $pdf->cell(16, 4, 'IMPORTE CUOTA', 1, 0, 'C');
-                    $pdf->cell(16, 4, 'FECHA VENC.', 1, 0, 'C');
-                    $pdf->SetY($y + 21);
-                    $pdf->SetX(5);
-                    $pdf->cell(20, 3, 'CUOTA 01', 1, 0, 'C', 0);
-                    $pdf->cell(16, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
-                    $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
-                    $pdf->cell(16, 3, $this->fechavto, 1, 1, 'C', 0);
-                } else {
-                    $pdf->SetX(22);
-                    $pdf->cell(16, 4, 'RETENCION', 1, 0, 'C');
-                    $pdf->cell(16, 4, 'A PAGAR', 1, 0, 'C');
-                    $pdf->SetY($y + 21);
-                    $pdf->SetX(22);
-                    $pdf->cell(16, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
-                    $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                if ($this->retencion > 0) {
+                    $pdf->SetFont('Arial', '', 5);
+                    $pdf->ln(17);
+                    if (substr($this->formadepago, 0, 1) == 'C') {
+                        $pdf->SetX(5);
+                        $pdf->cell(20, 4, 'CUOTA', 1, 0, 'C');
+                        $pdf->cell(16, 4, 'RETENCION', 1, 0, 'C');
+                        $pdf->cell(16, 4, 'IMPORTE CUOTA', 1, 0, 'C');
+                        $pdf->cell(16, 4, 'FECHA VENC.', 1, 0, 'C');
+                        $pdf->SetY($y + 21);
+                        $pdf->SetX(5);
+                        $pdf->cell(20, 3, 'CUOTA 01', 1, 0, 'C', 0);
+                        $pdf->cell(16, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
+                        $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                        $pdf->cell(16, 3, $this->fechavto, 1, 1, 'C', 0);
+                    } else {
+                        $pdf->SetX(22);
+                        $pdf->cell(16, 4, 'RETENCION', 1, 0, 'C');
+                        $pdf->cell(16, 4, 'A PAGAR', 1, 0, 'C');
+                        $pdf->SetY($y + 21);
+                        $pdf->SetX(22);
+                        $pdf->cell(16, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
+                        $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                    }
                 }
             }
         }

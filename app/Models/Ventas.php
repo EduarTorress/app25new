@@ -194,7 +194,7 @@ class Ventas extends Modelo
         if ($ctipovta === 'S' or $ctipovta === 'T') {
             $consulta = "SELECT  r.idauto,r.ndoc,r.tdoc,r.fech AS dfecha,IF(r.mone='S','PEN','USD') AS mone,valor,
             cast(0 as decimal(12,2)) as  inafectas,CAST(0 AS DECIMAL(12,2)) AS gratificaciones,r.mone AS moneda,
-            CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,clie_rete,
+            CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,clie_rete,rcom_mret,
             v.nruc AS rucempresa,v.empresa,v.ubigeo,r.mone AS moneda,
             v.ptop,v.ciudad,v.distrito,c.nruc,IF(tdoc='01','6','1') AS tipodoccliente,c.razo,
             CONCAT(TRIM(c.dire)) AS direccion,c.ndni,rcom_otro,CAST(0 AS DECIMAL(10,2)) AS costoref,deta,
@@ -214,7 +214,7 @@ class Ventas extends Modelo
         } else {
             $consulta = "SELECT r.idauto,r.ndoc,r.tdoc,r.fech AS dfecha,IF(r.mone='S','PEN','USD') AS mone,valor,rcom_vuelto,
             CAST(0 AS DECIMAL(12,2)) AS inafectas,CAST(0 AS DECIMAL(12,2)) AS gratificaciones,r.mone AS moneda,clie_rete,
-            CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,
+            CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,rcom_mret,
             v.nruc AS rucempresa,v.empresa,v.ubigeo,r.mone AS moneda, v.ptop,v.ciudad,v.distrito,fusua,
             c.nruc,IF(tdoc='01','6','1') AS tipodoccliente,c.razo, CONCAT(TRIM(c.dire)) AS direccion,
             c.ndni,rcom_otro,kar_cost AS costoref,deta, 'PE' AS pais,r.igv,CAST(0 AS DECIMAL(12,2)) AS tdscto,
