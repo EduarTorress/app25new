@@ -464,7 +464,7 @@ class CpeController extends Controller
                 // $oimp->formadepago = ($fila['form'] == 'E' ? 'CONTADO' : 'CREDITO');
                 switch ($fila['form']) {
                     case 'E':
-                        $oimp->formadepago = "CONTADO";
+                        $oimp->formadepago = "EFECTIVO";
                         break;
                     case 'C':
                         $oimp->formadepago = "CREDITO";

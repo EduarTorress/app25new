@@ -321,8 +321,38 @@ class Imprimir
         $pdf->setx(144);
         $pdf->cell(25, 6, 'TOTAL ', 1, 0, 'R', 0);
         $pdf->cell(29, 6, number_format($this->total, 2, '.', ','), 1, 0, 'R', 0);
-        $pdf->ln();
-        $pdf->ln();
+        $y = $pdf->GetY();
+        if ($this->clienteretencion == 'S') {
+            if (floatval($_SESSION['gene_montoretencion']) <= floatval($this->total)) {
+                $pdf->SetFont('Arial', '', 5);
+                $pdf->ln(7);
+                if (substr($this->formadepago, 0, 1) == 'C') {
+                    $pdf->SetX(140);
+                    $pdf->cell(14, 4, 'CUOTA', 1, 0, 'C');
+                    $pdf->cell(14, 4, 'RETENCION', 1, 0, 'C');
+                    $pdf->cell(16, 4, 'IMPORTE CUOTA', 1, 0, 'C');
+                    $pdf->cell(14, 4, 'FECHA VENC.', 1, 0, 'C');
+                    $pdf->SetY($y + 11);
+                    $pdf->SetX(140);
+                    $pdf->cell(14, 3, 'CUOTA 01', 1, 0, 'C', 0);
+                    $pdf->cell(14, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
+                    $pdf->cell(16, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                    $pdf->cell(14, 3, $this->fechavto, 1, 1, 'C', 0);
+                } else {
+                    $pdf->SetX(144);
+                    $pdf->cell(26, 4, 'RETENCION', 1, 0, 'C');
+                    $pdf->cell(28, 4, 'A PAGAR', 1, 0, 'C');
+                    $pdf->SetY($y + 11);
+                    $pdf->SetX(144);
+                    $pdf->cell(26, 3, 'S/ ' . round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2), 1, 0, 'C', 0);
+                    $pdf->cell(28, 3, 'S/ ' . strval(floatval($this->total) - round(floatval($_SESSION['gene_retencion'] / 100) * floatval($this->total), 2)), 1, 0, 'C', 0);
+                }
+            }
+        } else {
+            $pdf->ln();
+            $pdf->ln();
+        }
+
         $mensaje =  empty($_SESSION['config']['ventasexon']) ? '' : 'Bienes Transferidos en la Amazonia Para ser consumidos en la misma';
         $pdf->cell(50, 6, $mensaje);
         $pdf->ln();
