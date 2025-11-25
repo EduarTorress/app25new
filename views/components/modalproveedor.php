@@ -75,7 +75,6 @@
         }).then(function(respuesta) {
             const contenido_tabla = respuesta.data;
             $('#searchprov').html(contenido_tabla);
-
             var nombre = "N",
                 ciudad = "-",
                 direccion = "-",
@@ -212,8 +211,6 @@
                         console.log("Tipo de busqueda invalido");
                 }
             }
-
-
         }).catch(function(error) {
             toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
         });

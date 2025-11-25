@@ -116,9 +116,12 @@ $app->router->get('/compras/listarcompradproducto', [\App\Controllers\ComprasCon
 $app->router->get("/compras/exportarsire", [\App\Controllers\ComprasController::class, 'exportarsire']);
 $app->router->post("/compras/generardescuento", [\App\Controllers\ComprasController::class, 'generardescuento']);
 
+$app->router->post('/compras/agregaritemxposicion', [\App\Controllers\ComprasController::class, 'agregaritemxposicion']);
 
 $app->router->get("/compras/indexlistacomprasxprov", [\App\Controllers\ComprasController::class, 'indexlistacomprasxprov']);
 $app->router->get("/compras/listacomprasxprov", [\App\Controllers\ComprasController::class, 'listacomprasxprov']);
+
+$app->router->post('/compras/importarcompraxarchivo', [\App\Controllers\ComprasController::class, 'importarcompraxarchivo']);
 
 
 #rutas de notas de crédito compras

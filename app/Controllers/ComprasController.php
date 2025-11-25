@@ -145,7 +145,75 @@ class ComprasController extends Controller
         $checknodescontarstock = \session()->get('checknodescontarstock', 'false');
 
         return view($cvista, [
-            'carritoc' => $carritoc, 'total' => $total, 'items' => $numero_items, 'checknodescontarstock' => $checknodescontarstock
+            'carritoc' => $carritoc,
+            'total' => $total,
+            'items' => $numero_items,
+            'checknodescontarstock' => $checknodescontarstock
+        ]);
+    }
+
+    function agregaritemxposicion(Request $request)
+    {
+        // $idart = $request->get('txtcodigo');
+        // if ($this->verificarsiyaesta($idart)) {
+        //     $data = [
+        //         'message' => 'Producto ya agregado a la compra',
+        //         'rpta' => 'N'
+        //     ];
+        //     return response()->json($data, 422);
+        // }
+        $validar = new Validator($request->getBody());
+        $validar->rule("required", "txtprecio")->message('Precio es obligatorio');
+        $validar->rule("required", "txtcantidad")->message('Cantidad es obligatoria');
+        $validar->rule("numeric", "txtprecio")->message('El Precio debe ser númerico');
+        $validar->rule("numeric", "txtcantidad")->message('Cantidad debe de ser númerico');
+        $validar->rule("min", "txtcantidad", 1)->message('La Cantidad debe de ser mayor a 0');
+        $validar->labels([
+            'precio' => 'txtprecio',
+            'cantidad' => 'txtcantidad'
+        ]);
+        if (!$validar->validate()) {
+            $data = ["errors" => $validar->errors()];
+            return response()->json($data, 422);
+        }
+        $producto = array();
+        $producto = array(
+            'indice' => $request->get('indice'),
+            'coda' => $request->get("txtcodigo"),
+            'descri' => $request->get("txtdescripcion"),
+            'unidad' => $request->get('txtunidad'),
+            'cantidad' => $request->get('txtcantidad'),
+            'precio' => $request->get("txtprecio"),
+            'precio1' => $request->get("precio1"),
+            'precio2' => $request->get("precio2"),
+            'precio3' => $request->get("precio3"),
+            'stock' => $request->get('stock'),
+            'costo' => $request->get('costo'),
+            'presentaciones' => $request->get('presentaciones'),
+            'cantequi' => $request->get('cantequi'),
+            'presseleccionada' => $request->get('presseleccionada')
+        );
+
+        CarritoService::agregarItemCompraxposicion($producto);
+        $total = number_format(CarritoService::totalCompra(), 2, '.', '');
+        $numero_items = str_pad(CarritoService::numeroItemsCompra(), 2, '0', STR_PAD_LEFT);
+
+        $carritoc = session()->get('carritoc', []);
+        $cvista = \retornavista('compras', 'detalle');
+
+        // return response()->json([
+        //     'message' => 'Item agregado correctamente',
+        //     'total' => $total,
+        //     'numero_items' => $numero_items,
+        //     'carritoc' => session()->get("carritoc", [])
+        // ], 200);
+        $checknodescontarstock = \session()->get('checknodescontarstock', 'false');
+
+        return view($cvista, [
+            'carritoc' => $carritoc,
+            'total' => $total,
+            'items' => $numero_items,
+            'checknodescontarstock' => $checknodescontarstock
         ]);
     }
     function quitaritem(Request $request)
@@ -164,6 +232,7 @@ class ComprasController extends Controller
         session()->remove('carritoc');
         session()->remove('proveedor');
         session()->remove('idcompra');
+        session()->remove('idprov');
         session()->remove('razo');
         session()->remove('tdoc');
         session()->remove('cndoc');
@@ -612,8 +681,15 @@ class ComprasController extends Controller
         \session()->set('checknodescontarstock',  $checknodescontarstock);
 
         return view($cvista, [
-            'titulo' => $titulo, 'datosproveedor' => $datosproveedor, 'idcompra' => $idauto, 'serie' => $serie,
-            'num' => $num, 'v' => $v, 'carritoc' => $carritoc, 'items' => count($carritoc), 'total' => $montototal,
+            'titulo' => $titulo,
+            'datosproveedor' => $datosproveedor,
+            'idcompra' => $idauto,
+            'serie' => $serie,
+            'num' => $num,
+            'v' => $v,
+            'carritoc' => $carritoc,
+            'items' => count($carritoc),
+            'total' => $montototal,
             'checknodescontarstock' => $checknodescontarstock
         ]);
     }
@@ -980,5 +1056,73 @@ class ComprasController extends Controller
         } else {
             return response()->json(['message' => $rpta['mensaje']], 422);
         }
+    }
+    function importarcompraxarchivo(Request $request)
+    {
+        session()->set('carritoc', []);
+        $archivoxml = $request->get('archivo');
+        $comprobante = ($this->obtenerdetallexdocumento($archivoxml));
+        $i = 0;
+        foreach ($comprobante['carrito_de_compras'] as $item) {
+            $c[] = array(
+                'indice' => $i++,
+                'coda' => 0,
+                'descri' => $item["descripcion"],
+                'unidad' => $item['unidad'],
+                'cantidad' => $item['cantidad'],
+                'precio' => $item["precio"],
+                'preciocopia' => $item['precio'],
+                'nreg' => 0,
+                'idprov' => 0,
+                'subtotal' => $item['precio'] * $item['cantidad'],
+                'activo' => 'A',
+                'epta_idep' =>  0,
+                'pres_desc' => 'UNID',
+                'epta_cant' =>  1,
+                'epta_prec' =>  $item['precio'],
+                'presseleccionada' => 0,
+                'kar_equi' => 1,
+                'checkafecto' => "true",
+                'kar_lote' =>  '',
+                'kar_fvto' => '',
+                'presentaciones' => json_encode(
+                    [
+                        [
+                            'pres_desc' => 'NIU',
+                            'epta_cant' => 1,
+                            'epta_idep' => 1,
+                            'epta_prec' => $item['precio']
+                        ]
+                    ]
+                ),
+                'fechavto' => date('Y-m-d'),
+                'lote' => ''
+            );
+        }
+        session()->set('carritoc', $c);
+        return response()->json(['message' => $comprobante], 200);
+    }
+
+    function obtenerdetallexdocumento($datapost)
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://companiasysven.com/app88/parsearxml.php',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $datapost,
+            CURLOPT_HTTPHEADER => array(
+                "Cache-Control: no-cache",
+                "Content-Type: application/xml"
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response, true);
+        return $data;
     }
 }

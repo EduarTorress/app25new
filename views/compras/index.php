@@ -28,10 +28,11 @@ echo $prod->render();
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-4">
-                    <div class="input-group ">
+                    <div class="input-group">
                         <input type="text" class="form-control form-control-sm" id="txtproveedor" aria-label="" aria-describedby="basic-addon2" placeholder="Proveedor" disabled value="<?php echo isset($datosproveedor['razo']) ?  trim($datosproveedor['razo']) : '' ?>">
                         <input type="hidden" id="txtidproveedor" value="<?php echo isset($datosproveedor['idprov']) ?  $datosproveedor['idprov'] : '' ?> ">
-                        <input type="hidden" id="txtrucproveedor" value=""><input type="hidden" id="txtptopartida" value=""><input type="hidden" id="txtUbigeoproveedor" value="">
+                        <input type="hidden" id="txtrucproveedor" value=""><input type="hidden" id="txtptopartida" value="">
+                        <input type="hidden" id="txtUbigeoproveedor" value="">
                         <input type="hidden" id="txtidauto" value="<?php echo isset($idcompra) ? $idcompra : 0 ?>">
                         <button class="btn btn-outline-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_proveedor"><i style="color:black" class="fas fa-user-alt"></i></button>
                     </div>
@@ -346,6 +347,7 @@ $this->startSection('javascript');
 <script>
     window.onload = function() {
         clicksubtotal = 0;
+        ie = -1;
         titulo("<?php echo $titulo ?>");
         valor = "<?php echo $v ?>";
         if (valor == 'R') {
@@ -374,6 +376,158 @@ $this->startSection('javascript');
     $(".tipodocumentos").on("change", function() {
         isFormatSerie();
     });
+
+    async function cargararchivoxml(event) {
+        ie = -1;
+        const file = event.target.files.item(0)
+        const text = await file.text();
+        // console.log(text)
+        const data = new FormData();
+        data.append("archivo", text);
+        axios.post('/compras/importarcompraxarchivo', data)
+            .then(function(respuesta) {
+                rpta = respuesta.data.message;
+                $("#txtproveedor").val(rpta.proveedor);
+                $("#txtproveedor").addClass("border border-success border-5");
+                $("#txtrucproveedor").val(rpta.ruc);
+                $("#txtfechai").val(rpta.fecha)
+                $("#txtfechai").addClass("border border-success border-3");
+                dcto = rpta.documento;
+                ndoc = dcto.split('-');
+                $("#cndoc1").val(ndoc[0]);
+                $("#cndoc1").addClass("border border-success border-3");
+                $("#cndoc2").val(ndoc[1]);
+                $("#cndoc2").addClass("border border-success border-3");
+                switch (ndoc[0].substr(0, 1)) {
+                    case 'F':
+                        $("#cmbdcto").val("01");
+                        break;
+                    case 'E':
+                        $("#cmbdcto").val("01");
+                        break;
+                    case 'B':
+                        $("#cmbdcto").val("03");
+                        break;
+                    default:
+                        $("#cmbdcto").val("GI");
+                }
+                $("#cmbdcto").addClass("border border-success border-3");
+
+                switch (rpta.moneda) {
+                    case 'USD':
+                        $("#cmbmoneda").val("D");
+                        break;
+                    default:
+                        $("#cmbmoneda").val("S");
+                }
+                $("#cmbmoneda").addClass("border border-success border-3");
+
+                axios.get('/compras/listardetalle').then(function(respuesta) {
+                    const contenido_tabla = respuesta.data;
+                    $('#detalle').html(contenido_tabla);
+
+                    $("#griddetalle").addClass("border border-success border-5");
+                }).catch(function(error) {
+                    toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
+                });
+                grabarCabecera();
+                Swal.fire({
+                    title: "Compra Importada satisfactoriamente",
+                    text: "Se cargaron los datos de acuerdo al archivo subido.",
+                    icon: "success"
+                });
+                consultarproveedorximportacion();
+            }).catch(function(error) {
+                console.log(error);
+            });
+    }
+
+    function consultarproveedorximportacion() {
+        var abuscar = document.querySelector('#txtrucproveedor').value;
+        var noption = 1
+        var cmodo = 'S';
+        axios.get('/proveedor/buscar', {
+            "params": {
+                "cbuscar": abuscar,
+                "option": noption,
+                "modo": cmodo
+            }
+        }).then(function(respuesta) {
+            const contenido_tabla = respuesta.data;
+            $('#searchprov').html(contenido_tabla);
+            var nombre = "N",
+                ciudad = "-",
+                direccion = "-",
+                ubigeo = "-";
+            const tblcl = $("#iniciar").val();
+            if ((tblcl == null) && (noption == '1' || noption == '2')) {
+                if (abuscar.length == 11) {
+                    axios.get('/empresa/importarucydni', {
+                        "params": {
+                            "ruc": abuscar
+                        }
+                    }).then(function(respuesta) {
+                        nombre = respuesta.data.nombre_o_razon_social;
+                        if (abuscar.substring(0, 1) == '2') {
+                            direccion = respuesta.data.direccion;
+                            ciudad = respuesta.data.distrito.trimEnd() + ' ' + respuesta.data.provincia.trimEnd() + ' ' + respuesta.data.departamento.trimEnd();
+                            ubigeo = respuesta.data.ubigeo.trimEnd();
+                        }
+                        if (nombre !== undefined) {
+                            Swal.fire({
+                                title: "Proveedor no registrado en el sistema, presione sí para registrarlo",
+                                text: nombre,
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Si, deseo registrarlo.',
+                                cancelButtonText: 'No, volver atras.'
+                            }).then(function(respuesta) {
+                                if (respuesta.isConfirmed) {
+                                    const data = new FormData();
+                                    data.append("txtRUC", abuscar);
+                                    data.append("txtDNI", "");
+                                    data.append("txtNombre", nombre);
+                                    data.append("txtDireccion", direccion);
+                                    data.append("txtCiudad", ciudad);
+                                    data.append("cmbUbigeo", ubigeo);
+                                    axios.post('/proveedor/store', data)
+                                        .then(function(respuesta) {
+                                            axios.get("/proveedor/buscar", {
+                                                params: {
+                                                    cbuscar: abuscar,
+                                                    option: noption,
+                                                    modo: cmodo,
+                                                }
+                                            }).then(function(rp) {
+                                                const contenido_tabla = rp.data;
+                                                $("#searchprov").html(contenido_tabla);
+                                                $("#cmdbuscar").attr('disabled', true);
+                                                btnagregar = $("#iniciar").find("button");
+                                                $(btnagregar).click();
+                                            });
+                                        }).catch(function(error) {
+                                            if (error.hasOwnProperty('response')) {
+                                                if (error.response.status === 422) {
+                                                    const respuesta_servidor = error.response.data;
+                                                    const errores = respuesta_servidor.errors;
+                                                    mostrarErrores('formulario-crear', errores);
+                                                }
+                                            }
+                                        })
+                                }
+                            });
+                        }
+                    }).catch(function(error) {
+                        toastr.error(error, 'Mensaje del Sistema')
+                    });
+                }
+            }
+        }).catch(function(error) {
+            toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
+        });
+    }
 
     $("#modal_productos").on("shown.bs.modal", function() {
         filastbl = document.getElementById("griddetalle").rows.length;
@@ -531,6 +685,7 @@ $this->startSection('javascript');
     // }
 
     function agregarunitemVenta(datos) {
+        console.log(ie);
         presentaciones = JSON.parse(datos.parametro11);
         precio = presentaciones[0]['epta_prec'];
         unidad = presentaciones[0]['pres_desc']
@@ -553,28 +708,50 @@ $this->startSection('javascript');
         data.append("cantequi", cantequi);
         data.append("stock", parseFloat(datos.parametro4.toFixed(2)));
         data.append("opt", 0)
-        axios.post('/compras/agregaritem', data)
-            .then(function(respuesta) {
-                //window.location.href = '/vtas/index';
-                $('#modal_productos').modal('hide')
-                const contenido_tabla = respuesta.data;
-                $('#detalle').html(contenido_tabla);
-                calcularIGV();
-                //$("#griddetalle tr:last").focus()
-                var a = $("#griddetalle tr:last td:eq(4)").each(function() {
-                    $(this).focus();
-                    $(this).click();
-                });
-                idart = "#agregar" + datos.parametro2;
-                // console.log(idart);
-                $(idart).attr('disabled', 'disabled');
-            }).catch(function(error) {
-                if (error.hasOwnProperty("response")) {
-                    if (error.response.status === 422) {
-                        toastr.error(error.response.data.errors, "Mensaje del Sistema");
+        if (ie < 0) {
+            axios.post('/compras/agregaritem', data)
+                .then(function(respuesta) {
+                    //window.location.href = '/vtas/index';
+                    $('#modal_productos').modal('hide')
+                    const contenido_tabla = respuesta.data;
+                    $('#detalle').html(contenido_tabla);
+                    calcularIGV();
+                    //$("#griddetalle tr:last").focus()
+                    var a = $("#griddetalle tr:last td:eq(4)").each(function() {
+                        $(this).focus();
+                        $(this).click();
+                    });
+                    idart = "#agregar" + datos.parametro2;
+                    // console.log(idart);
+                    $(idart).attr('disabled', 'disabled');
+                    ie = -1;
+                }).catch(function(error) {
+                    if (error.hasOwnProperty("response")) {
+                        if (error.response.status === 422) {
+                            toastr.error(error.response.data.errors, "Mensaje del Sistema");
+                        }
                     }
-                }
-            });
+                });
+        } else {
+            data.append("indice", ie);
+            axios.post('/compras/agregaritemxposicion', data)
+                .then(function(respuesta) {
+                    //window.location.href = '/vtas/index';
+                    $('#modal_productos').modal('hide')
+                    const contenido_tabla = respuesta.data;
+                    $('#detalle').html(contenido_tabla);
+                    calcularIGV();
+                    idart = "#agregar" + datos.parametro2;
+                    $(idart).attr('disabled', 'disabled');
+                    ie = -1;
+                }).catch(function(error) {
+                    if (error.hasOwnProperty("response")) {
+                        if (error.response.status === 422) {
+                            toastr.error(error.response.data.errors, "Mensaje del Sistema");
+                        }
+                    }
+                });
+        }
     }
 
     $("#griddetalle tr:last td:eq(5) .inputright").on("keypress", function(evt) {
@@ -1270,7 +1447,7 @@ $this->startSection('javascript');
         if (clicksubtotal == 0) {
             var subt = parseFloat(cant) * parseFloat(prec);
             if (isNaN(subt)) {
-                toastr.info("Dígite un número correcto",'Mensaje del Sistema')
+                toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
             } else {
                 $(campo).val(subt.toFixed(2));
                 $('#griddetalle tbody').find('tr').each(function(i, el) {

@@ -332,8 +332,7 @@ function consultarDestinatarios() {
   noption = obtenertipobusquedacliente();
   // console.log(noption);
   var cmodo = "S";
-  axios
-    .get("/destinatario/lista", {
+  axios.get("/destinatario/lista", {
       params: {
         cbuscar: abuscar,
         option: noption,
@@ -410,7 +409,7 @@ function pulsarenterbuscarproductos(e) {
     // e.preventDefault();
     var valorbusqueda = document.getElementById("txtbuscarProducto").value;
     if (valorbusqueda.length == 0) {
-      toastr.info("Ingrese Dato a Buscar", 'Mensaje del Sistema');
+      toastr.info("Ingrese dato a Buscar", 'Mensaje del Sistema');
       return;
     }
     buscarProducto();

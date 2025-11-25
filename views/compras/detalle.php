@@ -37,7 +37,10 @@
                             <button class="btn btn-warning" onclick="quitaritem(<?php echo $indice ?>)"><a style="color:white" class="fas fa-trash-alt"></a></button>
                         </td>
                         <td class="codigo"><?php echo $item['coda'] ?></td>
-                        <td><?php echo $item['descri'] ?></td>
+                        <?php $color = $item['coda'] == '0' ? 'red' : 'black'; ?>
+                        <td onclick="seleccionarproducto(<?php echo $indice . ',' . $item['coda'] ?>)" style="color: <?php echo $color ?>">
+                            <?php echo $item['descri'] ?>
+                        </td>
                         <td><?php
                             $presentaciones = json_decode($item['presentaciones'], true); ?>
                             <select onchange="cambiarpresentacion(this,<?php echo $indice ?>)" class="form-control form-control-sm" name="cmbpresentaciones" id="cmbpresentaciones">
@@ -169,7 +172,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-7"></div>
+            <div class="col-2">
+                <label for="" id="lblimportarxml">Importar desde un XML:</label>
+                <input type="file" class="btn btn-secondary btn-sm" onchange="cargararchivoxml(event);" id="btnimportar" accept="text/xml">
+            </div>
+            <div class="col-5"></div>
             <div class="col-2">
                 <div class="input-group mb-3" style="width: 85%;">
                     <div class="input-group-prepend">
@@ -191,6 +198,13 @@
 </div>
 <script>
     calcularIGV();
+
+    function seleccionarproducto(indice, codigoproducto) {
+        if (codigoproducto == 0) {
+            ie = indice;
+            $("#modal_productos").modal("show");
+        }
+    }
 
     $('#cbpercepcion').change(function() {
         calcularpercepcion();

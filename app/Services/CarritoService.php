@@ -419,6 +419,33 @@ class CarritoService
         session()->set('carritoc', $carritoc);
     }
 
+    public static function agregarItemCompraxposicion($producto)
+    {
+        $carritoc = session()->get('carritoc', []);
+        $pos = $producto['indice'];
+        $indice = 0;
+        foreach ($carritoc as $posicion => $item) {
+            if ($posicion == $pos) {
+                $indice = $posicion;
+                break;
+            }
+        }
+        $carritoc[$indice]['coda'] = $producto['coda'];
+        $carritoc[$indice]['descri'] = $producto['descri'];
+        $carritoc[$indice]['preciocopia'] = $producto['precio'];
+        $carritoc[$indice]['presseleccionada'] = $producto['presseleccionada'];
+        $carritoc[$indice]['cantequi'] = $producto['cantequi'];
+        $carritoc[$indice]['unidad'] = $producto['unidad'];
+        $carritoc[$indice]['lote'] = empty($producto['lote']) ? ' ' : $producto['lote'];
+        $carritoc[$indice]['fechavto'] = empty($producto['fechavto']) ? date('Y-m-d') : $producto['fechavto'];
+        $carritoc[$indice]['presentaciones'] = $producto['presentaciones'];
+        $carritoc[$indice]['presseleccionada'] = $producto['presseleccionada'];
+        $carritoc[$indice]['cantequi'] = $producto['cantequi'];
+        $carritoc[$indice]['costo'] = $producto['costo'];
+        $carritoc[$indice]['caant'] = $producto['cantidad'];
+        session()->set('carritoc', $carritoc);
+    }
+
     public static function totalCompra()
     {
         return self::subtotalCompras();
@@ -442,7 +469,7 @@ class CarritoService
         $carritoc[$indice]['cantequi'] = $producto['cantequi'];
         $carritoc[$indice]['unidad'] = $producto['unidad'];
         $carritoc[$indice]['lote'] = empty($producto['lote']) ? ' ' : $producto['lote'];
-        $carritoc[$indice]['fechavto'] = empty($producto['fechavto']) ? '' : $producto['fechavto'];
+        $carritoc[$indice]['fechavto'] = empty($producto['fechavto']) ? date('Y-m-d') : $producto['fechavto'];
         session()->set('carritoc', $carritoc);
     }
     public static function editarProductocheckafecto($producto)
