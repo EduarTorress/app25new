@@ -27,7 +27,7 @@
                     <td class=""><?php echo $item['mond'] ?></td>
                     <td class=""><?php echo $item['dolar'] ?></td>
                     <td class=""><?php echo substr($item['docd'], 0, 1) ?></td>
-                    <td class=""></td>
+                    <td class=""><?php echo $item['cred_idpc'] ?></td>
                     <td class=""><?php echo $item['docd'] ?></td>
                 </tr>
             <?php endforeach; ?>

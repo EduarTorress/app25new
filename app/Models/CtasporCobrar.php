@@ -111,7 +111,7 @@ class CtasporCobrar extends Modelo
             $lista = array();
             $a = ($cmbalmancen == '0') ? ' and rcre_codt<>:cmbalmancen  ' : ' and rcre_codt=:cmbalmancen ';
             $sql = "select b.rcre_idcl,a.fech as fepd,a.fevto as fevd,a.ndoc,b.rcre_impc as impc,b.rcre_inic as inic,a.impo as impd,a.acta as actd,a.dola,
-		    a.tipo,a.banc,ifnull(c.ndoc,'00000000000') as docd,a.mone as mond,a.estd,a.idcred as nr,b.rcre_idrc,dolar,
+		    a.tipo,a.banc,ifnull(c.ndoc,'00000000000') as docd,a.mone as mond,a.estd,a.idcred as nr,b.rcre_idrc,dolar,cred_idpc,
 		    b.rcre_codv as codv,b.rcre_idau as idauto,ifnull(c.tdoc,'00') as refe,d.nomv FROM fe_cred as a
 		    inner join fe_rcred as b ON(b.rcre_idrc=a.cred_idrc) left join fe_rcom as c ON(c.idauto=b.rcre_idau)
 		    inner join fe_vend as d ON(d.idven=b.rcre_codv)
@@ -153,7 +153,7 @@ class CtasporCobrar extends Modelo
                         'ncontrol' => $d['ncontrol'],
                         'cnrou' => '',
                         'nidrc' => $d['rcre_idrc'],
-                        'cpc' => 'web',
+                        'cpc' => ($this->cmbforma == 'O') ? 'RETENCION' : '',
                         'nidus' => $_SESSION['usuario_id']
                     ]);
 
@@ -164,20 +164,22 @@ class CtasporCobrar extends Modelo
                     } else {
                         $plan = 0;
                     }
-                    $sqlic = "SELECT FunIngresaDatosLcajaECreditos(:dfech,:txtdocumento,:razo,:plan,:pagos,0,'S',:dolar,:cajero,:nidc,0,:forma,:cndoc) AS NID";
-                    $exeic = $pdo->prepare($sqlic);
-                    $exeic->execute([
-                        'dfech' => $this->txtfecha,
-                        'txtdocumento' => $this->txtdocumento,
-                        'razo' => $d['razo'],
-                        'plan' => $plan,
-                        'pagos' => $d['cancelar'],
-                        'dolar' => $_SESSION['gene_dola'],
-                        'cajero' => $_SESSION['usuario_id'],
-                        'nidc' => $id,
-                        'forma' => $this->cmbforma,
-                        'cndoc' => $d['ndoc']
-                    ]);
+                    if ($this->cmbforma != 'O') {
+                        $sqlic = "SELECT FunIngresaDatosLcajaECreditos(:dfech,:txtdocumento,:razo,:plan,:pagos,0,'S',:dolar,:cajero,:nidc,0,:forma,:cndoc) AS NID";
+                        $exeic = $pdo->prepare($sqlic);
+                        $exeic->execute([
+                            'dfech' => $this->txtfecha,
+                            'txtdocumento' => $this->txtdocumento,
+                            'razo' => $d['razo'],
+                            'plan' => $plan,
+                            'pagos' => $d['cancelar'],
+                            'dolar' => $_SESSION['gene_dola'],
+                            'cajero' => $_SESSION['usuario_id'],
+                            'nidc' => $id,
+                            'forma' => $this->cmbforma,
+                            'cndoc' => $d['ndoc']
+                        ]);
+                    }
                 }
             }
             $pdo->commit();

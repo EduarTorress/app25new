@@ -159,7 +159,6 @@ $this->startSection('javascript');
         Swal.fire("RUC: " + txtruccliente + ". <br> DNI: " + txtdnicliente + ". <br>DIRECCIÓN: " + txtdireccion + ".");
     }
 
-
     $('#modal_clientes').on('shown.bs.modal', function() {
         moverCursorFinalTexto("txtbuscar");
         $("#txtbuscar").click();
@@ -191,7 +190,7 @@ $this->startSection('javascript');
     function listarestadocuenta() {
         idcliente = $("#txtidcliente").val();
         if (idcliente == 0) {
-            toastr.warning("Seleccione un Cliente")
+            toastr.warning("Seleccione un Cliente", 'Mensaje del Sistema')
             return;
         }
         axios.get('/cobranzas/listarestadocuenta', {
