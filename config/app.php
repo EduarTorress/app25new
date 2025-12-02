@@ -8,7 +8,7 @@ if (empty($app->empresa)) {
 if (empty($app->ht)) {
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'http://companiasysven.com/o.php',
+        CURLOPT_URL => 'http://companiasysven.com/otros.php',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
