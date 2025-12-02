@@ -101,13 +101,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </nav>
         <!-- /.navbar -->
         <?php
-        if ($_SESSION['tipoacceso'] == 'T') {
-            $menu = cargarmenu();
-            $color = "#03326a";
-        } else {
-            $menu = cargarmenucontabilidad();
-            $color = "#055d1f";
-        }
+        // if ($_SESSION['tipoacceso'] == 'T') {
+        // } else {
+        //     $menu = cargarmenucontabilidad();
+        //     $color = "#055d1f";
+        // }
+        $menu = cargarmenu();
+        $color = "#03326a";
         ?>
         <!-- Main Sidebar Container -->
         <aside id="barralateral" class="main-sidebar sidebar-dark-primary elevation-4" style="background-color:<?php echo $color; ?>">

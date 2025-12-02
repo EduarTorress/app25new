@@ -69,7 +69,7 @@ class LoginController extends Controller
             session()->set('usuario_id', $valor[0]['idusua']);
             session()->set('usua_apro', $valor[0]['usua_apro']);
             session()->set('usuario', $valor[0]['nomb']);
-            session()->set('tipoacceso', $request->get('cmbtipoacceso'));
+            // session()->set('tipoacceso', $request->get('cmbtipoacceso'));
             session()->set('tipousuario', left($valor[0]['tipo'], 1));
             $_SESSION['monedap'] = 'NO';
             $_SESSION['moneda'] = 'NO';
