@@ -157,7 +157,7 @@ echo $prod->render();
                                                         <td><?php echo $item['descri'] ?></td>
                                                         <td><?php
                                                             $presentaciones = json_decode($item['presentaciones'], true); ?>
-                                                            <select onchange="cambiarpresentacion(this,<?php echo $indice ?>)" class="form-control form-control-sm" name="cmbpresentaciones" id="cmbpresentaciones">
+                                                            <select onchange="cambiarpresentacion(this,<?php echo $indice ?>)" class="form-control form-control-sm" name="cmbpresentaciones" id="cmbpresentaciones" onkeypress="entertest(this)">
                                                                 <?php foreach ($presentaciones as $p) : ?>
                                                                     <option value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'] ?>" <?php echo (($p['epta_idep'] == $item['presseleccionada']) ? 'selected' : '') ?>>
                                                                         <?php echo trim($p['pres_desc']) . '-' . $p['epta_cant']; ?>
@@ -166,7 +166,7 @@ echo $prod->render();
                                                                 ?>
                                                             </select>
                                                         </td>
-                                                        <td class="text-center" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="false" name="cantidad"><input onclick="this.select(); clicksubtotal=0;" type="text" class="inputright" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
+                                                        <td class="text-center cantidad" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="false" name="cantidad"><input onclick="this.select(); clicksubtotal=0;" type="text" class="inputright" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
                                                         <td class="precio text-center" id="precio" onkeypress="return isNumber(event);" contenteditable="false" name="precio"><input onclick="this.select(); clicksubtotal=0;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
                                                         <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
                                                             <td class="text-center" class="lote"><input onclick="this.select(); clicksubtotal=0;" type="text" class="" value="<?php echo (empty($item['lote']) ? ' ' : $item['lote']); ?>"></td>

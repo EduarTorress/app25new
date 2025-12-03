@@ -1,5 +1,6 @@
 <?php
 
+use App\View\Components\DocumentoComponent;
 use App\View\Components\EmpresaComponent;
 use App\View\Components\TipoMonedaComponent;
 
@@ -16,18 +17,31 @@ $this->startSection('contenido');
                     <div class="card card-primary card-outline">
                         <div class="card-body">
                             <form class="form-inline" id="form-search">
+                                <?php
+                                $ec = new EmpresaComponent($_SESSION['idalmacen']);
+                                echo $ec->render();
+                                ?> &nbsp;
                                 <label class="my-1 mr-2" for="txtfechai">Inicio</label>
                                 <input type="date" class="form-control form-control-sm" id="txtfechai" name="txtfechai">
                                 <label class="my-1 mr-2" for="txtfechai">Hasta</label>
                                 <input type="date" class="form-control form-control-sm" id="txtfechaf" name="txtfechaf">
                                 &nbsp;&nbsp;
                                 <?php
-                                $ec = new EmpresaComponent($_SESSION['idalmacen']);
-                                echo $ec->render();
-                                ?> &nbsp;
+                                $dctos = new DocumentoComponent('');
+                                echo $dctos->renderreports();
+                                ?>
+                                &nbsp;&nbsp;
+                                <label class="my-1 mr-2" for="">Forma/Pago:</label>
+                                <select name="select" class="form-control form-control-sm" id="cmbFormaP">
+                                    <option value="0" selected>Todas</option>
+                                    <option value="E">Efectivo</option>
+                                    <option value="C">Crédito</option>
+                                    <option value="D">Depósito</option>
+                                    <option value="T">Tarjeta</option>
+                                </select>
                                 &nbsp;&nbsp;
                                 <?php
-                                $mon = new TipoMonedaComponent('');
+                                $mon = new TipoMonedaComponent('S');
                                 echo $mon->renderreports();
                                 ?>
                                 <button class="btn btn-primary my-1">Consultar</button>
@@ -60,6 +74,9 @@ $this->startSection('javascript');
         obtenerFechas();
         titulo('<?php echo $titulo; ?>');
         $("#cmbAlmacen").removeAttr("disabled");
+        $(".tipodocumentos option[value='07']").remove();
+        $(".tipodocumentos option[value='08']").remove();
+        $(".tipodocumentos option[value='20']").remove();
     }
 
     function search() {
@@ -70,7 +87,9 @@ $this->startSection('javascript');
                 "dfechai": dfechai,
                 "dfechaf": dfechaf,
                 "cmbmoneda": $("#cmbmoneda").val(),
-                "cmbAlmacen": $("#cmbAlmacen").val()
+                "cmbAlmacen": $("#cmbAlmacen").val(),
+                "cmbFormaP": $("#cmbFormaP").val(),
+                "cmbdcto": $("#dctos").val()
             }
         }).then(function(respuesta) {
             // 100, 200, 300

@@ -71,16 +71,18 @@ class Compra extends Modelo
     public $cencontrado = "";
     public $conedaregistrada = "";
 
-    function listarComprasxFecha($dfi, $dff, $cmbmoneda, $cmbAlmacen)
+    function listarComprasxFecha($dfi, $dff, $cmbmoneda, $cmbAlmacen, $cmbFormaP, $cmbtdoc)
     {
         try {
             $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbAlmacen  ' : ' and codt=:cmbAlmacen ';
+            $tc = ($cmbtdoc == '0') ? ' and tdoc<>:cmbtdoc' : ' and tdoc=:cmbtdoc ';
+            $f = ($cmbFormaP == '0') ? ' and form<>:cmbFormaP  ' : ' and form=:cmbFormaP ';
             $sql = "SELECT a.idauto,a.ndoc AS dcto,a.ndo2,a.fech,a.fecr,b.razo,a.form,mone,
             a.valor,a.igv,a.impo,a.tdoc,tcom,u.nomb as usuario,fusua
             FROM fe_rcom AS a 
             INNER JOIN fe_prov AS b USING(idprov)
             inner join fe_usua u on a.idusua=u.idusua
-            WHERE a.fecr BETWEEN :dfi AND :dff AND a.acti<>'I' and tdoc IN('01','07','08','03','GI') AND mone=:cmbmoneda " . $a .
+            WHERE a.fecr BETWEEN :dfi AND :dff AND a.acti<>'I' and tdoc IN('01','07','08','03','GI') AND mone=:cmbmoneda " . $a . $f . $tc .
                 " ORDER BY fech,ndoc";
             $query = $this->prepare($sql);
             $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -88,7 +90,9 @@ class Compra extends Modelo
                 'dfi' => $dfi,
                 'dff' => $dff,
                 'cmbmoneda' => $cmbmoneda,
-                'cmbAlmacen' => $cmbAlmacen
+                'cmbAlmacen' => $cmbAlmacen,
+                'cmbFormaP' => $cmbFormaP,
+                'cmbtdoc' => $cmbtdoc
             ]);
             return $query;
         } catch (PDOException $e) {

@@ -40,7 +40,7 @@
                 "opt": "AV"
             },
             {
-                "item": "Rpte de Vtas x Vendedor",
+                "item": "Ventas x Vendedor",
                 "ruta": "/vtas/indexvtasxvendedor",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"

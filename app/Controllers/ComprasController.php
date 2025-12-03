@@ -314,8 +314,10 @@ class ComprasController extends Controller
         $dff = $request->get('dfechaf');
         $cmbmoneda = $request->get('cmbmoneda');
         $cmbAlmacen = $request->get('cmbAlmacen');
+        $cmbformap = $request->get('cmbFormaP');
+        $cmbtdoc = $request->get('cmbdcto');
         $compra = new Compra();
-        $lista = $compra->listarComprasxFecha($dfi, $dff, $cmbmoneda, $cmbAlmacen);
+        $lista = $compra->listarComprasxFecha($dfi, $dff, $cmbmoneda, $cmbAlmacen, $cmbformap, $cmbtdoc);
         return \view('compras/informes/listacompras', ['listado' => $lista]);
     }
     function indexListaComprasPLE()
