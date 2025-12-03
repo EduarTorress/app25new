@@ -20,11 +20,11 @@ class TraspasoController extends Controller
     function index()
     {
         $idtraspaso = \session()->get('idtraspaso', 0);
-        if ($idtraspaso > 0) {
-            $ctitulo = 'Act. Traspaso';
-        } else {
-            $ctitulo = 'Regs. Traspaso';
-        }
+        // if ($idtraspaso > 0) {
+        //     $ctitulo = 'Act. Traspaso';
+        // } else {
+        // }
+           $ctitulo = 'Regs. Traspaso';
         $seriet = \session()->get('cndot', '');
         $numt = \session()->get('numt', '');
         $v = "R";
@@ -35,11 +35,11 @@ class TraspasoController extends Controller
     {
         $carritot = session()->get('carritot', []);
         $idtraspaso = \session()->get('idtraspaso', 0);
-        if ($idtraspaso > 0) {
-            $btn = 'Modificar';
-        } else {
-            $btn = 'Grabar';
-        }
+        // if ($idtraspaso > 0) {
+        //     $btn = 'Modificar';
+        // } else {   
+        // }
+           $btn = 'Grabar';
         $total = number_format(CarritoServiceTraspaso::total(), 2, '.', '');
         $numero_items = str_pad(CarritoServiceTraspaso::numeroItems(), 2, '0', STR_PAD_LEFT);
         $cvista = \retornavista('traspasos', 'detalle');
