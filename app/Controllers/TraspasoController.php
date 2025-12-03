@@ -525,232 +525,6 @@ class TraspasoController extends Controller
         }
         $oimp->generarPDFguiatraspaso($rutapdf);
     }
-
-    //
-    //
-    //
-    //
-    //
-
-    function consultadocumentoxid($idauto)
-    {
-        $traspaso = new Traspasos();
-        $nrocompra = "";
-        $this->LimpiarSesion();
-        $carritot = session()->get('carritot', []);
-        $lista = $traspaso->buscarxid($idauto);
-        $i = 0;
-        $montototal = 0;
-        $subtotal = 0;
-        foreach ($lista as $item) {
-            if ($i == 0) {
-                $transportista = array(
-                    'txtIdTransportista' => $item['guia_idtr'],
-                    'txttransportista' => $item['razont'],
-                    'txtruc' => $item['ructr'],
-                    'txtPlaca' => $item['placa'],
-                    'txtPlaca1' => $item['placa1'],
-                    'txtmarca' => $item['marca'],
-                    'txtChoferVehiculo' => $item['conductor'],
-                    'txtbrevete' => $item['brevete'],
-                    'txtregmtc' => $item['constancia'],
-                    'txttipot' => $item['tran_tipo']
-                );
-                // $sql = "select guia_ndoc as ndoc,guia_fech as fech,guia_fect as fechat,
-                // a.descri,a.unid,k.cant,a.peso,g.guia_ptoll,g.guia_ptop as ptop,kar_unid,
-                // k.idart as coda,k.prec,k.idkar,g.guia_idtr,ifnull(placa,'') as placa,ifnull(t.razon,'') as razont,
-                // ifnull(t.ructr,'') as ructr,ifnull(t.nombr,'') as conductor,guia_mens,
-                // ifnull(t.dirtr,'') as direcciont,ifnull(t.breve,'') as brevete,
-                // ifnull(t.cons,'') as constancia,ifnull(t.marca,'') as marca,v.nruc,tran_tipo,
-                // ifnull(t.placa1,'') as placa1,r.ndoc as dcto,tdoc,r.idcliente,rcom_mens,rcom_reci,k.alma,a.uno,a.dos,a.tre,a.cua,
-                // v.empresa as Razo,'S' as mone,guia_idgui as idgui,r.idauto,guia_arch,guia_hash,guia_mens,r.ndo2,guia_ubig,r.deta
-                // FROM fe_guias as g
-                // inner join fe_rcom as r on r.idauto=g.guia_idau
-                // inner join fe_kar as k on k.idauto=r.idauto
-                // inner join fe_art as a on a.idart=k.idart
-                // left join fe_tra as t on t.idtra=g.guia_idtr,fe_gene as v where guia_idgui=:idguia and tipo='V' and k.acti='A'";
-
-                $datosproveedoroc = array(
-                    'idauto' => $item['idauto'],
-                    'idgui' => $item['idgui'],
-                    'fech' => $item['fech'],
-                    'fechat' => $item['fechat'],
-                    'referencia' => $item['deta'],
-                    'tdococ' => '',
-                    'dolaroc' => '',
-                    'tipooc' => '',
-                    'moneoc' => '',
-                    'razooc' => $item['razo'],
-                    'idprovoc' => $item['ocom_idpr'],
-                    'ndo2oc' => '',
-                    'optigvoc' => 'I',
-                    'pimpo' => $item['ocom_impo'],
-                    'obsoc' => $item['ocom_form'],
-                    'despoc' => $item['ocom_desp'],
-                    'ateoc' => $item['ocom_aten']
-                );
-                $nrocompra = $item['ocom_ndoc'];
-                $idauto = $item['ocom_idroc'];
-            }
-            $subtotal = $item['doco_prec'] * $item['doco_cant'];
-            $montototal = $subtotal + $subtotal;
-            $i++;
-            $c[] = array(
-                'coda' => $item["doco_coda"],
-                'descri' => $item["descri"],
-                'unidad' => $item['unid'],
-                'cantidad' => $item['doco_cant'],
-                'precio' => $item["doco_prec"],
-                'nreg' => $item["doco_iddo"],
-                'idprov' => $item['ocom_idpr'],
-                'subtotal' => $item['doco_prec'] * $item['doco_cant'],
-                'activo' => 'A',
-            );
-        }
-        $items = $i;
-        session()->set('proveedoroc', $datosproveedoroc);
-        session()->set('carritot', $c);
-        $titulo = 'Actualizar Orden de Compra' . ' ' . $nrocompra;
-        // session()->set('nrocompra', $nrocompra);
-        $serie = substr($nrocompra, 0, 4);
-        $num = substr($nrocompra, 4);
-
-        session()->set('idordencompra', $idauto);
-
-        $cvista = \retornavista('ordenescompra', 'index');
-        $v = "M";
-
-        \session()->set('idprovoc', $datosproveedoroc['idprovoc']);
-        \session()->set('razooc',  $datosproveedoroc['razooc']);
-        \session()->set('tdococ',  $datosproveedoroc['tdococ']);
-        \session()->set('cndococ',  $serie);
-        \session()->set('numoc', $num);
-        \session()->set('ndo2oc',  $datosproveedoroc['ndo2oc']);
-        \session()->set('almoc',  $datosproveedoroc['almoc']);
-        \session()->set('formoc',  $datosproveedoroc['formoc']);
-        \session()->set('moneoc',  $datosproveedoroc['moneoc']);
-        \session()->set('fechioc',  $datosproveedoroc['fechoc']);
-        \session()->set('fechfoc',  $datosproveedoroc['fecroc']);
-        \session()->set('dolaroc',  $datosproveedoroc['dolaroc']);
-        \session()->set('optigvoc',  $datosproveedoroc['optigvoc']);
-        \session()->set('obsoc',  $datosproveedoroc['obsoc']);
-        \session()->set('despoc',  $datosproveedoroc['despoc']);
-        \session()->set('ateoc',  $datosproveedoroc['ateoc']);
-        // if (count($carritoc) < 1) {
-        //     header('Location: /ocompras/buscarcompra/' . $idauto);
-        //     return;
-        // }
-        return view(
-            $cvista,
-            [
-                'titulo' => $titulo,
-                'datosproveedoroc' => $datosproveedoroc,
-                'idordencompra' => $idauto,
-                'serie' => $serie,
-                'num' => $num,
-                'v' => $v,
-                'carritot' => $c,
-                'items' => $items,
-                'total' => $montototal
-            ]
-        );
-    }
-    function modificar(Request $request)
-    {
-        $validar = new Validator($request->getBody());
-        $validar->rule("required", "tdoc");
-        $validar->rule("required", "cndoc");
-        $validar->rule("required", "idprov");
-        $validar->rule("required", "impo");
-        // $validar->rule("required", "coda");
-        $validar->rule("required", "form");
-        $validar->rule("required", "mon");
-        $validar->rule("required", "alm");
-        // $validar->rule("required", "ndo2");
-        $validar->rule("required", "dolar");
-        $validar->rule("required", "igv");
-        $cserie = $request->get('cndoc');
-        $cserie = $cserie . substr(0, 4);
-        switch ($request->get('tdoc')) {
-            case '01':
-                $validar->rule('regex', $cserie, '/^[F]{1,1}[D|N0-9]{1,1}[0-9]{2,2}$/');
-                break;
-            case '03':
-                $validar->rule('regex', $cserie, '/^[A-Z]{1,1}[D|N0-9]{1,1}[0-9]{2,2}$/');
-                break;
-        }
-        if (!$validar->validate()) {
-            $data = ["errors" => $validar->errors()];
-            return response()->json($data, 422);
-        }
-        if (empty($_SESSION["carritot"])) {
-            return response()->json(['message' => 'Se requiere productos para registrar la orden de compra'], 422);
-        }
-        $ocompra = new OrdenesCompra();
-        $var =  $request->get('deta');
-        $deta = (isset($var)) ? $request->get('deta') : "";
-        $cabecera = array(
-            "tdoc" => $request->get("tdoc"),
-            "cndoc" => $request->get("cndoc"),
-            "form" => $request->get("form"),
-            "fechi" => $request->get("fechi"),
-            "fechf" => $request->get("fechf"),
-            "deta" => $deta,
-            "valor" => $request->get("valor"),
-            "nigv" => $request->get("nigv"),
-            "impo" => $request->get("impo"),
-            "ndo2" => $request->get("ndo2"),
-            "mon" => $request->get("mon"),
-            "dolar" => $request->get("dolar"),
-            //IGV 
-            //CTG
-            "idprov" => $request->get("idprov"),
-            'txtproveedor' => $request->get('txtproveedor'),
-            //CMVTO
-            "nidus" => session()->get('usuario_id'),
-            //OPT
-            "alm" => $request->get("alm"),
-            //N1
-            //N2
-            //N3
-            "nitems" => str_pad(CarritoServiceTraspaso::numeroItems(), 2, '0', STR_PAD_LEFT),
-            "igv" => $request->get("igv"),
-            'pimpo' => $request->get('pimpo'),
-            "nidauto" => \session()->get('idordencompra'),
-            'txtobservacion' => $request->get('txtobservacion'),
-            'txtdespacho' => $request->get('txtdespacho'),
-            'txtatencion' => $request->get('txtatencion')
-        );
-        if ($ocompra->actualizar($cabecera)) {
-            $this->LimpiarSesion();
-            $carritot = session()->get('carritot', []);
-            $total = number_format(CarritoServiceTraspaso::total(), 2, '.', '');
-            $numero_items = str_pad(CarritoServiceTraspaso::numeroItems(), 2, '0', STR_PAD_LEFT);
-            $cvista = \retornavista('traspasos', 'detalle');
-            return view($cvista, ['carritot' => $carritot, 'total' => $total, 'items' => $numero_items]);
-        } else {
-            return response()->json(['message' => 'Error al modificar el traspaso'], 422);
-        }
-    }
-    function grabarSesion(Request $request)
-    {
-        \session()->set('idprovoc', $request->get('idprov'));
-        \session()->set('razooc', $request->get('razo'));
-        \session()->set('tdococ', $request->get('tdoc'));
-        \session()->set('cndococ', $request->get('cndoc'));
-        \session()->set('numoc', $request->get('num'));
-        \session()->set('ndo2oc', $request->get('ndo2'));
-        \session()->set('almoc', $request->get('alm'));
-        \session()->set('formoc', $request->get('form'));
-        \session()->set('moneoc', $request->get('mone'));
-        \session()->set('fechioc', $request->get('fechi'));
-        \session()->set('fechfoc', $request->get('fechf'));
-        \session()->set('dolaroc', $request->get('dolar'));
-        \session()->set('optigvoc', $request->get('optigv'));
-        \session()->set('obsoc', $request->get('txtobservacion'));
-        \session()->set('despoc', $request->get('txtdespacho'));
-        \session()->set('ateoc', $request->get('txtatencion'));
-    }
     function indexlistarxrecibir()
     {
         return \view('traspasos/informes/indexlistartraspasosxrecibir', ['titulo' => 'Listar Guias x Traspasos']);
@@ -777,4 +551,230 @@ class TraspasoController extends Controller
         $_SESSION['detalletraspaso'] = [];
         return response()->json(['message' => 'Se logró registrar correctamente', 'estado' =>  $lista['estado']], 200);
     }
+
+    //
+    //
+    //
+    //
+    //
+
+    // function consultadocumentoxid($idauto)
+    // {
+    //     $traspaso = new Traspasos();
+    //     $nrocompra = "";
+    //     $this->LimpiarSesion();
+    //     $carritot = session()->get('carritot', []);
+    //     $lista = $traspaso->buscarxid($idauto);
+    //     $i = 0;
+    //     $montototal = 0;
+    //     $subtotal = 0;
+    //     foreach ($lista as $item) {
+    //         if ($i == 0) {
+    //             $transportista = array(
+    //                 'txtIdTransportista' => $item['guia_idtr'],
+    //                 'txttransportista' => $item['razont'],
+    //                 'txtruc' => $item['ructr'],
+    //                 'txtPlaca' => $item['placa'],
+    //                 'txtPlaca1' => $item['placa1'],
+    //                 'txtmarca' => $item['marca'],
+    //                 'txtChoferVehiculo' => $item['conductor'],
+    //                 'txtbrevete' => $item['brevete'],
+    //                 'txtregmtc' => $item['constancia'],
+    //                 'txttipot' => $item['tran_tipo']
+    //             );
+    //             // $sql = "select guia_ndoc as ndoc,guia_fech as fech,guia_fect as fechat,
+    //             // a.descri,a.unid,k.cant,a.peso,g.guia_ptoll,g.guia_ptop as ptop,kar_unid,
+    //             // k.idart as coda,k.prec,k.idkar,g.guia_idtr,ifnull(placa,'') as placa,ifnull(t.razon,'') as razont,
+    //             // ifnull(t.ructr,'') as ructr,ifnull(t.nombr,'') as conductor,guia_mens,
+    //             // ifnull(t.dirtr,'') as direcciont,ifnull(t.breve,'') as brevete,
+    //             // ifnull(t.cons,'') as constancia,ifnull(t.marca,'') as marca,v.nruc,tran_tipo,
+    //             // ifnull(t.placa1,'') as placa1,r.ndoc as dcto,tdoc,r.idcliente,rcom_mens,rcom_reci,k.alma,a.uno,a.dos,a.tre,a.cua,
+    //             // v.empresa as Razo,'S' as mone,guia_idgui as idgui,r.idauto,guia_arch,guia_hash,guia_mens,r.ndo2,guia_ubig,r.deta
+    //             // FROM fe_guias as g
+    //             // inner join fe_rcom as r on r.idauto=g.guia_idau
+    //             // inner join fe_kar as k on k.idauto=r.idauto
+    //             // inner join fe_art as a on a.idart=k.idart
+    //             // left join fe_tra as t on t.idtra=g.guia_idtr,fe_gene as v where guia_idgui=:idguia and tipo='V' and k.acti='A'";
+
+    //             $datosproveedoroc = array(
+    //                 'idauto' => $item['idauto'],
+    //                 'idgui' => $item['idgui'],
+    //                 'fech' => $item['fech'],
+    //                 'fechat' => $item['fechat'],
+    //                 'referencia' => $item['deta'],
+    //                 'tdococ' => '',
+    //                 'dolaroc' => '',
+    //                 'tipooc' => '',
+    //                 'moneoc' => '',
+    //                 'razooc' => $item['razo'],
+    //                 'idprovoc' => $item['ocom_idpr'],
+    //                 'ndo2oc' => '',
+    //                 'optigvoc' => 'I',
+    //                 'pimpo' => $item['ocom_impo'],
+    //                 'obsoc' => $item['ocom_form'],
+    //                 'despoc' => $item['ocom_desp'],
+    //                 'ateoc' => $item['ocom_aten']
+    //             );
+    //             $nrocompra = $item['ocom_ndoc'];
+    //             $idauto = $item['ocom_idroc'];
+    //         }
+    //         $subtotal = $item['doco_prec'] * $item['doco_cant'];
+    //         $montototal = $subtotal + $subtotal;
+    //         $i++;
+    //         $c[] = array(
+    //             'coda' => $item["doco_coda"],
+    //             'descri' => $item["descri"],
+    //             'unidad' => $item['unid'],
+    //             'cantidad' => $item['doco_cant'],
+    //             'precio' => $item["doco_prec"],
+    //             'nreg' => $item["doco_iddo"],
+    //             'idprov' => $item['ocom_idpr'],
+    //             'subtotal' => $item['doco_prec'] * $item['doco_cant'],
+    //             'activo' => 'A',
+    //         );
+    //     }
+    //     $items = $i;
+    //     session()->set('proveedoroc', $datosproveedoroc);
+    //     session()->set('carritot', $c);
+    //     $titulo = 'Actualizar' . ' ' . $nrocompra;
+    //     // session()->set('nrocompra', $nrocompra);
+    //     $serie = substr($nrocompra, 0, 4);
+    //     $num = substr($nrocompra, 4);
+
+    //     session()->set('idordencompra', $idauto);
+
+    //     $cvista = \retornavista('ordenescompra', 'index');
+    //     $v = "M";
+
+    //     \session()->set('idprovoc', $datosproveedoroc['idprovoc']);
+    //     \session()->set('razooc',  $datosproveedoroc['razooc']);
+    //     \session()->set('tdococ',  $datosproveedoroc['tdococ']);
+    //     \session()->set('cndococ',  $serie);
+    //     \session()->set('numoc', $num);
+    //     \session()->set('ndo2oc',  $datosproveedoroc['ndo2oc']);
+    //     \session()->set('almoc',  $datosproveedoroc['almoc']);
+    //     \session()->set('formoc',  $datosproveedoroc['formoc']);
+    //     \session()->set('moneoc',  $datosproveedoroc['moneoc']);
+    //     \session()->set('fechioc',  $datosproveedoroc['fechoc']);
+    //     \session()->set('fechfoc',  $datosproveedoroc['fecroc']);
+    //     \session()->set('dolaroc',  $datosproveedoroc['dolaroc']);
+    //     \session()->set('optigvoc',  $datosproveedoroc['optigvoc']);
+    //     \session()->set('obsoc',  $datosproveedoroc['obsoc']);
+    //     \session()->set('despoc',  $datosproveedoroc['despoc']);
+    //     \session()->set('ateoc',  $datosproveedoroc['ateoc']);
+    //     // if (count($carritoc) < 1) {
+    //     //     header('Location: /ocompras/buscarcompra/' . $idauto);
+    //     //     return;
+    //     // }
+    //     return view(
+    //         $cvista,
+    //         [
+    //             'titulo' => $titulo,
+    //             'datosproveedoroc' => $datosproveedoroc,
+    //             'idordencompra' => $idauto,
+    //             'serie' => $serie,
+    //             'num' => $num,
+    //             'v' => $v,
+    //             'carritot' => $c,
+    //             'items' => $items,
+    //             'total' => $montototal
+    //         ]
+    //     );
+    // }
+    // function modificar(Request $request)
+    // {
+    //     $validar = new Validator($request->getBody());
+    //     $validar->rule("required", "tdoc");
+    //     $validar->rule("required", "cndoc");
+    //     $validar->rule("required", "idprov");
+    //     $validar->rule("required", "impo");
+    //     // $validar->rule("required", "coda");
+    //     $validar->rule("required", "form");
+    //     $validar->rule("required", "mon");
+    //     $validar->rule("required", "alm");
+    //     // $validar->rule("required", "ndo2");
+    //     $validar->rule("required", "dolar");
+    //     $validar->rule("required", "igv");
+    //     $cserie = $request->get('cndoc');
+    //     $cserie = $cserie . substr(0, 4);
+    //     switch ($request->get('tdoc')) {
+    //         case '01':
+    //             $validar->rule('regex', $cserie, '/^[F]{1,1}[D|N0-9]{1,1}[0-9]{2,2}$/');
+    //             break;
+    //         case '03':
+    //             $validar->rule('regex', $cserie, '/^[A-Z]{1,1}[D|N0-9]{1,1}[0-9]{2,2}$/');
+    //             break;
+    //     }
+    //     if (!$validar->validate()) {
+    //         $data = ["errors" => $validar->errors()];
+    //         return response()->json($data, 422);
+    //     }
+    //     if (empty($_SESSION["carritot"])) {
+    //         return response()->json(['message' => 'Se requiere productos para registrar'], 422);
+    //     }
+    //     $ocompra = new OrdenesCompra();
+    //     $var =  $request->get('deta');
+    //     $deta = (isset($var)) ? $request->get('deta') : "";
+    //     $cabecera = array(
+    //         "tdoc" => $request->get("tdoc"),
+    //         "cndoc" => $request->get("cndoc"),
+    //         "form" => $request->get("form"),
+    //         "fechi" => $request->get("fechi"),
+    //         "fechf" => $request->get("fechf"),
+    //         "deta" => $deta,
+    //         "valor" => $request->get("valor"),
+    //         "nigv" => $request->get("nigv"),
+    //         "impo" => $request->get("impo"),
+    //         "ndo2" => $request->get("ndo2"),
+    //         "mon" => $request->get("mon"),
+    //         "dolar" => $request->get("dolar"),
+    //         //IGV 
+    //         //CTG
+    //         "idprov" => $request->get("idprov"),
+    //         'txtproveedor' => $request->get('txtproveedor'),
+    //         //CMVTO
+    //         "nidus" => session()->get('usuario_id'),
+    //         //OPT
+    //         "alm" => $request->get("alm"),
+    //         //N1
+    //         //N2
+    //         //N3
+    //         "nitems" => str_pad(CarritoServiceTraspaso::numeroItems(), 2, '0', STR_PAD_LEFT),
+    //         "igv" => $request->get("igv"),
+    //         'pimpo' => $request->get('pimpo'),
+    //         "nidauto" => \session()->get('idordencompra'),
+    //         'txtobservacion' => $request->get('txtobservacion'),
+    //         'txtdespacho' => $request->get('txtdespacho'),
+    //         'txtatencion' => $request->get('txtatencion')
+    //     );
+    //     if ($ocompra->actualizar($cabecera)) {
+    //         $this->LimpiarSesion();
+    //         $carritot = session()->get('carritot', []);
+    //         $total = number_format(CarritoServiceTraspaso::total(), 2, '.', '');
+    //         $numero_items = str_pad(CarritoServiceTraspaso::numeroItems(), 2, '0', STR_PAD_LEFT);
+    //         $cvista = \retornavista('traspasos', 'detalle');
+    //         return view($cvista, ['carritot' => $carritot, 'total' => $total, 'items' => $numero_items]);
+    //     } else {
+    //         return response()->json(['message' => 'Error al modificar el traspaso'], 422);
+    //     }
+    // }
+    // function grabarSesion(Request $request)
+    // {
+    //     \session()->set('idprovoc', $request->get('idprov'));
+    //     \session()->set('razooc', $request->get('razo'));
+    //     \session()->set('tdococ', $request->get('tdoc'));
+    //     \session()->set('cndococ', $request->get('cndoc'));
+    //     \session()->set('numoc', $request->get('num'));
+    //     \session()->set('ndo2oc', $request->get('ndo2'));
+    //     \session()->set('almoc', $request->get('alm'));
+    //     \session()->set('formoc', $request->get('form'));
+    //     \session()->set('moneoc', $request->get('mone'));
+    //     \session()->set('fechioc', $request->get('fechi'));
+    //     \session()->set('fechfoc', $request->get('fechf'));
+    //     \session()->set('dolaroc', $request->get('dolar'));
+    //     \session()->set('optigvoc', $request->get('optigv'));
+    //     \session()->set('obsoc', $request->get('txtobservacion'));
+    //     \session()->set('despoc', $request->get('txtdespacho'));
+    //     \session()->set('ateoc', $request->get('txtatencion'));
+    // }
 }
