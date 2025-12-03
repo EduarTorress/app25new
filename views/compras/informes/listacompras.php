@@ -9,7 +9,7 @@
             <th>Moneda</th>
             <th style="text-align: center;" class="text-center">Usuario</th>
             <th class="text-center">Fecha / Hora</th>
-            <th style="text-align: right;" data-footer-formatter="formatTotal" class="text-end">Importe</th>
+            <th style="text-align: right;" data-footer-formatter="formatTotal" class="text-end" data-sortable="true">Importe</th>
             <th class="text-center">Opciones</th>
         </tr>
     </thead>

@@ -10,7 +10,7 @@
             <th class="text-end" data-footer-formatter="formatTotal">Exon.</th>
             <th class="text-end" data-footer-formatter="formatTotal">Inaf.</th>
             <th class="text-end" data-footer-formatter="formatTotal">IGV</th>
-            <th class="text-end" data-footer-formatter="formatTotal">Total</th>
+            <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">Total</th>
             <th class="text-center">Fecha Hora</th>
             <th class="text-center">Opciones</th>
         </tr>
