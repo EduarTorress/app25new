@@ -104,10 +104,19 @@ $this->startSection('javascript');
         moverCursorFinalTexto("txtbuscarprov");
     });
 
+    function seleccionarproveedor(datos) {
+        document.getElementById("txtidproveedor").value = datos.parametro1;
+        document.getElementById("txtproveedor").value = datos.parametro2;
+        document.getElementById('txtrucproveedor').value = datos.parametro3;
+        document.getElementById('txtptopartida').value = datos.parametro5 + ' ' + datos.parametro6;
+        document.getElementById('txtUbigeoproveedor').value = datos.parametro9;
+        $('#modal_proveedor').modal('toggle');
+    }
+
     function search() {
         txtidproveedor = $("#txtidproveedor").val();
         if (txtidproveedor == 0 || txtidproveedor == '') {
-            toastr.error("Seleccione el Proveedor");
+            toastr.error("Seleccione el Proveedor", 'Mensaje del Sistema');
             return;
         }
         var dfechai = document.getElementById("txtfechai").value;

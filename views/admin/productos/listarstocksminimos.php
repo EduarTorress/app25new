@@ -3,8 +3,8 @@
     <table id="tablastockminimos" class="table table-bordered border-dark table-sm small">
         <thead>
             <tr>
-                <th>Código</th>
-                <th>Producto</th>
+                <th class="text-center">Código</th>
+                <th data-sortable="true">Producto</th>
                 <th>Código Barras</th>
                 <?php $sucursales = cargarsucursales(); ?>
                 <?php foreach ($sucursales as $s) : ?>

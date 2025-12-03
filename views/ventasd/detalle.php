@@ -18,9 +18,6 @@
         </thead>
         <tbody id="carritoventas">
             <?php
-
-            use Core\Foundation\Application;
-
             $i = 0; ?>
             <?php foreach ($carritov as $indice => $item) : ?>
                 <?php if ($item['activo'] == 'A') { ?>
@@ -44,8 +41,7 @@
                             <button class="btn btn-warning" onclick="quitaritem(<?php echo $indice ?>,<?php echo $item['coda']; ?>)"><a style="color:white" class="fas fa-trash-alt"></a></button>
                         </td>
                         <td class="codigo"><?php echo $item['coda'] ?></td>
-                        <?php $app = Application::getInstance(); ?>
-                        <td <?php echo (($app->empresa == 'bustamante') ? 'contenteditable="true"' : ''); ?>><?php echo $item['descripcion'] ?></td>
+                        <td><?php echo $item['descripcion'] ?></td>
                         <td onkeyup="abrirmodalregistro(event)">
                             <?php
                             $presentaciones = json_decode($item['presentaciones'], true); ?>

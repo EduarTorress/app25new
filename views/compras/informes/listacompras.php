@@ -7,6 +7,8 @@
             <th>Guía de Remisión</th>
             <th>Forma</th>
             <th>Moneda</th>
+            <th style="text-align: center;" class="text-center">Usuario</th>
+            <th class="text-center">Fecha / Hora</th>
             <th style="text-align: right;" data-footer-formatter="formatTotal" class="text-end">Importe</th>
             <th class="text-center">Opciones</th>
         </tr>
@@ -19,9 +21,11 @@
                 <td><?php echo $item['razo'] ?></td>
                 <td><?php echo $item['ndo2'] ?></td>
                 <td>
-                    <?php echo mostrarformapago($item['form']); ?>
+                    <b> <?php echo mostrarformapago($item['form']); ?></b>
                 </td>
                 <td><?php echo $item['mone'] == 'S' ? 'SOLES' : 'DÓLARES' ?></td>
+                <td><?php echo $item['usuario'] ?></td>
+                <td><?php echo $item['fusua'] ?></td>
                 <td style="text-align: right;"><?php echo ($item['tdoc'] != '07' ?  number_format($item['impo'], 2, '.', '')  : '-' . number_format($item['impo'], 2, '.', '')) ?></td>
                 <td class="small" style="text-align: center;">
                     <?php if ($item['tdoc'] != '07') : ?>

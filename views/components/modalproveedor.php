@@ -234,7 +234,7 @@
             $('#modal_proveedor').modal('toggle');
         }).catch(function(error) {
             $('#modal_proveedor').modal('toggle');
-            toastr.error(error);
+            toastr.error(error,'Mensaje del Sistema');
         });
     }
 </script>

@@ -76,9 +76,10 @@ class Compra extends Modelo
         try {
             $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbAlmacen  ' : ' and codt=:cmbAlmacen ';
             $sql = "SELECT a.idauto,a.ndoc AS dcto,a.ndo2,a.fech,a.fecr,b.razo,a.form,mone,
-            a.valor,a.igv,a.impo,a.tdoc,tcom
+            a.valor,a.igv,a.impo,a.tdoc,tcom,u.nomb as usuario,fusua
             FROM fe_rcom AS a 
             INNER JOIN fe_prov AS b USING(idprov)
+            inner join fe_usua u on a.idusua=u.idusua
             WHERE a.fecr BETWEEN :dfi AND :dff AND a.acti<>'I' and tdoc IN('01','07','08','03','GI') AND mone=:cmbmoneda " . $a .
                 " ORDER BY fech,ndoc";
             $query = $this->prepare($sql);
@@ -445,6 +446,18 @@ class Compra extends Modelo
             print_r($pdo_error->getMessage());
             return false;
         }
+    }
+    function validarsicompraexiste($ndoc, $idprov)
+    {
+        $existe = [];
+        $sql = "Select * from fe_rcom where idprov=:idprov and ndoc=:ndoc and acti='A' and impo>0";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'ndoc' => $ndoc,
+            'idprov' => $idprov
+        ]);
+        $existe =  $query->fetchAll(PDO::FETCH_ASSOC);
+        return $existe;
     }
     function actualizarCompra($cabecera)
     {

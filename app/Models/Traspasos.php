@@ -37,9 +37,10 @@ class Traspasos extends Modelo
     {
         try {
             $c = ($codt == '0') ? ' and guia_codt<>:codt  ' : ' and guia_codt=:codt ';
-            $sql = "SELECT g.*,r.rcom_reci,s.nomb as destino FROM fe_guias g 
+            $sql = "SELECT g.*,r.rcom_reci,s.nomb as destino,u.nomb as usuario,r.fusua FROM fe_guias g 
                     inner join fe_rcom r on g.guia_idau=r.idauto
                     inner join fe_sucu s on r.ndo2=s.idalma 
+                    inner join fe_usua u on r.idusua=u.idusua
                     WHERE guia_moti='T' AND guia_acti='A' and acti='A' AND guia_fech BETWEEN :dfi AND :dff " . $c . " order by guia_fope";
             $query = $this->prepare($sql);
             $query->execute([

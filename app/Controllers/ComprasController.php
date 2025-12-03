@@ -451,6 +451,12 @@ class ComprasController extends Controller
             return response()->json(['errors' => 'El año de la fecha de emisión es diferente al actual'], 422);
         }
 
+        $compra = new Compra();
+        $existecompra = $compra->validarsicompraexiste($request->get('cndoc'), $request->get('idprov'));
+        if (count($existecompra) > 0) {
+            return response()->json(['errors' => 'Número de compra ya registrado previamente'], 422);
+        }
+
         $validar = new Validator($request->getBody());
         $validar->rule("required", "tdoc");
         $validar->rule("required", "cndoc");

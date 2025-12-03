@@ -442,6 +442,26 @@ $this->startSection('javascript');
             });
     }
 
+
+    function entertest(u) {
+        var enterPressed = 1;
+        u.onkeypress = function(e) {
+            var keyCode = (e.keyCode || e.which);
+            if (keyCode === 13) {
+                if (enterPressed == 0) {} else if (enterPressed >= 1) {
+                    e.preventDefault();
+                    tr = $(u).parent().parent();
+                    inputcantidad = $(tr).find(".cantidad input");
+                    $(inputcantidad).select();
+                    $(inputcantidad).click();
+                    $(inputcantidad).attr("id", "1")
+                }
+                enterPressed++;
+                return;
+            }
+        };
+    }
+
     function consultarproveedorximportacion() {
         var abuscar = document.querySelector('#txtrucproveedor').value;
         var noption = 1
@@ -684,8 +704,18 @@ $this->startSection('javascript');
     //     }
     // }
 
+    $('#modal_productos').on('hidden.bs.modal', function() {
+        var a = $("#griddetalle tr:last td:eq(3)");
+        select = $(a).find("select");
+        // $(select).select();
+        $(select).focus();
+        $(select).click();
+        // $(a).find("input").click();
+        // $(a).find("input").focus();
+    });
+
     function agregarunitemVenta(datos) {
-        console.log(ie);
+        // console.log(ie);
         presentaciones = JSON.parse(datos.parametro11);
         precio = presentaciones[0]['epta_prec'];
         unidad = presentaciones[0]['pres_desc']
@@ -717,10 +747,10 @@ $this->startSection('javascript');
                     $('#detalle').html(contenido_tabla);
                     calcularIGV();
                     //$("#griddetalle tr:last").focus()
-                    var a = $("#griddetalle tr:last td:eq(4)").each(function() {
-                        $(this).focus();
-                        $(this).click();
-                    });
+                    // var a = $("#griddetalle tr:last td:eq(4)").each(function() {
+                    //     $(this).focus();
+                    //     $(this).click();
+                    // });
                     idart = "#agregar" + datos.parametro2;
                     // console.log(idart);
                     $(idart).attr('disabled', 'disabled');
