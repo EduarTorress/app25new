@@ -582,6 +582,22 @@ class VentasController extends Controller
         if ($ovalidar['estado'] == 0) {
             return response()->json($ovalidar['errors'], 422);
         }
+
+        if (!validarrucregistro($request->get("txtruccliente"), $request->get("tdocv"))) {
+            return response()->json(['errors' => 'No se puede hacer una venta a la misma empresa'], 422);
+        }
+
+        if (!validardiasatrasocpe($request->get("fechv"))) {
+            return response()->json(['errors' => 'No se puede emitir una venta con más de dos días de atraso'], 422);
+        }
+
+        $carritov = session()->get('carritov', []);
+        foreach ($carritov as $c) {
+            if (floatval($c['precio']) == 0 || floatval($c['cantidad'] == 0)) {
+                return response()->json(['errors' => 'No se puede actualizar una venta con un precio o cantidad con valor 0'], 422);
+            }
+        }
+
         $venta = new Ventas();
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
@@ -638,6 +654,14 @@ class VentasController extends Controller
             return response()->json($ovalidar['errors'], 422);
         }
         $numeroDocumento = $_SESSION['nroventa'];
+
+        $carritov = session()->get('carritov', []);
+        foreach ($carritov as $c) {
+            if (floatval($c['precio']) == 0 || floatval($c['cantidad'] == 0)) {
+                return response()->json(['errors' => 'No se puede actualizar una venta con un precio o cantidad con valor 0'], 422);
+            }
+        }
+
         $venta = new Ventas();
         $deta =  "";
         $cabecera = array(

@@ -19,6 +19,24 @@ function verificaradmin()
         header('Location: /');
     }
 }
+function validardiasatrasocpe($fecha)
+{
+    $fechaactual = date('Y-m-d');
+    $fechaminima = date('Y-m-d', (strtotime('-2 day', strtotime($fechaactual))));
+    if ($fechaminima > $fecha) {
+        return false;
+    }
+    return true;
+}
+function validarrucregistro($ruc, $tdoc)
+{
+    if ($tdoc == '01' || $tdoc == '03' || $tdoc == '20') {
+        if (trim($ruc) == trim(session()->get("gene_nruc"))) {
+            return false;
+        }
+    }
+    return true;
+}
 function view(string $viewFile, array $parameters = [])
 {
     if (!($_SERVER["REQUEST_URI"] == '/login')) {
