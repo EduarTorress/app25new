@@ -1690,4 +1690,16 @@ class VentasController extends Controller
             ], 422);
         }
     }
+    function indexlistavtasmodificadas(){
+          $ctitulo = "Lista de Ventas Modificadas";
+        return view('ventasd/informes/indexlistavtasmodificadas', ['titulo' => $ctitulo]);
+    }
+    function listarvtasmodificadas(Request $request)
+    {
+        $vtas = new Ventas();
+        $listado = $vtas->listarventasmodificadas();
+        return view('ventasd/informes/listavtasmodificadas', [
+            "listado" => $listado
+        ]);
+    }
 }

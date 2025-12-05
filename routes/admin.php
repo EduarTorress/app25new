@@ -42,6 +42,9 @@ $app->router->get('/vtas/listaventasxano', [\App\Controllers\VentasController::c
 $app->router->post('/vtas/verificarvalorescarrito', [\App\Controllers\VentasController::class, 'verificarvalorescarrito']);
 
 
+$app->router->get("/vtas/indexlistavtasmodificadas", [\App\Controllers\VentasController::class, 'indexlistavtasmodificadas']);
+$app->router->get("/vtas/listarvtasmodificadas", [\App\Controllers\VentasController::class, 'listarvtasmodificadas']);
+
 
 $app->router->get("/vtas/indexvtasanuladas", [\App\Controllers\VentasController::class, 'indexvtasanuladas']);
 $app->router->get("/vtas/listarvtasanuladas", [\App\Controllers\VentasController::class, 'listarvtasanuladas']);
@@ -79,6 +82,7 @@ $app->router->get('/vtas/canjes', [\App\Controllers\VentasController::class, 'in
 $app->router->get('/vtas/listardetallecanjeguias', [\App\Controllers\VentasController::class, 'listarDetallecanjesguias']);
 $app->router->get('/vtas/listarDetalleCanje', [\App\Controllers\VentasController::class, 'listarDetalleCanje']);
 $app->router->post('/canje/registrar', [\App\Controllers\VentasController::class, 'registrarCanje']);
+
 
 #rutas de canjes pedidos 
 $app->router->get('/vtas/canjespedidos', [\App\Controllers\VentasController::class, 'indexcanjespedidos']);
