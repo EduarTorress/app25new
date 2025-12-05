@@ -1672,7 +1672,7 @@ class Ventas extends Modelo
         // GROUP BY idcliente,k.codv,mone) AS e
         // INNER JOIN fe_clie AS d ON d.idclie=e.idcliente 
         // inner JOIN fe_vend AS c ON c.idven=e.codv GROUP BY e.idcliente,nomv,mone ";
-        $sql = "SELECT e.idauto,c.nomv AS nomb,e.mone,d.razo,e.idcliente,IF(mone='S',impo,ROUND(impo*dolar,2)) AS impo,
+        $sql = "SELECT e.idauto,e.ndoc,c.nomv AS nomb,e.mone,d.razo,e.idcliente,IF(mone='S',impo,ROUND(impo*dolar,2)) AS impo,
                 IF(mone='S',valor,ROUND(valor*dolar,2)) AS valor,
                 IF(mone='S',igv,ROUND(igv*dolar,2)) AS igv
                 FROM fe_rcom AS e

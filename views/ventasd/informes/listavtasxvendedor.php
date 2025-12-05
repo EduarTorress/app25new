@@ -1,6 +1,7 @@
 <table id="table" class="table table-bordered table-hover table-sm small" style='font-size: 12px;' data-page-length='20'>
     <thead>
         <tr>
+            <th>Documento</th>
             <th>Cliente</th>
             <th>Mon.</th>
             <th class="text-right" data-footer-formatter="formatTotal">Sub Total</th>
@@ -11,6 +12,7 @@
     <tbody>
         <?php foreach ($listado as $item) : ?>
             <tr>
+                <td><?php echo $item['ndoc'] ?></td>
                 <td><?php echo $item['razo'] ?></td>
                 <td><?php echo $item['mone'] ?></td>
                 <td class="text-right"><?php echo $item['valor'] ?></td>
