@@ -1279,7 +1279,7 @@ class Ventas extends Modelo
                 'fechv' =>  $this->fechv,
                 'cndocv' => $this->cndoc,
                 'deta' => $cabecera['razov'],
-                'n3' => session()->get('gene_idctat'),
+                'n3' => $nidcta3,
                 'total' => $cabecera["total"],
                 'nidus' =>  session()->get("usuario_id"),
                 'nidauto' => $cabecera["idautov"],
