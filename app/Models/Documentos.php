@@ -121,7 +121,7 @@ class Documentos extends Modelo
             ]);
             if ($query->rowcount()) {
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                    if ($row['tdoc'] == '01' or $row['tdoc'] == '03' or $row['tdoc'] == '07' or $row['tdoc'] == '08' or $row['tdoc'] == '20') {
+                    if ($row['tdoc'] == '01' or $row['tdoc'] == '03' or $row['tdoc'] == '07' or $row['tdoc'] == '08' or $row['tdoc'] == '20' or $row['tdoc'] == 'GI') {
                         $item = array(
                             "tdoc" => $row['tdoc'],
                             "nomb" => $row['nomb'],

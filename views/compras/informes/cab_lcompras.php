@@ -74,7 +74,7 @@ $this->startSection('javascript');
         obtenerFechas();
         titulo('<?php echo $titulo; ?>');
         $("#cmbAlmacen").removeAttr("disabled");
-        $(".tipodocumentos option[value='07']").remove();
+        // $(".tipodocumentos option[value='07']").remove();
         $(".tipodocumentos option[value='08']").remove();
         $(".tipodocumentos option[value='20']").remove();
     }

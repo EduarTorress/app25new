@@ -83,6 +83,8 @@ $this->startSection('javascript');
             $("#cmbAlmacen").attr("disabled", false);
         }
         $("#cmbAlmacen").val("<?php echo $_SESSION['idalmacen'] ?>");
+        $(".tipodocumentos option[value='GI']").remove();
+
     }
 
     function search() {

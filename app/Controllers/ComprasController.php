@@ -459,8 +459,8 @@ class ComprasController extends Controller
             return response()->json(['errors' => 'Número de compra ya registrado previamente'], 422);
         }
 
-          if (!validarrucregistro($request->get("txtrucproveedor"), $request->get("tdoc"))) {
-            return response()->json(['errors' => 'No se puede hacer una COMPRA a la misma empresa'], 422);
+        if (!validarrucregistro($request->get("txtrucproveedor"), $request->get("tdoc"))) {
+            return response()->json(['errors' => 'No se puede hacer un comprobante electrónico a la misma empresa'], 422);
         }
 
         $validar = new Validator($request->getBody());
@@ -738,6 +738,11 @@ class ComprasController extends Controller
 
         if (empty($_SESSION["carritoc"])) {
             return response()->json(['message' => 'Se requiere productos para registrar la compra'], 422);
+        }
+
+
+        if (!validarrucregistro($request->get("txtrucproveedor"), $request->get("tdoc"))) {
+            return response()->json(['errors' => 'No se puede hacer un comprobante electronico a la misma empresa'], 422);
         }
 
         if (empty($_SESSION['checknodescontarstock'])) {
