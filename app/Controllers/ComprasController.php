@@ -459,6 +459,10 @@ class ComprasController extends Controller
             return response()->json(['errors' => 'Número de compra ya registrado previamente'], 422);
         }
 
+          if (!validarrucregistro($request->get("txtrucproveedor"), $request->get("tdoc"))) {
+            return response()->json(['errors' => 'No se puede hacer una COMPRA a la misma empresa'], 422);
+        }
+
         $validar = new Validator($request->getBody());
         $validar->rule("required", "tdoc");
         $validar->rule("required", "cndoc");
