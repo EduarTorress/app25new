@@ -64,12 +64,6 @@
                 "opt": "A"
             },
             {
-                "item": "Registro de ventas",
-                "ruta": "/vtas/rvtas",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
                 "item": "Reporte de Ventas Anuladas",
                 "ruta": "/vtas/indexvtasanuladas",
                 "class": "far fa-circle nav-icon",
@@ -82,14 +76,20 @@
                 "opt": "A"
             },
             {
-                "item": "Por Informar a SUNAT",
-                "ruta": "/cpe/fxe",
+                "item": "Reportes Estadísticos",
+                "ruta": "/dashboard",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },
             {
-                "item": "Reportes Estadísticos",
-                "ruta": "/dashboard",
+                "item": "Registro de ventas",
+                "ruta": "/vtas/rvtas",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Por Informar a SUNAT",
+                "ruta": "/cpe/fxe",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             }
@@ -124,14 +124,14 @@
                 "opt": "AV"
             },
             {
-                "item": "Compras x Proveedor",
-                "ruta": "/compras/indexlistacomprasxprov",
+                "item": "Lista Compras Modificadas",
+                "ruta": "/compras/indexlistacomprasmodificadas",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },
             {
-                "item": "Lista Compras Modificadas",
-                "ruta": "/compras/indexlistacomprasmodificadas",
+                "item": "Compras x Proveedor",
+                "ruta": "/compras/indexlistacomprasxprov",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },
