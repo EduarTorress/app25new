@@ -1142,4 +1142,16 @@ class ComprasController extends Controller
         $data = json_decode($response, true);
         return $data;
     }
+    function indexlistacomprasmodificadas(){
+          $ctitulo = "Lista de Compras Modificadas";
+        return view('compras/informes/indexlistacomprasmodificadas', ['titulo' => $ctitulo]);
+    }
+    function listarcomprasmodificadas(Request $request)
+    {
+        $compras = new Compra();
+        $listado = $compras->listarcomprasmodificadas();
+        return view('compras/informes/listacomprasmodificadas', [
+            "listado" => $listado
+        ]);
+    }
 }

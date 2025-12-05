@@ -121,6 +121,10 @@ $app->router->post('/compras/agregaritemxposicion', [\App\Controllers\ComprasCon
 $app->router->get("/compras/indexlistacomprasxprov", [\App\Controllers\ComprasController::class, 'indexlistacomprasxprov']);
 $app->router->get("/compras/listacomprasxprov", [\App\Controllers\ComprasController::class, 'listacomprasxprov']);
 
+
+$app->router->get("/compras/indexlistacomprasmodificadas", [\App\Controllers\ComprasController::class, 'indexlistacomprasmodificadas']);
+$app->router->get("/compras/listarcomprasmodificadas", [\App\Controllers\ComprasController::class, 'listarcomprasmodificadas']);
+
 $app->router->post('/compras/importarcompraxarchivo', [\App\Controllers\ComprasController::class, 'importarcompraxarchivo']);
 
 

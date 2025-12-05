@@ -76,6 +76,12 @@
                 "opt": "A"
             },
             {
+                "item": "Lista Ventas Modificadas",
+                "ruta": "/vtas/indexlistavtasmodificadas",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
                 "item": "Por Informar a SUNAT",
                 "ruta": "/cpe/fxe",
                 "class": "far fa-circle nav-icon",
@@ -124,7 +130,13 @@
                 "opt": "A"
             },
             {
-                "item": "Rotación de Productos.",
+                "item": "Lista Compras Modificadas",
+                "ruta": "/compras/indexlistacomprasmodificadas",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Rotación de Productos",
                 "ruta": "/compras/indexcompradproducto",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"

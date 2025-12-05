@@ -923,4 +923,18 @@ class Compra extends Modelo
         ]);
         return $query;
     }
+    function listarcomprasmodificadas()
+    {
+        $sql = "SELECT r.*,u.nomb as usuario,p.razo as proveedor,lres_fech as fechaoperacion
+                FROM fe_rcom r
+                inner join fe_prov p on r.idprov=p.idprov
+                inner join fe_aresumen a on r.idauto=a.lres_idau
+                INNER JOIN fe_usua u ON a.lres_idus=u.idusua
+                WHERE r.idprov>0 AND acti='A' AND tdoc IN ('01','03','GI') 
+                AND idusua1>0 AND impo>0 and lres_idus>0 ORDER BY lres_fech";
+        $query = $this->prepare($sql);
+        $query->setFetchMode(PDO::FETCH_ASSOC);
+        $query->execute();
+        return $query;
+    }
 }
