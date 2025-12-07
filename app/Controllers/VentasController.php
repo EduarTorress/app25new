@@ -593,8 +593,10 @@ class VentasController extends Controller
 
         $carritov = session()->get('carritov', []);
         foreach ($carritov as $c) {
-            if (floatval($c['precio']) == 0 || floatval($c['cantidad'] == 0)) {
-                return response()->json(['errors' => 'No se puede actualizar una venta con un precio o cantidad con valor 0'], 422);
+            if ($c['activo'] == 'A') {
+                if (floatval($c['precio']) == 0 || floatval($c['cantidad'] == 0)) {
+                    return response()->json(['errors' => 'No se puede registrar una venta con un precio o cantidad con valor 0'], 422);
+                }
             }
         }
 
@@ -657,8 +659,10 @@ class VentasController extends Controller
 
         $carritov = session()->get('carritov', []);
         foreach ($carritov as $c) {
-            if (floatval($c['precio']) == 0 || floatval($c['cantidad'] == 0)) {
-                return response()->json(['errors' => 'No se puede actualizar una venta con un precio o cantidad con valor 0'], 422);
+            if ($c['activo'] == 'A') {
+                if (floatval($c['precio']) == 0 || floatval($c['cantidad'] == 0)) {
+                    return response()->json(['errors' => 'No se puede actualizar una venta con un precio o cantidad con valor 0'], 422);
+                }
             }
         }
 
@@ -1690,8 +1694,9 @@ class VentasController extends Controller
             ], 422);
         }
     }
-    function indexlistavtasmodificadas(){
-          $ctitulo = "Lista de Ventas Modificadas";
+    function indexlistavtasmodificadas()
+    {
+        $ctitulo = "Lista de Ventas Modificadas";
         return view('ventasd/informes/indexlistavtasmodificadas', ['titulo' => $ctitulo]);
     }
     function listarvtasmodificadas(Request $request)
