@@ -5,7 +5,7 @@
             <th>Documento</th>
             <th>Cliente</th>
             <th>Usuario</th>
-            <th data-footer-formatter="formatTotal">Total</th>
+            <th class="text-end" data-footer-formatter="formatTotal">Total</th>
             <th>Opciones</th>
         </tr>
     </thead>
