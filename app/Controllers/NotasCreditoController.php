@@ -30,7 +30,7 @@ class NotasCreditoController extends Controller
         $nc->nvalor = $request->get("subtotal");
         $nc->nigv = $request->get("igv");
         $nc->nt = $request->get("total");
-        $nc->cndo2 = $request->get("cndo2v");
+        $nc->ndocventa = $request->get("ndocventa");
         $nc->cliente=$request->get("razov");
         $nc->nidclie = $request->get("idcliev");
         $nc->nitems = count($detalle);

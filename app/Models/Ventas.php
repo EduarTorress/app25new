@@ -1575,7 +1575,7 @@ class Ventas extends Modelo
         CONCAT(v.nruc,'-',tdoc,'-',LEFT(ndoc,4),'-',SUBSTR(ndoc,5),'.xml') AS nombrexml,tcom
         FROM fe_rcom AS a 
         INNER JOIN fe_clie AS b ON (a.idcliente=b.idclie),fe_gene AS v
-        WHERE a.acti='A' AND impo<>0 AND a.`idcliente`=:idCliente and tdoc not in ('07','08','09') ORDER BY fech desc";
+        WHERE a.acti='A' AND impo<>0 AND a.`idcliente`=:idCliente and tdoc not in ('07','08','09','20') ORDER BY fech desc";
         $query = $this->prepare($sql);
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute([

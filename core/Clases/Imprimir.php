@@ -1447,7 +1447,7 @@ class Imprimir
         $pdf->SetFont('Tahomab', '', 7);
         $pdf->setx(144);
         $pdf->cell(25, 6, 'I.G.V. ' . number_format(($this->vigv - 1) * 100, 2, '.', ',') . '%', 1, 0, 'R', 0);
-        $pdf->cell(29, 6, number_format($this->igv, 2, '.', ','), 1, 0, 'R', 0);
+        $pdf->cell(29, 6, '-' . number_format($this->igv, 2, '.', ','), 1, 0, 'R', 0);
         $pdf->ln();
         if ($this->detraccion != '0') {
             $pdf->SetFont('DejaVu', '', 7);
@@ -1461,7 +1461,7 @@ class Imprimir
         }
         $pdf->setx(144);
         $pdf->cell(25, 6, 'TOTAL ', 1, 0, 'R', 0);
-        $pdf->cell(29, 6, number_format($this->total, 2, '.', ','), 1, 0, 'R', 0);
+        $pdf->cell(29, 6, '-' . number_format($this->total, 2, '.', ','), 1, 0, 'R', 0);
         $pdf->ln();
         $pdf->ln();
         $pdf->SetFont('Tahoma', '', 6);

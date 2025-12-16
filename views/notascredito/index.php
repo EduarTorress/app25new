@@ -140,6 +140,7 @@ $this->startSection('javascript');
     $('#modal_clientes').on('shown.bs.modal', function() {
         $('#txtbuscar').focus();
         $('#txtbuscar').select();
+           limpiardatos();
     });
 
     $('#modal_clientes').on('hidden.bs.modal', function(e) {
@@ -323,7 +324,7 @@ $this->startSection('javascript');
                 data.append("txtdireccion", $("#txtdireccion").val());
                 data.append("txtruccliente", $("#txtruccliente").val());
                 data.append("txtdnicliente", $("#txtdnicliente").val());
-                // data.append("ndo2v", $("#txtndoc").val());
+                data.append("ndocventa", $("#txtndoc").val());
                 // data.append("almv", $("#cmbAlmacen").val());
                 data.append("fechv", $("#txtfecha").val());
                 // data.append("monev", $("#cmbmoneda").val());

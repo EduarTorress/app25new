@@ -18,6 +18,7 @@ class NotasCredito extends Modelo
     public $nvalor = 0;
     public $nigv = 0;
     public $nt = 0;
+    public $ndocventa = "";
     public $cndo2 = "";
     public $ndolar = 0;
     public $ni = 0;
@@ -61,6 +62,13 @@ class NotasCredito extends Modelo
             $idserie = $correlativo[0]['idserie'];
             $this->cndoc = $correlativo[0]['correlativo'];
 
+            $ndocventa = substr($this->ndocventa, 0, 1);
+
+            if (trim($ndocventa) == 'B') {
+                $this->cndoc = str_replace('FN', 'BC', $this->cndoc);
+            }
+            return;
+            
             $sqlIDE = "select FuningresaDocumentoElectronico(:ctdoc,:cform,:cndoc,:dfecha,:cdetalle,:nv,:nigv,:nt,:cndo2,:cmon,:ndolar,:ni,
             :ctg,:ccodp,:cmvto,:nidusua,:nidcodt,:n1,:n2,:n3,:nitems,:idtr,:nexon,:ndscto) AS ID";
             $exIDE = $pdo->prepare($sqlIDE);
@@ -70,9 +78,9 @@ class NotasCredito extends Modelo
                 'cndoc' => $this->cndoc,
                 'dfecha' => $this->dfecha,
                 'cdetalle' => $this->cdetalle,
-                'nv' => $this->nvalor,
-                'nigv' => $this->nigv,
-                'nt' => $this->nt,
+                'nv' => '-' . $this->nvalor,
+                'nigv' => '-' . $this->nigv,
+                'nt' => '-' . $this->nt,
                 'cndo2' => "",
                 'cmon' => $this->cmon,
                 'ndolar' => session()->get("gene_dola"),
