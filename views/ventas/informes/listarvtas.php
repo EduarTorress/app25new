@@ -1,17 +1,17 @@
 <table id="table" data-show-export="true" class="table table-bordered table-hover table-sm small">
     <thead>
         <tr>
-            <th>Fecha</th>
-            <th>Documento</th>
-            <th>Cliente</th>
-            <th>Forma</th>
+            <th data-sortable="true">Fecha</th>
+            <th data-sortable="true">Documento</th>
+            <th data-sortable="true">Cliente</th>
+            <th data-sortable="true">Forma</th>
             <th>Mon.</th>
-            <th class="text-end" data-footer-formatter="formatTotal">Grav.</th>
-            <th class="text-end" data-footer-formatter="formatTotal">Exon.</th>
-            <th class="text-end" data-footer-formatter="formatTotal">Inaf.</th>
-            <th class="text-end" data-footer-formatter="formatTotal">IGV</th>
+            <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">Grav.</th>
+            <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">Exon.</th>
+            <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">Inaf.</th>
+            <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">IGV</th>
             <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">Total</th>
-            <th class="text-center">Fecha Hora</th>
+            <th class="text-center" data-sortable="true">Fecha Hora</th>
             <th class="text-center">Opciones</th>
         </tr>
     </thead>

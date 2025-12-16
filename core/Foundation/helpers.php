@@ -281,11 +281,11 @@ function fechavalida($dfecha)
 }
 function evaluarvalortdoc($tdoc, $valor)
 {
-    if ($tdoc == '07') {
-        return '-' . number_format($valor, 2, '.', '');
-    } else {
+    // if ($tdoc == '07') {
+    //     return '-' . number_format($valor, 2, '.', '');
+    // } else {
         return number_format($valor, 2, '.', '');
-    }
+    // }
 }
 function evaluarvalortdoccaja($ndoc, $valor)
 {
