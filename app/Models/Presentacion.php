@@ -60,16 +60,19 @@ class Presentacion extends Modelo
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
-    function registrardetapresent($idpres, $idart, $prec, $cant)
+    function registrardetapresent($idpres, $idart, $prec, $cant, $costo, $ganancia)
     {
         try {
-            $sql = "INSERT INTO fe_epta(epta_idar,epta_pres,epta_prec,epta_cant) VALUES (:idart,:idpres,:prec,:cant)";
+            $sql = "INSERT INTO fe_epta(epta_idar,epta_pres,epta_prec,epta_cant,epta_cost,epta_marg) 
+            VALUES (:idart,:idpres,:prec,:cant,:costo,:ganancia)";
             $exec = $this->prepare($sql);
             $exec->execute([
                 'idpres' => $idpres,
                 'idart' => $idart,
                 'prec' => $prec,
-                'cant' => $cant
+                'cant' => $cant,
+                'costo' => $costo,
+                'ganancia' => $ganancia
             ]);
             $data = ["estado" => true, 'lista' => [], 'mensaje' => 'Se registro correctamente'];
         } catch (PDOException $e) {

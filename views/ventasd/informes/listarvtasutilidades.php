@@ -5,9 +5,9 @@
             <th>Fecha</th>
             <th>Cliente</th>
             <th>Vendedor</th>
-            <th data-footer-formatter="formatTotal">Importe</th>
-            <th data-footer-formatter="formatTotal">Porcentaje</th>
-            <th data-footer-formatter="formatTotal">Utilidad</th>
+            <th class="text-end" data-footer-formatter="formatTotal">Importe</th>
+            <th class="text-end" data-footer-formatter="formatTotal">Porcentaje</th>
+            <th class="text-end"  data-footer-formatter="formatTotal">Utilidad</th>
         </tr>
     </thead>
     <tbody>

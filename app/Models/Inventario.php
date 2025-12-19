@@ -36,12 +36,12 @@ class Inventario extends Modelo
     }
     function listarexistenciaalmacen()
     {
-        $sql = " SELECT a.idart,c.descri,c.unid,cant,a.prec AS  precio,
+        $sql = " SELECT a.idart,c.descri,c.unid,cant,a.prec AS precio,
         tipo,d.dolar AS dola,d.idauto,d.mone
         FROM fe_kar AS a
         INNER JOIN fe_art AS c ON(c.idart=a.idart)
         INNER JOIN fe_rcom AS d ON(d.idauto=a.idauto)
-        WHERE  fech<=:fech AND a.acti<>'I' AND d.acti<>'I' AND d.tcom<>'T' AND tdoc NOT IN('GI','20') ORDER BY a.idart,fech,a.tipo,d.tdoc,d.ndoc";
+        WHERE fech<=:fech AND a.acti<>'I' AND d.acti<>'I' AND d.tcom<>'T' AND tdoc NOT IN('GI','20') ORDER BY a.idart,fech,a.tipo,d.tdoc,d.ndoc";
         $query = $this->prepare($sql);
         $query->execute([
             'fech' => $this->dfechaf
@@ -110,7 +110,6 @@ class Inventario extends Modelo
                 WHERE r.fech <= :fechf AND r.Acti <> 'I' AND k.Acti <> 'I' GROUP BY k.idart ) AS a
                 INNER JOIN fe_art AS b ON b.idart = a.idart
                 WHERE b.prod_acti <> 'I' order by alma desc";
-
         $query = $this->prepare($sql);
         $query->execute([
             'fechf' => $fechf

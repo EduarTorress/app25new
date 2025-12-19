@@ -1812,13 +1812,13 @@ class Ventas extends Modelo
                     WHERE k.Acti='A' AND c.Acti='A' AND c.fech BETWEEN :dfi AND :dff" . $a . "AND c.tcom<>'T' ) 
                     AS xx GROUP BY idauto ORDER BY fech,Ndoc";
             $query = $this->prepare($sql);
-            $query->setFetchMode(PDO::FETCH_ASSOC);
             $query->execute([
                 'dfi' => $dfi,
                 'dff' => $dff,
                 'cmbAlmacen' => $cmbAlmacen
             ]);
-            return $query;
+            $rs =     $query->fetchAll(PDO::FETCH_ASSOC);
+            return $rs;
         } catch (PDOException $e) {
             echo ('Error al Consultar' . $e->getMessage());
         }

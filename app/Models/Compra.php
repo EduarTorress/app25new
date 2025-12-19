@@ -426,7 +426,7 @@ class Compra extends Modelo
                             "dolar" => $cabecera["dolar"],
                             "eptaidep" => $item['presseleccionada'],
                             "eptaprec" => $prec,
-                            'cantequi' => $item['cantequi']
+                            'cantequi' => trim($item['cantequi'])
                         ]);
                         if ($execpp->errorCode() != '00000') {
                             $wc = 0;

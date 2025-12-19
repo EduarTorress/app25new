@@ -101,27 +101,27 @@
                     <label for="">Comisión Cred:</label>
                     <input type="text" onkeypress="return isNumber(event);" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm" id="txtcomisionc" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_comc']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" style="display:none">
                     <label for="">% Precio Mayor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcprecma" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti1']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" style="display:none">>
                     <label for="">% Precio Especial:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcpreces" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti2']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" style="display:none">
                     <label for="">% Precio Menor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcprecem" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti3']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" style="display:none">
                     <label for="">Precio Mayor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtprecioma" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre1']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" style="display:none">
                     <label for="">Precio Especial:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtprecioe" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre2']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" style="display:none">
                     <label for="">Precio Menor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtpreciome" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre3']) ?>" required>
                 </div>
@@ -151,7 +151,7 @@
             <button class="btn btn-dark" id="btnagregarpresentaciones" onclick="openmodalpresent()" style="<?php echo (empty($datosProducto) ? 'display:none' : '') ?>"><i class="fas fa-plus"></i> Agregar</button>
             <button class="btn btn-primary" onclick="grabarproducto()"><i class="fas fa-save"></i> Grabar</button>
             <?php if (empty($datosProducto)) : ?>
-                <button type="button" id="btncerrarpres" class="btn btn-danger" onclick="cerrarModal()">Cerrar</button>
+                <button type="button" id="btncerrarpres" class="btn btn-danger" onclick="cerrarModal()"><i class="fas fa-close"></i> Cerrar</button>
             <?php endif; ?>
         </div>
     </div>
