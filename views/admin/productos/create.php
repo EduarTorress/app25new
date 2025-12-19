@@ -101,27 +101,27 @@
                     <label for="">Comisión Cred:</label>
                     <input type="text" onkeypress="return isNumber(event);" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm" id="txtcomisionc" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_comc']) ?>" required>
                 </div>
-                <div class="form-group col-4" style="display:none">
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">% Precio Mayor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcprecma" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti1']) ?>" required>
                 </div>
-                <div class="form-group col-4" style="display:none">>
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">% Precio Especial:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcpreces" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti2']) ?>" required>
                 </div>
-                <div class="form-group col-4" style="display:none">
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">% Precio Menor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcprecem" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti3']) ?>" required>
                 </div>
-                <div class="form-group col-4" style="display:none">
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">Precio Mayor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtprecioma" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre1']) ?>" required>
                 </div>
-                <div class="form-group col-4" style="display:none">
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">Precio Especial:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtprecioe" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre2']) ?>" required>
                 </div>
-                <div class="form-group col-4" style="display:none">
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">Precio Menor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtpreciome" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre3']) ?>" required>
                 </div>
