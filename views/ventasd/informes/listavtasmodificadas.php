@@ -1,8 +1,8 @@
-<table id="tablacompras" class="table table-bordered table-hover table table-sm small">
+<table id="tablaventas" class="table table-bordered table-hover table table-sm small">
     <thead>
         <tr>
             <th class="">Documento</th>
-            <th class="text-center">Fecha de Compra</th>
+            <th class="text-center">Fecha de Venta</th>
             <th class="">Cliente</th>
             <th class="text-center">Forma de Pago</th>
             <th class="text-center">Moneda</th>
@@ -27,5 +27,5 @@
     </tbody>
 </table>
 <script>
-    reportetablebt("#tablacompras");
+    reportetablebt("#tablaventas");
 </script>
