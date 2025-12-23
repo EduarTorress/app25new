@@ -151,7 +151,6 @@ class ComprasController extends Controller
             'checknodescontarstock' => $checknodescontarstock
         ]);
     }
-
     function agregaritemxposicion(Request $request)
     {
         // $idart = $request->get('txtcodigo');
@@ -1119,7 +1118,6 @@ class ComprasController extends Controller
         session()->set('carritoc', $c);
         return response()->json(['message' => $comprobante], 200);
     }
-
     function obtenerdetallexdocumento($datapost)
     {
         $curl = curl_init();

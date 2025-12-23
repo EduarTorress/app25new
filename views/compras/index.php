@@ -442,7 +442,6 @@ $this->startSection('javascript');
             });
     }
 
-
     function entertest(u) {
         var enterPressed = 1;
         u.onkeypress = function(e) {
