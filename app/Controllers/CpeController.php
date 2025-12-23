@@ -305,14 +305,30 @@ class CpeController extends Controller
     }
     function descargarxml(Request $request)
     {
-        $app = Application::getInstance();
-        setempresa($app->empresa);
-        $st = $app->envio->obtenerxmlycdr($request->get("nidauto"));
-        $rutaxml = 'descargas/' . $st['nombrexml'];
-        // $rutacdr = 'descargas/' . 'R-' . $st['nombrexml'];
-        file_put_contents($rutaxml, $st['rcom_xml']);
-        // file_put_contents($rutaxml, 'R-' . $st['rcom_xml']);
-        return $st['rcom_xml'];
+         $app = Application::getInstance();
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://companysysven.com/app88/enviofactura.php',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_POSTFIELDS => '{
+            "idauto":"' . $request->get('nidauto') . '",
+            "ctdoc":"' . $request->get('tdoc') . '",
+            "cndoc":"' . $request->get('ndoc') . '",
+            "rucempresa":"' . $_SESSION['gene_nruc'] . '",
+            "tcom":"' . $request->get('tcom') . '",
+            "empresa":"' . trim($app->empresa) . '"
+            }',
+            CURLOPT_CUSTOMREQUEST => 'POST',
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response, true);
+        return $data['xml'];
     }
     function descargarpdf(Request $request)
     {
