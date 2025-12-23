@@ -214,6 +214,7 @@ $this->startSection('javascript');
             <?php endif; ?>
             $(".tipodocumentos option[value='07']").remove();
             $(".tipodocumentos option[value='08']").remove();
+            $("#cmbforma option[value='O']").remove();
             ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
             if (ventasexon == 'S') {
                 $("#lblsubtotal").text("EXONER.")
