@@ -361,7 +361,7 @@
                 "item": "Productos",
                 "ruta": "/productos/index/4",
                 "class": "far fa-circle nav-icon",
-                "opt": "AVS"
+                "opt": "AS"
             },
             {
                 "item": "Clientes",
