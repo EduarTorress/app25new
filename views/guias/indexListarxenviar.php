@@ -59,7 +59,7 @@ $this->startSection('javascript');
                 axios.post(ruta)
                     .then(function(respuesta) {
                         console.log(respuesta.data);
-                        toastr.success('Eliminado correctamente');
+                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                         search();
                     }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {
@@ -82,7 +82,7 @@ $this->startSection('javascript');
             // console.log(respuesta.data.rpta)
             if (respuesta.status == '200') {
                 // console.log(respuesta.data.rpta);
-                toastr.success(respuesta.data.rpta);
+                toastr.success(respuesta.data.rpta, 'Mensaje del Sistema');
                 search();
                 // if (respuesta.data.rpta.substring(0, 1) == '0' || respuesta.data.rpta.substring(0, 2) == '99') {
                 //     res = respuesta.data.rpta.substring(0, 2);
@@ -104,7 +104,7 @@ $this->startSection('javascript');
                 //     toastr.info("!!!!" + respuesta.data.rpta);
                 // }
             } else {
-                toastr.warning(respuesta.data);
+                toastr.warning(respuesta.data, 'Mensaje del Sistema');
                 // console.log(respuesta);
             }
         }).catch(function(error) {
@@ -124,7 +124,7 @@ $this->startSection('javascript');
         }).then(function(respuesta) {
             console.log(respuesta.data.rpta);
             if (respuesta.data.hasOwnProperty('rpta')) {
-                toastr.success(respuesta.data.rpta);
+                toastr.success(respuesta.data.rpta, 'Mensaje del Sistema');
                 search();
                 // if (respuesta.data.rpta.substring(0, 1) == '0' || respuesta.data.rpta.substring(0, 2) == '99') {
                 //     res = respuesta.data.rpta.substring(0, 2);

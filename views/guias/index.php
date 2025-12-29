@@ -249,15 +249,15 @@ $this->startSection('javascript');
         let ncant = $("#cantidad" + num).val();
         //LUEGO DESCOMENTAR
         // if (!cdesc) {
-        //     toastr.info("Ingrese Descripcíon");
+        //     toastr.info("Ingrese Descripcíon",'Mensaje del Sistema');
         //     return
         // }
         // if (!ncant) {
-        //     toastr.info("Ingrese Cantidad");
+        //     toastr.info("Ingrese Cantidad",'Mensaje del Sistema');
         //     return
         // }
         // if (!npeso) {
-        //     toastr.info("Ingrese Peso");
+        //     toastr.info("Ingrese Peso",'Mensaje del Sistema');
         //     return
         // }
         $('#tabla tbody')
@@ -360,7 +360,7 @@ $this->startSection('javascript');
     function modificarGuia() {
         calcularPesoTotal();
         if (validar() === false) {
-            toastr.error("Faltan datos para modificar");
+            toastr.error("Faltan datos para modificar", 'Mensaje del Sistema');
             return;
         }
         Swal.fire({
@@ -511,7 +511,7 @@ $this->startSection('javascript');
                 data.append("detalle", JSON.stringify(detalle));
                 axios.post("/guias/registrar", data)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
+                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         var cruta = '/guias/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', cruta, true);
@@ -526,7 +526,6 @@ $this->startSection('javascript');
                                     var req = new XMLHttpRequest();
                                     req.open("GET", url, true);
                                     req.responseType = "blob";
-
                                     req.onload = function(event) {
                                         var blob = req.response;
                                         // console.log(blob.size);
@@ -555,7 +554,7 @@ $this->startSection('javascript');
                         result.forEach(function(numero) {
                             toastr.error(numero[1])
                         });
-                        // toastr.error(error.response.data.errors);
+                        // toastr.error(error.response.data.errors,'Mensaje del Sistema');
                     });
             }
         });
@@ -613,7 +612,7 @@ $this->startSection('javascript');
             });
         }).catch(function(error) {
             $('#modal_remitente').modal('toggle');
-            toastr.error(error, 'Mensaje del Sistema');
+            toastr.error(error.response.data.message, 'Mensaje del Sistema');
         });
     }
 
@@ -670,7 +669,7 @@ $this->startSection('javascript');
             $("#modal_direcciones").modal('hide');
         }).catch(function(error) {
             $("#modal_direcciones").modal('hide');
-            toastr.error(error, 'Mensaje del Sistema');
+            toastr.error(error.response.data.message, 'Mensaje del Sistema');
         });
     }
 </script>

@@ -140,7 +140,7 @@ $this->startSection('javascript');
     $('#modal_clientes').on('shown.bs.modal', function() {
         $('#txtbuscar').focus();
         $('#txtbuscar').select();
-           limpiardatos();
+        limpiardatos();
     });
 
     $('#modal_clientes').on('hidden.bs.modal', function(e) {
@@ -198,7 +198,7 @@ $this->startSection('javascript');
                 $("#lblsubtotal").text("EXONER.")
             }
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
+            toastr.error('Error al cargar el listado' + error.response.data.message, 'Mensaje del sistema')
         });
     }
 

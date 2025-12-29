@@ -571,7 +571,7 @@ $this->startSection('javascript');
             });
         }).catch(function(error) {
             $('#modal_proveedor').modal('toggle');
-            toastr.error(error, 'Mensaje del sistema');
+            toastr.error(error.response.data.message, 'Mensaje del sistema');
         });
     }
 

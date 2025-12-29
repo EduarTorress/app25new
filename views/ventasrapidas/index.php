@@ -221,7 +221,8 @@ $this->startSection('javascript');
             }
         }).catch(function(error) {
             // 400, 500
-            toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema');
+            console.log(error);
+            toastr.error('Error al cargar el listado ' + error.response.data.message, 'Mensaje del sistema');
         });
         // buscarProducto();
         $("#txtfecha").val("<?php echo (empty($datosclientev['fechv']) ? date("Y-m-d") : $datosclientev['fechv']) ?>");

@@ -78,7 +78,7 @@ $this->startSection('javascript');
                 axios.post(ruta)
                     .then(function(respuesta) {
                         console.log(respuesta.data);
-                        toastr.success('Eliminado correctamente');
+                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                         search();
                     }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {

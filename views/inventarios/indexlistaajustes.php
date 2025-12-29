@@ -113,7 +113,6 @@ $this->startSection("javascript")
         $("#lblndoc").text("Detalle Ajuste Inventario N° " + datos.ndoc);
         $("#txtusuario").val("USUARIO: " + datos.nomb);
         $("#txtfecha").val("FECHA: " + datos.fech);
-
         axios.get('/inventarios/verdetalleajuste', {
             "params": {
                 'idauto': datos.idauto

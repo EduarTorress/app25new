@@ -280,7 +280,7 @@ $this->startsection("javascript");
         }).then(function(respuesta) {
             $("#txttipocambio").val(respuesta.data.valordolar);
         }).catch(function(error) {
-            toastr.error(error, "Mensaje del sistema");
+            toastr.error(error.response.data.message, "Mensaje del sistema");
         });
     }
 

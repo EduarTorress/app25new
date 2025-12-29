@@ -249,7 +249,7 @@ $this->startsection("javascript");
                 const contenido_tabla = respuesta.data;
                 $('#divdocumentosxcancelar').html(contenido_tabla);
             }).catch(function(error) {
-                toastr.error(error, "Mensaje del sistema");
+                toastr.error(error.response.data.message, "Mensaje del sistema");
             });
         } else {
             const data = new FormData();
@@ -257,7 +257,7 @@ $this->startsection("javascript");
                 const contenido_tabla = respuesta.data;
                 $('#divdocumentosxcancelar').html(contenido_tabla);
             }).catch(function(error) {
-                toastr.error(error, "Mensaje del sistema");
+                toastr.error(error.response.data.message, "Mensaje del sistema");
             });
         }
         calculartotalpordetalle();

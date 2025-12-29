@@ -134,7 +134,7 @@ $this->startSection('javascript');
     function buscar() {
         var abuscar = document.getElementById("txtbuscar").value;
         if (abuscar.length == 0) {
-            toastr.info("Ingrese Nombre de Producto a Buscar",'Mensaje del Sistema')
+            toastr.info("Ingrese Nombre de Producto a Buscar", 'Mensaje del Sistema')
             return;
         }
         var noption = obtener();
@@ -152,7 +152,7 @@ $this->startSection('javascript');
         }).catch(function(error) {
             $("#buscar").attr('disabled', false);
             // $('#loading').modal('hide');
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
 
@@ -296,11 +296,11 @@ $this->startSection('javascript');
                 axios.post(ruta)
                     .then(function(respuesta) {
                         // console.log(respuesta.data);
-                        toastr.success('Eliminado correctamente');
+                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                         buscar();
                     }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {
-                            toastr.error(error.response.data.message);
+                            toastr.error(error.response.data.message, 'Mensaje del Sistema');
                         }
                     })
             }
@@ -332,7 +332,7 @@ $this->startSection('javascript');
     function buscarProductoModal() {
         var abuscar = document.getElementById("txtbuscarProducto").value;
         if (abuscar.length == 0) {
-            toastr.info("Ingrese Nombre de Producto a Buscar",'Mensaje del Sistema')
+            toastr.info("Ingrese Nombre de Producto a Buscar", 'Mensaje del Sistema')
             return;
         }
         var noption = 'nombre';
@@ -345,7 +345,7 @@ $this->startSection('javascript');
             const contenido_tabla = respuesta.data;
             $('#searchP').html(contenido_tabla);
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
 

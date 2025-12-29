@@ -57,7 +57,8 @@
         txtgananciapres = $("#txtgananciapres").val();
         txtcostopres = $("#txtcostopres").val();
         nuevoprecio = (txtcostopres * (1 + (txtgananciapres / 100))).toFixed(2);
-        $("#txtpreciopres").val(nuevoprecio);
+        console.log(nuevoprecio);
+        $("#txtpreciopres").val(round(nuevoprecio, 0.1));
     }
 
     $('#txtcostopres').keypress(function(e) {
@@ -85,13 +86,18 @@
         console.log('calculando ganancia por precio')
         nuevoprecio = $("#txtpreciopres").val();
         txtcostopres = $("#txtcostopres").val();
-
-        txtgananciapres = (((nuevoprecio - txtcostopres) / txtcostopres) * 100).toFixed(2);
-        if (is_infinite(txtgananciapres)) {
+        if (Number(txtcostopres) == 0) {
             $("#txtgananciapres").val("0");
         } else {
-            $("#txtgananciapres").val(txtgananciapres);
+            txtgananciapres = (((nuevoprecio - txtcostopres) / txtcostopres) * 100).toFixed(2);
+            $("#txtgananciapres").val(round(txtgananciapres, 0.1));
         }
+    }
+
+    function round(value, step) {
+        step || (step = 1.0);
+        var inv = 1.0 / step;
+        return Math.round(value * inv) / inv;
     }
 
     function registrardetallepresentacion() {
@@ -121,7 +127,7 @@
         data.append("cant", pres[1]);
         axios.post("/presentaciondetalle/registrar", data)
             .then(function(respuesta) {
-                toastr.success(respuesta.data.message);
+                toastr.success(respuesta.data.message, 'Mensaje del Sistema');
                 limpiardetapres();
                 listardetapresxproducto();
             }).catch(function(error) {

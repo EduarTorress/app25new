@@ -122,7 +122,7 @@ $this->startSection('javascript');
     function store(modo, id) {
         let cnombre = document.querySelector("#txtnombre").value;
         if (cnombre.length == 0) {
-            toastr.error('Ingrese un Nombre de Grupo');
+            toastr.error('Ingrese un Nombre de Grupo', 'Mensaje del Sistema');
             return;
         }
         const formulario = document.getElementById('formulario-crear');
