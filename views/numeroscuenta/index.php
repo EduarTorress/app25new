@@ -111,7 +111,7 @@ $this->startSection('javascript');
     function store(modo, id) {
         let txtnrocuenta = document.querySelector("#txtnrocuenta").value;
         if (txtnrocuenta.length == 0) {
-            toastr.warning('Ingrese el Número de Cuenta');
+            toastr.warning('Ingrese el Número de Cuenta','Mensaje del Sistema');
             return;
         }
         const formulario = document.getElementById('formulario-crear');
