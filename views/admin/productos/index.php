@@ -121,6 +121,15 @@ $this->startSection('javascript');
     //     });
     // });
 
+    $("#mdStockProducto").on("shown.bs.modal", function() {
+        // $("#ingreso1").click();
+        // $("#ingreso1").select();
+        var a = $("#tblGestionStock tr:last td:eq(3)");
+        input = $(a).find("input");
+        $(input).focus();
+        $(input).click();
+    });
+
     $('#item').on('shown.bs.modal', function() {
         $('#txtcantidad').focus();
         $('#txtcantidad').select();

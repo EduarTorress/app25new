@@ -1,4 +1,4 @@
-<div class="modal fade" id="mdStockProducto" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="mdStockProducto" tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -88,7 +88,7 @@
                     <td style="display:none"><input type="text" name="idart1" style="width: 100%;" class="idart" id="idart1"  value='` + datos.idart + `' readonly></td>
                     <td><input type="text" name="nombre1" style="width: 100%;" class="nombre" id="nombre1"  value='` + datos.producto.trim() + `' readonly></td>
                     <td style="width:10px;"><input type="text" name="stock1" style="width: 100%;" class="stock" id="stock1"  value='` + datos.stock + `' readonly></td>
-                    <td style="width:10px;"><input type="number" name="ingreso1" style="width: 100%;" class="ingreso" id="ingreso1" value="1"> </td>
+                    <td style="width:10px;"><input type="number" name="ingreso1" style="width: 100%;" onclick="this.select()" onkeypress="enter(this,event)" class="ingreso" id="ingreso1" value="1"> </td>
                     <td> <button class="borrar" style="height:25px; background-color:#FF3838; border-color: #FF3838;">Eliminar</button></td>
                     </tr>`;
         $('#tblGestionStock tbody').append(tr);
@@ -96,6 +96,23 @@
         // $("#txtIdProducto").val(datos.idart);
         // $("#txtStockActual").val(datos.stock);
         $("#mdStockProducto").modal('show');
+    }
+
+    function enter(e, event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            tr = $(e).parent().parent();
+            // console.log($(tr).html());
+            td = $(tr).next('tr').find("td:nth-child(4) input");
+            console.log($(td).length);
+            if ($(td).length >= 1) {
+                $(tr).next('tr').find("td:nth-child(4) input").click()
+                $(tr).next('tr').find("td:nth-child(4) input").select()
+            } else {
+                $("#mdStockProducto").modal('hide');
+                saveDataArtStock();
+            }
+        }
     }
 
     function saveDataArtStock() {
@@ -126,7 +143,6 @@
                         obj = JSON.parse('{' + json.substr(1) + '}');
                         detalle.push(obj)
                     });
-
                     data = new FormData();
                     data.append("detalle", JSON.stringify(detalle));
                     axios.post("/producto/updateStock", data)
@@ -134,6 +150,7 @@
                             console.log(respuesta)
                             toastr.success(respuesta.data.mensaje.trimEnd(), 'Mensaje del Sistema');
                             clearTbGStock();
+                            buscar();
                             $("#mdStockProducto").modal('hide');
                         }).catch(function(error) {
                             console.log(error)

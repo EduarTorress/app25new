@@ -145,6 +145,11 @@ $this->startSection('javascript');
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
         $("#cmbAlmacen").attr("disabled", false);
+        var w = screen.width;
+        if (w <= 768) {
+            alert("Esta opción no esta disponible en dispositivos móviles por SEGURIDAD");
+            window.location.href = '/';
+        }
     }
 
     $('#modal_proveedor').on('shown.bs.modal', function() {
