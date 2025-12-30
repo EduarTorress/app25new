@@ -427,7 +427,7 @@ $this->startSection('javascript');
                                 result.push([i, e[i]]);
                             }
                             result.forEach(function(numero) {
-                                toastr.error(numero[1])
+                                toastr.error(numero[1],'Mensaje del Sistema')
                             });
                         });
                 }
