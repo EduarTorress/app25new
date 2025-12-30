@@ -53,27 +53,26 @@ $this->startSection('javascript');
         // $('#loading').modal('show');
         $("#btnconsultar").attr('disabled', true);
         axios.get('/compras/listarcompradproducto', {
-                "params": {
-                    "dfechai": dfechai,
-                    "dfechaf": dfechaf
-                }
-            }).then(function(respuesta) {
-                // 100, 200, 300
-                const contenido_tabla = respuesta.data;
-                // $('#loading').modal('hide');
-                $("#btnconsultar").attr('disabled', false);
-                $('#search').html(contenido_tabla);
-                $('input[type=search]').css('color', 'black');
-                $('.dataTables_filter').css('color', 'black');
-                $('.paginate_button').css('background-color', '#006CA7');
-                $('.previous').removeClass('disabled');
-                // console.log(respuesta.data.message)
-            }).catch(function(error) {
-                $("#btnconsultar").attr('disabled', false);
-                // 400, 500
-                toastr.error('Error al cargar el listado'+error,'Mensaje del sistema')
-
-            });
+            "params": {
+                "dfechai": dfechai,
+                "dfechaf": dfechaf
+            }
+        }).then(function(respuesta) {
+            // 100, 200, 300
+            const contenido_tabla = respuesta.data;
+            // $('#loading').modal('hide');
+            $("#btnconsultar").attr('disabled', false);
+            $('#search').html(contenido_tabla);
+            $('input[type=search]').css('color', 'black');
+            $('.dataTables_filter').css('color', 'black');
+            $('.paginate_button').css('background-color', '#006CA7');
+            $('.previous').removeClass('disabled');
+            // console.log(respuesta.data.message)
+        }).catch(function(error) {
+            $("#btnconsultar").attr('disabled', false);
+            // 400, 500
+            toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
+        });
     }
 </script>
 <?php

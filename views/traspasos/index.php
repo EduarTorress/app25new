@@ -455,19 +455,19 @@ $this->startSection('javascript');
         // cndoc1 = $("#cndoc1").val();
         // cndoc2 = $("#cndoc2").val();
         // if (cndoc1 == '') {
-        //     toastr.info("Dígite la serie");
+        //     toastr.info("Dígite la serie","Mensaje del Sistema");
         //     return false;
         // }
         // if (cndoc2 == '') {
-        //     toastr.info("Dígite el número");
+        //     toastr.info("Dígite el número","Mensaje del Sistema");
         //     return false;
         // }
         // if (idProv == 0) {
-        //     toastr.info("Seleccione un proveedor");
+        //     toastr.info("Seleccione un proveedor","Mensaje del Sistema");
         //     return false;
         // }
         // if (total == 0) {
-        //     toastr.info("Ingrese importes válidos");
+        //     toastr.info("Ingrese importes válidos","Mensaje del Sistema");
         //     return false;
         // }
         return true;

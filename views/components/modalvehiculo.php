@@ -27,19 +27,18 @@
             // console.log(contenido_tabla);
             $('#searchVe').html(contenido_tabla);
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
 
     function seleccionarVehiculo(parametros) {
-
         document.getElementById("txtIdVehiculo").value = parametros.parametro5;
         document.getElementById("txtChoferVehiculo").value = parametros.parametro3;
         document.getElementById("txtplaca").value = parametros.parametro1 + ' ' + parametros.parametro2;
-        document.getElementById("txtPlaca").value=parametros.parametro1;
-        document.getElementById("txtPlaca1").value=parametros.parametro2;
-        document.getElementById("txtBrevete").value=parametros.parametro4
-        document.getElementById("txtMarca").value=parametros.parametro7
+        document.getElementById("txtPlaca").value = parametros.parametro1;
+        document.getElementById("txtPlaca1").value = parametros.parametro2;
+        document.getElementById("txtBrevete").value = parametros.parametro4
+        document.getElementById("txtMarca").value = parametros.parametro7
 
         idVehiculo = parametros.parametro5;
         axios.get('/vehiculo/seleccionar', {
@@ -49,16 +48,14 @@
                 'txtPlaca': parametros.parametro1 + ' ' + parametros.parametro2,
                 'txtplaca': parametros.parametro1,
                 'txtPlaca1': parametros.parametro2,
-                'txtBrevete':parametros.parametro4,
+                'txtBrevete': parametros.parametro4,
                 'txtserie': parametros.parametro6
             }
         }).then(function(respuesta) {
-            $(function() {
-                $('#modal_vehiculo').modal('toggle');
-            });
+            $('#modal_vehiculo').modal('toggle');
         }).catch(function(error) {
             $('#modal_vehiculo').modal('toggle');
-            toastr.error(error);
+            toastr.error(error, 'Mensaje del Sistema');
         });
     }
 </script>

@@ -704,7 +704,7 @@ $this->startSection('javascript');
                 data.append("txtvuelto", $("#txtvuelto").val());
                 axios.post("/vtas/registrar", data)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
+                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         $('#griddetalle tbody tr').remove();
                         var cruta = '/vtas/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
@@ -778,7 +778,7 @@ $this->startSection('javascript');
                 data.append("txtvuelto", $("#txtvuelto").val());
                 axios.post("/vtas/actualizar", data)
                     .then(function(respuesta) {
-                        toastr.success(' Se actualizo correctamente ');
+                        toastr.success(' Se actualizo correctamente ', 'Mensaje del Sistema');
                         const tabla = respuesta.data;
                         $('#detalle').html(tabla);
                         window.location.href = '/vtas/vtasresumidas';

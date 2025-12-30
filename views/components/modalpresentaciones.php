@@ -53,7 +53,7 @@
     $('#cmbpresentacionesc').selectpicker();
 
     function calcularprecioxganancia() {
-        console.log('calculando precio por ganancia')
+        //console.log('calculando precio por ganancia')
         txtgananciapres = $("#txtgananciapres").val();
         txtcostopres = $("#txtcostopres").val();
         nuevoprecio = (txtcostopres * (1 + (txtgananciapres / 100))).toFixed(2);
@@ -83,7 +83,7 @@
     });
 
     function calculargananciaxprecio() {
-        console.log('calculando ganancia por precio')
+        //console.log('calculando ganancia por precio')
         nuevoprecio = $("#txtpreciopres").val();
         txtcostopres = $("#txtcostopres").val();
         if (Number(txtcostopres) == 0) {
@@ -131,7 +131,7 @@
                 limpiardetapres();
                 listardetapresxproducto();
             }).catch(function(error) {
-                toastr.error(error, 'Mensaje del sistema');
+                toastr.error(error.response.data.message, 'Mensaje del sistema');
             });
     }
 

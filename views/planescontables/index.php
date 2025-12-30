@@ -128,12 +128,12 @@ $this->startSection('javascript');
     function store(modo, id) {
         let txtnrocuenta = document.querySelector("#txtnrocuenta").value;
         if (txtnrocuenta.length == 0) {
-            toastr.warning('Ingrese el Número de Cuenta');
+            toastr.warning('Ingrese el Número de Cuenta', 'Mensaje del Sistema');
             return;
         }
         let txtnombre = document.querySelector("#txtnombre").value;
         if (txtnombre.length == 0) {
-            toastr.warning('Ingrese una Descripción');
+            toastr.warning('Ingrese una Descripción', 'Mensaje del Sistema');
             return;
         }
         const formulario = document.getElementById('formulario-crear');
@@ -153,7 +153,7 @@ $this->startSection('javascript');
                     axios.post('/planescontables/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             buscar();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -184,7 +184,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             buscar();
-                            toastr.success('Actualizado correctamente');
+                            toastr.success('Actualizado correctamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {

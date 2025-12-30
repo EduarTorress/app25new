@@ -84,7 +84,7 @@ $this->startSection('javascript');
                 $('#modal-mantenimiento-contenido').html(respuesta.data)
                 $('#modal-mantenimiento').modal('show');
             }).catch(function(error) {
-                toastr.error('Error al cargar el modal de crear ' + error)
+                toastr.error('Error al cargar el modal de crear ' + error, 'Mensaje del Sistema')
             })
     }
 
@@ -94,9 +94,8 @@ $this->startSection('javascript');
             .then(function(respuesta) {
                 $('#modal-mantenimiento-contenido').html(respuesta.data)
                 $('#modal-mantenimiento').modal('show');
-            })
-            .catch(function(error) {
-                toastr.error('Error al cargar el modal de editar ' + error)
+            }).catch(function(error) {
+                toastr.error('Error al cargar el modal de editar ' + error, 'Mensaje del Sistema')
             })
     }
 
@@ -132,7 +131,7 @@ $this->startSection('javascript');
                     axios.post('/numeroscuenta/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             buscar();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -142,7 +141,8 @@ $this->startSection('javascript');
                                     mostrarErrores('formulario-crear', errores);
                                 }
                             }
-                            toastr.error('Error al registrar');
+                            console.log(error);
+                            toastr.error('Error al registrar', 'Mensaje del Sistema');
                         })
                 }
             })
@@ -163,15 +163,14 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             buscar();
-                            toastr.success('Actualizado correctamente');
-                        })
-                        .catch(function(error) {
+                            toastr.success('Actualizado correctamente', 'Mensaje del Sistema');
+                        }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {
                                     mostrarErrores('formulario-crear', error.response.data.errors);
                                 }
                             }
-                            toastr.error('Hubo error al actualizar');
+                            toastr.error('Hubo error al actualizar', 'Mensaje del Sistema');
                         });
                 }
             })

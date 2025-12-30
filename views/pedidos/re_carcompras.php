@@ -213,7 +213,7 @@ $this->startSection('javascript');
                 console.log(error);
                 if (error.hasOwnProperty("response")) {
                     if (error.response.status == 422) {
-                        toastr.error(error.response.data.message);
+                        toastr.error(error.response.data.message, 'Mensaje del Sistema');
                     }
                 }
             });

@@ -823,7 +823,7 @@ $this->startSection('javascript');
                     }
                 } else {
                     $("#mdpreregistro").modal('hide');
-                    toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
+                    toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                     $('#griddetalle tbody tr').remove();
                     var cruta = '/vtas/imprimirdirecto/';
                     var xhr = new XMLHttpRequest();
