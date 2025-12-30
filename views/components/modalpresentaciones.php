@@ -103,7 +103,7 @@
     function registrardetallepresentacion() {
         txtcostopres = $("#txtcostopres").val();
         txtpreciopres = $("#txtpreciopres").val();
-        if (Number(txtcoston) > Number(txtpreciopres)) {
+        if (Number(txtcostopres) > Number(txtpreciopres)) {
             toastr.error("El precio de venta no puede estar debajo del costo neto ", 'Mensaje del sistema');
             return;
         }
