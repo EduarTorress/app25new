@@ -102,7 +102,7 @@
         var table = document.getElementById("tblGestionStock");
         var filas = table.tBodies[0].rows.length;
         if (filas == 0) {
-            toastr.error("No hay productos para guardar",'Mensaje del Sistema')
+            toastr.error("No hay productos para guardar", 'Mensaje del Sistema')
         } else {
             Swal.fire({
                 title: '¿Desea grabar el AJUSTE de INVENTARIO?',
@@ -132,7 +132,7 @@
                     axios.post("/producto/updateStock", data)
                         .then(function(respuesta) {
                             console.log(respuesta)
-                            toastr.success(respuesta.data.mensaje.trimEnd());
+                            toastr.success(respuesta.data.mensaje.trimEnd(), 'Mensaje del Sistema');
                             clearTbGStock();
                             $("#mdStockProducto").modal('hide');
                         }).catch(function(error) {

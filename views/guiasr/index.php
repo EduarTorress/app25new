@@ -270,7 +270,7 @@ $this->startSection('javascript');
                 const contenido_tabla = respuesta.data;
                 $('#cargamodal').html(contenido_tabla);
             }).catch(function(error) {
-                toastr.error('Error al cargar el listado')
+                toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
             });
     });
 
@@ -281,7 +281,7 @@ $this->startSection('javascript');
                 $('#cargamodalvtas').html(contenido_tabla);
                 $("#modal_ventas").modal('show');
             }).catch(function(error) {
-                toastr.error('Error al cargar el listado')
+                toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
             });
     }
 
@@ -423,7 +423,7 @@ $this->startSection('javascript');
                 data.append("idautov", $("#idautov").val());
                 axios.post("/guiasr/registrar", data)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
+                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         var cruta = '/guiasr/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', cruta, true);
@@ -472,7 +472,7 @@ $this->startSection('javascript');
     function modificarGuia() {
         idautocanje = $("#txtidautocanje").val();
         if (Number(idautocanje) > 0) {
-            toastr.error("La guía no puede ser modificada, porque ya fue canjeada");
+            toastr.error("La guía no puede ser modificada, porque ya fue canjeada", 'Mensaje del Sistema');
             return;
         }
         calcularPesoTotal();
@@ -524,7 +524,7 @@ $this->startSection('javascript');
                 data.append("detalle", JSON.stringify(detalle));
                 axios.post("/guiasr/modificar", data)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
+                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc,'Mensaje del Sistema');
                         window.location.href = '/guiasr/index';
                         limpiarGuia();
                     }).catch(function(error) {
@@ -550,7 +550,7 @@ $this->startSection('javascript');
     function validar() {
         idDestinatario = $("#txtIdDestinatario").val();
         if (idDestinatario == "") {
-            toastr.info("Ingrese el Destinatario",'Mensaje del Sistema')
+            toastr.info("Ingrese el Destinatario", 'Mensaje del Sistema')
             return false;
         }
         return true

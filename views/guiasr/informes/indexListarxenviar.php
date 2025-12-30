@@ -68,10 +68,9 @@ $this->startSection('javascript');
 
                 axios.post(ruta)
                     .then(function(respuesta) {
-                        toastr.success('Eliminado correctamente');
+                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                         search();
-                    })
-                    .catch(function(error) {
+                    }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {
                             toastr.error(error.response.data.message);
                         } else {
@@ -93,7 +92,7 @@ $this->startSection('javascript');
             if (respuesta.data.hasOwnProperty('rpta')) {
                 if (respuesta.data.rpta.substring(0, 1) == '0' || respuesta.data.rpta.substring(0, 2) == '99') {
                     res = respuesta.data.rpta
-                    toastr.success(res.replace(/\d+/g, ''));
+                    toastr.success(res.replace(/\d+/g, ''),'Mensaje del Sistema');
                     search();
                 } else {
                     toastr.info("!!!!" + respuesta.data.rpta, 'Mensaje del Sistema');
@@ -109,9 +108,7 @@ $this->startSection('javascript');
     }
 
     function descargarpdf(id, nombrepdf) {
-
         var params = "nidauto=" + id;
-
         var xhr = new XMLHttpRequest();
         var cruta = '/guias/imprimir/';
         xhr.open('GET', cruta + "?" + params, true);

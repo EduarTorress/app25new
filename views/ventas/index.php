@@ -452,7 +452,7 @@ $this->startSection('javascript');
                 data.append("detalle", JSON.stringify(detalle));
                 axios.post("/ovtas/registrar", data)
                     .then(function(respuesta) {
-                        toastr.success(' Se Genero el documento: ' + respuesta.data.ndoc);
+                        toastr.success(' Se Genero el documento: ' + respuesta.data.ndoc,'Mensaje del Sistema');
                         var cruta = '/vtas/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', cruta, true);

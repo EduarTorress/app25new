@@ -110,10 +110,10 @@ $this->startSection('javascript');
             // console.log('hola'+respuesta.data.mensaje);
             // toastr.success(cmensaje);
             if (cmensaje.substring(0, 1) == '0') {
-                toastr.success(cmensaje);
+                toastr.success(cmensaje,'Mensaje del Sistema');
                 search();
             } else {
-                toastr.success(cmensaje);
+                toastr.success(cmensaje,'Mensaje del Sistema');
             }
         }).catch(function(error) {
             // 400, 500
@@ -135,10 +135,10 @@ $this->startSection('javascript');
         }).then(function(respuesta) {
             cmensaje = respuesta.data;
             console.log(cmensaje)
-            toastr.success(cmensaje);
+            toastr.success(cmensaje,'Mensaje del Sistema');
             search();
         }).catch(function(error) {
-            toastr.error('error al obtener respuesta Api-SUNAT');
+            toastr.error('error al obtener respuesta Api-SUNAT','Mensaje del Sistema');
         })
     }
 
@@ -163,10 +163,10 @@ $this->startSection('javascript');
                 }).then(function(respuesta) {
                     cmensaje = respuesta.data.mensaje;
                     console.log(cmensaje)
-                    toastr.success(cmensaje);
+                    toastr.success(cmensaje,'Mensaje del Sistema');
                     search();
                 }).catch(function(error) {
-                    toastr.error('error al Quitar Registro');
+                    toastr.error('error al eliminar Registro','Mensaje del Sistema');
                     console.log(error);
                 })
             }
@@ -179,7 +179,7 @@ $this->startSection('javascript');
         // }).then(function(respuesta) {
         //     cmensaje = respuesta.data.mensaje;
         //     console.log(cmensaje)
-        //     toastr.success(cmensaje);
+        //     toastr.success(cmensaje,'Mensaje del Sistema');
         //     search();
         // }).catch(function(error) {
         //     toastr.error('error al Quitar Registro');

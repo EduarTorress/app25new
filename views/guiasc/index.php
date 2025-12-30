@@ -259,9 +259,8 @@ $this->startSection('javascript');
                 const contenido_tabla = respuesta.data;
                 $('#cargamodalcompras').html(contenido_tabla);
                 $("#modal_compras").modal('show');
-            })
-            .catch(function(error) {
-                toastr.error('Error al cargar el listado')
+            }).catch(function(error) {
+                toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
             });
     }
 
@@ -347,7 +346,6 @@ $this->startSection('javascript');
             var pesot = cantidad * peso;
             total += pesot;
         });
-
         if (!isNaN(total)) {
             $("#total").val(total.toFixed(2));
             $("#totalitems").val(i)
@@ -430,7 +428,7 @@ $this->startSection('javascript');
                             result.push([i, e[i]]);
                         }
                         result.forEach(function(numero) {
-                            toastr.error(numero[1])
+                            toastr.error(numero[1], 'Mensaje del Sistema')
                         });
                     });
             }
@@ -502,7 +500,7 @@ $this->startSection('javascript');
                 data.append("txtregmtc", $("#txtregmtc").val());
                 axios.post("/guiasc/registrar", data)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
+                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         var cruta = '/guiasc/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', cruta, true);
@@ -717,7 +715,7 @@ $this->startSection('javascript');
                 .then(function(respuesta) {
                     //console.log('correctamente editado')
                 }).catch(function(error) {
-                   console.log(error)
+                    console.log(error)
                 });
         });
     }
@@ -805,7 +803,7 @@ $this->startSection('javascript');
         var subt = parseFloat(peso) * parseFloat(cant);
         // var campo = _tr.find("td").eq(6);
         if (isNaN(subt)) {
-            toastr.info("Dígite un número correcto",'Mensaje del Sistema')
+            toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
         }
         // campo.html(subt.toFixed(2));
         // var total_col1 = 0;

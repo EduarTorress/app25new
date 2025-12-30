@@ -469,7 +469,7 @@
         data.append("id", id);
         axios.post("/presentaciondetalle/eliminar", data)
             .then(function(respuesta) {
-                toastr.success(respuesta.data.message);
+                toastr.success(respuesta.data.message,'Mensaje del Sistema');
                 listardetapresxproducto();
             }).catch(function(error) {
                 toastr.error(error, 'Mensaje del sistema');

@@ -326,7 +326,7 @@ $this->startSection('javascript');
                 data.append("txtreferencia", $("#txtreferencia").val());
                 axios.post("canje/registrar", data)
                     .then(function(respuesta) {
-                        toastr.success('Se genero el documento: ' + respuesta.data.ndoc);
+                        toastr.success('Se genero el documento: ' + respuesta.data.ndoc,'Mensaje del Sistema');
                         limpiardatos();
                         var cruta = '/vtas/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();

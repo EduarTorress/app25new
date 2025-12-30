@@ -306,19 +306,19 @@ $this->startSection('javascript');
         ctdoc = $('#cmbdcto option:selected').val();
         ruc = document.querySelector('#txtruccliente').value;
         if (idcliente == 0) {
-            toastr.info("Seleccione un Cliente",'Mensaje del Sistema');
+            toastr.info("Seleccione un Cliente", 'Mensaje del Sistema');
             return false;
         }
         if (total == 0) {
-            toastr.info("Ingrese Importes Válidos",'Mensaje del Sistema');
+            toastr.info("Ingrese Importes Válidos", 'Mensaje del Sistema');
             return false;
         }
         if (ctdoc === '01' && ruc.trim() === '') {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura",'Mensaje del Sistema');
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
             return false;
         }
         if (ctdoc === '01' && ruc === 0) {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura",'Mensaje del Sistema');
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
             return false;
         }
         return true;
@@ -374,10 +374,10 @@ $this->startSection('javascript');
                 data.append("ndias", $("#txtdias").val());
                 data.append("total", $("#txttotal").val());
                 data.append("detalle", JSON.stringify(detalle));
-                data.append("detraccion",$("#txtdetraccion").val());
+                data.append("detraccion", $("#txtdetraccion").val());
                 axios.post("/vtas/registrarcanjetr", data)
                     .then(function(respuesta) {
-                        toastr.success(' Se Genero el documento: ' + respuesta.data.ndoc);
+                        toastr.success(' Se Genero el documento: ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         limpiar();
                         buscarGuiasTr();
                         var cruta = '/vtas/imprimirdirecto/';

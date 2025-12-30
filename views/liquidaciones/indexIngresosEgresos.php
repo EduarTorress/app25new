@@ -299,7 +299,7 @@ $this->startSection('javascript');
         data.append("txtPassword", document.getElementById("txtPassword").value);
         axios.post("/cajas/cambiarfecha", data)
             .then(function(respuesta) {
-                //toastr.success("Eliminado correctamente");
+                //toastr.success("Eliminado correctamente",'Mensaje del Sistema');
                 rpta = respuesta.data.estado;
                 if (rpta == '1') {
                     $(".fecha").attr("readonly", false);

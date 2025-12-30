@@ -124,7 +124,7 @@ $this->startSection('javascript');
         // data.append("idcliev", $("#txtidcliente").val());
         // axios.post("/cajas/enviarresumenxcorreo", data)
         //     .then(function(respuesta) {
-        //         toastr.success("Se envió el correo satisfactoriamente");
+        //         toastr.success("Se envió el correo satisfactoriamente",'Mensaje del Sistema');
         //     }).catch(function(error) {
         //         console.log(error)
         //     });

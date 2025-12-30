@@ -319,7 +319,7 @@ $this->startSection('javascript');
                 data.append("txtreferencia", $("#txtreferencia").val());
                 axios.post("/vtas/registrarpedido", data)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc);
+                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         $('#griddetalle tbody tr').remove();
                         var cruta = '/vtas/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();

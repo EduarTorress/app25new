@@ -67,7 +67,7 @@ $this->startSection('javascript');
                 const ruta = '/guiasr/eliminar/' + id;
                 axios.post(ruta)
                     .then(function(respuesta) {
-                        toastr.success('Eliminado correctamente');
+                        toastr.success('Eliminado correctamente','Mensaje del Sistema');
                         search();
                     }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {

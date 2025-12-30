@@ -344,7 +344,6 @@ $this->startSection('javascript');
                             text: rpta,
                             icon: "success"
                         });
-                        // toastr.success(rpta);
                         limpiardatos();
                     }).catch(function(error) {
                         mostrarerroresvalidacion(error);
