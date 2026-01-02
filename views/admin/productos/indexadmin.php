@@ -439,7 +439,7 @@ $this->startSection('javascript');
                 const ruta = '/productos/darBaja/' + idart;
                 axios.post(ruta)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.message);
+                        toastr.success(respuesta.data.message, 'Mensaje del Sistema');
                         buscar();
                     }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {
