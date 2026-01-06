@@ -1598,7 +1598,7 @@ class Ventas extends Modelo
     }
     function consultarDetalleVtaServicio($idauto)
     {
-        $sql = "SELECT detv_idvt AS idkar, '1' AS idart, 'SERVICIO DE TRANSPORTE' AS descri,detv_idau AS idauto,detv_prec AS prec,detv_cant AS cant, detv_acti AS activo
+        $sql = "SELECT detv_idvt AS idkar, '1' AS idart, 'SERVICIO' AS descri,detv_idau AS idauto,detv_prec AS prec,detv_cant AS cant, detv_acti AS activo
         FROM fe_detallevta
         WHERE detv_idau=:idauto AND detv_acti='A'";
         $query = $this->prepare($sql);
