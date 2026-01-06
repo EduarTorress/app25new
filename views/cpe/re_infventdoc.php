@@ -88,10 +88,9 @@ $this->startSection('javascript');
             // console.log(respuesta.data.message)
         }).catch(function(error) {
             // 400, 500
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema');
         });
     }
-
     function enviarboletas(dfecha, nimpo) {
         const empresasel = empresaseleccionada();
         axios.get('/cpe/enviarboletas', {
@@ -113,7 +112,7 @@ $this->startSection('javascript');
             }
         }).catch(function(error) {
             console.log(error);
-            toastr.error(error);
+            toastr.error(error, 'Mensaje del Sistema');
         })
     }
 </script>
