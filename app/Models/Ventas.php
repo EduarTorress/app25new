@@ -1330,7 +1330,6 @@ class Ventas extends Modelo
 
             $sw = 1;
             $sqlk = "update fe_kar set prec=:prec and incl=:igv where idart=:idart and idauto=:idauto";
-
             $idauto = $cabecera["idautov"];
             $optigv = $cabecera['optigv'];
 
@@ -1493,7 +1492,6 @@ class Ventas extends Modelo
             }
 
             $sqlidv = "CALL ProIngresaDetalleVta(:cdesc,:nitem,'0','0',:nid,:nprecio,:ncant,:cunid)";
-
             $i = 0;
             $sw = 1;
             foreach ($detalle as $item) {

@@ -215,7 +215,6 @@ class VentasController extends Controller
             return response()->json(['message' => 'Error al modificar Venta', 'error' => $rpta['mensaje']], 422);
         }
     }
-
     function buscarOVentaPorID($idauto)
     {
         $venta = new Ventas();
