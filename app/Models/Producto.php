@@ -27,10 +27,18 @@ class Producto extends Modelo
 
     function BuscarProductos($buscar, $nd, $opt, $nid)
     {
+        $sql = "call promuestraproductos1(:abuscar,:nd,:opt,:nid)";
+        $productosxsucu = empty($_SESSION['config']['productoxsucu']) ? 'N' : $_SESSION['config']['productoxsucu'];
+        if ($productosxsucu == 'S') {
+            if ($_SESSION['idalmacen'] == '3') {
+                $sql = "call promuestraproductosm(:abuscar,:nd,:opt,:nid)";
+            } else {
+                $nd = $_SESSION['idalmacen'];
+            }
+        }
         $lista = array();
         $data = ['resultado' => false];
         $lista['items'] = array();
-        $sql = "call promuestraproductos1(:abuscar,:nd,:opt,:nid)";
         $query = $this->prepare($sql);
         try {
             $cbuscar = str_replace(" ", "%", $buscar);
@@ -536,6 +544,10 @@ class Producto extends Modelo
     }
     function BuscarProductosadmin($buscar, $nd, $opt, $nid)
     {
+        // $productosxsucu = empty($_SESSION['config']['productoxsucu']) ? 'N' : $_SESSION['config']['productoxsucu'];
+        // if ($productosxsucu == 'S') {
+        //     $nd = $_SESSION['idalmacen'];
+        // }
         $lista = array();
         $data = ['resultado' => false];
         $lista['items'] = array();
@@ -582,6 +594,7 @@ class Producto extends Modelo
                         "idmarca" => $row['idmar'],
                         "idgrupo" => $row['idgrupo'], #grupo
                         "idcat" => $row['idcat'], #linea
+                        "dcat" => empty($row['dcat']) ? ' ' : $row['dcat'], #linea
                         "unid" => $row['unid'], #unidad
                         "idflete" => $row['idflete'], #flete
                         "prod_smin" => $row['prod_smin'], # stock minimo

@@ -124,7 +124,6 @@ class ProductoController extends Controller
             $data = ["errors" => ['Sesión vencida, por favor ingrese nuevamente al sistema']];
             return response()->json($data, 422);
         }
-
         if (!empty($request->get('txtcoda1'))) {
             $exiscodprov = $this->producto->verificarsiexistecodprov($request->get("txtcoda1"));
             if ($exiscodprov['estado'] == '1') {

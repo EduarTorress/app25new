@@ -8,6 +8,7 @@
                     <th style="width:60%;">Producto</th>
                     <th style="width:5%;">Barras</th>
                     <th style="width:5%;">U.M.</th>
+                    <th style="width:5%;" class="text-center">Categoria</th>
                     <th style="width:8%;">Stock Total</th>
                     <?php $sucursales = cargarsucursales(); ?>
                     <?php foreach ($sucursales as $s) : ?>
@@ -35,6 +36,7 @@
                         <td><?php echo $items[0]['descri'] . ' - ' . $items[0]['marca'] ?></td>
                         <td><?php echo $items[0]['prod_cod1'] ?></td>
                         <td><?php echo $items[0]['unid'] ?></td>
+                        <td><b><?php echo $items[0]['dcat'] ?></b></td>
                         <td class="text-right"><?php echo ($items[0]['uno'] + $items[0]['dos'] + $items[0]['tre']) ?></td>
                         <?php
                         $sucu = array($items[0]['uno'], $items[0]['dos'], $items[0]['tre']);
@@ -143,7 +145,7 @@
                                     <a class="btn btn-info" role="button" onclick='buscarProductoxId(<?php echo $cadena_json ?>)'>
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    
+
                                     <?php $tipousuario = $_SESSION['usua_apro'];
                                     if ($tipousuario == '1') { ?>
                                         <a class="btn btn-danger" role="button" onclick="anularproducto(<?php echo $item['idart'] ?>)">
