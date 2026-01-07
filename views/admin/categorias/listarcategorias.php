@@ -2,9 +2,9 @@
     <thead >
         <tr >
             <th>Código</th>
-            <th>Categoria</th>
-            <th>Total Prod.</th>
-            <th>Opciones</th>
+            <th class="text-center">Categoria</th>
+            <th class="text-end">Total Productos</th>
+            <th class="text-center">Opciones</th>
         </tr>
     </thead>
     <tbody>
