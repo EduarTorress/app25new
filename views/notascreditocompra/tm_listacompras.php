@@ -94,10 +94,9 @@
     // //     $('#detalle').html(contenido_tabla);
     // //     calcularIGV()
     // // }).catch(function(error) {
-    // //     toastr.error('Error al cargar el listado')
+    // //     toastr.error('Error al cargar el listado','Mensaje del Sistema')
     // // });
 
     // $("#modal_ventas").modal('hide');
-    // console.log('hola')
     // // $(".codigo").css("display", "none");
 </script>

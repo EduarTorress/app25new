@@ -142,7 +142,6 @@ $this->startSection('javascript');
         $(".tipodocumentos option[value='08']").remove();
         // jQuery('#motivo').replaceWith(jQuery('#cmbMotivoNotaC'));
         mostrarMotivos("07");
-
         $("#cmbMotivo option[value='01']").remove();
         $("#cmbMotivo option[value='02']").remove();
         $("#cmbMotivo option[value='03']").remove();
@@ -154,7 +153,6 @@ $this->startSection('javascript');
         $("#cmbMotivo option[value='11']").remove();
         $("#cmbMotivo option[value='12']").remove();
         $("#cmbMotivo option[value='13']").remove();
-
         $("#motivo").find("#cmbMotivo").val("05")
     }
 
@@ -248,14 +246,12 @@ $this->startSection('javascript');
             imponoigv = ((impo * 0.18) + impo);
             $("#total").val(imponoigv.toFixed(2));
         }
-
         ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
         if (ventasexon == 'S') {
             $("#igv").val("0");
             $("#subtotal").val(impo);
             $("#total").val(impo);
         }
-
         let impor = document.querySelector("#total").value;
         if (isNaN(impor)) {
             $("#subtotal").val("0.00");
@@ -396,7 +392,6 @@ $this->startSection('javascript');
         } else {
             toastr.error("Numero de documento no valido", 'Mensaje del Sistema');
         }
-
     }
 
     function limpiar() {

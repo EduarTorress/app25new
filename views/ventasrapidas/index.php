@@ -219,6 +219,7 @@ $this->startSection('javascript');
             if (ventasexon == 'S') {
                 $("#lblsubtotal").text("EXONER.")
             }
+            $("#btncrearproductomodal").css("display", "none");
         }).catch(function(error) {
             // 400, 500
             console.log(error);

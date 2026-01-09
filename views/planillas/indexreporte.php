@@ -155,7 +155,6 @@ $this->startSection('javascript');
                         ['type', 'number']
                     ])]
                 ],
-
                 ['Saldo Pendiente', 'saldopendiente',
                     [new Map([
                         ['class', 'text-end'],

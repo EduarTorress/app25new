@@ -23,8 +23,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- para select buscador -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
-    <!--------- Iconos----->
-
     <!-- DataTables -->
     <!-- <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -57,7 +55,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.4/dist/bootstrap-table.min.css">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
 </head>
 
 <body id="body" class="white-mode hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -88,7 +85,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </a>
                 </li>
             </ul>
-
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -189,7 +185,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
     <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
     <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-
     <script src="plugins/datatables-custom/JSZip-2.5.0/jszip.min.js"></script>
     <script src="plugins/datatables-custom/pdfmake-0.1.36/pdfmake.min.js"></script>
     <script src="plugins/datatables-custom/pdfmake-0.1.36/vfs_fonts.js"></script>

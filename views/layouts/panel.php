@@ -242,7 +242,6 @@ $this->startSection('javascript');
                             "'" . (empty($totalmontoventas[2]['total']) ? '0' : $totalmontoventas[2]['total']) . "'")
                         ?>];
         var barColors = ["red", "green", "blue"];
-
         new Chart("barra", {
             type: "horizontalBar",
             data: {
@@ -275,7 +274,6 @@ $this->startSection('javascript');
     }
 
     function graficocircularpedidos() {
-
         var xValues = [<?php echo ("'" . (empty($totalpedidosporano[0]['mes']) ? '' : $totalpedidosporano[0]['mes']) . "'" . "," . "'" . (empty($totalpedidosporano[1]['mes']) ? '' : $totalpedidosporano[1]['mes']) . "'" . "," .
                             "'" . (empty($totalpedidosporano[2]['mes']) ? '' : $totalpedidosporano[2]['mes']) . "'" . "," .  "'" . (empty($totalpedidosporano[3]['mes']) ? '' : $totalpedidosporano[3]['mes']) . "'"  . "," .
                             "'" . (empty($totalpedidosporano[4]['mes']) ? '' : $totalpedidosporano[4]['mes']) . "'" . "," .  "'" . (empty($totalpedidosporano[5]['mes']) ? '' : $totalpedidosporano[5]['mes']) . "'" . "," .

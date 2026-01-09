@@ -127,7 +127,6 @@
         }
     });
 
-
     //Poner editable luego de quitar el focus a los campos.
     $("#body").on('click', function() {
         $('#1').attr('contenteditable', 'true');
@@ -142,17 +141,14 @@
         var id2 = document.getElementById("2");
         $(id2).removeAttr('id', '2');
 
-
         //Obtenemos la celda cant y le asignamos un id
         $(o).attr('id', '1');
         //Obtenemos la celda precios y precio, a ambos le asignamos un id
         var tr = $(o).parent();
 
         // tr.find("td").eq(4).attr('id', '2');
-
         //Buscamos lo que hay dentro de la celda precios
         // var p = document.getElementById('precios_' + i);
-
         //Obtenemos la celda cantidad con función enter
         var cant = document.getElementById("1");
         cant.addEventListener("keypress", function(event) {
@@ -163,7 +159,6 @@
                 $('#2').focus().select();
             }
         });
-
         // var prec = document.getElementById("2");
         // prec.addEventListener("keypress", function(event) {
         //     if (event.key === "Enter") {
@@ -190,7 +185,6 @@
             }
         });
     });
-
 
     //Calculamos en el subtotal y total
     function calcularsubtotal(o) {

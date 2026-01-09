@@ -224,6 +224,7 @@ $this->startSection('javascript');
             if (ventasexon == 'S') {
                 $("#lblsubtotal").text("EXONER.")
             }
+            $("#btncrearproductomodal").css("display", "none");
         }).catch(function(error) {
             // 400, 500
             toastr.error('Ocurrió un error ' + error, 'Mensaje del sistema')
