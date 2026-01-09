@@ -314,6 +314,7 @@ $this->startSection('javascript');
         $("#cndoc1").val("<?php echo isset($serieoc) ?  $serieoc : '' ?>");
         $("#txtidproveedor").val("<?php echo isset($datosproveedoroc['idprovoc']) ?  $datosproveedoroc['idprovoc'] : '' ?>");
         $("#txtproveedor").val("<?php echo isset($datosproveedoroc['razooc']) ?  $datosproveedoroc['razooc'] : '' ?>");
+        $("#btncrearproductomodal").css("display", "none");
     }
 
     $(".tipodocumentos").on("change", function() {
