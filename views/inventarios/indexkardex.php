@@ -56,6 +56,7 @@ $this->startSection("javascript")
 
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
+         $("#btncrearproductomodal").css("display", "none");
     }
 
     $("#modal_productos").on("shown.bs.modal", function() {
