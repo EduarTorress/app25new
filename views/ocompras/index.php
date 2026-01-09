@@ -324,6 +324,7 @@ $this->startsection("javascript");
         } else {
             consultarvalordolar();
         }
+        $("#btncrearproductomodal").css("display", "none");
     }
 
     function consultarvalordolar() {

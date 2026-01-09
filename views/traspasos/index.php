@@ -277,6 +277,7 @@ $this->startSection('javascript');
             });
         }
         $(".codigo").css("display", "none");
+        $("#btncrearproductomodal").css("display", "none");
         // calcularIGV();
     }
 
