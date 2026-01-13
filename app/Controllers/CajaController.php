@@ -20,6 +20,7 @@ class CajaController extends Controller
     }
     function buscar(Request $request)
     {
+        verificarSesion();
         $fech = $request->get('txtfech');
         $nidusua = $request->get('cmbusuarios');
         $codt = $_SESSION['almacen'];
@@ -29,6 +30,8 @@ class CajaController extends Controller
         } else {
             $data = $caja->buscar($fech, $nidusua, $codt);
         }
+        $prediccion = $caja->prediccionvtasxusuario($nidusua);
+        $prediccion=floatval($prediccion['lista'][0]['prediccionventas'])/30;
         $lista = $data['lista'];
         $total = 0;
         $liquidez = 0;
@@ -59,7 +62,8 @@ class CajaController extends Controller
             'saldo' => $saldo['lista'][0],
             'sobrante' => $txtsobrante,
             'totalliquidez' => $totalliquidez,
-            'ingresos' => $ingresos
+            'ingresos' => $ingresos,
+            'prediccion'=>$prediccion
         ]);
     }
     function indexIngresosEgresos()

@@ -11,9 +11,9 @@
             <th scope="col" class="text-end" data-footer-formatter="formatTotal">PLIN</th>
             <th scope="col" class="text-end" data-footer-formatter="formatTotal">Contra Ent.</th>
             <th scope="col" class="text-end" data-footer-formatter="formatTotal">Egresos</th>
-            <th scope="col">Usuario</th>
-            <th scope="col">Moneda</th>
-            <th scope="col">Fecha/Hora</th>
+            <th scope="col" class="text-center">Usuario</th>
+            <th scope="col" class="text-center">Moneda</th>
+            <th scope="col" class="text-center">Fecha/Hora</th>
         </tr>
     </thead>
     <tbody id="">
@@ -30,18 +30,21 @@
                 <td><?php echo evaluarvalortdoccaja($l['ndoc'], $l['Centrega']); ?></td>
                 <td><?php echo evaluarvalortdoccaja($l['ndoc'], $l['egresos']); ?></td>
                 <td><?php echo $l['usua']; ?></td>
-                <td><?php echo $l['mone'] == 'S' ? 'SOLES' : 'DÓLARES' ?></td>
+                <td><?php echo ($l['mone'] == 'S') ? 'SOLES' : 'DÓLARES' ?></td>
                 <td><?php echo $l['fechao']; ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
-</div>
 <div class="card ">
     <div class="card-body">
         <div class="mb-3 input-group float-right ">
-            <div class="col-6">
+            <div class="col-4">
                 <input type="text" class="form-control" name="txtreferencia" id="txtreferencia" placeholder="Ingrese una referencia" value="">
+            </div>
+            <label for="txtvtascred" class="col-sm-0.5 col-form-label col-form-label-sm">Predicción Ventas para <?php echo date('d/m/Y') ?>: </label>
+            <div class="col">
+                <input readonly type="text" style="text-align:right;" class="form-control form-control-sm" id="txtprediccion" value="<?php echo round($prediccion, 2); ?>">
             </div>
             <label for="txtvtascred" class="col-sm-0.5 col-form-label col-form-label-sm">Total de Ventas: </label>
             <div class="col">
@@ -67,6 +70,48 @@
     $("#txtegresos").val('<?php echo $saldo['egresoss']; ?>');
     $("#txtsaldoanterior").val('<?php echo $saldo['saldoanterior']; ?>');
     reportetablebt("#griddetalle");
+    graficar();
+
+    function graficar() {
+        const ctx = document.getElementById('myChart');
+        myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                title: 'Gráfico de Liquidación de Caja',
+                labels: ['Efectivo', 'Crédito', 'Depósito', 'Tarjeta', 'YAPE', 'PLIN', 'Contra Entrega', 'Egresos'],
+                datasets: [{
+                    label: 'Monto',
+                    data: [<?php echo array_sum(array_column($lista, 'efectivo'))  ?>,
+                        <?php echo array_sum(array_column($lista, 'credito'))  ?>,
+                        <?php echo array_sum(array_column($lista, 'deposito'))  ?>,
+                        <?php echo array_sum(array_column($lista, 'tarjeta'))  ?>,
+                        <?php echo array_sum(array_column($lista, 'yape'))  ?>,
+                        <?php echo array_sum(array_column($lista, 'plin'))  ?>,
+                        <?php echo array_sum(array_column($lista, 'Centrega'))  ?>,
+                        <?php echo array_sum(array_column($lista, 'egresos'))  ?>
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Grafico de Liquidación de Caja',
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
+                    }
+                }
+            }
+        });
+    }
 </script>
 <!-- <label for="txtvtascred" class="col-sm-0.5 col-form-label col-form-label-sm">Crédit: </label>
 <div class="col-sm-1">

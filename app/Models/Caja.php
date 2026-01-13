@@ -181,9 +181,7 @@ class Caja extends Modelo
         }
         return $rpta;
     }
-    function registrarTransferencia()
-    {
-    }
+    function registrarTransferencia() {}
     function listaringresos()
     {
         $lista = [];
@@ -738,6 +736,20 @@ class Caja extends Modelo
         $query->execute([
             'txtfecha' => $txtfecha,
             'idusua' => $usuario
+        ]);
+        $lista = $query->fetchAll(PDO::FETCH_ASSOC);
+        //var_dump($query->debugDumpParams());
+        $data = ['mensaje' => 'Todo ok', 'lista' => $lista, 'estado' => '1'];
+        return $data;
+    }
+
+    function prediccionvtasxusuario($idusua)
+    {
+        $lista = [];
+        $sql = "SELECT SUM(impo) AS prediccionventas FROM fe_rcom WHERE acti='A' AND impo>0 AND idcliente>0 AND fech BETWEEN (CURDATE() - INTERVAL 1 MONTH ) AND CURDATE() AND idusua=:idusua";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'idusua' => $idusua
         ]);
         $lista = $query->fetchAll(PDO::FETCH_ASSOC);
         //var_dump($query->debugDumpParams());

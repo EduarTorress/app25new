@@ -1706,4 +1706,11 @@ class VentasController extends Controller
             "listado" => $listado
         ]);
     }
+    function consultardetalleventaxndoc(Request $request)
+    {
+        $vtas = new Ventas();
+        $ndoc = $request->get("ndoc");
+        $lista = $vtas->consultardetalleventaxndoc($ndoc);
+        return response()->json(['message' => 'Se logró listar correctamente', 'listado' =>  $lista], 200);
+    }
 }

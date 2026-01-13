@@ -32,10 +32,11 @@ class Ventas extends Modelo
             $m = ' and mone=:cmbmoneda ';
             $sql = "select ndoc as dcto,a.fech,b.nruc,b.razo,if(a.mone='S','Soles','Dólares') as mone,
                 a.valor,a.rcom_exon,CAST(0 as decimal(12,2)) as inafecto,fusua,form,
-                a.igv,a.impo,rcom_mens,a.tdoc,a.ndoc,idauto,rcom_arch,b.clie_corr,tcom,tdoc,
+                a.igv,a.impo,rcom_mens,a.tdoc,a.ndoc,idauto,rcom_arch,b.clie_corr,tcom,tdoc,u.nomb as usuario,
                 CONCAT(v.nruc,'-',tdoc,'-',LEFT(ndoc,4),'-',SUBSTR(ndoc,5),'.xml') AS nombrexml
                 FROM fe_rcom as a 
-                inner JOIN fe_clie as b ON (a.idcliente=b.idclie),fe_gene as v
+                inner JOIN fe_clie as b ON (a.idcliente=b.idclie)
+                INNER JOIN fe_usua as u ON (a.idusua=u.idusua),fe_gene as v
                 where a.fech between :dfi and :dff and a.acti='A' and tdoc<>'09'" . $t . $f . $m . $a . $tc . " order by fusua,fech,ndoc";
             $query = $this->prepare($sql);
             $query->execute([
@@ -1784,6 +1785,26 @@ class Ventas extends Modelo
             $query = $this->prepare($sql);
             $query->execute([
                 'idauto' => $idauto
+            ]);
+            $rs = $query->fetchAll(PDO::FETCH_ASSOC);
+            return $rs;
+        } catch (PDOException $e) {
+            echo ('Error al consultar ' . $e->getMessage());
+        }
+    }
+    function consultardetalleventaxndoc($ndoc)
+    {
+        try {
+            $sql = "SELECT a.idart,descri,p.pres_desc AS unid,cant,idkar,r.idauto,kar_equi,kar_epta,kar_unid,k.prec,a.peso,k.kar_equi AS cantequi
+            FROM fe_kar k
+            INNER JOIN fe_art a ON k.idart=a.idart
+            INNER JOIN fe_epta AS e ON k.`kar_epta`=e.`epta_idep`
+            INNER JOIN fe_presentaciones p ON e.epta_pres=p.`pres_idpr`
+            inner join fe_rcom r ON k.idauto=r.idauto
+            WHERE ndoc=:ndoc AND k.acti='A'";
+            $query = $this->prepare($sql);
+            $query->execute([
+                'ndoc' => $ndoc
             ]);
             $rs = $query->fetchAll(PDO::FETCH_ASSOC);
             return $rs;

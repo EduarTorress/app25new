@@ -41,6 +41,8 @@ $app->router->get('/vtas/indexlistaventasxano', [\App\Controllers\VentasControll
 $app->router->get('/vtas/listaventasxano', [\App\Controllers\VentasController::class, 'listaventasxano']);
 $app->router->post('/vtas/verificarvalorescarrito', [\App\Controllers\VentasController::class, 'verificarvalorescarrito']);
 
+$app->router->get('/vtas/consultardetalleventaxndoc', [\App\Controllers\VentasController::class, 'consultardetalleventaxndoc']);
+
 
 $app->router->get("/vtas/indexlistavtasmodificadas", [\App\Controllers\VentasController::class, 'indexlistavtasmodificadas']);
 $app->router->get("/vtas/listarvtasmodificadas", [\App\Controllers\VentasController::class, 'listarvtasmodificadas']);

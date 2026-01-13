@@ -3,12 +3,17 @@
 use App\View\Components\DocumentoComponent;
 use App\View\Components\EmpresaComponent;
 use App\View\Components\FormadepagoComponent;
+use App\View\Components\ModalDetalleDctoComponent;
 use App\View\Components\TipoMonedaComponent;
 
 $this->setLayout('layouts/admin');
 ?>
 <?php
 $this->startSection('contenido');
+?>
+<?php
+$md = new ModalDetalleDctoComponent();
+echo $md->render();
 ?>
 <div class="content-wrapper">
     <div class="content">
@@ -58,6 +63,7 @@ $this->startSection('contenido');
         </div>
     </div>
 </div>
+
 <?php
 $this->endSection('contenido');
 ?>

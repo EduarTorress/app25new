@@ -15,7 +15,7 @@ $this->startSection('contenido');
                     <div class="input-group">
                         <label for="txtfecha" class="col-sm-0.5 col-form-label col-form-label-sm">Fecha: </label>
                         <div class="col-sm-2">
-                            <input type="date" class="form-control form-control-sm" id="txtfecha" value="<?php echo date("Y-m-d") ?>">
+                            <input type="date" class="form-control form-control-sm" onkeypress="entergrabar(event)" id="txtfecha" value="<?php echo date("Y-m-d") ?>">
                         </div>
                         <?php
                         $lu = new \App\View\Components\ListasusuarioscomboComponent('');
@@ -40,6 +40,8 @@ $this->startSection('contenido');
                 </div>
             </div>
             <div id="resultado"></div>
+        </div>
+        <div id="canvas" class="card border-light">
         </div>
     </div>
 </div>
@@ -78,7 +80,7 @@ $this->startSection('contenido');
             </div>
         </div>
     </div> -->
-</div>
+<!-- </div> -->
 <?php
 $oimp = new ModalImprimir();
 echo $oimp->render();
@@ -105,6 +107,12 @@ $this->startSection('javascript');
         }
     }
 
+    function entergrabar(e) {
+        if (e.keyCode === 13 && !e.shiftKey) {
+            buscar();
+        }
+    }
+
     function buscar() {
         axios.get('/cajas/buscar', {
             "params": {
@@ -112,6 +120,8 @@ $this->startSection('javascript');
                 "cmbusuarios": $("#cmbusuarios").val()
             }
         }).then(function(respuesta) {
+            $("#canvas").empty();
+            $("#canvas").append(' <canvas id="myChart" width="400" height="100"></canvas>');
             const contenido_tabla = respuesta.data;
             $('#resultado').html(contenido_tabla);
         }).catch(function(error) {

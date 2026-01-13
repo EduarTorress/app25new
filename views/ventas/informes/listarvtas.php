@@ -11,11 +11,13 @@
             <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">Inaf.</th>
             <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">IGV</th>
             <th class="text-end" data-sortable="true" data-footer-formatter="formatTotal">Total</th>
+            <th class="text-center" data-sortable="true">Usuario</th>
             <th class="text-center" data-sortable="true">Fecha Hora</th>
             <th class="text-center">Opciones</th>
         </tr>
     </thead>
     <tbody>
+        <?php $fnow = new DateTime(date('Y-m-d h:i:s a')); ?>
         <?php foreach ($listado as $item) : ?>
             <tr>
                 <td><?php echo $item['fech'] ?></td>
@@ -32,7 +34,14 @@
                 <td class="text-end"><?php echo evaluarvalortdoc($item['tdoc'], $item['inafecto']); ?></td>
                 <td class="text-end"><?php echo evaluarvalortdoc($item['tdoc'], $item['igv']); ?></td>
                 <td class="text-end"><?php echo evaluarvalortdoc($item['tdoc'], $item['impo']); ?></td>
-                <td class="text-center"><?php echo $item['fusua']; ?></td>
+                <td class="text-center"><b><?php echo $item['usuario']; ?></b></td>
+                <?php
+                $fusua = new DateTime($item['fusua']);
+                $ffinal = $fusua->diff($fnow);
+                $tooltipfecha = 'Hace ' . $ffinal->h . ' horas con ' . $ffinal->i . ' minutos y ' . $ffinal->s . ' segundos.';
+                ?>
+                <td class="text-center" data-bs-toggle="tooltip" title="<?php echo $tooltipfecha; ?>"><?php echo $item['fusua']; ?>
+                </td>
                 <td class="text-center">
                     <a class="btn btn-primary" role="button" onclick="descargarpdf10('<?= $item['idauto'] ?>','<?= $item['tcom'] ?>','<?= pathinfo($item['nombrexml'], PATHINFO_FILENAME) . '.pdf' ?>','<?= $item['tdoc'] ?>')">
                         <i class="fas fa-print"></i>
@@ -91,10 +100,51 @@
         </div>
     </div>
 </div> -->
+
 <script>
     $(document).ready(function() {
         reportetablebt('#table');
     });
+
+    // var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    // var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+    //     return new bootstrap.Tooltip(tooltipTriggerEl)
+    // })
+
+    $('#table tbody').on('dblclick', 'tr ', function(e) {
+        ndoc = $(this).find('td:nth-child(2)').html();
+        axios.get('/vtas/consultardetalleventaxndoc', {
+            "params": {
+                "ndoc": ndoc
+            }
+        }).then(function(respuesta) {
+            detalle = respuesta.data.listado;
+            $("#tbldetalle tbody").empty();
+            var subtotal = 0;
+            var total = 0;
+            detalle.forEach(function(d) {
+                $("#lblmodaldetalle").text("Detalle: " + ndoc);
+                subtotal = Number(d.cant) * Number(d.prec);
+                var tr = `<tr> 
+                        <td>` + d.descri + `</td>
+                         <td>` + d.unid + `</td>
+                        <td>` + d.cant + `</td>
+                        <td>` + d.prec + `</td>
+                        <td>` + subtotal.toFixed(2) + `</td>
+                        </tr>`;
+                total = total + subtotal;
+                $('#tbldetalle tbody').append(tr);
+            });
+            $("#txtimportemodal").val("S/ " + total)
+            $("#modaldetalle").modal('show');
+        }).catch(function(error) {
+            toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
+        });
+    });
+
+    // $('#table').on('click-row.bs.table', function(e, row, $element) {
+    //     // console.log(row, $element);
+    // });
 
     function buscarventa(link) {
         Swal.fire({
