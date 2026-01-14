@@ -33,11 +33,9 @@ use App\View\Components\SerieComponent;
     function obtenerDatos() {
         let alm = document.getElementById("cmbAlmacen").value;
         let serie = document.getElementById("cmbSerie").value;
-
         data = new FormData();
         data.append("alm", alm);
         data.append("serie", serie);
-
         axios.post("/admin/sesion", data)
             .then(function(respuesta) {
                 window.location.href = '/';

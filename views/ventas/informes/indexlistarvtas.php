@@ -63,7 +63,6 @@ echo $md->render();
         </div>
     </div>
 </div>
-
 <?php
 $this->endSection('contenido');
 ?>

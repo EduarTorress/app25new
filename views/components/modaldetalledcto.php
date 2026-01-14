@@ -5,19 +5,21 @@
                 <h5 class="modal-title" id="lblmodaldetalle">Detalle del comprobante</h5>
             </div>
             <div class="modal-body">
-                <table class="table table-bordered" id="tbldetalle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Unidad</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Sub. Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="tbldetalle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Unidad</th>
+                                <th scope="col">Cantidad</th>
+                                <th scope="col">Precio</th>
+                                <th scope="col">Sub. Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="float-right">
                     <div class="input-group mb-3">
                         <span class="input-group-text form-control-sm" id=""><b>Total:</b> </span>
