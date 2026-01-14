@@ -51,7 +51,6 @@ class NotasCredito extends Modelo
         try {
             $ncon = new conexion();
             $pdo = $ncon->conectar();
-
             $pdo->beginTransaction();
 
             $correlativo = SerieController::correlativo($_SESSION['nserie'], '07');
@@ -63,12 +62,10 @@ class NotasCredito extends Modelo
             $this->cndoc = $correlativo[0]['correlativo'];
 
             $ndocventa = substr($this->ndocventa, 0, 1);
-
             if (trim($ndocventa) == 'B') {
                 $this->cndoc = str_replace('FN', 'BC', $this->cndoc);
             }
-            return;
-            
+
             $sqlIDE = "select FuningresaDocumentoElectronico(:ctdoc,:cform,:cndoc,:dfecha,:cdetalle,:nv,:nigv,:nt,:cndo2,:cmon,:ndolar,:ni,
             :ctg,:ccodp,:cmvto,:nidusua,:nidcodt,:n1,:n2,:n3,:nitems,:idtr,:nexon,:ndscto) AS ID";
             $exIDE = $pdo->prepare($sqlIDE);
@@ -179,26 +176,52 @@ class NotasCredito extends Modelo
             $ik = 1;
             $as = 1;
             foreach ($detalle as $item) {
-                $exIK = $pdo->prepare($sqlIK);
-                $cant = floatval($item['devolucion']);
-                $prec = floatval($item['precio']);
-                // $costo = empty($item['costo']) ? '0.00' : $item['costo'];
-                $costo = 0;
-                $exIK->execute([
-                    "nid" => $id,
-                    "cc" => $item['codigo'],
-                    "npr" => $prec,
-                    "nct" => '-' . $cant,
-                    "ccod" => $this->nvend,
-                    "calma" => $this->nalma,
-                    "nidcosto1" => $costo,
-                    'epta' => $item['kar_epta'],
-                    'karunid' => $item['unidad'],
-                    'karequi' => $item['cantequi']
-                ]);
-                if ($exIK->errorCode() != '00000') {
-                    $ik = 0;
-                    break;
+                if ((substr($this->cdetalle, 0, 2) == '07') || (substr($this->cdetalle, 0, 2) == '05')) {
+                    if (floatval($item['cant'] > 0)) {
+                        $exIK = $pdo->prepare($sqlIK);
+                        $cant = floatval($item['devolucion']);
+                        $prec = floatval($item['precio']);
+                        // $costo = empty($item['costo']) ? '0.00' : $item['costo'];
+                        $costo = 0;
+                        $exIK->execute([
+                            "nid" => $id,
+                            "cc" => $item['codigo'],
+                            "npr" => $prec,
+                            "nct" => '-' . $cant,
+                            "ccod" => $this->nvend,
+                            "calma" => $this->nalma,
+                            "nidcosto1" => $costo,
+                            'epta' => $item['kar_epta'],
+                            'karunid' => $item['unidad'],
+                            'karequi' => $item['cantequi']
+                        ]);
+                        if ($exIK->errorCode() != '00000') {
+                            $ik = 0;
+                            break;
+                        }
+                    }
+                } else {
+                    $exIK = $pdo->prepare($sqlIK);
+                    $cant = floatval($item['devolucion']);
+                    $prec = floatval($item['precio']);
+                    // $costo = empty($item['costo']) ? '0.00' : $item['costo'];
+                    $costo = 0;
+                    $exIK->execute([
+                        "nid" => $id,
+                        "cc" => $item['codigo'],
+                        "npr" => $prec,
+                        "nct" => '-' . $cant,
+                        "ccod" => $this->nvend,
+                        "calma" => $this->nalma,
+                        "nidcosto1" => $costo,
+                        'epta' => $item['kar_epta'],
+                        'karunid' => $item['unidad'],
+                        'karequi' => $item['cantequi']
+                    ]);
+                    if ($exIK->errorCode() != '00000') {
+                        $ik = 0;
+                        break;
+                    }
                 }
                 $exAS = $pdo->prepare($sqlAS);
                 $cant = floatval($item['devolucion']);
