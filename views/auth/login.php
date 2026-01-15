@@ -23,8 +23,9 @@
         <div class="card card-outline card-primary shadow-lg">
             <div class="card-header text-left">
                 <a class="h1" style="color:#007bff">
-                    <img src="/img/Sysven.png" alt="Logo Sysven" style="width: 40px; ">
-                    <b>Sysven</a>
+                    <img src="/img/Sysven.png" alt="Logo Sysven" style="width: 40px;">
+                    <b>Sysven</b>
+                </a>
             </div>
             <div class="card-body ">
                 <p class="login-box-msg">Iniciar sesión</p>
@@ -117,7 +118,6 @@
     <script src="js/app.js"></script>
 </body>
 <script>
-
     $("#usuario").focus();
 
     function mostrarContrasena() {
