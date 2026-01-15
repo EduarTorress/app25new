@@ -17,16 +17,16 @@
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
 
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-image: linear-gradient(to left top, #9abbeb, #b1c6f0, #c6d2f5, #d9dffa, #eaecff);">
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
+        <div class="card card-outline card-primary shadow-lg">
             <div class="card-header text-left">
                 <a class="h1" style="color:#007bff">
                     <img src="/img/Sysven.png" alt="Logo Sysven" style="width: 40px; ">
                     <b>Sysven</a>
             </div>
-            <div class="card-body">
+            <div class="card-body ">
                 <p class="login-box-msg">Iniciar sesión</p>
                 <form action="/login" method="post">
                     <div class="input-group mb-3">
@@ -117,6 +117,9 @@
     <script src="js/app.js"></script>
 </body>
 <script>
+
+    $("#usuario").focus();
+
     function mostrarContrasena() {
         var tipo = document.getElementById("password");
         if (tipo.type == "password") {

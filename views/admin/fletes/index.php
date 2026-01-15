@@ -109,6 +109,7 @@ $this->startSection('javascript');
                 toastr.error('Ocurrió un error' + error, 'Mensaje del sistema')
             })
     }
+
     $('#modal-mantenimiento').on('shown.bs.modal', function() {
         $('#txtnombre').focus();
     })

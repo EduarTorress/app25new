@@ -104,8 +104,7 @@ $this->startSection('javascript');
             .then(function(respuesta) {
                 $('#modal-mantenimiento-contenido').html(respuesta.data)
                 $('#modal-mantenimiento').modal('show');
-            })
-            .catch(function(error) {
+            }).catch(function(error) {
                 toastr.error('Error al cargar el modal de editar ' + error, 'Mensaje del sistema')
             })
     }
