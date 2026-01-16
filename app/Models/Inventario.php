@@ -15,7 +15,7 @@ class Inventario extends Modelo
     function listarkardex()
     {
         $sql = "SELECT ifnull(e.ndoc,'')  as nped,d.ndo2,d.fech,d.ndoc,d.tdoc,a.tipo,d.mone as cmoneda,a.cant * a.kar_equi as cant,d.fusua,ifnull(g.nomb,'') as usua1,d.codt,
-            a.prec,d.vigv as igv,d.dolar,f.nomb as usua,d.idcliente as codc,b.razo AS cliente,d.idprov as codp,c.razo AS proveedor,d.deta,a.alma
+            a.prec,d.vigv as igv,d.dolar,f.nomb as usua,d.idcliente as codc,b.razo AS cliente,d.idprov as codp,c.razo AS proveedor,d.deta,a.alma,kar_unid,cant as cantpres
             FROM fe_kar as a
             inner JOIN fe_rcom as d on (d.idauto=a.idauto)
             left join fe_prov as c ON(d.idprov=c.idprov)

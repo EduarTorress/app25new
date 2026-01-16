@@ -42,17 +42,15 @@ $app->router->get('/vtas/listaventasxano', [\App\Controllers\VentasController::c
 $app->router->post('/vtas/verificarvalorescarrito', [\App\Controllers\VentasController::class, 'verificarvalorescarrito']);
 
 $app->router->get('/vtas/consultardetalleventaxndoc', [\App\Controllers\VentasController::class, 'consultardetalleventaxndoc']);
-
-
 $app->router->get("/vtas/indexlistavtasmodificadas", [\App\Controllers\VentasController::class, 'indexlistavtasmodificadas']);
 $app->router->get("/vtas/listarvtasmodificadas", [\App\Controllers\VentasController::class, 'listarvtasmodificadas']);
-
-
 $app->router->get("/vtas/indexvtasanuladas", [\App\Controllers\VentasController::class, 'indexvtasanuladas']);
 $app->router->get("/vtas/listarvtasanuladas", [\App\Controllers\VentasController::class, 'listarvtasanuladas']);
-
 $app->router->get("/vtas/indexlistarvtasresumidas", [\App\Controllers\VentasController::class, 'indexlistarvtasresumidas']);
 $app->router->get("/vtas/mostrarvtasutilidades", [\App\Controllers\VentasController::class, 'mostrarvtasutilidades']);
+
+$app->router->get("/vtas/indexlistaclientesfrecuentes", [\App\Controllers\VentasController::class, 'indexlistaclientesfrecuentes']);
+$app->router->get("/vtas/listaclientesfrecuentes", [\App\Controllers\VentasController::class, 'listaclientesfrecuentes']);
 
 #rutas para ventar market
 $app->router->get('/ventasrapidas/index', [\App\Controllers\VentasController::class, 'indexvtasrapidas']);

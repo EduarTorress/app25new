@@ -56,7 +56,7 @@ $this->startSection("javascript")
 
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
-         $("#btncrearproductomodal").css("display", "none");
+        $("#btncrearproductomodal").css("display", "none");
     }
 
     $("#modal_productos").on("shown.bs.modal", function() {
@@ -77,7 +77,11 @@ $this->startSection("javascript")
             $("#lblProducto").val(producto);
             $("#txtcodigo").val(coda);
             $("#cmbAlmacen").val(alma);
-            $("#txtfechai").val('2025-01-01');
+            if ((urlParams.get('fechainicial') === null)) {
+                $("#txtfechai").val('2025-01-01');
+            } else {
+                $("#txtfechai").val(urlParams.get('fechainicial'));
+            }
             $("#txtfechaf").val(fecha);
             searchkardex();
         }

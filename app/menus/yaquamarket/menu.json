@@ -40,14 +40,20 @@
                 "opt": "AV"
             },
             {
-                "item": "Ventas x Vendedor",
-                "ruta": "/vtas/indexvtasxvendedor",
+                "item": "Rotación de Productos",
+                "ruta": "/vtas/indexventadproducto",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },
             {
-                "item": "Rotación de Productos",
-                "ruta": "/vtas/indexventadproducto",
+                "item": "Clientes mas frecuentes",
+                "ruta": "/vtas/indexlistaclientesfrecuentes",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Ventas x Vendedor",
+                "ruta": "/vtas/indexvtasxvendedor",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },
@@ -72,12 +78,6 @@
             {
                 "item": "Lista Ventas Modificadas",
                 "ruta": "/vtas/indexlistavtasmodificadas",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Reportes Estadísticos",
-                "ruta": "/dashboard",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },

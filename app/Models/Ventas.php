@@ -1689,28 +1689,48 @@ class Ventas extends Modelo
         ]);
         return $query;
     }
-    function listarVentasxProducto($dfi, $dff)
+    function listarVentasxProducto($dfi, $dff, $cmbAlmacen)
     {
-        $sql = "SELECT a.`prod_cod1` AS 'CODIGO',a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',TRIM(k.`kar_unid`) AS 'UNIDAD',
-            TRIM(g.`desgrupo`) AS 'GRUPO', TRIM(c.`dcat`) AS 'LINEA'
-            FROM fe_art a
-            INNER JOIN fe_mar m ON a.`idmar`=m.`idmar`
-            INNER JOIN fe_cat c ON a.`idcat`=c.`idcat`
-            INNER JOIN fe_grupo g ON c.`idgrupo`=g.`idgrupo`
-            INNER JOIN fe_kar k ON a.`idart`=k.`idart`
-            INNER JOIN fe_rcom r ON k.`idauto`=r.`idauto`
-            INNER JOIN fe_sucu s ON k.`alma`=s.`idalma`
-            where tcom='k' AND r.`acti`='A' AND k.`acti`='A' and r.idprov=0
-            AND a.`prod_acti`='A' AND 
-            r.`fech` BETWEEN :dfi AND :dff
-            GROUP BY a.`idart`,kar_unid";
+        $a = ($cmbAlmacen == '0') ? ' and k.`alma`<>:cmbAlmacen  ' : ' and k.`alma`=:cmbAlmacen ';
+        $sql = "SELECT a.`idart` AS 'CODIGO',a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',prod_cod1,sum((k.`cant`*k.`prec`)-(k.cant*k.kar_cost)) as ganancia,
+                TRIM(g.`desgrupo`) AS 'GRUPO', TRIM(c.`dcat`) AS 'LINEA', SUM(cant*kar_equi) AS cantidadvendida, SUM(k.`cant`*k.`prec`) AS importevendido
+                FROM fe_art a
+                INNER JOIN fe_mar m ON a.`idmar`=m.`idmar`
+                INNER JOIN fe_cat c ON a.`idcat`=c.`idcat`
+                INNER JOIN fe_grupo g ON c.`idgrupo`=g.`idgrupo`
+                INNER JOIN fe_kar k ON a.`idart`=k.`idart`
+                INNER JOIN fe_rcom r ON k.`idauto`=r.`idauto`
+                INNER JOIN fe_sucu s ON k.`alma`=s.`idalma`
+                WHERE tcom='k' AND r.`acti`='A' AND k.`acti`='A' AND r.idprov=0
+                AND a.`prod_acti`='A' AND 
+                r.`fech` BETWEEN :dfi AND :dff " . $a . "
+                GROUP BY a.`idart`
+                order by cantidadvendida desc";
         $query = $this->prepare($sql);
-        $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute([
             "dfi" => $dfi,
-            "dff" => $dff
+            "dff" => $dff,
+            "cmbAlmacen" => $cmbAlmacen
         ]);
-        return $query;
+        $rs = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $rs;
+    }
+    function listarclientesfrecuentes($dfi, $dff, $cmbAlmacen)
+    {
+        $a = ($cmbAlmacen == '0') ? ' and r.`codt`<>:cmbAlmacen  ' : ' and r.`codt`=:cmbAlmacen ';
+        $sql = "SELECT c.`idclie`,c.razo,SUM(valor) AS valor,SUM(igv) AS igv, SUM(impo) AS importe
+                FROM fe_rcom r
+                INNER JOIN fe_clie c ON r.`idcliente`=c.`idclie`
+                WHERE r.acti='A'and fech between :dfi and :dff AND c.`clie_acti`='A' AND impo>0" . $a . "
+                GROUP BY c.`idclie` ORDER BY importe DESC";
+        $query = $this->prepare($sql);
+        $query->execute([
+            "dfi" => $dfi,
+            "dff" => $dff,
+            "cmbAlmacen" => $cmbAlmacen
+        ]);
+        $rs = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $rs;
     }
     function listarVentasxCliente($dfi, $dff, $idclie)
     {

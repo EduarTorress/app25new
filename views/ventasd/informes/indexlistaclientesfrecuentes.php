@@ -30,7 +30,7 @@ $this->startSection('contenido');
                 </div>
             </div>
             <div class="row">
-                <div class="col-12" id="search">
+                <div class="col-12 table-responsive" id="search">
                 </div>
             </div>
             <div class="row">
@@ -70,7 +70,7 @@ $this->startSection('javascript');
         var dfechaf = document.getElementById("txtfechaf").value;
         // $('#loading').modal('show');
         $("#btnconsultar").attr('disabled', true);
-        axios.get('/vtas/listarventadproducto', {
+        axios.get('/vtas/listaclientesfrecuentes', {
             "params": {
                 "dfechai": dfechai,
                 "dfechaf": dfechaf,
@@ -87,11 +87,6 @@ $this->startSection('javascript');
             // $('#loading').modal('hide');
             $("#btnconsultar").attr('disabled', false);
             $('#search').html(contenido_tabla);
-            // $('input[type=search]').css('color', 'black');
-            // $('.dataTables_filter').css('color', 'black');
-            // $('.paginate_button').css('background-color', '#006CA7');
-            // $('.previous').removeClass('disabled');
-            // console.log(respuesta.data.message)
         }).catch(function(error) {
             $("#btnconsultar").attr('disabled', false);
             console.log(error)

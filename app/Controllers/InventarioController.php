@@ -54,7 +54,9 @@ class InventarioController extends Controller
                         "usua" => "",
                         "fusua" => "",
                         "usua1" => "",
-                        "tipomvto" => ""
+                        "tipomvto" => "",
+                        "kar_unid" => "",
+                        "cantpres" => ""
                     );
                 }
                 $x++;
@@ -104,7 +106,9 @@ class InventarioController extends Controller
                         "usua" => $l['usua'],
                         "fusua" => $l['fusua'],
                         "usua1" => $l['usua1'],
-                        "tipomvto" => $cm
+                        "tipomvto" => $cm,
+                        "kar_unid" => $l['kar_unid'],
+                        "cantpres" => $l['cantpres']
                     );
                 } else {
                     $calma = $calma - $l['cant'];
@@ -142,7 +146,9 @@ class InventarioController extends Controller
                         "usua" => $l['usua'],
                         "fusua" => $l['fusua'],
                         "usua1" => $l['usua1'],
-                        "tipomvto" => $cm
+                        "tipomvto" => $cm,
+                        "kar_unid" => $l['kar_unid'],
+                        "cantpres" => $l['cantpres']
                     );
                 }
             }
@@ -164,7 +170,9 @@ class InventarioController extends Controller
                 "usua" => "",
                 "fusua" => "",
                 "usua1" => "",
-                "tipomvto" => ""
+                "tipomvto" => "",
+                "kar_unid" => "",
+                "cantpres" => ""
             );
         } else {
             $item[] = array(
@@ -180,7 +188,9 @@ class InventarioController extends Controller
                 "usua" => "",
                 "fusua" => "",
                 "usua1" => "",
-                "tipomvto" => ""
+                "tipomvto" => "",
+                "kar_unid" => "",
+                "cantpres" => ""
             );
         }
         return view('/inventarios/listakardex', ['listado' => $item]);
@@ -347,6 +357,6 @@ class InventarioController extends Controller
         $cmbAlmacen = $request->get('cmbAlmacen');
         $inv = new Inventario();
         $listado = $inv->listarstockxalmacen($fechf, $cmbAlmacen);
-        return view('inventarios/listastockxalmacen', ["listado" => $listado,'nalma'=>$cmbAlmacen]);
+        return view('inventarios/listastockxalmacen', ["listado" => $listado, 'nalma' => $cmbAlmacen]);
     }
 }

@@ -1379,9 +1379,23 @@ class VentasController extends Controller
     {
         $dfi = $request->get('dfechai');
         $dff = $request->get('dfechaf');
+        $codt = $request->get('cmbalmacen');
         $venta = new Ventas();
-        $lista = $venta->listarVentasxProducto($dfi, $dff);
-        return \view('ventasd/informes/re_lventasdproducto', ['listado' => $lista]);
+        $lista = $venta->listarVentasxProducto($dfi, $dff, $codt);
+        $listagrafico = array_columns($lista, 'PRODUCTO', 'cantidadvendida');
+        $e = 0;
+        foreach ($listagrafico as $lg) {
+            $listagrafico[$e]['color'] = "rgb(" . rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255) . ")";
+            $e++;
+        }
+        return \view('ventasd/informes/re_lventasdproducto', [
+            'listado' => $lista,
+            'listagrafico1' => array_slice($listagrafico, 0, 20),
+            'listagrafico2' => array_slice($listagrafico, -20),
+            'fechai' => $dfi,
+            'fechaf' => $dff,
+            'nalma' => $codt
+        ]);
     }
     function indexlistavxcliente()
     {
@@ -1712,5 +1726,27 @@ class VentasController extends Controller
         $ndoc = $request->get("ndoc");
         $lista = $vtas->consultardetalleventaxndoc($ndoc);
         return response()->json(['message' => 'Se logró listar correctamente', 'listado' =>  $lista], 200);
+    }
+    function indexlistaclientesfrecuentes()
+    {
+        return \view('ventasd/informes/indexlistaclientesfrecuentes', ['titulo' => 'Clientes más frecuentes']);
+    }
+    function listaclientesfrecuentes(Request $request)
+    {
+        $dfi = $request->get('dfechai');
+        $dff = $request->get('dfechaf');
+        $codt = $request->get('cmbalmacen');
+        $venta = new Ventas();
+        $lista = $venta->listarclientesfrecuentes($dfi, $dff, $codt);
+        $e = 0;
+        foreach ($lista as $lg) {
+            $lista[$e]['color'] = "rgb(" . rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255) . ")";
+            $e++;
+        }
+        return \view('ventasd/informes/listaclientesfrecuentes', [
+            'listado' => $lista,
+            'listagrafico1' => array_slice($lista, 0, 20),
+            'listagrafico2' => array_slice($lista, -20)
+        ]);
     }
 }

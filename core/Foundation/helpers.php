@@ -368,3 +368,18 @@ function mostrarformapago($formapago)
             break;
     }
 }
+function array_columns() {
+  $args = func_get_args();
+
+  $array = array_shift($args);
+
+  if (!$args) {
+    return $array;
+  }
+
+  $keys = array_flip($args);
+
+  return array_map(function($element) use($keys) {
+    return array_intersect_key($element, $keys);
+  }, $array);
+}

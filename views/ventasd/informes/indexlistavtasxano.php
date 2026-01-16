@@ -17,6 +17,10 @@ $this->startSection('contenido');
                                     <option value="2024">2024</option>
                                     <option value="2025">2025</option>
                                     <option value="2026">2026</option>
+                                    <option value="2027">2027</option>
+                                    <option value="2028">2028</option>
+                                    <option value="2029">2029</option>
+                                    <option value="2030">2030</option>
                                 </select>
                                 <button id="btnconsultar" class="btn btn-primary my-1">Consultar</button>
                             </form>
@@ -46,6 +50,7 @@ $this->startSection('javascript');
 
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
+        $("#cmbano").val("<?php echo date('Y') ?>")
     }
 
     function search() {
@@ -63,7 +68,7 @@ $this->startSection('javascript');
             $('#search').html(contenido_tabla);
         }).catch(function(error) {
             $("#btnconsultar").attr('disabled', false);
-           console.log(error)
+            console.log(error)
             toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
