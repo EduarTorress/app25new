@@ -762,38 +762,63 @@ class Compra extends Modelo
             return false;
         }
     }
-    function listarComprasxProducto($dfi, $dff)
+    function listarComprasxProducto($dfi, $dff, $cmbalmacen)
     {
-        try {
-            $ls = "SELECT a.`prod_cod1` AS 'CODIGO',a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',TRIM(a.`unid`) AS 'UNIDAD',
-            SUM( IF( k.`alma` = '1', k.`cant`, 0 ) ) AS 'SUCURSAL 1',
-            SUM( IF( k.`alma` = '2', k.`cant`, 0 ) ) AS 'SUCURSAL 2',
-            SUM( IF( k.`alma` = '3', k.`cant`, 0 ) ) AS 'SUCURSAL 3',
-            SUM( IF( k.`alma` = '4', k.`cant`, 0 ) ) AS 'SUCURSAL 4',
-            SUM( IF( k.`alma` = '5', k.`cant`, 0 ) ) AS 'SUCURSAL 5',
-            TRIM(g.`desgrupo`) AS 'GRUPO', TRIM(c.`dcat`) AS 'LINEA'
-            FROM fe_art a
-            INNER JOIN fe_mar m ON a.`idmar`=m.`idmar`
-            INNER JOIN fe_cat c ON a.`idcat`=c.`idcat`
-            INNER JOIN fe_grupo g ON c.`idgrupo`=g.`idgrupo`
-            INNER JOIN fe_kar k ON a.`idart`=k.`idart`
-            INNER JOIN fe_rcom r ON k.`idauto`=r.`idauto`
-            INNER JOIN fe_sucu s ON k.`alma`=s.`idalma`
-            WHERE r.`acti`='A' AND k.`acti`='A' AND r.idcliente=0
-            AND a.`prod_acti`='A' AND 
-            r.`fech` BETWEEN :dfi AND :dff
-            GROUP BY a.`idart`";
-            $query = $this->prepare($ls);
-            $query->setFetchMode(PDO::FETCH_ASSOC);
-            $query->execute([
-                "dfi" => $dfi,
-                "dff" => $dff
-            ]);
-            return $query;
-        } catch (PDOException $e) {
-            \print_r($e->getMessage());
-            return false;
-        }
+        // try {
+        //     $ls = "SELECT a.`prod_cod1` AS 'CODIGO',a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',TRIM(a.`unid`) AS 'UNIDAD',
+        //     SUM( IF( k.`alma` = '1', k.`cant`, 0 ) ) AS 'SUCURSAL 1',
+        //     SUM( IF( k.`alma` = '2', k.`cant`, 0 ) ) AS 'SUCURSAL 2',
+        //     SUM( IF( k.`alma` = '3', k.`cant`, 0 ) ) AS 'SUCURSAL 3',
+        //     SUM( IF( k.`alma` = '4', k.`cant`, 0 ) ) AS 'SUCURSAL 4',
+        //     SUM( IF( k.`alma` = '5', k.`cant`, 0 ) ) AS 'SUCURSAL 5',
+        //     TRIM(g.`desgrupo`) AS 'GRUPO', TRIM(c.`dcat`) AS 'LINEA'
+        //     FROM fe_art a
+        //     INNER JOIN fe_mar m ON a.`idmar`=m.`idmar`
+        //     INNER JOIN fe_cat c ON a.`idcat`=c.`idcat`
+        //     INNER JOIN fe_grupo g ON c.`idgrupo`=g.`idgrupo`
+        //     INNER JOIN fe_kar k ON a.`idart`=k.`idart`
+        //     INNER JOIN fe_rcom r ON k.`idauto`=r.`idauto`
+        //     INNER JOIN fe_sucu s ON k.`alma`=s.`idalma`
+        //     WHERE r.`acti`='A' AND k.`acti`='A' AND r.idprov=0
+        //     AND a.`prod_acti`='A' AND 
+        //     r.`fech` BETWEEN :dfi AND :dff
+        //     GROUP BY a.`idart`";
+        //     $query = $this->prepare($ls);
+        //     $query->setFetchMode(PDO::FETCH_ASSOC);
+        //     $query->execute([
+        //         "dfi" => $dfi,
+        //         "dff" => $dff
+        //     ]);
+        //     return $query;
+        // } catch (PDOException $e) {
+        //     \print_r($e->getMessage());
+        //     return false;
+        // }
+
+        $a = ($cmbalmacen == '0') ? ' and k.`alma`<>:cmbalmacen  ' : ' and k.`alma`=:cmbalmacen ';
+        $sql = "SELECT a.`idart` AS 'CODIGO',a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',prod_cod1,sum((k.`cant`*k.`prec`)-(k.cant*k.kar_cost)) as ganancia,
+                TRIM(g.`desgrupo`) AS 'GRUPO', TRIM(c.`dcat`) AS 'LINEA', SUM(cant*kar_equi) AS cantidadcomprada, SUM(k.`cant`*k.`prec`) AS importecomprado
+                FROM fe_art a
+                INNER JOIN fe_mar m ON a.`idmar`=m.`idmar`
+                INNER JOIN fe_cat c ON a.`idcat`=c.`idcat`
+                INNER JOIN fe_grupo g ON c.`idgrupo`=g.`idgrupo`
+                INNER JOIN fe_kar k ON a.`idart`=k.`idart`
+                INNER JOIN fe_rcom r ON k.`idauto`=r.`idauto`
+                INNER JOIN fe_sucu s ON k.`alma`=s.`idalma`
+                WHERE tcom='1' AND r.`acti`='A' AND k.`acti`='A' AND r.idcliente=0
+                AND a.`prod_acti`='A' AND 
+                r.`fech` BETWEEN :dfi AND :dff " . $a . "
+                GROUP BY a.`idart`
+                order by cantidadcomprada desc";
+        $query = $this->prepare($sql);
+        $query->execute([
+            "dfi" => $dfi,
+            "dff" => $dff,
+            "cmbalmacen" => $cmbalmacen
+        ]);
+        // var_dump($query->debugDumpParams());
+        $rs = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $rs;
     }
     function buscarDetalleAnularCompra($num, $tdoc)
     {

@@ -804,9 +804,28 @@ class ComprasController extends Controller
     {
         $dfi = $request->get('dfechai');
         $dff = $request->get('dfechaf');
+        $codt = $request->get('cmbalmacen');
+
+        // $compra = new Compra();
+        // $lista = $compra->listarComprasxProducto($dfi, $dff);
+        // return \view('compras/informes/re_lcomprasdproducto', ['listado' => $lista]);
+
         $compra = new Compra();
-        $lista = $compra->listarComprasxProducto($dfi, $dff);
-        return \view('compras/informes/re_lcomprasdproducto', ['listado' => $lista]);
+        $lista = $compra->listarComprasxProducto($dfi, $dff, $codt);
+        $listagrafico = array_columns($lista, 'PRODUCTO', 'cantidadcomprada');
+        $e = 0;
+        foreach ($listagrafico as $lg) {
+            $listagrafico[$e]['color'] = "rgb(" . rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255) . ")";
+            $e++;
+        }
+        return \view('compras/informes/re_lcomprasdproducto', [
+            'listado' => $lista,
+            'listagrafico1' => array_slice($listagrafico, 0, 20),
+            'listagrafico2' => array_slice($listagrafico, -20),
+            'fechai' => $dfi,
+            'fechaf' => $dff,
+            'nalma' => $codt
+        ]);
     }
     function indexocompra()
     {
@@ -1140,8 +1159,9 @@ class ComprasController extends Controller
         $data = json_decode($response, true);
         return $data;
     }
-    function indexlistacomprasmodificadas(){
-          $ctitulo = "Lista de Compras Modificadas";
+    function indexlistacomprasmodificadas()
+    {
+        $ctitulo = "Lista de Compras Modificadas";
         return view('compras/informes/indexlistacomprasmodificadas', ['titulo' => $ctitulo]);
     }
     function listarcomprasmodificadas(Request $request)
