@@ -79,6 +79,7 @@ class Producto extends Modelo
                         #datos para registro y modificación de productos
                         "marca" => $cmarca, #marca
                         "idmarca" => $row['idmar'],
+                        "dcat" => empty($row['dcat']) ? ' ' : $row['dcat'],
                         "idgrupo" => $row['idgrupo'], #grupo
                         "idcat" => $row['idcat'], #linea
                         "unid" => $row['unid'], #unidad
