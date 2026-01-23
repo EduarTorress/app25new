@@ -407,14 +407,17 @@ class Compra extends Modelo
                 $pdo->rollBack();
                 return false;
             }
-
             $wc = 1;
             if ($cabecera['actualizarprecios'] == 'S') {
                 $sqlpp = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,'0',:eptaprec,:eptaidep,:cantequi)";
                 $execpp = $pdo->prepare($sqlpp);
                 foreach ($carritoc as $item) {
                     if ($item['activo'] == 'A') {
-                        $prec = floatval($item['precio']);
+                        if ($cabecera['igv'] == 'N') {
+                            $prec = floatval($item['precio']);
+                        } else {
+                            $prec = floatval($item['precio']) / floatval($_SESSION['gene_igv']);
+                        }
                         $execpp->execute([
                             "coda" => $item['coda'],
                             "fech" => $this->dfecha,
@@ -728,7 +731,11 @@ class Compra extends Modelo
                 $queryc = $pdo->prepare($sqlc);
                 foreach ($carritoc as $item) {
                     if ($item['activo'] == 'A') {
-                        $prec = floatval($item['precio']);
+                      if ($cabecera['igv'] == 'N') {
+                            $prec = floatval($item['precio']);
+                        } else {
+                            $prec = floatval($item['precio']) / floatval($_SESSION['gene_igv']);
+                        }
                         $queryc->execute([
                             "coda" => $item['coda'],
                             "fech" => $this->dfecha,

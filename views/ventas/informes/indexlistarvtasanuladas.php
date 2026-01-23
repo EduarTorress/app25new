@@ -89,59 +89,59 @@ $this->startSection('javascript');
         });
     }
 
-    function descargarxml(nidauto, nombrexml) {
-        axios.get('/cpe/descargarxml', {
-            "params": {
-                // "empresa": empresasel,
-                "nidauto": nidauto
-            }
-        }).then(function(respuesta) {
-            var fileURL = window.URL.createObjectURL(new Blob([respuesta.data]));
-            var fileLink = document.createElement('a');
-            fileLink.href = fileURL;
-            fileLink.setAttribute('download', nombrexml);
-            document.body.appendChild(fileLink);
-            fileLink.click();
-        }).catch(function(error) {
-            toastr.error("Error al descargar XML " + error, "Mensaje del sistema");
-        });
-    }
+    // function descargarxml(nidauto, nombrexml) {
+    //     axios.get('/cpe/descargarxml', {
+    //         "params": {
+    //             // "empresa": empresasel,
+    //             "nidauto": nidauto
+    //         }
+    //     }).then(function(respuesta) {
+    //         var fileURL = window.URL.createObjectURL(new Blob([respuesta.data]));
+    //         var fileLink = document.createElement('a');
+    //         fileLink.href = fileURL;
+    //         fileLink.setAttribute('download', nombrexml);
+    //         document.body.appendChild(fileLink);
+    //         fileLink.click();
+    //     }).catch(function(error) {
+    //         toastr.error("Error al descargar XML " + error, "Mensaje del sistema");
+    //     });
+    // }
 
-    function descargarpdf10(nidauto, tipo, nombrepdf, tdoc) {
-        var params = "nidauto=" + nidauto + '&tipo=' + tipo + '&nombrepdf=' + nombrepdf + '&tdoc=' + tdoc;
-        var xhr = new XMLHttpRequest();
-        var cruta = '/cpe/descargarpdf';
-        xhr.open('GET', cruta + "?" + params, true);
-        xhr.responseType = 'blob';
-        xhr.onload = function(e) {
-            if (this.status == 200) {
-                var blob = new Blob([this.response]);
-                var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = nombrepdf;
-                link.click();
-            }
-        };
-        xhr.send();
-    }
+    // function descargarpdf10(nidauto, tipo, nombrepdf, tdoc) {
+    //     var params = "nidauto=" + nidauto + '&tipo=' + tipo + '&nombrepdf=' + nombrepdf + '&tdoc=' + tdoc;
+    //     var xhr = new XMLHttpRequest();
+    //     var cruta = '/cpe/descargarpdf';
+    //     xhr.open('GET', cruta + "?" + params, true);
+    //     xhr.responseType = 'blob';
+    //     xhr.onload = function(e) {
+    //         if (this.status == 200) {
+    //             var blob = new Blob([this.response]);
+    //             var link = document.createElement('a');
+    //             link.href = window.URL.createObjectURL(blob);
+    //             link.download = nombrepdf;
+    //             link.click();
+    //         }
+    //     };
+    //     xhr.send();
+    // }
 
-    function descargarpdfticket(nidauto, tipo, nombrepdf, tdoc) {
-        var params = "nidauto=" + nidauto + '&tipo=' + tipo + '&nombrepdf=' + nombrepdf + '&tdoc=' + tdoc;
-        var xhr = new XMLHttpRequest();
-        var cruta = '/cpe/descargarpdfticket';
-        xhr.open('GET', cruta + "?" + params, true);
-        xhr.responseType = 'blob';
-        xhr.onload = function(e) {
-            if (this.status == 200) {
-                var blob = new Blob([this.response]);
-                var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = nombrepdf;
-                link.click();
-            }
-        };
-        xhr.send();
-    }
+    // function descargarpdfticket(nidauto, tipo, nombrepdf, tdoc) {
+    //     var params = "nidauto=" + nidauto + '&tipo=' + tipo + '&nombrepdf=' + nombrepdf + '&tdoc=' + tdoc;
+    //     var xhr = new XMLHttpRequest();
+    //     var cruta = '/cpe/descargarpdfticket';
+    //     xhr.open('GET', cruta + "?" + params, true);
+    //     xhr.responseType = 'blob';
+    //     xhr.onload = function(e) {
+    //         if (this.status == 200) {
+    //             var blob = new Blob([this.response]);
+    //             var link = document.createElement('a');
+    //             link.href = window.URL.createObjectURL(blob);
+    //             link.download = nombrepdf;
+    //             link.click();
+    //         }
+    //     };
+    //     xhr.send();
+    // }
 
     // function descargarpdf(nidauto, tipo, nombrepdf) {
     //     axios.get('/cpe/descargarpdf', {

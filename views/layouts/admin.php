@@ -171,7 +171,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             derechos reservados. - <?php echo session()->get("gene_empresa") . ' - ' . $_SESSION['tienda']; ?>
         </footer>
     </div>
-
     <!-- ./wrapper -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- REQUIRED SCRIPTS -->
