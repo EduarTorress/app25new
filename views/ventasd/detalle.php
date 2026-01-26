@@ -238,79 +238,79 @@
     }
 
     function actualizarProducto(o, i) {
-        $(o).each(function() {
-            var _tr = $(o);
-            cmbpresentacion = _tr.find("td").eq(3).find("select").val();
-            cmbpresentacion = cmbpresentacion.split("-");
-            textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
-            textpresentacion = textpresentacion.split("-");
-            const data = new FormData();
-            var id = _tr.find("td").eq(1).html();
-            data.append("txtdescri", _tr.find("td").eq(2).html());
-            data.append("txtprecio", _tr.find("td").eq(5).find("input").val());
-            data.append("unidad", textpresentacion[0].trim());
-            data.append("txtcantidad", _tr.find("td").eq(4).find("input").val());
-            data.append("cantequi", textpresentacion[1]);
-            data.append("presseleccionada", cmbpresentacion[0])
-            data.append("cmbmoneda", $("#cmbmoneda").val());
-            // console.log(_tr.find("td").eq(4).html())
-            tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
-            if (tipobotica == 'S') {
-                data.append("lote", _tr.find("td").eq(6).find("input").val());
-                data.append("fechavto", _tr.find("td").eq(7).find("input").val());
-            }
-            data.append("indice", i);
-            axios.post('/vtas/EditarUno', data)
-                .then(function(respuesta) {
-                    calcularIGV();
-                    //console.log('correctamente editado')
-                }).catch(function(error) {
-                    if (error.hasOwnProperty("response")) {
-                        console.log(error);
-                    }
-                });
-        });
+        console.log($(o).html());
+        // $(o).each(function() {
+        var _tr = $(o);
+        cmbpresentacion = _tr.find("td").eq(3).find("select").val();
+        cmbpresentacion = cmbpresentacion.split("-");
+        textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
+        textpresentacion = textpresentacion.split("-");
+        const data = new FormData();
+        var id = _tr.find("td").eq(1).html();
+        data.append("txtdescri", _tr.find("td").eq(2).html());
+        data.append("txtprecio", _tr.find("td").eq(5).find("input").val());
+        data.append("unidad", textpresentacion[0].trim());
+        data.append("txtcantidad", _tr.find("td").eq(4).find("input").val());
+        data.append("cantequi", textpresentacion[1]);
+        data.append("presseleccionada", cmbpresentacion[0])
+        data.append("cmbmoneda", $("#cmbmoneda").val());
+        // console.log(_tr.find("td").eq(4).html())
+        tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
+        if (tipobotica == 'S') {
+            data.append("lote", _tr.find("td").eq(6).find("input").val());
+            data.append("fechavto", _tr.find("td").eq(7).find("input").val());
+        }
+        data.append("indice", i);
+        axios.post('/vtas/EditarUno', data)
+            .then(function(respuesta) {
+                calcularIGV();
+                //console.log('correctamente editado')
+            }).catch(function(error) {
+                if (error.hasOwnProperty("response")) {
+                    console.log(error);
+                }
+            });
+        // });
     }
 
     function cambiarpresentacion(o, i) {
         row = $(o).parent().parent();
         // console.log(row);
-        $(row).each(function() {
-            var _tr = $(row);
-            cmbpresentacion = _tr.find("td").eq(3).find("select").val();
-            cmbpresentacion = cmbpresentacion.split("-");
-            textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
-            textpresentacion = textpresentacion.split("-");
-            _tr.find("td").eq(5).find("input").val(Number(cmbpresentacion[1]).toFixed(2));
-            const data = new FormData();
-            var id = _tr.find("td").eq(1).html();
-            data.append("txtdescri", _tr.find("td").eq(2).html());
-            data.append("txtcantidad", _tr.find("td").eq(4).find("input").val());
-            data.append("txtprecio", _tr.find("td").eq(5).find("input").val());
-            data.append("unidad", textpresentacion[0].trim());
-            data.append("cmbmoneda", $("#cmbmoneda").val());
-            data.append("cantequi", textpresentacion[1]);
-            data.append("presseleccionada", cmbpresentacion[0])
-            tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
-            if (tipobotica == 'S') {
-                data.append("lote", _tr.find("td").eq(6).find("input").val());
-                data.append("fechavto", _tr.find("td").eq(7).find("input").val());
-            }
-            data.append("indice", i);
-            axios.post('/vtas/EditarUno', data)
-                .then(function(respuesta) {
-                    calcularIGV();
-                    calcularsubtotal(row);
-                }).catch(function(error) {
-                    if (error.hasOwnProperty("response")) {
-                        console.log(error);
-                    }
-                });
-        });
+        // $(row).each(function() {
+        var _tr = $(row);
+        cmbpresentacion = _tr.find("td").eq(3).find("select").val();
+        cmbpresentacion = cmbpresentacion.split("-");
+        textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
+        textpresentacion = textpresentacion.split("-");
+        _tr.find("td").eq(5).find("input").val(Number(cmbpresentacion[1]).toFixed(2));
+        const data = new FormData();
+        var id = _tr.find("td").eq(1).html();
+        data.append("txtdescri", _tr.find("td").eq(2).html());
+        data.append("txtcantidad", _tr.find("td").eq(4).find("input").val());
+        data.append("txtprecio", _tr.find("td").eq(5).find("input").val());
+        data.append("unidad", textpresentacion[0].trim());
+        data.append("cmbmoneda", $("#cmbmoneda").val());
+        data.append("cantequi", textpresentacion[1]);
+        data.append("presseleccionada", cmbpresentacion[0])
+        tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
+        if (tipobotica == 'S') {
+            data.append("lote", _tr.find("td").eq(6).find("input").val());
+            data.append("fechavto", _tr.find("td").eq(7).find("input").val());
+        }
+        data.append("indice", i);
+        axios.post('/vtas/EditarUno', data)
+            .then(function(respuesta) {
+                calcularIGV();
+                calcularsubtotal(row);
+            }).catch(function(error) {
+                if (error.hasOwnProperty("response")) {
+                    console.log(error);
+                }
+            });
+        // });
     }
 
     function funcionEnterCant(o, i) {
-
         var id1 = document.getElementById("1");
         $(id1).removeAttr('id', '1');
         var id2 = document.getElementById("2");
@@ -341,7 +341,7 @@
                 // $('#2').removeClass('focus');
                 // $('#2').removeAttr('contenteditable');
                 tr.find("td").eq(5).removeClass('focus');
-                $("#2").blur();
+                // $("#2").blur();
                 // $('#body').trigger('click');
                 tr.next('tr').find("td:nth-child(5) input").click();
             }
