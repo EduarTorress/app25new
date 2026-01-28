@@ -1,6 +1,7 @@
 <?php
 
 use App\View\Components\EmpresaComponent;
+use App\View\Components\ModalDetalleDctoComponent;
 
 $this->setLayout('layouts/admin');
 ?>
@@ -32,41 +33,10 @@ $this->startSection('contenido');
         </div>
     </div>
 </div>
-<div id="modaldetalle" class="modal fade " tabindex="-1" data-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="lblmodaldetalle">Detalle del comprobante</h5>
-                <input type="text" style="display:none" id="txtidauto">
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered" id="tbldetalle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Unidad</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Peso</th>
-                            <th scope="col">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="float-right">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text form-control-sm" id=""><b>Total:</b> </span>
-                        <input type="text" id="txtimportemodal" class=" form-control" value="0.00" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnEliminar" class="btn btn-danger" onclick="cerrarModal();" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" id="btnrecibir" class="btn btn-success" onclick="recibirtraspaso();">Recibir Traspaso</button>
-            </div>
-        </div>
-    </div>
-</div>
+<?php
+$md = new ModalDetalleDctoComponent();
+echo $md->render();
+?>
 <?php
 $this->endSection('contenido');
 ?>
