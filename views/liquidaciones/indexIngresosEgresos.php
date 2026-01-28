@@ -314,7 +314,6 @@ $this->startSection('javascript');
             });
     }
 
-
     $(".fecha").on("dblclick", function() {
         abrirmodallogin();
     });

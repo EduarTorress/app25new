@@ -107,7 +107,6 @@ $this->startSection("javascript")
     }
 
     function verdetalle(datos) {
-        // console.log(idauto);
         $("#tbldetalleajuste tbody tr").remove();
         $("#mddetalleajustes").modal('show');
         $("#lblndoc").text("Detalle Ajuste Inventario N° " + datos.ndoc);

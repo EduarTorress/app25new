@@ -1,5 +1,7 @@
 <?php
 
+use App\View\Components\ModalDetalleDctoComponent;
+
 $this->setLayout('layouts/admin');
 ?>
 <?php
@@ -46,39 +48,10 @@ echo $mcliente->render();
         </div>
     </div>
 </div>
-<div id="modaldetalle" class="modal fade" tabindex="-1" data-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="lblmodaldetalle">Detalle del comprobante</h5>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered" id="tbldetalle">
-                    <thead>
-                        <tr>
-                            <th scope="col">Producto</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Precio</th>
-                            <th scope="col">Sub. Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div class="float-right">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text form-control-sm" id=""><b>Total:</b> </span>
-                        <input type="text" id="txtimporte" class=" form-control form-control-sm" value="0.00" readonly>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnEliminar" class="btn btn-danger" onclick="cerrarModal();" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+<?php
+$md = new ModalDetalleDctoComponent();
+echo $md->render();
+?>
 <?php
 $this->endSection('contenido');
 ?>
@@ -134,12 +107,13 @@ $this->startSection('javascript');
             $("#lblmodaldetalle").text("Consultar Detalle: " + d.ndoc);
             var tr = `<tr> 
                     <td>` + d.descri + `</td>
+                           <td>` + d.unid + `</td>
                     <td>` + d.cant + `</td>
                     <td>` + d.prec + `</td>
                     <td>` + d.importe + `</td>
                     </tr>`;
             $('#tbldetalle tbody').append(tr);
-            $("#txtimporte").val("S/ " + d.impo)
+            $("#txtimportemodal").val("S/ " + d.impo)
         });
         $("#modaldetalle").modal('show');
     }

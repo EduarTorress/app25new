@@ -1742,7 +1742,7 @@ class Ventas extends Modelo
         if(x.mone='S',x.impo,round(x.impo*x.dolar,2)) as impo,
         x.dolar AS dola,x.form,x.idauto,x.idcliente,
         y.cant,y.prec,ROUND(y.cant*y.prec,2) AS importe,dsnc,dsnd,gast,
-        z.descri,z.unid,w.nomb AS usuario,x.fusua FROM fe_rcom x
+        z.descri,y.kar_unid as unid,w.nomb AS usuario,x.fusua FROM fe_rcom x
         INNER JOIN fe_kar y ON y.idauto=x.idauto
         INNER JOIN fe_usua w ON w.idusua=x.idusua
         INNER JOIN fe_art z  ON z.idart=y.idart

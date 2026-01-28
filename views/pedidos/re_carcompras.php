@@ -496,7 +496,7 @@ $this->startSection('javascript');
                     }).catch(function(error) {
                         if (error.hasOwnProperty("response")) {
                             if (error.response.status === 422) {
-                                toastr.error(error.response.data.errors);
+                                toastr.error(error.response.data.errors, 'Mensaje del Sistema');
                             }
                         } else {
                             toastr.error("Error al actualizar " + error, "Mensaje del Sistema");
