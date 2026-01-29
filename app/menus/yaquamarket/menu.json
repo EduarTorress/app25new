@@ -97,7 +97,7 @@
     },
     {
         "main": "Compras",
-        "class": "fas fa-cart-plus",
+        "class": "fa fa-shopping-bag",
         "elementos": [
             {
                 "item": "Registrar Compra",
@@ -151,7 +151,7 @@
     },
     {
         "main": "Orden de Compra",
-        "class": "fas fa-cart-plus",
+        "class": "fa fa-file-text",
         "elementos": [
             {
                 "item": "Registrar Orden Compra",
@@ -205,7 +205,7 @@
     },
     {
         "main": "Guias x Traspaso",
-        "class": "fa fa-truck",
+        "class": "fa fa-car",
         "elementos": [
             {
                 "item": "Registrar Traspaso",
@@ -229,7 +229,7 @@
     },
     {
         "main": "Cotizaciones",
-        "class": "fas fa-cart-plus",
+        "class": "fa fa-pencil-square-o",
         "elementos": [
             {
                 "item": "Precios y Stock",
@@ -283,7 +283,7 @@
     },
     {
         "main": "Caja",
-        "class": "fas fa-credit-card",
+        "class": "fa fa-pie-chart",
         "elementos": [
             {
                 "item": "Reporte de Caja",
@@ -301,7 +301,7 @@
     },
     {
         "main": "Créditos",
-        "class": "fas fa-credit-card",
+        "class": "fa fa-money",
         "elementos": [
             {
                 "item": "Vencimientos x Cliente",
@@ -355,7 +355,7 @@
     },
     {
         "main": "Administración",
-        "class": "fas fa-address-card",
+        "class": "fa fa-bars",
         "elementos": [
             {
                 "item": "Productos",
@@ -433,7 +433,7 @@
     },
     {
         "main": "Mantenimiento",
-        "class": "fas fa-address-card",
+        "class": "fa fa-window-close",
         "elementos": [
             {
                 "item": "Eliminar Comprobante",
