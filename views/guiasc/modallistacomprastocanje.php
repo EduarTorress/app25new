@@ -11,44 +11,48 @@
             <div class="modal-body" id="">
                 <div class="input-group mb-3">
                     <div class="col-12 table-responsive" id="searchcompra">
-                        <table id="tablacompras" class="table table-bordered table-hover table-sm small">
-                            <thead>
-                                <tr>
-                                    <th>Nro. Compra</th>
-                                    <th>Fecha</th>
-                                    <th>Proveedor</th>
-                                    <th>Importe</th>
-                                    <th class="text-center">Opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($listado as $item) : ?>
+                        <div class="table-responsive">
+                            <table id="tablacompras" class="table table-bordered table-hover table-sm small">
+                                <thead>
                                     <tr>
-                                        <td><?php echo $item['dcto'] ?></td>
-                                        <td><?php echo $item['fech'] ?></td>
-                                        <td><?php echo $item['razo'] ?></td>
-                                        <td><?php echo $item['impo'] ?></td>
-                                        <td class="text-center">
-                                            <?php
-                                            $parametro1 = $item['idauto'];
-                                            $parametro2 = $item['fech'];
-                                            $parametro3 = $item['idprov'];
-                                            $parametro4 = $item['dire'];
-                                            $parametro5 = $item['nruc'];
-                                            $parametro6 = $item['ubig'];
-                                            $parametro7 = $item['razo'];
-                                            $parametro8 = $item['ndoc'];
-                                            $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8');
-                                            $cadena_json = json_encode($parametros);
-                                            ?>
-                                            <a class="btn btn-success" role="button" onclick='seleccionarcompra(<?php echo $cadena_json ?>)'>
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        </td>
+                                        <th>Nro. Compra</th>
+                                        <th>Fecha</th>
+                                        <th>Proveedor</th>
+                                        <th>Importe</th>
+                                        <th class="text-center">Estado</th>
+                                        <th class="text-center">Opciones</th>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($listado as $item) : ?>
+                                        <tr>
+                                            <td><?php echo $item['dcto'] ?></td>
+                                            <td><?php echo $item['fech'] ?></td>
+                                            <td><?php echo substr($item['razo'], 0, 36) ?></td>
+                                            <td><?php echo $item['impo'] ?></td>
+                                            <td><strong><?php echo $item['rcom_ccaj'] ?></strong></td>
+                                            <td class="text-center">
+                                                <?php
+                                                $parametro1 = $item['idauto'];
+                                                $parametro2 = $item['fech'];
+                                                $parametro3 = $item['idprov'];
+                                                $parametro4 = $item['dire'];
+                                                $parametro5 = $item['nruc'];
+                                                $parametro6 = $item['ubig'];
+                                                $parametro7 = $item['razo'];
+                                                $parametro8 = $item['ndoc'];
+                                                $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8');
+                                                $cadena_json = json_encode($parametros);
+                                                ?>
+                                                <a class="btn btn-success" role="button" onclick='seleccionarcompra(<?php echo $cadena_json ?>)'>
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

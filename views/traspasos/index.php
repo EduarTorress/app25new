@@ -1,4 +1,5 @@
 <?php
+
 use App\View\Components\ModalImprimir;
 use App\View\Components\ModalProductoComponent;
 use App\View\Components\ModalTransportistaComponent;
@@ -46,7 +47,7 @@ echo $oimp->render();
                         <div class="col">
                             <div class="form-group row">
                                 <label class="col-sm-0 col-form-label">Referencia:</label>
-                                <input type="text" class="form-control" id="txtreferencia" placeholder="Ingrese una referencia" style="width:80%" value="<?php echo isset($_SESSION['proveedor']['referencia']) ?  trim($_SESSION['proveedor']['referencia'])  : '' ?>">
+                                <input type="text" class="form-control" id="txtreferencia" readonly placeholder="Ingrese una referencia" style="width:80%" value="<?php echo isset($_SESSION['proveedor']['referencia']) ?  trim($_SESSION['proveedor']['referencia'])  : '' ?>">
                             </div>
                         </div>
                     </div>
@@ -172,6 +173,13 @@ $this->startSection('javascript');
         // calcularIGV();
     }
 
+    // function activarreferencia() {
+        // $("#txtreferencia").removeAttr("readonly");
+        // txtreferencia = $("#txtreferencia").val();
+        // $("#txtreferencia").val(txtreferencia + " ");
+        // moverCursorFinalTexto("#txtreferencia");
+    // }
+
     function listardetalle() {
         axios.get('/traspasos/listardetalle').then(function(respuesta) {
             const contenido_tabla = respuesta.data;
@@ -193,25 +201,25 @@ $this->startSection('javascript');
     }
 
     // function seleccionarcompra(datos) {
-        // $("#txtidproveedor").val(datos.parametro3);
-        // $("#txtUbigeoproveedor").val(datos.parametro6);
-        // $("#txtproveedor").val(datos.parametro7)
-        // $("#txtptopartida").val(datos.parametro4);
-        // $("#txtrucproveedor").val(datos.parametro5)
-        // $("#txtreferencia").val(datos.parametro8)
-        // $("#idautoc").val(datos.parametro1);
-        // axios.get('/traspasos/listardetallecompratocanje', {
-        //     "params": {
-        //         "idauto": datos.parametro1
-        //     }
-        // }).then(function(respuesta) {
-        //     const contenido_tabla = respuesta.data;
-        //     $('#detalle').html(contenido_tabla);
-        //     calcularPesoTotal();
-        // }).catch(function(error) {
-        //     toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
-        // });
-        // $("#modal_compras").modal('hide');
+    // $("#txtidproveedor").val(datos.parametro3);
+    // $("#txtUbigeoproveedor").val(datos.parametro6);
+    // $("#txtproveedor").val(datos.parametro7)
+    // $("#txtptopartida").val(datos.parametro4);
+    // $("#txtrucproveedor").val(datos.parametro5)
+    // $("#txtreferencia").val(datos.parametro8)
+    // $("#idautoc").val(datos.parametro1);
+    // axios.get('/traspasos/listardetallecompratocanje', {
+    //     "params": {
+    //         "idauto": datos.parametro1
+    //     }
+    // }).then(function(respuesta) {
+    //     const contenido_tabla = respuesta.data;
+    //     $('#detalle').html(contenido_tabla);
+    //     calcularPesoTotal();
+    // }).catch(function(error) {
+    //     toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+    // });
+    // $("#modal_compras").modal('hide');
     // }
 
     $("#modal_productos").on("shown.bs.modal", function() {

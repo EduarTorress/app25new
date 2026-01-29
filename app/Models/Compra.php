@@ -843,7 +843,7 @@ class Compra extends Modelo
     {
         try {
             $sql = "SELECT ndoc AS dcto,a.fech,b.nruc,b.razo,IF(a.mone='S','Soles','Dólares') AS mone,
-                    a.valor,a.rcom_exon,CAST(0 AS DECIMAL(12,2)) AS inafecto,
+                    a.valor,a.rcom_exon,CAST(0 AS DECIMAL(12,2)) AS inafecto,IF(rcom_ccaj='P','PENDIENTE','ENTREGADO') AS rcom_ccaj,
                     a.igv,a.impo,rcom_mens,a.tdoc,a.ndoc,idauto,rcom_arch,tcom,b.idprov,b.`dire`,b.`ubig`,
                     CONCAT(v.nruc,'-',tdoc,'-',LEFT(ndoc,4),'-',SUBSTR(ndoc,5),'.xml') AS nombrexml
                     FROM fe_rcom AS a 
