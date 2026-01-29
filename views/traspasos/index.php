@@ -1,10 +1,7 @@
 <?php
-
 use App\View\Components\ModalImprimir;
 use App\View\Components\ModalProductoComponent;
-use App\View\Components\ModalRegistroCuentasxPagarComponent;
 use App\View\Components\ModalTransportistaComponent;
-
 ?>
 <?php
 $this->setLayout('layouts/admin');
@@ -140,108 +137,6 @@ echo $oimp->render();
                     <div class="col-lg-12">
                         <div class="card card-success card-outline" style="width:max-content; width:auto;">
                             <div class="col-12" id="detalle">
-                                <?php if ($v == 'M') : ?>
-                                    <div class="table-responsive">
-                                        <table class="table table-sm small table table-hover" id="griddetalle">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col" style="width:2%">Opciones</th>
-                                                    <th scope="col" style="width:3%" class="codigo">Código</th>
-                                                    <th scope="col" style="width:28%">Producto</th>
-                                                    <th scope="col" style="width:5%">U.M.</th>
-                                                    <th scope="col" style="width:5%">Cantidad</th>
-                                                    <th scope="col" style="width:5%">Precio</th>
-                                                    <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
-                                                        <th scope="col" style="width:5%">Lote</th>
-                                                        <th scope="col" style="width:5%">Fecha Vto.</th>
-                                                    <?php endif; ?>
-                                                    <th scope="col" style="width:5%">Importe</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="bodycompras">
-                                                <?php $i = 0; ?>
-                                                <?php foreach ($carritot as $indice => $item) : ?>
-                                                    <?php if ($item['activo'] == 'A') { ?>
-                                                        <tr onkeyup="calcularsubtotal(this); actualizarProducto(this,<?php echo $indice ?>); " onchange="obtenerPrecio(this,<?php echo $indice ?>);">
-                                                            <?php
-                                                            $parametro1 = $item['descri'];
-                                                            $parametro2 = $item['coda'];
-                                                            $parametro3 = $item['unidad'];
-                                                            $parametro4 = $item['cantidad'];
-                                                            $parametro5 = $item['precio'];
-                                                            $parametro6 = $indice;
-                                                            $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6');
-                                                            $cadena_json = json_encode($parametros);
-                                                            ?>
-                                                            <td>
-                                                                <button class="btn btn-warning" onclick="quitaritem(<?php echo $indice ?>)"><a style="color:white" class="fas fa-trash-alt"></a></button>
-                                                            </td>
-                                                            <td class="codigo"><?php echo $item['coda'] ?></td>
-                                                            <td><?php echo $item['descri'] ?></td>
-                                                            <td><?php
-                                                                $presentaciones = json_decode($item['presentaciones'], true); ?>
-                                                                <select onchange="cambiarpresentacion(this,<?php echo $indice ?>)" class="form-control form-control-sm" name="cmbpresentaciones" id="cmbpresentaciones">
-                                                                    <?php foreach ($presentaciones as $p) : ?>
-                                                                        <option disabled value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'] ?>" <?php echo (($p['epta_idep'] == $item['presseleccionada']) ? 'selected' : '') ?>>
-                                                                            <?php echo trim($p['pres_desc']) . '-' . $p['epta_cant']; ?>
-                                                                        </option>
-                                                                    <?php endforeach;
-                                                                    ?>
-                                                                </select>
-                                                            </td>
-                                                            <td class="text-center" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="false" name="cantidad"><input onclick="this.select(); clicksubtotal=0;" type="text" class="inputright" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
-                                                            <td class="precio text-center" id="precio" onkeypress="return isNumber(event);" contenteditable="false" name="precio"><input onclick="this.select(); clicksubtotal=0;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
-                                                            <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
-                                                                <td class="text-center" class="lote"><input onclick="this.select(); clicksubtotal=0;" type="text" class="" value="<?php echo (empty($item['lote']) ? ' ' : $item['lote']); ?>"></td>
-                                                                <td class="text-center" class="fechavto"><input class="fechavtoproducto" min="<?php echo date('Y-m-d'); ?>" onclick="this.select(); clicksubtotal=0;" type="date" value="<?php echo (empty($item['fechavto']) ? ' ' : $item['fechavto']); ?>"></td>
-                                                                <style>
-                                                                    .fechavtoproducto::-webkit-inner-spin-button,
-                                                                    .fechavtoproducto::-webkit-calendar-picker-indicator {
-                                                                        display: none;
-                                                                        -webkit-appearance: none;
-                                                                    }
-                                                                </style>
-                                                            <?php endif; ?>
-                                                            <td class="text-center" class="total"><input onclick="this.select(); clicksubtotal=1;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?>"></td>
-                                                            <?php $i++; ?>
-                                                        </tr>
-                                                    <?php } ?>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div><br>
-                                    <div class="col-lg-12">
-                                        <div class="card card-success card-outline" style="width:auto;">
-                                            <div class="row">
-                                                <div class="col-7 align-items-start">
-                                                    <br>
-                                                    <div class="input-group">
-                                                        <button class="btn btn-primary btn-sm" role="button" data-bs-toggle="modal" data-bs-target="#modal_productos">Agregar</button>
-                                                        <button class="btn btn-danger btn-sm" id="cancelar" role="button" onclick="cancelarTraspaso()">Limpiar</button>
-                                                        <button class="btn btn-success btn-sm" id="grabar" role="button" onclick="grabarTraspaso();"><?php echo (isset($btn) ? $btn : 'Grabar') ?></button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-2 align-items-start">
-                                                    <div class="input-group mb-3" style="width: 85%;">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text text-sm" id=""><strong>Items:</strong></span>
-                                                        </div>
-                                                        <input type="text" class="form-control text-right text-sm" id="totalitems" aria-label="Small" value="<?php echo $items ?>" aria-describedby="inputGroup-sizing-sm" readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="col-3 align-items-start">
-                                                    <div class="input-group" style="width: 90%;">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text text-sm" id=""><strong>Peso:</strong></span>
-                                                        </div>
-                                                        <input type="text" class="form-control text-right text-sm" id="total" aria-label="Small" value="<?php echo  $total ?>" readonly>
-                                                        <input type="text" style="display:none" class="form-control text-right text-sm" id="numeroDocumento" aria-label="Small" value="<?php echo isset($numeroDocumento) ?  $numeroDocumento : '' ?>" disabled>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -253,10 +148,6 @@ echo $oimp->render();
 <input type="hidden" name="" id="idautoc" value="0">
 <div id="divpresentaciones"></div>
 <div id="cargamodalcompras"></div>
-<?php
-$mdrcxp = new ModalRegistroCuentasxPagarComponent();
-echo $mdrcxp->render();
-?>
 <?php
 $this->endSection('contenido');
 ?>
@@ -301,26 +192,27 @@ $this->startSection('javascript');
             });
     }
 
-    function seleccionarcompra(datos) {
-        $("#txtidproveedor").val(datos.parametro3);
-        $("#txtUbigeoproveedor").val(datos.parametro6);
-        $("#txtproveedor").val(datos.parametro7)
-        $("#txtptopartida").val(datos.parametro4);
-        $("#txtrucproveedor").val(datos.parametro5)
-        $("#idautoc").val(datos.parametro1);
-        axios.get('/traspasos/listardetallecompratocanje', {
-            "params": {
-                "idauto": datos.parametro1
-            }
-        }).then(function(respuesta) {
-            const contenido_tabla = respuesta.data;
-            $('#detalle').html(contenido_tabla);
-            calcularPesoTotal();
-        }).catch(function(error) {
-            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
-        });
-        $("#modal_compras").modal('hide');
-    }
+    // function seleccionarcompra(datos) {
+        // $("#txtidproveedor").val(datos.parametro3);
+        // $("#txtUbigeoproveedor").val(datos.parametro6);
+        // $("#txtproveedor").val(datos.parametro7)
+        // $("#txtptopartida").val(datos.parametro4);
+        // $("#txtrucproveedor").val(datos.parametro5)
+        // $("#txtreferencia").val(datos.parametro8)
+        // $("#idautoc").val(datos.parametro1);
+        // axios.get('/traspasos/listardetallecompratocanje', {
+        //     "params": {
+        //         "idauto": datos.parametro1
+        //     }
+        // }).then(function(respuesta) {
+        //     const contenido_tabla = respuesta.data;
+        //     $('#detalle').html(contenido_tabla);
+        //     calcularPesoTotal();
+        // }).catch(function(error) {
+        //     toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+        // });
+        // $("#modal_compras").modal('hide');
+    // }
 
     $("#modal_productos").on("shown.bs.modal", function() {
         filastbl = document.getElementById("griddetalle").rows.length;

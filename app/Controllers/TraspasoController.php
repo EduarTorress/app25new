@@ -32,6 +32,7 @@ class TraspasoController extends Controller
     }
     function listardetalle()
     {
+        $this->LimpiarSesion();
         $carritot = session()->get('carritot', []);
         $idtraspaso = \session()->get('idtraspaso', 0);
         // if ($idtraspaso > 0) {

@@ -13,7 +13,7 @@
                     <th scope="col" style="width:5%">Lote</th>
                     <th scope="col" style="width:5%">Fecha Vto.</th>
                 <?php endif; ?>
-                <th scope="col" style="width:5%">Importe</th>
+                <th scope="col" style="width:5%">Peso T.</th>
             </tr>
         </thead>
         <tbody id="bodycompras">

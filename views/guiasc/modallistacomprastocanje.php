@@ -37,7 +37,8 @@
                                             $parametro5 = $item['nruc'];
                                             $parametro6 = $item['ubig'];
                                             $parametro7 = $item['razo'];
-                                            $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7');
+                                            $parametro8 = $item['ndoc'];
+                                            $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8');
                                             $cadena_json = json_encode($parametros);
                                             ?>
                                             <a class="btn btn-success" role="button" onclick='seleccionarcompra(<?php echo $cadena_json ?>)'>
@@ -62,6 +63,7 @@
         $("#txtptopartida").val(datos.parametro4);
         $("#txtrucproveedor").val(datos.parametro5)
         $("#idautoc").val(datos.parametro1);
+        $("#txtreferencia").val(datos.parametro8);
         axios.get('/traspasos/listardetallecompratocanje', {
             "params": {
                 "idauto": datos.parametro1
