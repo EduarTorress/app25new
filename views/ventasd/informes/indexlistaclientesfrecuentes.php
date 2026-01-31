@@ -46,7 +46,6 @@ $this->startSection('contenido');
         </div>
     </div>
 </div>
-
 <?php
 $this->endSection('contenido');
 ?>
@@ -79,7 +78,6 @@ $this->startSection('javascript');
         }).then(function(respuesta) {
             $("#canvas").empty();
             $("#canvas").append(' <canvas id="myChart" width="400" height="100"></canvas>');
-
             $("#canvas2").empty();
             $("#canvas2").append(' <canvas id="myChart2" width="400" height="100"></canvas>');
             // 100, 200, 300

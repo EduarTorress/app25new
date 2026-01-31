@@ -307,7 +307,7 @@ $this->startSection('javascript');
                 calcularPesoTotal();
                 // $('#totalpedido').html(document.querySelector("#total").value);
             }).catch(function(error) {
-                toastr.error('Ocurrió un error' + error, 'Mensaje del sistema');
+                toastr.error('Ocurrió un error ' + error, 'Mensaje del sistema');
             });
     }
 

@@ -164,7 +164,6 @@ echo $login->render();
         </div>
     </div>
 </div>
-<!-- Modal -->
 <?php
 $oimp = new ModalImprimir();
 echo $oimp->render();
@@ -306,7 +305,6 @@ $this->startSection('javascript');
         data.append("razov", $("#txtcliente").val());
         data.append("ruccliev", $("#txtruccliente").val());
         data.append("clienteretencion", $("#txtclienteretencion").val());
-
         data.append("tdocv", $("#cmbdcto").val());
         data.append("cndocv", "");
         data.append("numv", "");
@@ -600,7 +598,6 @@ $this->startSection('javascript');
         });
         return cantnull;
     }
-
 
     function grabarVenta() {
         calcularIGV();
