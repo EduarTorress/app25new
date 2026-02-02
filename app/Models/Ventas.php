@@ -98,6 +98,39 @@ class Ventas extends Modelo
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
+    function consultatransaccionesgenerales($mes, $año)
+    {
+        $sql = "SELECT 	
+                'VENTAS' AS tipo,
+                SUM(ROUND(CASE form WHEN 'E' THEN impo ELSE 0 END,2)) AS efectivo,
+                SUM(ROUND(CASE form WHEN 'C' THEN impo ELSE 0 END,2)) AS credito,
+                SUM(ROUND(CASE form WHEN 'D' THEN impo ELSE 0 END,2)) AS deposito,
+                SUM(ROUND(CASE form WHEN 'Y' THEN impo ELSE 0 END,2)) AS yape,
+                SUM(ROUND(CASE form WHEN 'P' THEN impo ELSE 0 END,2)) AS plin,
+                SUM(ROUND(CASE form WHEN 'T' THEN impo ELSE 0 END,2)) AS tarjeta,
+                SUM(round(impo,2)) AS total
+                FROM fe_rcom
+                WHERE idcliente>0 AND MONTH(fech)=:mes AND YEAR(fech)=:ano AND acti='A'
+                union all 
+                SELECT 	
+                'COMPRAS' AS tipo,
+                concat('-',SUM(ROUND(CASE form WHEN 'E' THEN impo ELSE 0 END,2))) AS efectivo,
+                concat('-',SUM(ROUND(CASE form WHEN 'C' THEN impo ELSE 0 END,2))) AS credito,
+                concat('-',SUM(ROUND(CASE form WHEN 'D' THEN impo ELSE 0 END,2))) AS deposito,
+                concat('-',SUM(ROUND(CASE form WHEN 'Y' THEN impo ELSE 0 END,2))) AS yape,
+                concat('-',SUM(ROUND(CASE form WHEN 'P' THEN impo ELSE 0 END,2))) AS plin,
+                concat('-',SUM(ROUND(CASE form WHEN 'T' THEN impo ELSE 0 END,2))) AS tarjeta,
+                concat('-',SUM(round(impo,2))) AS total
+                FROM fe_rcom
+                WHERE idprov>0 AND MONTH(fech)=:mes AND YEAR(fech)=:ano AND acti='A'";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'mes' => $mes,
+            'ano' => $año
+        ]);
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
     function mostraroventas($dfi, $dff, $nidt)
     {
         try {
@@ -1704,6 +1737,32 @@ class Ventas extends Modelo
                 WHERE tcom='k' AND r.`acti`='A' AND k.`acti`='A' AND r.idprov=0
                 AND a.`prod_acti`='A' AND 
                 r.`fech` BETWEEN :dfi AND :dff " . $a . "
+                GROUP BY a.`idart`
+                order by cantidadvendida desc";
+        $query = $this->prepare($sql);
+        $query->execute([
+            "dfi" => $dfi,
+            "dff" => $dff,
+            "cmbAlmacen" => $cmbAlmacen
+        ]);
+        $rs = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $rs;
+    }
+      function listarVentasxProductoxmesano($dfi, $dff, $cmbAlmacen)
+    {
+        $a = ($cmbAlmacen == '0') ? ' and k.`alma`<>:cmbAlmacen  ' : ' and k.`alma`=:cmbAlmacen ';
+        $sql = "SELECT a.`idart` AS 'CODIGO',a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',prod_cod1,sum((k.`cant`*k.`prec`)-(k.cant*k.kar_cost)) as ganancia,
+                TRIM(g.`desgrupo`) AS 'GRUPO', TRIM(c.`dcat`) AS 'LINEA', SUM(cant*kar_equi) AS cantidadvendida, SUM(k.`cant`*k.`prec`) AS importevendido
+                FROM fe_art a
+                INNER JOIN fe_mar m ON a.`idmar`=m.`idmar`
+                INNER JOIN fe_cat c ON a.`idcat`=c.`idcat`
+                INNER JOIN fe_grupo g ON c.`idgrupo`=g.`idgrupo`
+                INNER JOIN fe_kar k ON a.`idart`=k.`idart`
+                INNER JOIN fe_rcom r ON k.`idauto`=r.`idauto`
+                INNER JOIN fe_sucu s ON k.`alma`=s.`idalma`
+                WHERE tcom='k' AND r.`acti`='A' AND k.`acti`='A' AND r.idprov=0
+                AND a.`prod_acti`='A' AND 
+                MONTH(fech)=:mes AND YEAR(fech)=:ano" . $a . "
                 GROUP BY a.`idart`
                 order by cantidadvendida desc";
         $query = $this->prepare($sql);

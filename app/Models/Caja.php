@@ -742,7 +742,6 @@ class Caja extends Modelo
         $data = ['mensaje' => 'Todo ok', 'lista' => $lista, 'estado' => '1'];
         return $data;
     }
-
     function prediccionvtasxusuario($idusua)
     {
         $lista = [];
@@ -756,4 +755,26 @@ class Caja extends Modelo
         $data = ['mensaje' => 'Todo ok', 'lista' => $lista, 'estado' => '1'];
         return $data;
     }
+     function listarctasxcobraryctasxpagar($mes, $ano)
+    {
+        $lista = [];
+        $sql = "SELECT 'CUENTAS POR COBRAR' AS tipo,SUM(impo) as impo,SUM(acta) as acta,SUM(impo)-SUM(acta) AS diferencia
+                FROM fe_cred
+                WHERE MONTH(fech)=:mes AND YEAR(fech)=:ano and acti='A'
+                UNION ALL
+                SELECT 'CUENTAS POR PAGAR' AS tipo,concat('-',ifnull(SUM(impo),0)) as impo,concat('-',ifnull(SUM(acta),0)) as acta,
+                concat('-',ifnull(SUM(impo)-SUM(acta),0)) AS diferencia 
+                FROM fe_deu
+                WHERE MONTH(fech)=:mes AND YEAR(fech)=:ano and acti='A'";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'mes' => $mes,
+            'ano' => $ano
+        ]);
+        $lista = $query->fetchAll(PDO::FETCH_ASSOC);
+        //var_dump($query->debugDumpParams());
+        $data = ['mensaje' => 'Todo ok', 'lista' => $lista, 'estado' => '1'];
+        return $data;
+    }
+    
 }

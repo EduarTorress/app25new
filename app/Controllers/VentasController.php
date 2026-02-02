@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Caja;
 use App\Models\GuiaRemitente;
 use App\Models\GuiaTransportista;
 use App\Models\Pedido;
@@ -1747,6 +1748,37 @@ class VentasController extends Controller
             'listado' => $lista,
             'listagrafico1' => array_slice($lista, 0, 20),
             'listagrafico2' => array_slice($lista, -20)
+        ]);
+    }
+    function indextransaccionesgenerales()
+    {
+        $titulo = "Reporte de Transacciones Generales";
+        return view('ventasd/informes/indextransaccionesgenerales', ['titulo' => $titulo]);
+    }
+    function listatransaccionesgenerales(Request $request)
+    {
+        $venta = new Ventas();
+        $listatransacciones = $venta->consultatransaccionesgenerales($request->get('mes'), $request->get('ano'));
+        $cajas = new Caja();
+        $listacuentas = $cajas->listarctasxcobraryctasxpagar($request->get('mes'), $request->get('ano'));
+        // $lista = $venta->listarVentasxProducto($dfi, $dff, $codt);
+        // $listagrafico = array_columns($lista, 'PRODUCTO', 'cantidadvendida');
+        // $e = 0;
+        // foreach ($listagrafico as $lg) {
+        //     $listagrafico[$e]['color'] = "rgb(" . rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255) . ")";
+        //     $e++;
+        // }
+        // return \view('ventasd/informes/re_lventasdproducto', [
+        //     'listado' => $lista,
+        //     'listagrafico1' => array_slice($listagrafico, 0, 20),
+        //     'listagrafico2' => array_slice($listagrafico, -20),
+        //     'fechai' => $dfi,
+        //     'fechaf' => $dff,
+        //     'nalma' => $codt
+        // ]);
+        return view('ventasd/informes/listatransaccionesgenerales', [
+            'listatransacciones' => $listatransacciones,
+            'listacuentas' => $listacuentas['lista']
         ]);
     }
 }
