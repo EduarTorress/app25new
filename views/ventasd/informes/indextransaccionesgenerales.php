@@ -26,7 +26,6 @@ $this->startSection('contenido');
                                 echo $ano->renderreport();
                                 ?>
                                 <button type="submit" class="btn btn-primary my-1" id="btnconsultar">Consultar</button>
-                                <button type="button" class="btn btn-success my-1" onclick="exportarsire();" id="btndescargarsire">Exportar SIRE</button>
                             </form>
                         </div>
                     </div>

@@ -114,13 +114,13 @@ class Ventas extends Modelo
                 union all 
                 SELECT 	
                 'COMPRAS' AS tipo,
-                concat('-',SUM(ROUND(CASE form WHEN 'E' THEN impo ELSE 0 END,2))) AS efectivo,
-                concat('-',SUM(ROUND(CASE form WHEN 'C' THEN impo ELSE 0 END,2))) AS credito,
-                concat('-',SUM(ROUND(CASE form WHEN 'D' THEN impo ELSE 0 END,2))) AS deposito,
-                concat('-',SUM(ROUND(CASE form WHEN 'Y' THEN impo ELSE 0 END,2))) AS yape,
-                concat('-',SUM(ROUND(CASE form WHEN 'P' THEN impo ELSE 0 END,2))) AS plin,
-                concat('-',SUM(ROUND(CASE form WHEN 'T' THEN impo ELSE 0 END,2))) AS tarjeta,
-                concat('-',SUM(round(impo,2))) AS total
+               SUM(ROUND(CASE form WHEN 'E' THEN impo ELSE 0 END,2)) AS efectivo,
+               SUM(ROUND(CASE form WHEN 'C' THEN impo ELSE 0 END,2)) AS credito,
+               SUM(ROUND(CASE form WHEN 'D' THEN impo ELSE 0 END,2)) AS deposito,
+                SUM(ROUND(CASE form WHEN 'Y' THEN impo ELSE 0 END,2)) AS yape,
+                SUM(ROUND(CASE form WHEN 'P' THEN impo ELSE 0 END,2)) AS plin,
+               SUM(ROUND(CASE form WHEN 'T' THEN impo ELSE 0 END,2)) AS tarjeta,
+                SUM(round(impo,2)) AS total
                 FROM fe_rcom
                 WHERE idprov>0 AND MONTH(fech)=:mes AND YEAR(fech)=:ano AND acti='A'";
         $query = $this->prepare($sql);
@@ -1748,7 +1748,7 @@ class Ventas extends Modelo
         $rs = $query->fetchAll(PDO::FETCH_ASSOC);
         return $rs;
     }
-      function listarVentasxProductoxmesano($dfi, $dff, $cmbAlmacen)
+    function listarVentasxProductoxmesano($dfi, $dff, $cmbAlmacen)
     {
         $a = ($cmbAlmacen == '0') ? ' and k.`alma`<>:cmbAlmacen  ' : ' and k.`alma`=:cmbAlmacen ';
         $sql = "SELECT a.`idart` AS 'CODIGO',a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',prod_cod1,sum((k.`cant`*k.`prec`)-(k.cant*k.kar_cost)) as ganancia,

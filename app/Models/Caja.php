@@ -762,8 +762,8 @@ class Caja extends Modelo
                 FROM fe_cred
                 WHERE MONTH(fech)=:mes AND YEAR(fech)=:ano and acti='A'
                 UNION ALL
-                SELECT 'CUENTAS POR PAGAR' AS tipo,concat('-',ifnull(SUM(impo),0)) as impo,concat('-',ifnull(SUM(acta),0)) as acta,
-                concat('-',ifnull(SUM(impo)-SUM(acta),0)) AS diferencia 
+                SELECT 'CUENTAS POR PAGAR' AS tipo,ifnull(SUM(impo),0) as impo,ifnull(SUM(acta),0) as acta,
+                ifnull(SUM(impo)-SUM(acta),0) AS diferencia 
                 FROM fe_deu
                 WHERE MONTH(fech)=:mes AND YEAR(fech)=:ano and acti='A'";
         $query = $this->prepare($sql);

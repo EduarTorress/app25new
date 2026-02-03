@@ -7,13 +7,13 @@
             <thead>
                 <tr>
                     <th style="width:8%;" class="text-center">Tipo</th>
-                    <th style="width:7%;" class="text-end" data-footer-formatter="formatTotal">Efectivo</th>
-                    <th style="width:7%;" class="text-end" data-footer-formatter="formatTotal">Crédito</th>
-                    <th style="width:7%;" class="text-end" data-footer-formatter="formatTotal">Deposito</th>
-                    <th style="width:7%;" class="text-end" data-footer-formatter="formatTotal">Yape</th>
-                    <th style="width:7%;" class="text-end" data-footer-formatter="formatTotal">Plin</th>
-                    <th style="width:7%;" class="text-end" data-footer-formatter="formatTotal">Tarjeta</th>
-                    <th style="width:7%;" class="text-end" data-footer-formatter="formatTotal">Total</th>
+                    <th style="width:7%;" class="text-end" >Efectivo</th>
+                    <th style="width:7%;" class="text-end" >Crédito</th>
+                    <th style="width:7%;" class="text-end" >Deposito</th>
+                    <th style="width:7%;" class="text-end">Yape</th>
+                    <th style="width:7%;" class="text-end" >Plin</th>
+                    <th style="width:7%;" class="text-end" >Tarjeta</th>
+                    <th style="width:7%;" class="text-end" >Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,9 +42,9 @@
             <thead>
                 <tr>
                     <th class="text-center">Tipo</th>
-                    <th class="text-end" data-footer-formatter="formatTotal">Crédito</th>
-                    <th class="text-end" data-footer-formatter="formatTotal">Cancelado</th>
-                    <th class="text-end" data-footer-formatter="formatTotal">Diferencia</th>
+                    <th class="text-end" >Crédito</th>
+                    <th class="text-end" >Cancelado</th>
+                    <th class="text-end" >Diferencia</th>
                 </tr>
             </thead>
             <tbody>
