@@ -447,10 +447,10 @@ class ComprasController extends Controller
     }
     function grabar(Request $request)
     {
-        $validarano = $this->validaranoactual($request->get('fechi'), $request->get('fechf'));
-        if ($validarano == 1) {
-            return response()->json(['errors' => 'El año de la fecha de emisión es diferente al actual'], 422);
-        }
+        // $validarano = $this->validaranoactual($request->get('fechi'), $request->get('fechf'));
+        // if ($validarano == 1) {
+        //     return response()->json(['errors' => 'El año de la fecha de emisión es diferente al actual'], 422);
+        // }
 
         $compra = new Compra();
         $existecompra = $compra->validarsicompraexiste($request->get('cndoc'), $request->get('idprov'));
