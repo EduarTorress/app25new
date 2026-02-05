@@ -128,7 +128,6 @@ echo $md->render();
         </div>
     </div>
 </div>
-
 <?php
 $this->endSection('contenido');
 ?>
@@ -175,7 +174,7 @@ $this->startSection('javascript');
     function listarvtos() {
         idcliente = $("#txtidcliente").val();
         if (idcliente == 0) {
-            toastr.warning("Seleccione un Cliente", 'Mensaje del Sistema')
+            toastr.warning("Es obligatorio seleccionar un cliente", 'Mensaje del Sistema')
             return;
         }
         axios.get('/cobranzas/listarvtos', {
@@ -196,7 +195,7 @@ $this->startSection('javascript');
     function listarestadocuenta() {
         idcliente = $("#txtidcliente").val();
         if (idcliente == 0) {
-            toastr.warning("Seleccione un Cliente", 'Mensaje del Sistema')
+            toastr.warning("Es obligatorio seleccionar un cliente", 'Mensaje del Sistema')
             return;
         }
         axios.get('/cobranzas/listarestadocuenta', {
