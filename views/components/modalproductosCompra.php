@@ -69,10 +69,10 @@
             // $('#loading').modal('hide');
             const contenido_tabla = respuesta.data;
             $('#searchP').html(contenido_tabla);
-            console.log('hola')
         }).catch(function(error) {
             // $('#loading').modal('hide');
-            toastr.error('Error al cargar el listado')
+            console.log(error);
+            toastr.error('Error al cargar el listado','Mensaje del Sistema')
         });
     }
 

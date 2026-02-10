@@ -47,7 +47,7 @@
                             <td name="tdpresc" onkeyup="abrirmodalvtas(event);">
                                 <?php
                                 $presentaciones = json_decode($item['presentaciones'], true); ?>
-                                <select onchange="cambiarpresentacion(this,<?php echo $indice ?>)" class="form-control form-control-sm" name="cmbpresentaciones" id="cmbpresentaciones" onkeypress="entertest(this)">
+                                <select onchange="cambiarpresentacion(this,<?php echo $indice ?>)" class="selectpicker" name="cmbpresentaciones" id="cmbpresentaciones" onkeypress="entertest(this)">
                                     <?php foreach ($presentaciones as $p) : ?>
                                         <option value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'] ?>" <?php echo (($p['epta_idep'] == $item['presseleccionada']) ? 'selected' : '') ?>>
                                             <?php echo trim($p['pres_desc']) . '-' . $p['epta_cant']; ?>
@@ -181,6 +181,9 @@
     //     ]
     // });
 
+    $('.selectpicker').selectpicker();
+
+
     function listarlotes(idart) {
         const ruta = '/productos/listarlotesyfechasvto/' + idart;
         axios.post(ruta)
@@ -278,7 +281,7 @@
     }
 
     function cambiarpresentacion(o, i) {
-        row = $(o).parent().parent();
+        row = $(o).parent().parent().parent();
         // $(row).each(function() {
         var _tr = $(row);
         cmbpresentacion = _tr.find("td").eq(3).find("select").val();

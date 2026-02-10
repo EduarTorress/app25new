@@ -333,18 +333,18 @@ function consultarDestinatarios() {
   // console.log(noption);
   var cmodo = "S";
   axios.get("/destinatario/lista", {
-      params: {
-        cbuscar: abuscar,
-        option: noption,
-        modo: cmodo,
-      },
-    }).then(function (respuesta) {
-      // 100, 200, 300
-      const contenido_tabla = respuesta.data;
-      $("#search").html(contenido_tabla);
-    }).catch(function (error) {
-      toastr.error("Error al cargar el listado" + error);
-    });
+    params: {
+      cbuscar: abuscar,
+      option: noption,
+      modo: cmodo,
+    },
+  }).then(function (respuesta) {
+    // 100, 200, 300
+    const contenido_tabla = respuesta.data;
+    $("#search").html(contenido_tabla);
+  }).catch(function (error) {
+    toastr.error("Error al cargar el listado" + error);
+  });
 }
 function pulsarenterbuscarclientes(e) {
   if (e.keyCode === 13 && !e.shiftKey) {
@@ -962,7 +962,7 @@ function mostrarerroresvalidacion(error) {
         result.push([i, e[i]]);
       }
       result.forEach(function (numero) {
-        toastr.error(numero[1])
+        toastr.error(numero[1], 'Mensaje del Sistema')
       });
     }
   }

@@ -191,6 +191,15 @@ $this->startSection('javascript');
         idsolicitud = 1;
         idcliente = 0;
         titulo("<?php echo $titulo ?>");
+        listardetalle();
+        // buscarProducto();
+        $("#txtfecha").val("<?php echo (empty($datosclientev['fechv']) ? date("Y-m-d") : $datosclientev['fechv']) ?>");
+        $("#txtdias").val("<?php echo (empty($datosclientev['dias']) ?  '' :  $datosclientev['dias']) ?>");
+        $("#txtfechavto").val("<?php echo (empty($datosclientev['fvto']) ?  date("Y-m-d") :  $datosclientev['fvto']) ?>");
+        $("#modal_productos").modal('show');
+    }
+
+    function listardetalle() {
         axios.get('/ventasrapidas/listardetalle').then(function(respuesta) {
             // 100, 200, 300
             const contenido_tabla = respuesta.data;
@@ -225,11 +234,6 @@ $this->startSection('javascript');
             console.log(error);
             toastr.error('Error al cargar el listado ' + error.response.data.message, 'Mensaje del sistema');
         });
-        // buscarProducto();
-        $("#txtfecha").val("<?php echo (empty($datosclientev['fechv']) ? date("Y-m-d") : $datosclientev['fechv']) ?>");
-        $("#txtdias").val("<?php echo (empty($datosclientev['dias']) ?  '' :  $datosclientev['dias']) ?>");
-        $("#txtfechavto").val("<?php echo (empty($datosclientev['fvto']) ?  date("Y-m-d") :  $datosclientev['fvto']) ?>");
-        $("#modal_productos").modal('show');
     }
 
     // var code = e.keyCode || e.which;
@@ -486,24 +490,36 @@ $this->startSection('javascript');
         // $(a).find("input").focus();
     });
 
-    function entertest(u) {
-        var enterPressed = 1;
-        u.onkeypress = function(e) {
-            var keyCode = (e.keyCode || e.which);
-            if (keyCode === 13) {
-                if (enterPressed == 0) {} else if (enterPressed >= 1) {
-                    e.preventDefault();
-                    tr = $(u).parent().parent();
-                    inputcantidad = $(tr).find(".cantidad input");
-                    $(inputcantidad).select();
-                    $(inputcantidad).click();
-                    $(inputcantidad).attr("id", "1")
-                }
-                enterPressed++;
-                return;
-            }
-        };
-    }
+    // function entertest(u) {
+    //     var enterPressed = 1;
+    //     u.onkeypress = function(e) {
+    //         var keyCode = (e.keyCode || e.which);
+    //         if (keyCode === 13) {
+    //             if (enterPressed == 0) {} else if (enterPressed >= 1) {
+    //                 e.preventDefault();
+    //                 tr = $(u).parent().parent();
+    //                 inputcantidad = $(tr).find(".cantidad input");
+    //                 $(inputcantidad).select();
+    //                 $(inputcantidad).click();
+    //                 $(inputcantidad).attr("id", "1")
+    //             }
+    //             enterPressed++;
+    //             return;
+    //         }
+    //     };
+    // }
+
+    $(document).on('keydown', '.bootstrap-select button', function(e) {
+        if (e.key === "Enter") {
+            $(this).click(); // cerrar dropdown
+            $(this).closest('.bootstrap-select').prev('select').trigger('change');
+            tr = $(this).parent().parent().parent();
+            inputcantidad = $(tr).find(".cantidad input");
+            $(inputcantidad).select();
+            $(inputcantidad).click();
+            $(inputcantidad).attr("id", "1")
+        }
+    });
 
     function calcularIGV() {
         igv = obtenerTipoIGV();
@@ -902,6 +918,7 @@ $this->startSection('javascript');
         $("#txtpago").val("0.00");
         $('#modal_productos').modal('show');
         $("#mdpreregistro").modal('hide');
+        listardetalle();
     }
     window.addEventListener("focus", onFocus)
 
