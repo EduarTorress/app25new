@@ -953,7 +953,7 @@ $this->startSection('javascript');
     //             data.append("txtreferencia", $("#txtreferencia").val());
     //             axios.post("/vtas/actualizar", data)
     //                 .then(function(respuesta) {
-    //                     toastr.success(' Se actualizo correctamente ');
+    //                     toastr.success(' Se actualizo correctamente ','Mensaje del Sistema');
     //                     const tabla = respuesta.data;
     //                     $('#detalle').html(tabla);
     //                     window.location.href = '/vtas/vtasresumidas';

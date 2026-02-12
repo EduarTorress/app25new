@@ -20,6 +20,7 @@ class Ventas extends Modelo
     function mostrarventas($dfi, $dff, $tipovta, $cmbFormaP, $cmbmoneda, $cmbtdoc, $cmbAlmacen)
     {
         try {
+            $u = ($_SESSION['tipousuario']) != 'A' ? ' and a.idusua=' . $_SESSION['usuario_id'] : '  ';
             $t = ($tipovta == '0') ? ' and tcom<>:tipovta' : ' and tcom=:tipovta ';
             $f = ($cmbFormaP == '0') ? ' and form<>:cmbFormaP  ' : ' and form=:cmbFormaP ';
             if ($tipovta <> 'C') {
@@ -37,7 +38,8 @@ class Ventas extends Modelo
                 FROM fe_rcom as a 
                 inner JOIN fe_clie as b ON (a.idcliente=b.idclie)
                 INNER JOIN fe_usua as u ON (a.idusua=u.idusua),fe_gene as v
-                where a.fech between :dfi and :dff and a.acti='A' and tdoc<>'09'" . $t . $f . $m . $a . $tc . " order by fusua,fech,ndoc";
+                where a.fech between :dfi and :dff and a.acti='A' and tdoc<>'09'" . $t . $f . $m . $a . $tc . $u .
+                " order by fusua,fech,ndoc";
             $query = $this->prepare($sql);
             $query->execute([
                 'dfi' => $dfi,
