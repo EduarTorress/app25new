@@ -200,7 +200,7 @@ $this->startSection('javascript');
             const contenido_tabla = respuesta.data;
             $('#resultadologs').html(contenido_tabla);
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
 

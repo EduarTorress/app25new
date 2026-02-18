@@ -49,7 +49,6 @@ class UsuarioController extends Controller
             $usuario->txtclave = $request->get('txtclave');
             $usuario->cmbtipousuario = $request->get('cmbtipousuario');
             $usuario->sueldo = $request->get('txtsueldo');
-
             if ($usuario->save()) {
                 return response()->json(['message' => 'Registrado correctamente'], 200); // Created
             } else {

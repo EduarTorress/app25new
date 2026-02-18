@@ -22,6 +22,7 @@ class ComprasController extends Controller
     }
     function indexcompra()
     {
+        verificarSesion();
         // $datosproveedorp = session()->get('proveedor', []);
         $idcompra = \session()->get('idcompra', 0);
         if ($idcompra > 0) {
@@ -47,7 +48,7 @@ class ComprasController extends Controller
             'optigv' => \session()->get('optigv', 'I')
         );
         $v = "R";
-        return \view('compras/index', ['titulo' => $ctitulo, 'datosproveedor' => $datosproveedor, 'serie' => $serie, 'num' => $num, 'idcompra' => $idcompra, 'v' => $v]);
+        return view('compras/index', ['titulo' => $ctitulo, 'datosproveedor' => $datosproveedor, 'serie' => $serie, 'num' => $num, 'idcompra' => $idcompra, 'v' => $v]);
     }
     function grabarSesion(Request $request)
     {

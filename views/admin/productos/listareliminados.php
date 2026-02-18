@@ -23,7 +23,6 @@
         </tbody>
     </table>
 </div>
-
 <script>
     reportetablebt("#tablaeliminados");
 </script>

@@ -52,7 +52,8 @@ $this->startSection('javascript');
 
     window.onload = function() {
         $('#titulo').html("<?php echo $titulo ?>")
-        // $("#cmbAlmacen").attr("disabled", false);
+        //$("#cmbAlmacen").attr("disabled", false);
+        $("#cmbAlmacen").val("<?php echo $_SESSION['idalmacen']; ?>");
     }
 
     $(document).ready(function() {
@@ -72,7 +73,7 @@ $this->startSection('javascript');
                 const ruta = '/pedidos/eliminar/' + id;
                 axios.post(ruta).then(function(respuesta) {
                     // console.log(respuesta.data);
-                    toastr.success('Eliminado correctamente','Mensaje del Sistema');
+                    toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                     search();
                 }).catch(function(error) {
                     if (error.hasOwnProperty('response')) {

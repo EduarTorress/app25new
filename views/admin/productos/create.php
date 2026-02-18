@@ -251,7 +251,6 @@
                 let txtcomisionc = document.getElementById("txtcomisionc").value;
 
                 //(Porcentaje / 100 ) + 1
-
                 data = new FormData();
                 data.append("idart", $("#txtidart").val());
                 data.append("txtcodigo", txtcodigo);

@@ -40,22 +40,31 @@ class Empresa extends Modelo
     {
         $url = 'https://companiasysven.com/tc.php';
         $data = array("dfi" => $df, "dff" => $df);
-
         $postdata = json_encode($data);
-
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-
         $response = curl_exec($curl);
         $err = curl_error($curl);
-
         curl_close($curl);
-
         if ($err) {
-            echo "cURL Error #:" . $err;
+            // echo "cURL Error #:" . $err;
+            $url = 'https://companysysven.com/tc.php';
+            $data = array("dfi" => $df, "dff" => $df);
+            $postdata = json_encode($data);
+            $curlcomp = curl_init($url);
+            curl_setopt($curlcomp, CURLOPT_POST, 1);
+            curl_setopt($curlcomp, CURLOPT_POSTFIELDS, $postdata);
+            curl_setopt($curlcomp, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curlcomp, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            $responsecomp = curl_exec($curlcomp);
+            $err = curl_error($curlcomp);
+            curl_close($curlcomp);
+            $rpta = json_decode($responsecomp, true);
+            $valordolar = empty($rpta['data'][0]['precio_venta']) ? '0' : $rpta['data'][0]['precio_venta'];
+            return $valordolar;
         } else {
             $rpta = json_decode($response, true);
             $valordolar = empty($rpta['data'][0]['precio_venta']) ? '0' : $rpta['data'][0]['precio_venta'];

@@ -56,7 +56,6 @@ echo $modal->render();
                         <label class="col-sm-0 col-form-label col-form-label-sm">Fecha:</label>
                         <input type="date" class="form-control form-control-sm" disabled value="<?php date("Y-m-d") ?>" style="width:125px;" id="txtfecha" name="txtfecha">
                     </div>
-
                 </div>
                 <div class="col-sm-2">
                     <?php
@@ -74,7 +73,6 @@ echo $modal->render();
                         <input type="text" placeholder="Dirección" id="txtdireccion" name="txtdireccion" class="form-control" value="<?php echo isset($datosclientev['direcliev']) ?  $datosclientev['direcliev'] : '' ?> " disabled>
                     </div>
                 </div>
-
                 <div class="col-sm-3">
                     <?php
                     $cforma = isset($datosclientev['formv']) ? $datosclientev['formv'] : '';
@@ -98,7 +96,6 @@ echo $modal->render();
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="table-responsive" id="detalle">
@@ -192,8 +189,7 @@ $this->startSection('javascript');
         buscarGuiasTr();
     }
 
-    //// ACA INICIA JAVASCRIPT GUIAS
-
+    //// ACA INICIA CANJES GUIAS
     $("#agregar").on("click", function() {
         var numTr = $('#tabla tbody tr').length + 1;
         num = numTr - 1

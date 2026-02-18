@@ -113,7 +113,6 @@ class PlanContableController extends Controller
          ];
          return response()->json($data, 422);
       }
-
       try {
          $pc = new PlanesContables();
          $pc->idplan = $id;

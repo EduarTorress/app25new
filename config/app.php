@@ -8,7 +8,7 @@ if (empty($app->empresa)) {
 if (empty($app->ht)) {
     $curl = curl_init();
     curl_setopt_array($curl, array(
-        CURLOPT_URL => 'http://companiasysven.com/otros.php',
+        CURLOPT_URL => 'https://companiasysven.com/otros.php',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => '',
         CURLOPT_MAXREDIRS => 10,
@@ -22,6 +22,11 @@ if (empty($app->ht)) {
         ),
     ));
     $response = curl_exec($curl);
+
+    if ($response === false) {
+        die("cURL Error: " . curl_error($curl));
+    }
+
     $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
     if ($httpcode <> 200) {
@@ -40,6 +45,22 @@ if (empty($app->ht)) {
     $app->pw = $password;
     $app->us = $username;
 }
+
+return [
+    "database" => [
+        'driver' => 'mysql',
+        'host' => 'slave.solucionesasumedida.net',
+        'database' => 'eduar_bdyaquam',
+        'username' => 'jpanta',
+        'password' => 'gigi240602',
+        'charset' => 'utf8mb4',
+        'collation' => 'utf8mb4_unicode_ci',
+        'prefix' => ''
+    ],
+    "mail" => [],
+];
+
+
 // $_ENV["DB_HOST"] = $odatac->server;
 // $_ENV["DB_USER"] = $odatac->usuario;;
 // $_ENV["DB_DATABASE"]  = $odatac->data;
@@ -59,16 +80,3 @@ if (empty($app->ht)) {
 //     ],
 //     "mail" => [],
 // ];
-return [
-    "database" => [
-        'driver' => 'mysql',
-        'host' => $app->ht,
-        'database' => $app->dt,
-        'username' => $app->us,
-        'password' => $app->pw,
-        'charset' => 'utf8mb4',
-        'collation' => 'utf8mb4_unicode_ci',
-        'prefix' => '',
-    ],
-    "mail" => [],
-];

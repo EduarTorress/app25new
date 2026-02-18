@@ -305,7 +305,7 @@ $this->startSection('javascript');
                 data.append("detalle", JSON.stringify(detalle));
                 axios.post("/cobranzas/registrarcobranzas", data)
                     .then(function(respuesta) {
-                        console.log(respuesta)
+                        // console.log(respuesta)
                         limpiartodo();
                         $("#modal_cancelacion").modal('hide')
                         Swal.fire({
