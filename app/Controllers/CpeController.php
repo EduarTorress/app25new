@@ -51,11 +51,12 @@ class CpeController extends Controller
     }
     function exportarsire(Request $request)
     {
-        $vtascon = new VentasController();
+        // $vtascon = new VentasController();
+        $ventas = new Ventas();
         $datapost = array('mes' => $request->get('mes'), 'ano' => $request->get('ano'), 'ruc' => $_SESSION['gene_nruc']);
-        $listado = $vtascon->obtenerlistadople($datapost);
-        // $listado = $ventas->registroventasple($request->get('mes'), $request->get('ano'));
-        $listadonc = $vtascon->obtenerlistadonotascreditople($datapost);
+        $listado = $ventas->registroventasple($request->get('mes'), $request->get('ano'));
+          $listadonc = $ventas->registroventasnc($request->get('mes'), $request->get('ano'));
+        // $listadonc = $vtascon->obtenerlistadonotascreditople($datapost);
 
         // var_dump($listado);
         // <<rucemisor>>|<<Trim(Empresa)>>|<<Periodo>>|<<''>>|<<fech>>|<<fvto>>|<<tipocomp>>|<<Serie>>|<<nrocomp>>|<<''>>|
@@ -305,7 +306,7 @@ class CpeController extends Controller
     }
     function descargarxml(Request $request)
     {
-         $app = Application::getInstance();
+        $app = Application::getInstance();
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://companysysven.com/app88/enviofactura.php',

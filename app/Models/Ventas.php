@@ -1642,57 +1642,57 @@ class Ventas extends Modelo
         ]);
         return $query;
     }
-    // function registroventasple($mes, $ano)
-    // {
-    //     // $sql = "select a.form,a.fecr,a.fech,a.tdoc,if(length(trim(a.ndoc))<=10,LEFT(a.ndoc,3),left(a.ndoc,4)) as serie,
-    //     // if(length(trim(a.ndoc))<=10,MID(a.ndoc,4,7),Mid(a.ndoc,5,8)) as ndoc,
-    //     // b.nruc,b.razo,if(a.mone='S',a.valor,round(a.valor*a.dolar,2)) as valor,
-    //     // if(a.mone='S',rcom_exon,round(rcom_exon*a.dolar,2)) as exon,
-    //     // if(a.mone='S',rcom_inaf,round(rcom_inaf*a.dolar,2)) as inafecto,
-    //     // if(a.mone='S',a.igv,round(a.igv*a.dolar,2)) as igv,
-    //     // if(a.mone='S',a.impo,round(a.impo*a.dolar,2)) as importe,
-    //     // if(a.mone='S',rcom_otro,round(rcom_otro*a.dolar,2)) as grati,
-    //     // a.pimpo,rcom_icbper as icbper,
-    //     // a.mone,a.dolar as dola,a.vigv,a.idcliente as codigo,
-    //     // a.deta as detalle,a.idauto,b.ndni,rcom_mens as mensaje,tcom 
-    //     // FROM fe_rcom as a inner join fe_clie  as b ON(b.idclie=a.idcliente)
-    //     // where month(fech)=:mes and year(fech)=:ano and tdoc in('01','07','08','03') and acti<>'I'" . $a . " order by fecr,ndoc";
+    function registroventasple($mes, $ano)
+    {
+        // $sql = "select a.form,a.fecr,a.fech,a.tdoc,if(length(trim(a.ndoc))<=10,LEFT(a.ndoc,3),left(a.ndoc,4)) as serie,
+        // if(length(trim(a.ndoc))<=10,MID(a.ndoc,4,7),Mid(a.ndoc,5,8)) as ndoc,
+        // b.nruc,b.razo,if(a.mone='S',a.valor,round(a.valor*a.dolar,2)) as valor,
+        // if(a.mone='S',rcom_exon,round(rcom_exon*a.dolar,2)) as exon,
+        // if(a.mone='S',rcom_inaf,round(rcom_inaf*a.dolar,2)) as inafecto,
+        // if(a.mone='S',a.igv,round(a.igv*a.dolar,2)) as igv,
+        // if(a.mone='S',a.impo,round(a.impo*a.dolar,2)) as importe,
+        // if(a.mone='S',rcom_otro,round(rcom_otro*a.dolar,2)) as grati,
+        // a.pimpo,rcom_icbper as icbper,
+        // a.mone,a.dolar as dola,a.vigv,a.idcliente as codigo,
+        // a.deta as detalle,a.idauto,b.ndni,rcom_mens as mensaje,tcom 
+        // FROM fe_rcom as a inner join fe_clie  as b ON(b.idclie=a.idcliente)
+        // where month(fech)=:mes and year(fech)=:ano and tdoc in('01','07','08','03') and acti<>'I'" . $a . " order by fecr,ndoc";
 
-    //     $sql = " Select a.form,a.fecr,a.fech,a.tdoc,Left(a.Ndoc,4) As serie,tt.nomb as tipodoc, 
-    //     If(Length(Trim(a.Ndoc))<=10,mid(a.Ndoc,4,7),mid(a.Ndoc,5,8)) As ndoc,
-    //     b.nruc,b.razo,a.valor,rcom_exon As exon,a.igv,a.Impo As importe,rcom_otro As grati,a.pimpo,rcom_icbper As icbper,
-    //     if(a.mone='S',rcom_inaf,round(rcom_inaf*a.dolar,2)) as inafecto,
-    //     a.mone,a.dolar As dola,a.vigv,a.idcliente As codigo,
-    //     a.Deta As detalle,a.idauto,b.ndni,rcom_mens As mensaje,ifnull(p.Fevto,a.fech) As fvto From fe_rcom As a
-    //     inner Join fe_clie  As b On(b.idclie=a.idcliente)
-    //     inner join fe_tdoc as tt on (a.tdoc=tt.tdoc)
-    //     Left Join (Select rcre_idau,Min(c.Fevto) As Fevto From fe_rcred As r inner Join fe_cred As c On c.cred_idrc=r.rcre_idrc Where rcre_acti='A' And Acti='A' And month(fech)=:mes and year(fech)=:ano Group By rcre_idau)  As p On p.rcre_idau=a.Idauto
-    //     Where month(fech)=:mes and year(fech)=:ano and a.tdoc In('01','07','08','03')  and impo<>0 And Acti<>'I' Order By fecr,Ndoc";
+        $sql = " Select a.form,a.fecr,a.fech,a.tdoc,Left(a.Ndoc,4) As serie,tt.nomb as tipodoc, 
+        If(Length(Trim(a.Ndoc))<=10,mid(a.Ndoc,4,7),mid(a.Ndoc,5,8)) As ndoc,
+        b.nruc,b.razo,a.valor,rcom_exon As exon,a.igv,a.Impo As importe,rcom_otro As grati,a.pimpo,rcom_icbper As icbper,
+        if(a.mone='S',rcom_inaf,round(rcom_inaf*a.dolar,2)) as inafecto,
+        a.mone,a.dolar As dola,a.vigv,a.idcliente As codigo,
+        a.Deta As detalle,a.idauto,b.ndni,rcom_mens As mensaje,ifnull(p.Fevto,a.fech) As fvto From fe_rcom As a
+        inner Join fe_clie  As b On(b.idclie=a.idcliente)
+        inner join fe_tdoc as tt on (a.tdoc=tt.tdoc)
+        Left Join (Select rcre_idau,Min(c.Fevto) As Fevto From fe_rcred As r inner Join fe_cred As c On c.cred_idrc=r.rcre_idrc Where rcre_acti='A' And Acti='A' And month(fech)=:mes and year(fech)=:ano Group By rcre_idau)  As p On p.rcre_idau=a.Idauto
+        Where month(fech)=:mes and year(fech)=:ano and a.tdoc In('01','07','08','03')  and impo<>0 And Acti<>'I' Order By fecr,Ndoc";
 
-    //     $exec = $this->prepare($sql);
-    //     $exec->setFetchMode(PDO::FETCH_ASSOC);
-    //     $exec->execute([
-    //         'mes' => $mes,
-    //         'ano' => $ano
-    //     ]);
-    //     $query = $exec->fetchAll(PDO::FETCH_ASSOC);
-    //     return $query;
-    // }
-    // function registroventasnc($mes, $ano)
-    // {
-    //     $sql = "SELECT a.ndoc,a.tdoc,a.fech,b.ncre_idnc AS idn,ncre_idan FROM (SELECT ncre_idnc,ncre_idau,ncre_idan FROM fe_ncven AS n
-    //             INNER JOIN fe_rcom AS r ON r.idauto=n.ncre_idan
-    //             WHERE MONTH(r.fech)=:mes AND YEAR(r.fech)=:ano AND r.acti='A' AND ncre_acti='A' ) AS b
-    //             INNER JOIN fe_rcom AS a ON a.idauto=b.ncre_idau";
-    //     $exec = $this->prepare($sql);
-    //     $exec->setFetchMode(PDO::FETCH_ASSOC);
-    //     $exec->execute([
-    //         'mes' => $mes,
-    //         'ano' => $ano
-    //     ]);
-    //     $query = $exec->fetchAll(PDO::FETCH_ASSOC);
-    //     return $query;
-    // }
+        $exec = $this->prepare($sql);
+        $exec->setFetchMode(PDO::FETCH_ASSOC);
+        $exec->execute([
+            'mes' => $mes,
+            'ano' => $ano
+        ]);
+        $query = $exec->fetchAll(PDO::FETCH_ASSOC);
+        return $query;
+    }
+    function registroventasnc($mes, $ano)
+    {
+        $sql = "SELECT a.ndoc,a.tdoc,a.fech,b.ncre_idnc AS idn,ncre_idan FROM (SELECT ncre_idnc,ncre_idau,ncre_idan FROM fe_ncven AS n
+                INNER JOIN fe_rcom AS r ON r.idauto=n.ncre_idan
+                WHERE MONTH(r.fech)=:mes AND YEAR(r.fech)=:ano AND r.acti='A' AND ncre_acti='A' ) AS b
+                INNER JOIN fe_rcom AS a ON a.idauto=b.ncre_idau";
+        $exec = $this->prepare($sql);
+        $exec->setFetchMode(PDO::FETCH_ASSOC);
+        $exec->execute([
+            'mes' => $mes,
+            'ano' => $ano
+        ]);
+        $query = $exec->fetchAll(PDO::FETCH_ASSOC);
+        return $query;
+    }
     function mostrarresumenvtasvendedor($dfi, $dff, $nidv)
     {
         // $sql = "SELECT c.nomv AS nomb,e.mone,d.razo,e.idcliente,SUM(e.impo) AS impo,SUM(e.`valor`) AS valor,SUM(e.igv) AS igv FROM

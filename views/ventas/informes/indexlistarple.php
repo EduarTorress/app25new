@@ -299,7 +299,7 @@ $this->startSection('javascript');
 
     function exportarsire() {
         nruc = "<?php echo $_SESSION['gene_nruc'] ?>";
-        namefile = "LE" + nruc + $("#cmbano").val() + $("#cmbmes").val() + '00080400021112.zip';
+        namefile = "LE" + nruc + $("#cmbano").val() + $("#cmbmes").val() + '00080100001011.zip';
         axios.get('/cpe/exportarsire', {
             "params": {
                 "mes": $("#cmbmes").val(),
