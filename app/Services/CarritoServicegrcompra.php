@@ -40,8 +40,6 @@ class CarritoServicegrcompra
         ];
         session()->set('carritogc', $carritov);
     }
-
-
     public static function buscarsiyaesta($idart)
     {
         $carrito = \session()->get("carritogc", []);
@@ -53,7 +51,6 @@ class CarritoServicegrcompra
         }
         return $encontrado;
     }
-
     public static function editar($producto)
     {
         $carrito = session()->get('carritogc', []);
@@ -73,7 +70,6 @@ class CarritoServicegrcompra
         // $carrito[$indice]['presseleccionada'] = $producto['presseleccionada'];
         session()->set('carritogc', $carrito);
     }
-
     public static function numeroItems()
     {
         $carrito = session()->get('carritogc', []);
@@ -85,7 +81,6 @@ class CarritoServicegrcompra
         }
         return $titems;
     }
-
     public static function subtotal()
     {
         $carrito = session()->get('carritogc', []);
@@ -99,17 +94,14 @@ class CarritoServicegrcompra
         }
         return $total;
     }
-
     public static function total()
     {
         return self::subtotal();
     }
-
     public static function descuento()
     {
         return session()->get('descuento', 0.00);
     }
-
     public static function quitar($indice)
     {
         $carrito = session()->get('carritogc', []);
@@ -122,7 +114,6 @@ class CarritoServicegrcompra
         $carrito[$indice]['activo'] = 'I';
         session()->set('carritogc', $carrito);
     }
-
     public static function siesta($idart)
     {
         $valor = false;
@@ -137,7 +128,6 @@ class CarritoServicegrcompra
         }
         return $valor;
     }
-
     public static function item($pos)
     {
         $carrito = \session()->get('carritogc', []);

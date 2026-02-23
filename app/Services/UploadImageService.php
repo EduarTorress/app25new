@@ -7,7 +7,6 @@ use Ramsey\Uuid\Uuid;
 
 class UploadImageService
 {
-
     protected const WIDTHS = [100, 300, 500, 700, 1000, 1500, 2500];
 
     public static function upload($imagen, $ruta_destino)

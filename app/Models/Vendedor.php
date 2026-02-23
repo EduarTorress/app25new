@@ -22,7 +22,6 @@ class Vendedor extends Modelo
             echo 'Hubo un error' . $e;
         }
     }
-
     function cargarvendedoresindex()
     {
         try {

@@ -30,7 +30,6 @@ class CarritoServiceOrdenCompra
         }
         return $itemcompra;
     }
-
     public static function numeroItems()
     {
         $carritococ = session()->get('carritococ', []);
@@ -42,7 +41,6 @@ class CarritoServiceOrdenCompra
         }
         return $titems;
     }
-
     public static function siesta($idart)
     {
         $valor = false;
@@ -57,7 +55,6 @@ class CarritoServiceOrdenCompra
         }
         return $valor;
     }
-
     public static function quitarItem($indice)
     {
         $carritococ = session()->get('carritococ', []);
@@ -70,7 +67,6 @@ class CarritoServiceOrdenCompra
         $carritococ[$indice]['activo'] = 'I';
         session()->set('carritococ', $carritococ);
     }
-
     public static function subtotal()
     {
         $carritococ = session()->get('carritococ', []);
@@ -84,7 +80,6 @@ class CarritoServiceOrdenCompra
         }
         return $total;
     }
-
     public static function agregarItem($producto)
     {
         $carritococ = session()->get('carritococ', []);
@@ -109,12 +104,10 @@ class CarritoServiceOrdenCompra
         ];
         session()->set('carritococ', $carritococ);
     }
-
     public static function total()
     {
         return self::subtotal();
     }
-
     public static function editarProducto($producto)
     {
         $carritococ = session()->get('carritococ', []);
