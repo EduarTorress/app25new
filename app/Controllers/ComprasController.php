@@ -1071,9 +1071,9 @@ class ComprasController extends Controller
         $nc->cform = $request->get("form");
         $nc->dfecha = $request->get("fech");
         $nc->cdetalle = $request->get("cmbMotivo");
-        $nc->nvalor = $request->get("subtotal");
-        $nc->nigv = $request->get("igv");
-        $nc->nt = $request->get("total");
+        $nc->nvalor = "-" . $request->get("subtotal");
+        $nc->nigv = "-" . $request->get("igv");
+        $nc->nt = "-" . $request->get("total");
         $nc->cndo2 = $request->get("cndo2v");
         $nc->prov = $request->get("razo");
         $nc->nidprov = $request->get("idprov");

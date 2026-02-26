@@ -90,7 +90,6 @@ class Inventario extends Modelo
                 SUM(CASE k.alma WHEN 4 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS cuatro,
                 SUM(CASE k.alma WHEN 5 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS cinco,
                 SUM(CASE k.alma WHEN 6 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS seis";
-
         switch ($cmbAlmacen) {
             case "1":
                 $sql .= ",SUM(CASE k.alma WHEN 1 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS alma ";

@@ -182,7 +182,6 @@ class GuiaCompraRemitente extends GuiaRemitente
                 return $rpta;
             }
             $sqlguiase = "insert into fe_ent(entr_unid,entr_cant,entr_idar,entr_peso,entr_idgu,entr_idkar,entr_codi)values(:cunidad,:ncant,:codigo,:npeso,:nidg,:nidkar,:entr_codi)";
-
             $i = 0;
             $sw = 1; //MANEJO DE ERROR
             foreach ($detalle as $item) {

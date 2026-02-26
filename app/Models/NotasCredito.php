@@ -114,7 +114,7 @@ class NotasCredito extends Modelo
                 'cndoc' => $this->cndoc,
                 'deta' => $this->cliente,
                 'n3' => session()->get("gene_idctat"),
-                'ntotal' => $this->ntotal,
+                'ntotal' => "-" . $this->ntotal,
                 'nidusua' => session()->get("usuario_id"),
                 'nidauto' => $this->nidauto,
                 'nidclie' => $this->nidclie,
@@ -322,7 +322,6 @@ class NotasCredito extends Modelo
             $pdo = $ncon->conectar();
 
             $pdo->beginTransaction();
-
             $sqlIDE = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,
             :nv,:nigv,:nt,:cndo2,:cmon,:ndolar,:vigv,:ctg,:ccodp,:cmvto,:nidusua,:opt,:nidcodt,
             :n1,:n2,:n3,:nitems,:npvta,:exon) AS ID";
@@ -365,6 +364,35 @@ class NotasCredito extends Modelo
 
             $id = $exIDE->fetchColumn();
 
+            if ($this->cform == 'E') {
+                $sqlie = "CALL ProIngresaDatosLcajaeEfectivo12(:fech,:cdcto,:cdeta,:idcta,'0',:sacreedor,
+                :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
+                $queryie = $pdo->prepare($sqlie);
+                $queryie->execute([
+                    'fech' => $this->dfecha,
+                    'cdeta' => $this->nidprov,
+                    'idcta' => session()->get("gene_idctat"),
+                    'sacreedor' => $this->nt,
+                    'cmone' => 'S',
+                    'ndolar' => session()->get("gene_dola"),
+                    'nidus' => session()->get("usuario_id"),
+                    'nidauto' => $id,
+                    'cform' => $this->cform,
+                    'cdcto' => $this->cndoc,
+                    'ctdoc' => $this->ctdoc,
+                    'nidtda' =>  $this->nidcodt
+                ]);
+
+                $queryie->closeCursor();
+
+                if ($queryie->errorCode() != '00000') {
+                    $queryie->debugDumpParams();
+                    $pdo->rollBack();
+                    $rpta = array('mensaje' => $queryie->errorInfo() . 'exie', "ndoc" => "", "estado" => '0');
+                    return $rpta;
+                }
+            }
+
             // $sqlICE = "call ProIngresaDatosLcajaEefectivo11(:dfech,:cndoc,:deta,:n3,:ntotal,'0','S','0',:nidusua,:nidclie,:nidauto,:cform,:cndoc,:ctdoc,1) ";
             // $exICE = $pdo->prepare($sqlICE);
             // $exICE->execute([
@@ -379,7 +407,6 @@ class NotasCredito extends Modelo
             //     'cform' => $this->cform,
             //     'ctdoc' => $this->ctdoc
             // ]);
-
             // if ($exICE->errorCode() != '00000') {
             //     $pdo->rollBack();
             //     // var_dump($exICE->debugDumpParams());
