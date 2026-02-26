@@ -377,6 +377,65 @@ $this->startSection('javascript');
         isFormatSerie();
     });
 
+    function entertipodocumento(u) {
+        enterPressed = 1;
+        u.onkeypress = function(e) {
+            var keyCode = (e.keyCode || e.which);
+            if (keyCode === 13) {
+                if (enterPressed == 0) {} else if (enterPressed >= 1) {
+                    e.preventDefault();
+                    $("#cndoc1").click();
+                    $("#cndoc1").select();
+                }
+                enterPressed++;
+                return;
+            }
+        };
+    }
+
+    function enterformapago(u) {
+        enterPressed = 1;
+        u.onkeypress = function(e) {
+            var keyCode = (e.keyCode || e.which);
+            if (keyCode === 13) {
+                if (enterPressed == 0) {} else if (enterPressed >= 1) {
+                    e.preventDefault();
+                    $("#modal_productos").modal('show');
+                }
+                enterPressed++;
+                return;
+            }
+        };
+    }
+
+    $("#cndoc1").on("keypress", function(evt) {
+        if (evt.key === "Enter") {
+            $("#cndoc2").click();
+            $("#cndoc2").select();
+        }
+    });
+
+    $("#cndoc1").on("keypress", function(evt) {
+        if (evt.key === "Enter") {
+            $("#cndoc2").click();
+            $("#cndoc2").select();
+        }
+    });
+
+    $("#cndoc2").on("keypress", function(evt) {
+        if (evt.key === "Enter") {
+            $("#ndo2").click();
+            $("#ndo2").select();
+        }
+    });
+
+    $("#ndo2").on("keypress", function(evt) {
+        if (evt.key === "Enter") {
+            $("#cmbforma").focus();
+            $("#cmbforma").click();
+        }
+    });
+
     async function cargararchivoxml(event) {
         ie = -1;
         const file = event.target.files.item(0)
@@ -784,8 +843,13 @@ $this->startSection('javascript');
     }
 
     $("#griddetalle tr:last td:eq(5) .inputright").on("keypress", function(evt) {
+        // console.log(evt)
+        celdaiguiente = $(this).parent().parent().find(".total input");
+        console.log(celdaiguiente)
         if (evt.key === "Enter") {
-            $("#modal_productos").modal('show');
+            $(celdaiguiente).click();
+            $(celdaiguiente).select();
+            // $("#modal_productos").modal('show');
         }
     });
 

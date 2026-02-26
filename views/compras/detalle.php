@@ -65,8 +65,8 @@
                                 }
                             </style>
                         <?php endif; ?>
-                        <td class="text-center" class="total"><input onclick="this.select(); clicksubtotal=1;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?>"></td>
-                        <td class="text-center" class="afecto">
+                        <td class="text-center total"><input onclick="this.select(); clicksubtotal=1;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?>"></td>
+                        <td class="text-center afecto">
                             <?php
                             $checkafecto = "";
                             if (trim($item['checkafecto']) == "true") {
@@ -211,8 +211,13 @@
     });
 
     $("#griddetalle tr:last td:eq(5) .inputright").on("keypress", function(evt) {
+        // console.log(evt)
+        celdaiguiente = $(this).parent().parent().find(".total input");
+        console.log(celdaiguiente)
         if (evt.key === "Enter") {
-            $("#modal_productos").modal('show');
+            $(celdaiguiente).click();
+            $(celdaiguiente).select();
+            // $("#modal_productos").modal('show');
         }
     });
 
