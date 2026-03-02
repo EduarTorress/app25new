@@ -55,7 +55,7 @@ class CpeController extends Controller
         $ventas = new Ventas();
         $datapost = array('mes' => $request->get('mes'), 'ano' => $request->get('ano'), 'ruc' => $_SESSION['gene_nruc']);
         $listado = $ventas->registroventasple($request->get('mes'), $request->get('ano'));
-          $listadonc = $ventas->registroventasnc($request->get('mes'), $request->get('ano'));
+        $listadonc = $ventas->registroventasnc($request->get('mes'), $request->get('ano'));
         // $listadonc = $vtascon->obtenerlistadonotascreditople($datapost);
 
         // var_dump($listado);
@@ -344,6 +344,42 @@ class CpeController extends Controller
             $this->imprimirfacturasyboletas($request->get("nidauto"), $request->get("tipo"), $rutapdf);
         }
     }
+    function enviarpdfwhatsapp(Request $request)
+    {
+        if (!is_dir('descargas')) {
+            \mkdir('descargas', 077, \true);
+        }
+        $rutapdf = 'descargas/' . $request->get('nombrepdf');
+
+        if ($request->get("tdoc") == '07' or $request->get("tdoc") == '08') {
+            $this->imprimirnotascreditoydebito($request->get("nidauto"), $request->get("tipo"), $rutapdf, 'I');
+        } else {
+            $this->imprimirfacturasyboletas($request->get("nidauto"), $request->get("tipo"), $rutapdf, 'I');
+        }
+
+        $datosenvio = [
+            'number' => $request->get('number'),
+            'mediatype' => 'document',
+            'filename' => 'documentopdf.pdf',
+            'media' => 'https://' . $_SERVER['SERVER_NAME'] . '/' . $rutapdf
+        ];
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://www.companysysven.com/app88/sendwhatsapp.php',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($datosenvio),
+            CURLOPT_HTTPHEADER =>
+            array('Content-Type: application/json'),
+        ));
+        $response = curl_exec($curl);
+        echo $response;
+    }
     function descargarpdfticket(Request $request)
     {
         $rutapdf = 'descargas/' . $request->get('nombrepdf');
@@ -416,7 +452,7 @@ class CpeController extends Controller
         }
         $oimp->generapdfnotacreditoydebito($rutapdf);
     }
-    function imprimirfacturasyboletas($nidauto, $tipo, $rutapdf)
+    function imprimirfacturasyboletas($nidauto, $tipo, $rutapdf, $opcion = 'D')
     {
         $ventas = new Ventas();
         $st = $ventas->consultardcto($nidauto, $tipo);
@@ -509,7 +545,7 @@ class CpeController extends Controller
             }
             $i++;
         }
-        $oimp->generapdf($rutapdf);
+        $oimp->generapdf($rutapdf, $opcion);
     }
     function imprimirticket($nidauto, $tipo, $rutapdf)
     {

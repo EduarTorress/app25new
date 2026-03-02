@@ -310,6 +310,7 @@ $app->router->get("/cpe/api", [\App\Controllers\CpeController::class, 'consultar
 $app->router->get("/cpe/descargarxml", [\App\Controllers\CpeController::class, 'descargarxml']);
 $app->router->get("/cpe/exportarsire", [\App\Controllers\CpeController::class, 'exportarsire']);
 $app->router->get("/cpe/descargarpdf", [\App\Controllers\CpeController::class, 'descargarpdf']);
+$app->router->get("/cpe/enviarpdfwhatsapp", [\App\Controllers\CpeController::class, 'enviarpdfwhatsapp']);
 $app->router->get("/cpe/descargarpdfticket", [\App\Controllers\CpeController::class, 'descargarpdfticket']);
 $app->router->get('/cpe/enviarboletas', [\App\Controllers\CpeController::class, 'enviarboletas']);
 $app->router->get('/empresa/datos', [\App\Controllers\EmpresaController::class, 'index']);

@@ -160,6 +160,21 @@ $this->startSection('javascript');
         xhr.send();
     }
 
+    function enviarwhatsapp(nidauto, tipo, nombrepdf, tdoc) {
+        let number = prompt("Ingrese numero de celular:", "51");
+        var params = "nidauto=" + nidauto + '&tipo=' + tipo + '&nombrepdf=' + nombrepdf + '&tdoc=' + tdoc + "&number=" + number;
+        var xhr = new XMLHttpRequest();
+        var cruta = '/cpe/enviarpdfwhatsapp';
+        xhr.open('GET', cruta + "?" + params, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function(e) {
+            if (this.status == 200) {
+                toastr.success("Mensaje del Sistema", "Enviado satisfactoriamente");
+            }
+        };
+        xhr.send();
+    }
+
     function descargarpdfticket(nidauto, tipo, nombrepdf, tdoc) {
         var params = "nidauto=" + nidauto + '&tipo=' + tipo + '&nombrepdf=' + nombrepdf + '&tdoc=' + tdoc;
         var xhr = new XMLHttpRequest();
