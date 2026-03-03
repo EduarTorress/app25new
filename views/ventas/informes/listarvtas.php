@@ -68,7 +68,6 @@
                         <a class="btn btn-outline-dark" role="button" onclick="enviarwhatsapp('<?= $item['idauto'] ?>','<?= $item['tcom'] ?>','<?= pathinfo($item['nombrexml'], PATHINFO_FILENAME) . '.pdf' ?>','<?= $item['tdoc'] ?>')">
                             <i class="fa fa-whatsapp"></i>
                         </a>
-                        
                 </td>
             </tr>
         <?php endforeach; ?>

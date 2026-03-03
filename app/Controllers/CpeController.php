@@ -351,16 +351,12 @@ class CpeController extends Controller
         }
         $rutapdf = 'descargas/' . $request->get('nombrepdf');
 
-        if ($request->get("tdoc") == '07' or $request->get("tdoc") == '08') {
-            $this->imprimirnotascreditoydebito($request->get("nidauto"), $request->get("tipo"), $rutapdf, 'I');
-        } else {
-            $this->imprimirfacturasyboletas($request->get("nidauto"), $request->get("tipo"), $rutapdf, 'I');
-        }
+        $this->imprimirfacturasyboletas($request->get("nidauto"), $request->get("tipo"), $rutapdf, 'I');
 
         $datosenvio = [
             'number' => $request->get('number'),
             'mediatype' => 'document',
-            'filename' => 'documentopdf.pdf',
+            'fileName' => $request->get('nombrepdf'),
             'media' => 'https://' . $_SERVER['SERVER_NAME'] . '/' . $rutapdf
         ];
         $curl = curl_init();

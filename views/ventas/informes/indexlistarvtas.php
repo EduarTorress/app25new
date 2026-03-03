@@ -162,6 +162,9 @@ $this->startSection('javascript');
 
     function enviarwhatsapp(nidauto, tipo, nombrepdf, tdoc) {
         let number = prompt("Ingrese numero de celular:", "51");
+        if (number == null || number == "") {
+            return;
+        }
         var params = "nidauto=" + nidauto + '&tipo=' + tipo + '&nombrepdf=' + nombrepdf + '&tdoc=' + tdoc + "&number=" + number;
         var xhr = new XMLHttpRequest();
         var cruta = '/cpe/enviarpdfwhatsapp';
