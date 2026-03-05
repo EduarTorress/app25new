@@ -212,11 +212,11 @@
 
     $("#griddetalle tr:last td:eq(5) .inputright").on("keypress", function(evt) {
         // console.log(evt)
-        celdaiguiente = $(this).parent().parent().find(".total input");
-        console.log(celdaiguiente)
+        celdasiguiente = $(this).parent().parent().find(".total input");
+        console.log(celdasiguiente)
         if (evt.key === "Enter") {
-            $(celdaiguiente).click();
-            $(celdaiguiente).select();
+            $(celdasiguiente).click();
+            $(celdasiguiente).select();
             // $("#modal_productos").modal('show');
         }
     });

@@ -245,7 +245,7 @@ class Compra extends Modelo
                 'vigv' => session()->get("gene_igv"),
                 'ctg' => '1',
                 'ccodp' => $cabecera["idprov"],
-                'cmvto' => 'C',
+                'cmvto' => '1',
                 'nus' => $cabecera["nidus"],
                 'opt' => '0',
                 'nidcodt' => $cabecera["alm"],
@@ -265,7 +265,7 @@ class Compra extends Modelo
             $total = number_format(CarritoService::totalCompra(), 2, '.', '');
             $dolar = number_format($cabecera["dolar"], 3, '.', '');
             if ($cabecera["mon"] === 'D') {
-                $acre = $total / $dolar;
+                $acre = $total * $dolar;
             } else {
                 $acre = $total;
             }
@@ -401,7 +401,6 @@ class Compra extends Modelo
                     }
                 }
             }
-
             if ($sw == 0) {
                 $query->debugDumpParams();
                 $pdo->rollBack();
@@ -506,7 +505,7 @@ class Compra extends Modelo
                 'ni' => $igv,
                 'ctg' => '1',
                 'ccodp' => $cabecera["idprov"],
-                'cmvto' => 'C',
+                'cmvto' => '1',
                 'nus' => $cabecera["nidus"],
                 'opt' => '0',
                 'nidcodt' => $cabecera["alm"],
@@ -528,7 +527,7 @@ class Compra extends Modelo
             $total = number_format(CarritoService::totalCompra(), 2, '.', '');
             $dolar = number_format($cabecera["dolar"], 3, '.', '');
             if ($cabecera["mon"] === 'D') {
-                $acre = $total / $dolar;
+                $acre = $total * $dolar;
             } else {
                 $acre = $total;
             }
@@ -731,7 +730,7 @@ class Compra extends Modelo
                 $queryc = $pdo->prepare($sqlc);
                 foreach ($carritoc as $item) {
                     if ($item['activo'] == 'A') {
-                      if ($cabecera['igv'] == 'N') {
+                        if ($cabecera['igv'] == 'N') {
                             $prec = floatval($item['precio']);
                         } else {
                             $prec = floatval($item['precio']) / floatval($_SESSION['gene_igv']);
