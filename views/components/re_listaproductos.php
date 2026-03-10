@@ -145,7 +145,6 @@
                                     <a class="btn btn-info" role="button" onclick='buscarProductoxId(<?php echo $cadena_json ?>)'>
                                         <i class="fas fa-eye"></i>
                                     </a>
-
                                     <?php $tipousuario = $_SESSION['usua_apro'];
                                     if ($tipousuario == '1') { ?>
                                         <a class="btn btn-danger" role="button" onclick="anularproducto(<?php echo $item['idart'] ?>)">

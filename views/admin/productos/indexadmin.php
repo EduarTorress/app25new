@@ -222,7 +222,6 @@ $this->startSection('javascript');
         });
     }
 
-
     function calcularstock() {
         axios.get('/inventarios/calcularstock')
             .then(function(respuesta) {

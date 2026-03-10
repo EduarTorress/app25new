@@ -114,9 +114,9 @@ class ProductoController extends Controller
     }
     function indexregistro()
     {
-        $ctitulo = "Registrar Producto";
-        $vista = \retornavista('admin/productos', 'vistaproducto');
-        return view($vista, ['titulo' => $ctitulo]);
+        // $ctitulo = "Registrar Producto";
+        // $vista = \retornavista('admin/productos', 'vistaproducto');
+        // return view($vista, ['titulo' => $ctitulo]);
     }
     function registrarProducto(Request $request)
     {

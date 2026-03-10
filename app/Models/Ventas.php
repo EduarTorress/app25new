@@ -116,12 +116,12 @@ class Ventas extends Modelo
                 union all 
                 SELECT 	
                 'COMPRAS' AS tipo,
-               SUM(ROUND(CASE form WHEN 'E' THEN impo ELSE 0 END,2)) AS efectivo,
-               SUM(ROUND(CASE form WHEN 'C' THEN impo ELSE 0 END,2)) AS credito,
-               SUM(ROUND(CASE form WHEN 'D' THEN impo ELSE 0 END,2)) AS deposito,
+                SUM(ROUND(CASE form WHEN 'E' THEN impo ELSE 0 END,2)) AS efectivo,
+                SUM(ROUND(CASE form WHEN 'C' THEN impo ELSE 0 END,2)) AS credito,
+                SUM(ROUND(CASE form WHEN 'D' THEN impo ELSE 0 END,2)) AS deposito,
                 SUM(ROUND(CASE form WHEN 'Y' THEN impo ELSE 0 END,2)) AS yape,
                 SUM(ROUND(CASE form WHEN 'P' THEN impo ELSE 0 END,2)) AS plin,
-               SUM(ROUND(CASE form WHEN 'T' THEN impo ELSE 0 END,2)) AS tarjeta,
+                SUM(ROUND(CASE form WHEN 'T' THEN impo ELSE 0 END,2)) AS tarjeta,
                 SUM(round(impo,2)) AS total
                 FROM fe_rcom
                 WHERE idprov>0 AND MONTH(fech)=:mes AND YEAR(fech)=:ano AND acti='A'";
@@ -379,7 +379,6 @@ class Ventas extends Modelo
                 $cant = floatval($item['cantidad']);
                 $unidad = $item['unidad'];
                 $prec = floatval($item['precio']);
-
                 $query1->execute([
                     "cdesc" => $desc,
                     "nitem" => $i,
@@ -412,7 +411,6 @@ class Ventas extends Modelo
         }
         return $rpta;
     }
-
     function buscarOVentaPorId($idauto)
     {
         $sql = "select `c`.`rcom_icbper` AS `rcom_icbper`, `a`.`kar_icbper`  AS `kar_icbper`, `c`.`rcom_mens`   AS `rcom_mens`,IFNULL(m.fevto,c.fech) AS fvto,
@@ -445,7 +443,6 @@ class Ventas extends Modelo
         ]);
         return $query;
     }
-
     function buscarVentaPorId($idauto)
     {
         $sql = "select `c`.`rcom_icbper` AS `rcom_icbper`, `a`.`kar_icbper`  AS `kar_icbper`, `c`.`rcom_mens`   AS `rcom_mens`,IFNULL(m.fevto,c.fech) AS fvto,
@@ -482,7 +479,6 @@ class Ventas extends Modelo
         ]);
         return $query;
     }
-
     function mostrsroventas($idauto)
     {
         $ls = "SELECT  b.nruc,b.razo,b.dire,b.ciud,a.dolar,a.fech,a.fecr,a.mone,a.idauto,a.vigv,a.valor,a.igv,
@@ -504,7 +500,6 @@ class Ventas extends Modelo
         ]);
         return $query;
     }
-
     function mostrardetalloventas($idauto)
     {
         $sql = "select q.detv_desc AS descri,q.detv_item,q.detv_ite1,q.detv_ite2,detv_prec AS prec,
@@ -516,7 +511,6 @@ class Ventas extends Modelo
         ]);
         return $query;
     }
-
     function actualizarOVenta($cabecera, $detalle)
     {
         $ls = "CALL ProActualizaCabeceraVentascdetraccion(:ctdoc,:cform,:cndoc,:dfecha,:dfecha,:cdetalle,
@@ -805,7 +799,7 @@ class Ventas extends Modelo
             if ($query->errorCode() != '00000') {
                 $pdo->rollBack();
                 enviarmensajerror($sql, $query->errorInfo());
-                $rpta = array('mensaje' => "No se la caja", "ndoc" => "", "estado" => '0');
+                $rpta = array('mensaje' => "No se registro la caja", "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
             if (!empty(floatval($cabecera['txtefectivo']))) {
@@ -919,7 +913,6 @@ class Ventas extends Modelo
         }
         return $rpta;
     }
-
     function actualizarVenta($cabecera)
     {
         $this->fechv = $cabecera["fechv"];
@@ -1102,7 +1095,6 @@ class Ventas extends Modelo
             $sqlinserta = "SELECT FunIngresaKardexIcbper(:nid,:cc,:nicbper,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:vcom,:epta,:karunid,:karequi,:lote,:fechavto) AS IDD";
             $sqlactualiza = "CALL ProActualizaKardexICBPER(:nid,:cc,:nicbper,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:nidkar,:op,:xcom,:epta,:karunid,:karequi,:lote,:fechavto)";
             $sw = 1;
-
             foreach ($carritov as $item) {
                 if ($item['activo'] == 'A') {
                     if ($item['nreg'] == 0) {
@@ -1219,7 +1211,6 @@ class Ventas extends Modelo
                         "ncaant" => $karequi * $ncaant
                     ]);
                 }
-
                 if ($execas->errorCode() != '00000') {
                     enviarmensajerror($sqlas, $execas->errorInfo());
                     $sw = 0;
@@ -1242,7 +1233,6 @@ class Ventas extends Modelo
         }
         return $rpta;
     }
-
     function grabarVentaCanje($cabecera, $detallecanje)
     {
         $this->fechv = $cabecera["fechv"];
@@ -1657,7 +1647,6 @@ class Ventas extends Modelo
         // a.deta as detalle,a.idauto,b.ndni,rcom_mens as mensaje,tcom 
         // FROM fe_rcom as a inner join fe_clie  as b ON(b.idclie=a.idcliente)
         // where month(fech)=:mes and year(fech)=:ano and tdoc in('01','07','08','03') and acti<>'I'" . $a . " order by fecr,ndoc";
-
         $sql = " Select a.form,a.fecr,a.fech,a.tdoc,Left(a.Ndoc,4) As serie,tt.nomb as tipodoc, 
         If(Length(Trim(a.Ndoc))<=10,mid(a.Ndoc,4,7),mid(a.Ndoc,5,8)) As ndoc,
         b.nruc,b.razo,a.valor,rcom_exon As exon,a.igv,a.Impo As importe,rcom_otro As grati,a.pimpo,rcom_icbper As icbper,
@@ -1668,7 +1657,6 @@ class Ventas extends Modelo
         inner join fe_tdoc as tt on (a.tdoc=tt.tdoc)
         Left Join (Select rcre_idau,Min(c.Fevto) As Fevto From fe_rcred As r inner Join fe_cred As c On c.cred_idrc=r.rcre_idrc Where rcre_acti='A' And Acti='A' And month(fech)=:mes and year(fech)=:ano Group By rcre_idau)  As p On p.rcre_idau=a.Idauto
         Where month(fech)=:mes and year(fech)=:ano and a.tdoc In('01','07','08','03')  and impo<>0 And Acti<>'I' Order By fecr,Ndoc";
-
         $exec = $this->prepare($sql);
         $exec->setFetchMode(PDO::FETCH_ASSOC);
         $exec->execute([
