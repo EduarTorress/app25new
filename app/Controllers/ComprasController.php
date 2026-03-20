@@ -455,6 +455,7 @@ class ComprasController extends Controller
 
         $compra = new Compra();
         $existecompra = $compra->validarsicompraexiste($request->get('cndoc'), $request->get('idprov'));
+        echo count($existecompra) . 'hola';
         if (count($existecompra) > 0) {
             return response()->json(['errors' => 'Número de compra ya registrado previamente'], 422);
         }
