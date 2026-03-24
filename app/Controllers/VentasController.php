@@ -616,9 +616,11 @@ class VentasController extends Controller
             "formv" => $request->get("formv"),
             "fechvv" => $request->get("fechvv"),
             "idvenv" => $request->get("idvenv"),
-            "subtotal" => $request->get("subtotal"),
-            "igv" => $request->get("igv"),
-            "total" => $request->get("total"),
+            // $request->get("subtotal")
+            // $request->get("igv")
+            "subtotal" => round(CarritoService::totalVenta() / floatval($_SESSION['gene_igv']), 2),
+            "igv" => round(CarritoService::totalVenta() - (CarritoService::totalVenta() / floatval($_SESSION['gene_igv'])), 2),
+            "total" => CarritoService::totalVenta(),
             "nidus" => session()->get('usuario_id'),
             "nitem" => str_pad(CarritoService::numeroItemsVenta(), 2, '0', STR_PAD_LEFT),
             'optigv' => $request->get("optigv"),
