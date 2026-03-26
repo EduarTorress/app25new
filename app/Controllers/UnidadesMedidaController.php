@@ -28,12 +28,6 @@ class UnidadesMedidaController extends Controller
         $lista = $this->um->listar($request->get('cbuscar'));
         return view('admin/unidadesmedida/listaunidadesmedida', ['lista' => $lista]);
     }
-    static function listargrupos($cbuscar)
-    {
-        $um = new UnidadMedida();
-        $lista = $um->listar($cbuscar);
-        return $lista;
-    }
     function create()
     {
         $titulo = 'Registrar Unidad de Medida';
