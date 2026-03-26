@@ -67,7 +67,7 @@ class UnidadesMedidaController extends Controller
             if ($rpta['estado'] == '1') {
                 return response()->json(['message' => 'Unidad de Medida registrada correctamente', 'id' => $rpta['id']], 200);
             } else {
-                return response()->json(['message' => 'Error al registrar Unidad de Medida'], 400);
+                return response()->json(['message' => 'Error al registrar unidad de medida'], 400);
             }
         } catch (\Exception $error) {
             return response()->json(['message' => 'Ocurrió un error ' . $error], 500);
