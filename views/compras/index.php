@@ -917,10 +917,10 @@ $this->startSection('javascript');
             toastr.info("Seleccione un proveedor", 'Mensaje del Sistema');
             return false;
         }
-        if (total == 0) {
-            toastr.info("Ingrese importes válidos", 'Mensaje del Sistema');
-            return false;
-        }
+        // if (total == 0) {
+        //     toastr.info("Ingrese importes válidos", 'Mensaje del Sistema');
+        //     return false;
+        // }
         return true;
     }
 
