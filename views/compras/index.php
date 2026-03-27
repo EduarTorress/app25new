@@ -408,6 +408,17 @@ $this->startSection('javascript');
         };
     }
 
+    $("#modal_productos").on("shown.bs.modal", function() {
+        filastbl = document.getElementById("griddetalle").rows.length;
+        if (filastbl <= 1) {
+            moverCursorFinalTexto("txtbuscarProducto");
+        }
+        if (document.getElementById('codigo').checked) {
+            moverCursorFinalTexto("txtbuscarProducto");
+            $("#txtbuscarProducto").select();
+        }
+    });
+
     $("#cndoc1").on("keypress", function(evt) {
         if (evt.key === "Enter") {
             $("#cndoc2").click();
