@@ -13,6 +13,7 @@
                 <th>Tip. Dcto.</th>
                 <th>Detalle</th>
                 <th>Referencia</th>
+                <th data-sortable="true">Operación</th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,7 @@
                     <td class=""><?php echo substr($item['docd'], 0, 1) ?></td>
                     <td class=""><?php echo $item['cred_idpc'] ?></td>
                     <td class=""><?php echo $item['docd'] ?></td>
+                    <td class=""><?php echo $item['cred_fope'] ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

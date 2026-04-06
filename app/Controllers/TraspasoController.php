@@ -54,7 +54,7 @@ class TraspasoController extends Controller
                 'descri' => $item["descri"],
                 'unid' => $item['unid'],
                 'cant' => $item['cant'],
-                'prec' => $item['peso'],
+                'prec' => $item['peso'] / empty($item['kar_equi']) ? 1 : $item['kar_equi'],
                 'idkar' => $item["idkar"],
                 'uno' => $item["uno"],
                 'dos' => $item["dos"],

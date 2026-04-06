@@ -599,9 +599,10 @@ $this->startSection('javascript');
                                         }).catch(function(error) {
                                             if (error.hasOwnProperty('response')) {
                                                 if (error.response.status === 422) {
+                                                    console.log(error);
                                                     const respuesta_servidor = error.response.data;
                                                     const errores = respuesta_servidor.errors;
-                                                    mostrarErrores('formulario-crear', errores);
+                                                    // mostrarErrores('formulario-crear', errores);
                                                 }
                                             }
                                         })
@@ -947,11 +948,9 @@ $this->startSection('javascript');
         grabarCompra();
     }
 
-    // $('#mdactualizarprecios').on('hidden.bs.modal', function() {
-    // });
+    // $('#mdactualizarprecios').on('hidden.bs.modal', function() {});
 
     // Modal Registro Cuentas x Pagar inicio
-
     $('#modalregistrocuentasxpagar').on('shown.bs.modal', function() {
         $("#txtnumeroletras").select();
     });
@@ -1058,7 +1057,7 @@ $this->startSection('javascript');
             }
             txtnumeroletras = $("#txtnumeroletras").val();
             if (txtnumeroletras.length == 0 || txtnumeroletras == '' || Number(txtnumeroletras) == 0) {
-                toastr.error("Ingrese el número de letras", 'Mensaje del sistema');
+                toastr.error("Ingrese el numero de letras", 'Mensaje del sistema');
                 return;
             }
         }
