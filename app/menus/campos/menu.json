@@ -310,12 +310,6 @@
                 "opt": "A"
             },
             {
-                "item": "Direcciones",
-                "ruta": "/direccion/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
                 "item": "Usuarios",
                 "ruta": "/usuarios/index",
                 "class": "far fa-circle nav-icon",
