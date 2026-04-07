@@ -14,13 +14,13 @@ $this->startSection('contenido');
                             <form class="form-inline" id="form-search">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-auto">
-                                        <label for="" class="col-form-label">Fecha</label>
+                                        <label for="" class="col-form-label col-form-label-sm">Fecha</label>
                                     </div>
                                     <div class="col-auto">
-                                        <input type="date" id="txtfecha" value="<?php echo date('Y-m-d'); ?>" class="form-control" aria-describedby="">
+                                        <input type="date" id="txtfecha" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" aria-describedby="">
                                     </div>
                                     <div class="col-auto">
-                                        <button class="btn btn-success">Consultar</button>
+                                        <button class="btn btn-success btn-sm">Consultar</button>
                                     </div>
                                 </div>
                             </form>
@@ -42,12 +42,10 @@ $this->startSection("javascript")
         evento.preventDefault();
         search();
     });
+
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
     }
-    $(document).ready(function() {
-        obtenerFechas();
-    });
 
     function search() {
         txtfecha = document.getElementById("txtfecha").value;

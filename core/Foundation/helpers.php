@@ -284,7 +284,7 @@ function evaluarvalortdoc($tdoc, $valor)
     // if ($tdoc == '07') {
     //     return '-' . number_format($valor, 2, '.', '');
     // } else {
-        return number_format($valor, 2, '.', '');
+    return number_format($valor, 2, '.', '');
     // }
 }
 function evaluarvalortdoccaja($ndoc, $valor)
@@ -368,18 +368,31 @@ function mostrarformapago($formapago)
             break;
     }
 }
-function array_columns() {
-  $args = func_get_args();
+function array_columns()
+{
+    $args = func_get_args();
 
-  $array = array_shift($args);
+    $array = array_shift($args);
 
-  if (!$args) {
-    return $array;
-  }
+    if (!$args) {
+        return $array;
+    }
 
-  $keys = array_flip($args);
+    $keys = array_flip($args);
 
-  return array_map(function($element) use($keys) {
-    return array_intersect_key($element, $keys);
-  }, $array);
+    return array_map(function ($element) use ($keys) {
+        return array_intersect_key($element, $keys);
+    }, $array);
+}
+function agruparlistaporvalor($array, $valor)
+{
+
+    $arr = array();
+
+    foreach ($array as $key => $item) {
+        $arr[$item[$valor]][$key] = $item;
+    }
+
+    ksort($arr, SORT_NUMERIC);
+    return $arr;
 }

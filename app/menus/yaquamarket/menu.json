@@ -268,13 +268,13 @@
                 "opt": "AS"
             },
             {
-                "item": "Ver Kardex",
+                "item": "Visualizar Kardex",
                 "ruta": "/inventarios/kardex",
                 "class": "far fa-circle nav-icon",
                 "opt": "AS"
             },
             {
-                "item": "Stock x Almacen",
+                "item": "Lista Stock x Almacen",
                 "ruta": "/inventarios/indexstockxalmacen",
                 "class": "far fa-circle nav-icon",
                 "opt": "AS"

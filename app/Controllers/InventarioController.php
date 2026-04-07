@@ -198,7 +198,7 @@ class InventarioController extends Controller
     }
     public function indexexistalmacen()
     {
-        $titulo = 'Existencias en Almacen';
+        $titulo = 'Lista Stock Valorizado';
         return view('inventarios/indexexistalmacen', ["titulo" => $titulo]);
     }
     public function listarexistenciaalmacen(Request $request)
@@ -216,58 +216,120 @@ class InventarioController extends Controller
         $xprec = 0;
         $cost = 0;
         $inventario = [];
+        $listagrupada = agruparlistaporvalor($lista, 'idart');
+        // echo '<pre>';
+        // var_dump($listagrupada);
+        // echo '</pre>';
+        $totalventas = 0;
+        $totalcompras = 0;
 
-        foreach ($lista as $inve) {
-            // if ($inve['idart'] == $xcoda) {
-            if ($inve['tipo'] == 'V') {
-                $saldo = $saldo - $inve['cant'];
-                $sa_to = $sa_to - ($cost * $inve['cant']);
-            } else {
-                $xprec = $inve['precio'];
-                if ($xprec == '0') {
-                    $xprec = $cost;
-                }
-                $toti = $toti + ($inve['cant'] == '0' ? 1 : $inve['cant']) * $xprec;
-                $xdebe = Round($toti, 2);
-                $saldo = $saldo + $inve['cant'];
-                if ($saldo < 0) {
-                    if ($inve['cant'] <> 0) {
-                        $sa_to = Round($saldo * $xprec, 2);
-                    } else {
-                        $sa_to = $sa_to + $xdebe;
-                    }
+        $idart = 0;
+        $producto = "";
+        $unidad = "";
+        foreach ($listagrupada as $l) {
+            $stock = 0;
+            foreach ($l as $inve) {
+                $idart = $inve['idart'];
+                $producto = $inve['descri'];
+                $unidad = $inve['unid'];
+                if ($inve['tipo'] == 'V') {
+                    $stock = $stock - $inve['cant'];
+                    $sa_to = $sa_to - ($cost * $inve['cant']);
                 } else {
-                    if ($sa_to < 0) {
-                        $sa_to = Round($saldo * $xprec, 2);
-                    } else {
-                        if ($sa_to == 0) {
-                            $sa_to = Round($saldo * $xprec, 2);
+                    $stock = $stock + $inve['cant'];
+                    $xprec = $inve['precio'];
+                    if ($xprec == '0') {
+                        $xprec = $cost;
+                    }
+                    $toti = $toti + (($inve['cant'] == '0' ? 1 : $inve['cant']) * $xprec);
+                    $xdebe = Round($toti, 2);
+                    if ($stock < 0) {
+                        if ($inve['cant'] <> 0) {
+                            $sa_to = Round($stock * $xprec, 2);
                         } else {
-                            $sa_to = Round($sa_to * $xprec, 2);
+                            $sa_to = $sa_to + $xdebe;
+                        }
+                    } else {
+                        if ($sa_to < 0) {
+                            $sa_to = Round($stock * $xprec, 2);
+                        } else {
+                            if ($sa_to == 0) {
+                                $sa_to = Round($stock * $xprec, 2);
+                            } else {
+                                $sa_to = Round($stock * $xprec, 2);
+                            }
                         }
                     }
-                }
-                if ($toti <> 0) {
-                    $cost = ($saldo <> 0 ? Round($sa_to / $saldo, 4) : $xprec);
-                }
-                if ($cost == 0) {
-                    $cost = $xprec;
+                    if ($toti <> 0) {
+                        $cost = ($stock <> 0 ? Round($sa_to / $stock, 4) : $xprec);
+                    }
+                    if ($cost == 0) {
+                        $cost = $xprec;
+                    }
                 }
             }
-            if ($saldo <> 0) {
-                // Insert Into inventario(idart, Descri, Unid, alma, costo)Values(xcoda, cdescri, cUnid, saldo, cost)
-                $i = [
-                    'idart' => $inve['idart'],
-                    'descri' => $inve['descri'],
-                    'unid' => $inve['unid'],
-                    'stock' => $saldo,
-                    'costo' => $cost,
-                    'importe' => $saldo * $cost
-                ];
-                array_push($inventario, $i);
-            }
-            // }
+            $i = [
+                'idart' => $idart,
+                'descri' => $producto,
+                'unid' => $unidad,
+                'stock' => round($stock, 4),
+                'costo' => round($cost, 4),
+                'importe' => round($stock * $cost, 4)
+            ];
+            array_push($inventario, $i);
         }
+
+        // foreach ($listagrupada as $l) {
+        //     foreach ($l as $inve) {
+        //         if ($inve['tipo'] == 'V') {
+        //             $saldo = $saldo - $inve['cant'];
+        //             $sa_to = $sa_to - ($cost * $inve['cant']);
+        //         } else {
+        //             $xprec = $inve['precio'];
+        //             if ($xprec == '0') {
+        //                 $xprec = $cost;
+        //             }
+        //             $toti = $toti + (($inve['cant'] == '0' ? 1 : $inve['cant']) * $xprec);
+        //             $xdebe = Round($toti, 2);
+        //             $saldo = $saldo + $inve['cant'];
+        //             if ($saldo < 0) {
+        //                 if ($inve['cant'] <> 0) {
+        //                     $sa_to = Round($saldo * $xprec, 2);
+        //                 } else {
+        //                     $sa_to = $sa_to + $xdebe;
+        //                 }
+        //             } else {
+        //                 if ($sa_to < 0) {
+        //                     $sa_to = Round($saldo * $xprec, 2);
+        //                 } else {
+        //                     if ($sa_to == 0) {
+        //                         $sa_to = Round($saldo * $xprec, 2);
+        //                     } else {
+        //                         $sa_to = Round($sa_to * $xprec, 2);
+        //                     }
+        //                 }
+        //             }
+        //             if ($toti <> 0) {
+        //                 $cost = ($saldo <> 0 ? Round($sa_to / $saldo, 4) : $xprec);
+        //             }
+        //             if ($cost == 0) {
+        //                 $cost = $xprec;
+        //             }
+        //         }
+        //     }
+        //     if ($saldo <> 0) {
+        //         // Insert Into inventario(idart, Descri, Unid, alma, costo)Values(xcoda, cdescri, cUnid, saldo, cost)
+        //         $i = [
+        //             'idart' => $inve['idart'],
+        //             'descri' => $inve['descri'],
+        //             'unid' => $inve['unid'],
+        //             'stock' => round($saldo,4),
+        //             'costo' => round($cost,4),
+        //             'importe' => round($saldo * $cost,4)
+        //         ];
+        //         array_push($inventario, $i);
+        //     }
+        // }
         return view('/inventarios/listaexisalmacen', ['listado' => $inventario]);
         // echo '<pre>';
         // var_dump($inventario);
