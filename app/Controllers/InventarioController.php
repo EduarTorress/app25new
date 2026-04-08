@@ -203,134 +203,153 @@ class InventarioController extends Controller
     }
     public function listarexistenciaalmacen(Request $request)
     {
-        $inv = new Inventario();
-        $inv->dfechaf = $request->get("txtfecha");
-        $lista = $inv->listarexistenciaalmacen();
-        $sa_to = 0;
-        $cost = 0;
-        $nsaldo = 0;
-        $saldo = 0;
-        $toti = 0;
-        $xdebe = 0;
-        $xcant = 0;
-        $xprec = 0;
-        $cost = 0;
-        $inventario = [];
-        $listagrupada = agruparlistaporvalor($lista, 'idart');
-        // echo '<pre>';
-        // var_dump($listagrupada);
-        // echo '</pre>';
-        $totalventas = 0;
-        $totalcompras = 0;
+        $datapost = array('fecha' => $request->get('txtfecha'), 'variaspresentaciones' => 'S', 'ruc' => $_SESSION['gene_nruc']);
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://companiasysven.com/API/listarstockvalorizado.php',
+            CURLOPT_POSTFIELDS => $datapost,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response, true);
+        
+        // var_dump($data);
+        // // $inv = new Inventario();
+        // // $inv->dfechaf = $request->get("txtfecha");
+        // // $lista = $inv->listarexistenciaalmacen();
+        // $lista=$data['result'];
+        // $sa_to = 0;
+        // $cost = 0;
+        // // $nsaldo = 0;
+        // // $saldo = 0;
+        // // $xcant = 0;
+        // $toti = 0;
+        // $xdebe = 0;
+        // $xprec = 0;
+        // $cost = 0;
+        // $inventario = [];
+        // $listagrupada = agruparlistaporvalor($lista, 'idart');
+        // // echo '<pre>';
+        // // var_dump($listagrupada);
+        // // echo '</pre>';
 
-        $idart = 0;
-        $producto = "";
-        $unidad = "";
-        foreach ($listagrupada as $l) {
-            $stock = 0;
-            foreach ($l as $inve) {
-                $idart = $inve['idart'];
-                $producto = $inve['descri'];
-                $unidad = $inve['unid'];
-                if ($inve['tipo'] == 'V') {
-                    $stock = $stock - $inve['cant'];
-                    $sa_to = $sa_to - ($cost * $inve['cant']);
-                } else {
-                    $stock = $stock + $inve['cant'];
-                    $xprec = $inve['precio'];
-                    if ($xprec == '0') {
-                        $xprec = $cost;
-                    }
-                    $toti = $toti + (($inve['cant'] == '0' ? 1 : $inve['cant']) * $xprec);
-                    $xdebe = Round($toti, 2);
-                    if ($stock < 0) {
-                        if ($inve['cant'] <> 0) {
-                            $sa_to = Round($stock * $xprec, 2);
-                        } else {
-                            $sa_to = $sa_to + $xdebe;
-                        }
-                    } else {
-                        if ($sa_to < 0) {
-                            $sa_to = Round($stock * $xprec, 2);
-                        } else {
-                            if ($sa_to == 0) {
-                                $sa_to = Round($stock * $xprec, 2);
-                            } else {
-                                $sa_to = Round($stock * $xprec, 2);
-                            }
-                        }
-                    }
-                    if ($toti <> 0) {
-                        $cost = ($stock <> 0 ? Round($sa_to / $stock, 4) : $xprec);
-                    }
-                    if ($cost == 0) {
-                        $cost = $xprec;
-                    }
-                }
-            }
-            $i = [
-                'idart' => $idart,
-                'descri' => $producto,
-                'unid' => $unidad,
-                'stock' => round($stock, 4),
-                'costo' => round($cost, 4),
-                'importe' => round($stock * $cost, 4)
-            ];
-            array_push($inventario, $i);
-        }
-
+        // $idart = 0;
+        // $producto = "";
+        // $unidad = "";
         // foreach ($listagrupada as $l) {
+        //     $stock = 0;
         //     foreach ($l as $inve) {
+        //         $idart = $inve['idart'];
+        //         $producto = $inve['descri'];
+        //         $unidad = $inve['unid'];
         //         if ($inve['tipo'] == 'V') {
-        //             $saldo = $saldo - $inve['cant'];
+        //             $stock = $stock - $inve['cant'];
         //             $sa_to = $sa_to - ($cost * $inve['cant']);
         //         } else {
+        //             $stock = $stock + $inve['cant'];
         //             $xprec = $inve['precio'];
         //             if ($xprec == '0') {
         //                 $xprec = $cost;
         //             }
         //             $toti = $toti + (($inve['cant'] == '0' ? 1 : $inve['cant']) * $xprec);
         //             $xdebe = Round($toti, 2);
-        //             $saldo = $saldo + $inve['cant'];
-        //             if ($saldo < 0) {
+        //             if ($stock < 0) {
         //                 if ($inve['cant'] <> 0) {
-        //                     $sa_to = Round($saldo * $xprec, 2);
+        //                     $sa_to = Round($stock * $xprec, 2);
         //                 } else {
         //                     $sa_to = $sa_to + $xdebe;
         //                 }
         //             } else {
         //                 if ($sa_to < 0) {
-        //                     $sa_to = Round($saldo * $xprec, 2);
+        //                     $sa_to = Round($stock * $xprec, 2);
         //                 } else {
         //                     if ($sa_to == 0) {
-        //                         $sa_to = Round($saldo * $xprec, 2);
+        //                         $sa_to = Round($stock * $xprec, 2);
         //                     } else {
-        //                         $sa_to = Round($sa_to * $xprec, 2);
+        //                         $sa_to = Round($stock * $xprec, 2);
         //                     }
         //                 }
         //             }
         //             if ($toti <> 0) {
-        //                 $cost = ($saldo <> 0 ? Round($sa_to / $saldo, 4) : $xprec);
+        //                 $cost = ($stock <> 0 ? Round($sa_to / $stock, 4) : $xprec);
         //             }
         //             if ($cost == 0) {
         //                 $cost = $xprec;
         //             }
         //         }
         //     }
-        //     if ($saldo <> 0) {
-        //         // Insert Into inventario(idart, Descri, Unid, alma, costo)Values(xcoda, cdescri, cUnid, saldo, cost)
-        //         $i = [
-        //             'idart' => $inve['idart'],
-        //             'descri' => $inve['descri'],
-        //             'unid' => $inve['unid'],
-        //             'stock' => round($saldo,4),
-        //             'costo' => round($cost,4),
-        //             'importe' => round($saldo * $cost,4)
-        //         ];
-        //         array_push($inventario, $i);
-        //     }
+        //     $i = [
+        //         'idart' => $idart,
+        //         'descri' => $producto,
+        //         'unid' => $unidad,
+        //         'stock' => round($stock, 4),
+        //         'costo' => round($cost, 4),
+        //         'importe' => round($stock * $cost, 4)
+        //     ];
+        //     array_push($inventario, $i);
         // }
-        return view('/inventarios/listaexisalmacen', ['listado' => $inventario]);
+
+        // // foreach ($listagrupada as $l) {
+        // //     foreach ($l as $inve) {
+        // //         if ($inve['tipo'] == 'V') {
+        // //             $saldo = $saldo - $inve['cant'];
+        // //             $sa_to = $sa_to - ($cost * $inve['cant']);
+        // //         } else {
+        // //             $xprec = $inve['precio'];
+        // //             if ($xprec == '0') {
+        // //                 $xprec = $cost;
+        // //             }
+        // //             $toti = $toti + (($inve['cant'] == '0' ? 1 : $inve['cant']) * $xprec);
+        // //             $xdebe = Round($toti, 2);
+        // //             $saldo = $saldo + $inve['cant'];
+        // //             if ($saldo < 0) {
+        // //                 if ($inve['cant'] <> 0) {
+        // //                     $sa_to = Round($saldo * $xprec, 2);
+        // //                 } else {
+        // //                     $sa_to = $sa_to + $xdebe;
+        // //                 }
+        // //             } else {
+        // //                 if ($sa_to < 0) {
+        // //                     $sa_to = Round($saldo * $xprec, 2);
+        // //                 } else {
+        // //                     if ($sa_to == 0) {
+        // //                         $sa_to = Round($saldo * $xprec, 2);
+        // //                     } else {
+        // //                         $sa_to = Round($sa_to * $xprec, 2);
+        // //                     }
+        // //                 }
+        // //             }
+        // //             if ($toti <> 0) {
+        // //                 $cost = ($saldo <> 0 ? Round($sa_to / $saldo, 4) : $xprec);
+        // //             }
+        // //             if ($cost == 0) {
+        // //                 $cost = $xprec;
+        // //             }
+        // //         }
+        // //     }
+        // //     if ($saldo <> 0) {
+        // //         // Insert Into inventario(idart, Descri, Unid, alma, costo)Values(xcoda, cdescri, cUnid, saldo, cost)
+        // //         $i = [
+        // //             'idart' => $inve['idart'],
+        // //             'descri' => $inve['descri'],
+        // //             'unid' => $inve['unid'],
+        // //             'stock' => round($saldo,4),
+        // //             'costo' => round($cost,4),
+        // //             'importe' => round($saldo * $cost,4)
+        // //         ];
+        // //         array_push($inventario, $i);
+        // //     }
+        // // }
+        return view('/inventarios/listaexisalmacen', ['listado' => $data['result']]);
+
+
         // echo '<pre>';
         // var_dump($inventario);
         // echo '<pre>';

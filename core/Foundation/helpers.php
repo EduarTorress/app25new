@@ -386,13 +386,10 @@ function array_columns()
 }
 function agruparlistaporvalor($array, $valor)
 {
-
     $arr = array();
-
     foreach ($array as $key => $item) {
         $arr[$item[$valor]][$key] = $item;
     }
-
     ksort($arr, SORT_NUMERIC);
     return $arr;
 }
