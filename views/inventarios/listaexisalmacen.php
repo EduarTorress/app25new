@@ -3,7 +3,7 @@
         <tr>
             <th>Código</th>
             <th data-sortable="true">Descripción</th>
-            <th data-sortable="true">Stock</th>
+            <th data-sortable="true" data-footer-formatter="formatTotal">Stock</th>
             <th data-sortable="true">Costo Promedio</th>
             <th data-sortable="true">Importe</th>
         </tr>
