@@ -1,5 +1,5 @@
 <div class="card-body">
-    <table id="tabla_remitentes" class="table table-bordered table-hover table-sm small">
+    <table id="tabla_clientes" class="table table-bordered table-hover table-sm small">
         <thead>
             <tr>
                 <th>Nombre</th>
@@ -13,7 +13,7 @@
                 <tr>
                     <td><?php echo $item['razo'] ?></td>
                     <td><?php echo $item['nruc'] ?></td>
-                          <td><?php echo $item['ndni'] ?></td>
+                    <td><?php echo $item['ndni'] ?></td>
                     <td class="text-center" id="iniciar">
                         <?php
                         $parametro1 = $item['razo'];
@@ -43,6 +43,6 @@
 <!-- <button onclick='darBaja("<?php echo $parametro7 ?>")' class="btn btn-danger">Eliminar</button> -->
 <script>
     $(document).ready(function() {
-        focustabla('#tabla_remitentes')
+        focustabla('#tabla_clientes')
     });
 </script>
