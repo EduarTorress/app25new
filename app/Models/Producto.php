@@ -694,15 +694,16 @@ class Producto extends Modelo
         }
         return $data;
     }
-    function verificarsiexistecodprovactu($codprov)
+    function verificarsiexistecodprovactu($codprov, $idart)
     {
-        $sql = "SELECT * FROM fe_art WHERE trim(coda1)=trim(:codprov) AND prod_acti='A'";
+        $sql = "SELECT * FROM fe_art WHERE trim(coda1)=trim(:codprov) AND prod_acti='A' and idart<>:idart";
         $st = $this->prepare($sql);
         $st->execute([
-            'codprov' => $codprov
+            'codprov' => $codprov,
+            'idart' => $idart
         ]);
         $lista = $st->fetchAll(PDO::FETCH_ASSOC);
-        if (count($lista) <= 1) {
+        if (count($lista) > 0) {
             $data = ['mensaje' => '', 'listado' => $lista, 'estado' => '1'];
         } else {
             $data = ['mensaje' => '', 'listado' => [], 'estado' => '0'];

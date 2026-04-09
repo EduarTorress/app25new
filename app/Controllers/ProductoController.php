@@ -288,6 +288,13 @@ class ProductoController extends Controller
             return response()->json($data, 422);
         }
 
+        if (!empty($request->get('txtcoda1'))) {
+            $exiscodprov = $this->producto->verificarsiexistecodprovactu($request->get("txtcoda1"), $request->get('idart'));
+            if ($exiscodprov['estado'] == '1') {
+                $data = ["errors" => ['Código de Proveedor ya registrado previamente']];
+                return response()->json($data, 422);
+            }
+        }
         // $exiscodprov = $this->producto->verificarsiexistecodprovactu($request->get("txtcoda1"));
         // if ($exiscodprov['estado'] == '1') {
         //     $data = ["errors" => ['Código de Proveedor ya registrado previamente']];
