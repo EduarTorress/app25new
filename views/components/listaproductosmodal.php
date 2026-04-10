@@ -45,7 +45,9 @@
                 </td>
                 <td class="text-center" id="iniciarp">
                     <?php
-                    $parametro1 = $items[0]['descri'];
+                    $descri=str_replace("'",' ',$items[0]['descri']);
+                    $descri=str_replace('"',' ',$descri);
+                    $parametro1 =$descri;
                     $parametro2 = $items[0]['idart'];
                     $parametro3 = $items[0]['unid'];
                     $parametro4 = $items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'] + $items[0]['cua'];
