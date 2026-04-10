@@ -158,7 +158,22 @@ input[type=search] {
     color: black;
 }
 
+#headersysven {
+    background-color: #b4daf0;
+    color: black;
+}
+
 table thead th {
+    background-color: #b4daf0;
+    color: black;
+}
+
+.table thead th {
+    background-color: #b4daf0;
+    color: black;
+}
+
+#gridpedidos thead th {
     background-color: #b4daf0;
     color: black;
 }

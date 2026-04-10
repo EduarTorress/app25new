@@ -30,6 +30,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!--- DataTables -->
     <link rel="stylesheet" type="text/css" href="plugins/datatables-custom/DataTables-1.12.1/css/jquery.dataTables.min.css" />
+        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+
     <!-- <link rel="stylesheet" type="text/css" href="plugins/datatables-custom/Buttons-2.2.3/css/buttons.dataTables.min.css" /> -->
     <link rel="stylesheet" type="text/css" href="plugins/datatables-custom/KeyTable-2.7.0/css/keyTable.dataTables.min.css" />
     <!--- Date picker -->
@@ -41,13 +43,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Theme style -->
     <link rel="stylesheet" href="css/adminlte.min.css">
 
-    <link rel="stylesheet" type="text/css" href="css/estilo.css">
-
     <!-- Para Color de fondo de Datatable -->
     <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
     <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
 
     <link href="https://nightly.datatables.net/select/css/select.dataTables.css" rel="stylesheet" type="text/css" />
     <!-- <script src="https://nightly.datatables.net/select/js/dataTables.select.js"></script> -->
@@ -55,6 +54,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.4/dist/bootstrap-table.min.css">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Estilo css -->
+    <link rel="stylesheet" type="text/css" href="css/estilo.css">
 </head>
 
 <body id="body" class="white-mode hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -264,5 +265,4 @@ scratch. This page gets rid of all links and provides the needed markup only.
         color: white
     }
 </style>
-
 </html>
