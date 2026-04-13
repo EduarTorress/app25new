@@ -178,19 +178,19 @@
         "class": "fa fa-check",
         "elementos": [
             {
-                "item": "Ajuste de Inventario",
+                "item": "Ajuste",
                 "ruta": "/productos/index/5",
                 "class": "far fa-circle nav-icon",
                 "opt": "AS"
             },
             {
-                "item": "Ver Ajustes de Inv.",
+                "item": "Informe de Ajustes Inv.",
                 "ruta": "/inventarios/indexlistaajustes",
                 "class": "far fa-circle nav-icon",
                 "opt": "AS"
             },
             {
-                "item": "Kardex",
+                "item": "Visualizar Kardex",
                 "ruta": "/inventarios/kardex",
                 "class": "far fa-circle nav-icon",
                 "opt": "AS"

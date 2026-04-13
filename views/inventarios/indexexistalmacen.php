@@ -20,6 +20,16 @@ $this->startSection('contenido');
                                         <input type="date" id="txtfecha" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" aria-describedby="">
                                     </div>
                                     <div class="col-auto">
+                                        <label class="col-form-label col-form-label-sm" for="">Costo:</label>
+                                    </div>
+                                    <div class="col-auto">
+                                        
+                                        <select name="select" class="form-control form-control-sm" id="tipocosto">
+                                            <option value="P" selected>PROMEDIO</option>
+                                            <option value="C">ULTIMA COMPRA</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-auto">
                                         <button class="btn btn-success btn-sm">Consultar</button>
                                     </div>
                                 </div>
@@ -52,7 +62,8 @@ $this->startSection("javascript")
         $("#btnconsultar").attr('disabled', true);
         axios.get('/inventarios/listarexistenciaalmacen', {
             "params": {
-                "txtfecha": txtfecha
+                "txtfecha": txtfecha,
+                "tipocosto": $("#tipocosto").val()
             }
         }).then(function(respuesta) {
             $("#btnconsultar").attr('disabled', false);

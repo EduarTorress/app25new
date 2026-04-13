@@ -347,7 +347,7 @@ class InventarioController extends Controller
         // //         array_push($inventario, $i);
         // //     }
         // // }
-        return view('/inventarios/listaexisalmacen', ['listado' => $data['result']]);
+        return view('/inventarios/listaexisalmacen', ['listado' => $data['result'],'tipocosto'=>$request->get('tipocosto')]);
 
         // echo '<pre>';
         // var_dump($inventario);
