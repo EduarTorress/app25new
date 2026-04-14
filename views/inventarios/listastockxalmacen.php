@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th data-sortable="true">Producto</th>
-            <th class="text-end" data-sortable="true">Cantidad Existente</th>
+            <th class="text-end" data-footer-formatter="formatTotal" data-sortable="true">Cantidad Existente</th>
             <th class="text-center">Ver</th>
         </tr>
     </thead>

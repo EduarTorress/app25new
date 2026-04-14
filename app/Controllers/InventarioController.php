@@ -219,7 +219,7 @@ class InventarioController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response, true);
-        
+
         // var_dump($data);
         // // $inv = new Inventario();
         // // $inv->dfechaf = $request->get("txtfecha");
@@ -347,7 +347,7 @@ class InventarioController extends Controller
         // //         array_push($inventario, $i);
         // //     }
         // // }
-        return view('/inventarios/listaexisalmacen', ['listado' => $data['result'],'tipocosto'=>$request->get('tipocosto')]);
+        return view('/inventarios/listaexisalmacen', ['listado' => $data['result'], 'tipocosto' => $request->get('tipocosto')]);
 
         // echo '<pre>';
         // var_dump($inventario);
@@ -396,6 +396,115 @@ class InventarioController extends Controller
         // 	Select inve
         // 	Skip
         // Enddo
+    }
+    function indexstockxfechavencimiento()
+    {
+        $titulo = 'Stock x Fecha de Vencimiento';
+        return view('inventarios/indexstockxfechavencimiento', ["titulo" => $titulo]);
+    }
+    function listarstockxfechavencimiento(Request $request)
+    {
+        $txtfecha = $request->get('txtfecha');
+        $inv = new Inventario();
+        $listado = $inv->listarstockxfechavencimiento($txtfecha);
+        // nid = ls.idart
+        // nstock = ls.stock
+        // Sw = 0
+        // ncant = 0
+        // Do While !Eof() And ls.idart = nid
+        // If ncant > nstock
+        // 	Skip
+        // 	Loop
+        // Endif
+        // clote = ls.kar_lote
+        // dfvto = Iif(Isnull(ls.kar_fvto), Ctod("  /  /    "), ls.kar_fvto)
+        // ncant = ncant + ls.cant
+        // If ncant > nstock Then
+        // 	If Sw = 0 Then
+        // 		Insert Into ls1(idart, Descri, Unid, prod_unid1, prod_equi1, prod_equi2, cant, kar_lote, kar_fvto,  estado, prod_cod1, linea)Values;
+        // 			(ls.idart, ls.Descri, ls.Unid, ls.prod_unid1, ls.prod_equi1, ls.prod_equi2, ls.stock, ls.kar_lote, Iif(Isnull(ls.kar_fvto), Ctod("  /  /    "), ls.kar_fvto), 'A', ls.prod_cod1, ls.linea)
+        // 	Else
+        // 		Insert Into ls1(idart, Descri, Unid, prod_unid1, prod_equi1, prod_equi2, cant, kar_lote, kar_fvto,  estado, prod_cod1, linea)Values;
+        // 			(ls.idart, ls.Descri, ls.Unid, ls.prod_unid1, ls.prod_equi1, ls.prod_equi2, ls.stock - (ncant - ls.cant), ls.kar_lote, Iif(Isnull(ls.kar_fvto), Ctod("  /  /    "), ls.kar_fvto), 'A', ls.prod_cod1, ls.linea)
+        // 	Endif
+        // 	Sw = 1
+        // Else
+        // 	Insert Into ls1(idart, Descri, Unid, prod_unid1, prod_equi1, prod_equi2, cant, kar_lote, kar_fvto, estado, prod_cod1, linea)Values;
+        // 		(ls.idart, ls.Descri, ls.Unid, ls.prod_unid1, ls.prod_equi1, ls.prod_equi2, ls.cant, ls.kar_lote, Iif(Isnull(ls.kar_fvto), Ctod("  /  /    "), ls.kar_fvto), 'A', ls.prod_cod1, ls.linea)
+        // Endif
+        // Sw = Sw + 1
+        // Skip
+
+        $data = [];
+        foreach ($listado as $a) {
+            $idart = $a['idart'];
+            $stock = $a['stock'];
+            $i = 0;
+            $cant = 0;
+            if ($cant > $stock) {
+                break;
+            }
+            $lote = $a['kar_lote'];
+            $fechavto = $a['kar_fvto'];
+            $cant = $cant + $a['cant'];
+            if ($cant > $stock) {
+                if ($i == 0) {
+                    array_push(
+                        $data,
+                        [
+                            'idart' => $idart,
+                            'descri' => $a['descri'],
+                            'unid' => $a['unid'],
+                            'prod_unid1' => $a['prod_unid1'],
+                            'prod_equi1' => $a['prod_equi1'],
+                            'prod_equi2' => $a['prod_equi2'],
+                            'cant' => $stock,
+                            'kar_lote' => $lote,
+                            'kar_fvto' => $fechavto,
+                            'prod_cod1' => $a['prod_cod1'],
+                            'linea' => $a['linea']
+                        ]
+                    );
+                } else {
+                    array_push(
+                        $data,
+                        [
+                            'idart' => $idart,
+                            'descri' => $a['descri'],
+                            'unid' => $a['unid'],
+                            'prod_unid1' => $a['prod_unid1'],
+                            'prod_equi1' => $a['prod_equi1'],
+                            'prod_equi2' => $a['prod_equi2'],
+                            'cant' => $stock - ($cant - $a['cant']),
+                            'kar_lote' => $lote,
+                            'kar_fvto' => $fechavto,
+                            'prod_cod1' => $a['prod_cod1'],
+                            'linea' => $a['linea']
+                        ]
+                    );
+                }
+                $i = 1;
+            } else {
+                array_push(
+                    $data,
+                    [
+                        'idart' => $idart,
+                        'descri' => $a['descri'],
+                        'unid' => $a['unid'],
+                        'prod_unid1' => $a['prod_unid1'],
+                        'prod_equi1' => $a['prod_equi1'],
+                        'prod_equi2' => $a['prod_equi2'],
+                        'cant' => $a['cant'],
+                        'kar_lote' => $lote,
+                        'kar_fvto' => $fechavto,
+                        'prod_cod1' => $a['prod_cod1'],
+                        'linea' => $a['linea']
+                    ]
+                );
+            }
+            $i = $i + 1;
+        }
+        return view('inventarios/listastockxfechavencimiento', ["listado" => $data]);
     }
     function indexlistaajustes()
     {

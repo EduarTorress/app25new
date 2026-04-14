@@ -64,6 +64,33 @@ class Inventario extends Modelo
         $listado = $query->fetchAll(PDO::FETCH_ASSOC);
         return $listado;
     }
+    function listarstockxfechavencimiento($fecha)
+    {
+        $sql = "SELECT a.idart,descri,unid,prod_unid1,prod_equi1,prod_equi2,b.uno AS cant,kar_lote,kar_fvto,z.uno AS stock,dcat AS linea,a.prod_cod1 FROM
+                (SELECT idart, idkar,cant*kar_equi AS uno,CAST(0 AS DECIMAL(10,2)) AS dos,CAST(0 AS DECIMAL(10,2)) AS tres,
+                CAST(0 AS DECIMAL(12,2)) AS cuatro,kar_lote,kar_fvto
+                FROM fe_kar AS k
+                INNER JOIN fe_rcom AS r ON r.Idauto = k.Idauto
+                WHERE r.fech <= :fecha AND r.Acti <> 'I' AND k.Acti <> 'I' AND tipo='C' AND cant>0 ORDER BY idkar DESC)
+                AS b
+                INNER JOIN fe_art AS a ON a.idart=b.idart
+                INNER JOIN fe_cat AS c ON c.idcat=a.idcat
+                INNER JOIN
+                (SELECT idart, SUM(CASE k.alma WHEN 1 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS uno,
+                SUM(CASE k.alma WHEN 2 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS Dos,
+                SUM(CASE k.alma WHEN 3 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS tres,
+                SUM(CASE k.alma WHEN 4 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS cuatro
+                FROM fe_kar AS k
+                INNER JOIN fe_rcom AS r ON r.Idauto = k.Idauto
+                WHERE r.fech <= :fecha AND r.Acti <> 'I' AND k.Acti <> 'I' GROUP BY k.idart HAVING uno>0  ORDER BY idart)
+                AS z ON z.idart=b.idart and prod_acti='A' ORDER BY idart,idkar DESC";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'fecha' => $fecha,
+        ]);
+        $listado = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $listado;
+    }
     function verdetalleajuste($idauto)
     {
         $sql = "SELECT a.descri,k.cant FROM fe_kar k INNER JOIN fe_art a ON k.idart=a.idart WHERE idauto=:idauto";

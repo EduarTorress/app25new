@@ -205,7 +205,13 @@
                 "item": "Lista Stock Valorizado",
                 "ruta": "/inventarios/indexexistalmacen",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "A"
+            },
+            {
+                "item": "Stock x Fecha Vencimiento",
+                "ruta": "/inventarios/indexstockxfechavencimiento",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
             }
         ]
     },
