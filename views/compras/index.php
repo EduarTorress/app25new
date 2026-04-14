@@ -54,7 +54,7 @@ echo $prod->render();
                 <div class="col-sm-2">
                     <div class="input-group">&nbsp;&nbsp;&nbsp;
                         <label class="col-sm-0 col-form-label col-form-label-sm">Guía:</label>
-                        <input type="text" class="form-control form-control-sm" id="ndo2" style="width: 100px;" value="<?php echo isset($datosproveedor['ndo2']) ?  $datosproveedor['ndo2'] : '' ?>" placeholder="T00100000001">
+                        <input type="text" class="form-control form-control-sm" maxlength="13" id="ndo2" style="width: 100px;" value="<?php echo isset($datosproveedor['ndo2']) ?  $datosproveedor['ndo2'] : '' ?>" placeholder="T00100000001">
                     </div>
                 </div>
             </div>
