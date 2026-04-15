@@ -88,12 +88,6 @@
                 "opt": "AV"
             },
             {
-                "item": "Otras Compras",
-                "ruta": "ocompras/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
                 "item": "Informe de Compras",
                 "ruta": "/compras/listar",
                 "class": "far fa-circle nav-icon",
