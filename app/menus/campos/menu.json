@@ -40,7 +40,7 @@
                 "opt": "A"
             },
             {
-                "item": "Rpte de Vtas x Vendedor",
+                "item": "Lista Ventas x Vendedor",
                 "ruta": "/vtas/indexvtasxvendedor",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
@@ -64,7 +64,7 @@
                 "opt": "A"
             },
             {
-                "item": "Registro de ventas PLE",
+                "item": "Registro de ventas",
                 "ruta": "/vtas/rvtas",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
@@ -112,7 +112,7 @@
                 "opt": "A"
             },
             {
-                "item": "Registro de compras PLE",
+                "item": "Registro de compras",
                 "ruta": "/compras/listarPLE",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
