@@ -133,8 +133,7 @@
         </div>
         <div class="modal-footer">
             <div class="form-group col-6 text-start" <?php echo ((empty($_SESSION['config']['ventasexon'])) ? 'style="display:none"' : '')  ?>>
-                <!-- <?php $dp = (empty($datosProducto['prod_tigv']) ? $_SESSION['gene_igv'] : $_SESSION['gene_igv']); ?> -->
-                <?php $dp = $datosProducto['prod_tigv']; ?>
+                 <?php $dp = (empty($datosProducto['prod_tigv']) ? $_SESSION['gene_igv'] : $datosProducto['prod_tigv']); ?> 
                 <?php $prod_tigv = (floatval($dp) == floatval($_SESSION['gene_igv'])) ? $_SESSION['gene_igv'] : $datosProducto['prod_tigv']; ?>
                 <?php if (empty($_SESSION['config']['ventasexon'])) {
                     $prod_tigv = $_SESSION['gene_igv'];

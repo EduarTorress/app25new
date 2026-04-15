@@ -264,7 +264,7 @@ class ProductoController extends Controller
             'pre2' => empty($request->get('pre2')) ? 0 : $request->get('pre2'),
             'pre3' => empty($request->get('pre3')) ? 0 : $request->get('pre3'),
             'tipop' => $request->get('tipop'),
-            'txtcoda1' => empty($txtcoda1) ? ' ' : $txtcoda1,
+            'txtcoda1' => empty($txtcoda1) ? '' : trim($txtcoda1),
             'prod_tigv' => $request->get('prod_tigv')
 
             // prod_come => comisión efectivo
