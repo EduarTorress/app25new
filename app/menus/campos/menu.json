@@ -85,13 +85,13 @@
                 "item": "Registrar Compra",
                 "ruta": "/compras/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Informe de Compras",
                 "ruta": "/compras/listar",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Compras x Proveedor",
@@ -121,25 +121,25 @@
                 "item": "Guia Remitente Ventas",
                 "ruta": "/guiasr/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Guia Remitente Compras",
                 "ruta": "/guiasc/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Listar Guias Remitente",
                 "ruta": "/guiasr/listar",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Por Informar a SUNAT",
                 "ruta": "/guias/listarxenviar",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             }
         ]
     },
@@ -175,25 +175,25 @@
                 "item": "Ajuste",
                 "ruta": "/productos/index/5",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "A"
             },
             {
                 "item": "Informe de Ajustes Inv.",
                 "ruta": "/inventarios/indexlistaajustes",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "A"
             },
             {
                 "item": "Visualizar Kardex",
                 "ruta": "/inventarios/kardex",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "A"
             },
             {
                 "item": "Lista Stock x Almacen",
                 "ruta": "/inventarios/indexstockxalmacen",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "A"
             },
             {
                 "item": "Lista Stock Valorizado",
