@@ -617,8 +617,9 @@ class VentasController extends Controller
             "formv" => $request->get("formv"),
             "fechvv" => $request->get("fechvv"),
             "idvenv" => $request->get("idvenv"),
-            // $request->get("subtotal")
-            // $request->get("igv")
+            // $request->get("subtotal"),
+            // $request->get("igv"),
+            // $request->get('')
             "subtotal" => ($ventasexon == 'N' ? round(CarritoService::totalVenta() / floatval($_SESSION['gene_igv']), 2) : round(CarritoService::totalVenta(), 2)),
             "igv" => ($ventasexon == 'N' ?  round(CarritoService::totalVenta() - (CarritoService::totalVenta() / floatval($_SESSION['gene_igv'])), 2) : 0),
             "total" => CarritoService::totalVenta(),
