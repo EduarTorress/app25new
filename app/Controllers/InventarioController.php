@@ -203,7 +203,13 @@ class InventarioController extends Controller
     }
     public function listarexistenciaalmacen(Request $request)
     {
-        $datapost = array('fecha' => $request->get('txtfecha'), 'variaspresentaciones' => 'S', 'ruc' => $_SESSION['gene_nruc'],'tipocosto'=>$request->get("tipocosto"));
+        $datapost = array(
+            'fecha' => $request->get('txtfecha'),
+            'variaspresentaciones' => 'S',
+            'ruc' => $_SESSION['gene_nruc'],
+            'tipocosto' => $request->get("tipocosto"),
+            'cmbalmacen' => $request->get('cmbalmacen')
+        );
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://companiasysven.com/API/listarstockvalorizado.php',
@@ -219,7 +225,6 @@ class InventarioController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response, true);
-        // echo $response;
         // var_dump($data);
         // // $inv = new Inventario();
         // // $inv->dfechaf = $request->get("txtfecha");
@@ -405,8 +410,9 @@ class InventarioController extends Controller
     function listarstockxfechavencimiento(Request $request)
     {
         $txtfecha = $request->get('txtfecha');
+        $cmbalmacen = $request->get('cmbalmacen');
         $inv = new Inventario();
-        $listado = $inv->listarstockxfechavencimiento($txtfecha);
+        $listado = $inv->listarstockxfechavencimiento($txtfecha,$cmbalmacen);
         // nid = ls.idart
         // nstock = ls.stock
         // Sw = 0

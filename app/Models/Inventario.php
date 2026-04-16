@@ -64,8 +64,9 @@ class Inventario extends Modelo
         $listado = $query->fetchAll(PDO::FETCH_ASSOC);
         return $listado;
     }
-    function listarstockxfechavencimiento($fecha)
+    function listarstockxfechavencimiento($fecha, $cmbalmacen)
     {
+        $almacen = ($cmbalmacen == '0' ? " " : " and k.alma='" . $cmbalmacen . "' ");
         $sql = "SELECT a.idart,descri,unid,prod_unid1,prod_equi1,prod_equi2,b.uno AS cant,kar_lote,kar_fvto,z.uno AS stock,dcat AS linea,a.prod_cod1 FROM
                 (SELECT idart, idkar,cant*kar_equi AS uno,CAST(0 AS DECIMAL(10,2)) AS dos,CAST(0 AS DECIMAL(10,2)) AS tres,
                 CAST(0 AS DECIMAL(12,2)) AS cuatro,kar_lote,kar_fvto
@@ -82,7 +83,7 @@ class Inventario extends Modelo
                 SUM(CASE k.alma WHEN 4 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS cuatro
                 FROM fe_kar AS k
                 INNER JOIN fe_rcom AS r ON r.Idauto = k.Idauto
-                WHERE r.fech <= :fecha AND r.Acti <> 'I' AND k.Acti <> 'I' GROUP BY k.idart HAVING uno>0  ORDER BY idart)
+                WHERE r.fech <= :fecha AND r.Acti <> 'I' AND k.Acti <> 'I' " . $almacen . " GROUP BY k.idart HAVING uno>0  ORDER BY idart)
                 AS z ON z.idart=b.idart and prod_acti='A' ORDER BY idart,idkar DESC";
         $query = $this->prepare($sql);
         $query->execute([

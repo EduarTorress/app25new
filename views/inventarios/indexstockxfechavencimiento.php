@@ -1,4 +1,7 @@
 <?php
+
+use App\View\Components\EmpresaComponent;
+
 $this->setLayout('layouts/admin');
 ?>
 <?php
@@ -18,7 +21,11 @@ $this->startSection('contenido');
                                     </div>
                                     <div class="col-auto">
                                         <input type="date" id="txtfecha" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" aria-describedby="">
-                                    </div>
+                                    </div>&nbsp;
+                                    <?php
+                                    $ec = new EmpresaComponent('');
+                                    echo $ec->render();
+                                    ?> &nbsp;
                                     <div class="col-auto">
                                         <button class="btn btn-success btn-sm">Consultar</button>
                                     </div>
@@ -45,6 +52,10 @@ $this->startSection("javascript")
 
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
+        tipousuario = "<?php echo (empty($_SESSION['usua_apro']) ? '0' : $_SESSION['usua_apro']); ?>";
+        if (tipousuario == '1') {
+            $("#cmbAlmacen").attr("disabled", false);
+        }
     }
 
     function search() {
@@ -52,7 +63,8 @@ $this->startSection("javascript")
         $("#btnconsultar").attr('disabled', true);
         axios.get('/inventarios/listarstockxfechavencimiento', {
             "params": {
-                "txtfecha": txtfecha
+                "txtfecha": txtfecha,
+                "cmbalmacen": $("#cmbAlmacen").val()
             }
         }).then(function(respuesta) {
             $("#btnconsultar").attr('disabled', false);

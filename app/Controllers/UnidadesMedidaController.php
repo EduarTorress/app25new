@@ -25,7 +25,7 @@ class UnidadesMedidaController extends Controller
     }
     function lista(Request $request)
     {
-        $lista = $this->um->listar($request->get('cbuscar'));
+        $lista = $this->um->listar('%'.$request->get('cbuscar').'%');
         return view('admin/unidadesmedida/listaunidadesmedida', ['lista' => $lista]);
     }
     function create()

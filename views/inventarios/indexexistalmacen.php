@@ -1,4 +1,7 @@
 <?php
+
+use App\View\Components\EmpresaComponent;
+
 $this->setLayout('layouts/admin');
 ?>
 <?php
@@ -23,12 +26,15 @@ $this->startSection('contenido');
                                         <label class="col-form-label col-form-label-sm" for="">Costo:</label>
                                     </div>
                                     <div class="col-auto">
-                                        
                                         <select name="select" class="form-control form-control-sm" id="tipocosto">
                                             <option value="P" selected>PROMEDIO</option>
                                             <option selected value="C">ULTIMA COMPRA</option>
                                         </select>
-                                    </div>
+                                    </div>&nbsp;
+                                    <?php
+                                    $ec = new EmpresaComponent('');
+                                    echo $ec->render();
+                                    ?> &nbsp;
                                     <div class="col-auto">
                                         <button class="btn btn-success btn-sm">Consultar</button>
                                     </div>
@@ -55,7 +61,10 @@ $this->startSection("javascript")
 
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
-
+        tipousuario = "<?php echo (empty($_SESSION['usua_apro']) ? '0' : $_SESSION['usua_apro']); ?>";
+        if (tipousuario == '1') {
+            $("#cmbAlmacen").attr("disabled", false);
+        }
     }
 
     function search() {
@@ -64,7 +73,8 @@ $this->startSection("javascript")
         axios.get('/inventarios/listarexistenciaalmacen', {
             "params": {
                 "txtfecha": txtfecha,
-                "tipocosto": $("#tipocosto").val()
+                "tipocosto": $("#tipocosto").val(),
+                "cmbalmacen": $("#cmbAlmacen").val()
             }
         }).then(function(respuesta) {
             $("#btnconsultar").attr('disabled', false);

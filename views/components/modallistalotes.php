@@ -10,9 +10,9 @@
                     <table id="tabla_lotesfvto" class="table table-bordered table-hover table-sm small">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Lote</th>
-                                <th>Fecha Vencimiento</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Lote</th>
+                                <th class="text-center">Fecha Vencimiento</th>
                                 <th class="text-center">Opciones</th>
                             </tr>
                         </thead>
