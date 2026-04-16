@@ -203,7 +203,7 @@ class InventarioController extends Controller
     }
     public function listarexistenciaalmacen(Request $request)
     {
-        $datapost = array('fecha' => $request->get('txtfecha'), 'variaspresentaciones' => 'S', 'ruc' => $_SESSION['gene_nruc']);
+        $datapost = array('fecha' => $request->get('txtfecha'), 'variaspresentaciones' => 'S', 'ruc' => $_SESSION['gene_nruc'],'tipocosto'=>$request->get("tipocosto"));
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://companiasysven.com/API/listarstockvalorizado.php',
@@ -219,7 +219,7 @@ class InventarioController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response, true);
-
+        // echo $response;
         // var_dump($data);
         // // $inv = new Inventario();
         // // $inv->dfechaf = $request->get("txtfecha");

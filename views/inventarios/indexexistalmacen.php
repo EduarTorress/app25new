@@ -26,7 +26,7 @@ $this->startSection('contenido');
                                         
                                         <select name="select" class="form-control form-control-sm" id="tipocosto">
                                             <option value="P" selected>PROMEDIO</option>
-                                            <option value="C">ULTIMA COMPRA</option>
+                                            <option selected value="C">ULTIMA COMPRA</option>
                                         </select>
                                     </div>
                                     <div class="col-auto">
@@ -55,6 +55,7 @@ $this->startSection("javascript")
 
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
+
     }
 
     function search() {
