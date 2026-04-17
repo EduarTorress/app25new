@@ -19,9 +19,9 @@
                         <tbody>
                             <?php foreach ($lista as $item) : ?>
                                 <tr>
-                                    <td><?php echo $item['fech_idka'] ?></td>
-                                    <td><?php echo $item['kar_lote'] ?></td>
-                                    <td><?php echo $item['kar_fvto'] ?></td>
+                                    <td class="text-center"><?php echo $item['fech_idka'] ?></td>
+                                    <td class="text-center"><?php echo $item['kar_lote'] ?></td>
+                                    <td class="text-center"><?php echo $item['kar_fvto'] ?></td>
                                     <td class="text-center" id="iniciarlotefvto">
                                         <?php
                                         $parametro1 = $item['fech_idka'];
