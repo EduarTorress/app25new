@@ -90,7 +90,6 @@ function moverCursorFinalTexto(id) {
 //     }
 //   }
 // }
-
 function showtoastrerrors(e) {
   errors = Object.entries(e)
   errors.forEach((element) => toastr.error("Mensaje del Sistema", element[1]));
@@ -138,7 +137,6 @@ function mayusculas(e) {
 }
 function obtenertipobusquedacliente() {
   let vdvto = 0;
-
   if (document.getElementsByName("optradios")[0].checked) {
     document.getElementById("txtbuscar").focus()
     vdvto = 0;
@@ -313,9 +311,7 @@ function consultarclientes() {
           console.log("Tipo de busqueda invalido");
       }
     }
-
   }).catch(function (error) {
-    // 400, 500
     console.log(error);
     toastr.error("Error al cargar el listado", 'Mensaje del Sistema');
   });
@@ -384,7 +380,7 @@ function pulsarentertransportista(e) {
     e.preventDefault();
     var valorbusqueda = document.getElementById("txtbuscarTr").value;
     if (valorbusqueda.length == 0) {
-      toastr.info("Ingrese Dato a Buscar", 'Mensaje del Sistema');
+      toastr.info("Ingrese dato a Buscar", 'Mensaje del Sistema');
       return;
     }
     var cmdbuscar = document.getElementById('cmdbuscartra');
@@ -709,14 +705,11 @@ function focustablacliente(tbl) {
   });
 }
 function focustablaproducto(tbl) {
-
   var w = screen.width;
   responsividad = true;
-
   if (w >= 768) {
     responsividad = false;
   }
-
   $(document).ready(function () {
     var table = $(tbl).DataTable({
       paging: true,
@@ -836,7 +829,6 @@ function obtenerTipoIGV() {
 function validarNumeros(evt) {
   // code is the decimal ASCII representation of the pressed key.
   var code = (evt.which) ? evt.which : evt.keyCode;
-
   if (code == 8) { // backspace.
     return true;
   } else if (code >= 48 && code <= 57) { // is a number.
@@ -861,7 +853,7 @@ function validarRUC() {
   txtruc = document.querySelector("#txtruc").value;
   if (txtruc.length != '') {
     if (txtruc.length < 11) {
-      toastr.error("Dígite correctamente el RUC");
+      toastr.error("Dígite correctamente el RUC", 'Mensaje del Sistema');
       return false;
     }
   } else {
@@ -1095,7 +1087,6 @@ function verdetallecombo(idart) {
 //   // $("#cndoc1").focus();
 //   // $("#cndoc1").select();
 // }
-
 // function test1(ms) {
 //   return new Promise(resolve => setTimeout(resolve, ms));
 // }
