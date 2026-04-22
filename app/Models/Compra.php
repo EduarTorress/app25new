@@ -384,20 +384,21 @@ class Compra extends Modelo
                         $sw = 0;
                         break;
                     }
-                }
-                if (!empty($_SESSION['config']['tipobotica'])) {
-                    $sqlfechas = "CALL ProIngresaFechas(:fechavto,:lote,:idkar)";
-                    $execfechas = $pdo->prepare($sqlfechas);
-                    $fechavto = empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto'];
-                    $lote = ($item['lote']);
-                    $execfechas->execute([
-                        "fechavto" => $fechavto,
-                        "lote" => $lote,
-                        "idkar" => $idkardex,
-                    ]);
-                    if ($execfechas->errorCode() != '00000') {
-                        $sw = 0;
-                        break;
+                    if (!empty($_SESSION['config']['tipobotica'])) {
+                        $sqlfechas = "CALL ProIngresaFechas(:fechavto,:lote,:idkar)";
+                        $execfechas = $pdo->prepare($sqlfechas);
+                        $fechavto = empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto'];
+                        $lote = ($item['lote']);
+                        $execfechas->execute([
+                            "fechavto" => $fechavto,
+                            "lote" => $lote,
+                            "idkar" => $idkardex
+                        ]);
+                        if ($execfechas->errorCode() != '00000') {
+                            $execfechas->debugDumpParams();
+                            $sw = 0;
+                            break;
+                        }
                     }
                 }
             }
@@ -657,6 +658,21 @@ class Compra extends Modelo
                             }
                         }
                     }
+                    if (!empty($_SESSION['config']['tipobotica'])) {
+                        $sqlfechas = "CALL ProEditaFechas(:fechavto,:lote,:idkar)";
+                        $execfechas = $pdo->prepare($sqlfechas);
+                        $fechavto = empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto'];
+                        $lote = ($item['lote']);
+                        $execfechas->execute([
+                            "fechavto" => $fechavto,
+                            "lote" => $lote,
+                            "idkar" => $item['nreg'],
+                        ]);
+                        if ($execfechas->errorCode() != '00000') {
+                            $sw = 0;
+                            break;
+                        }
+                    }
                 } else {
                     if ($item['nreg'] > 0) {
                         $query = $pdo->prepare($sqlactualiza);
@@ -688,21 +704,6 @@ class Compra extends Modelo
                             'lote' => empty($item['lote']) ? '' : $item['lote'],
                             'fechavto' => empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto']
                         ]);
-                        if (!empty($_SESSION['config']['tipobotica'])) {
-                            $sqlfechas = "CALL ProEditaFechas(:fechavto,:lote,:idkar)";
-                            $execfechas = $pdo->prepare($sqlfechas);
-                            $fechavto = empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto'];
-                            $lote = ($item['lote']);
-                            $execfechas->execute([
-                                "fechavto" => $fechavto,
-                                "lote" => $lote,
-                                "idkar" => $item['nreg'],
-                            ]);
-                            if ($execfechas->errorCode() != '00000') {
-                                $sw = 0;
-                                break;
-                            }
-                        }
                     }
                 }
                 $sqlas = "CALL ProActualizaStock(:coda,:nalma,:ccant,'C',:cantequi,:caant)";
