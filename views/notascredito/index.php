@@ -213,7 +213,8 @@ $this->startSection('javascript');
         if (igv === 'I') {
             //Si el IGV está incluido
             let impo = (Number(total_col)).toFixed(2);
-            let valor = (impo / 1.18).toFixed(2);
+            vigv = Number(<?php echo session()->get("gene_igv"); ?>);
+            let valor = (impo / vigv).toFixed(2);
             let nigv = (impo - valor).toFixed(2);
             $("#igv").val(nigv);
             $("#subtotal").val(valor);

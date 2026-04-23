@@ -43,7 +43,6 @@ class CuentasxPagarController extends Controller
         $data = json_decode($response, true);
         return view('cuentasxpagar/listarvtos', ['lista' => $data['result']]);
     }
-
     function indexlistarctasxpagartodo()
     {
         return \view('cuentasxpagar/informes/indexlistarctasxpagartodo', ['titulo' => 'Listar Cuentas x Pagar']);

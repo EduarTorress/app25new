@@ -171,7 +171,7 @@ $this->startSection('javascript');
         xhr.responseType = 'blob';
         xhr.onload = function(e) {
             if (this.status == 200) {
-                toastr.success("Mensaje del Sistema", "Enviado satisfactoriamente");
+                toastr.success("Enviado satisfactoriamente","Mensaje del Sistema");
             }
         };
         xhr.send();

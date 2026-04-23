@@ -269,7 +269,7 @@ $this->startSection('javascript');
         });
         if (!isNaN(total)) {
             $("#txttotal").val(total.toFixed(2));
-            vigv = <?php echo session()->get("gene_igv"); ?>;
+            vigv = Number(<?php echo session()->get("gene_igv"); ?>);
             subtotal = (total / vigv);
             igv = (total - subtotal);
             $("#txtigv").val(igv.toFixed(2));

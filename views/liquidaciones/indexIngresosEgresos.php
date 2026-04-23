@@ -145,7 +145,7 @@ $this->startSection('javascript');
                 }
             });
         } else {
-            toastr.error("Complete los datos correctamente", "Error del sistema");
+            toastr.error("Complete los datos correctamente", "Mensaje del Sistema");
         }
     }
 

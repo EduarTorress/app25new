@@ -579,11 +579,9 @@ $this->startSection('javascript');
             columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 6 : 8; ?>";
             total_col += parseFloat($(this).find('td').eq(columantotal).find("input").val());
         });
-
         let impo = (Number(total_col)).toFixed(2);
         $("#total").val(impo);
         let impor = $("#total").val();
-
         if (isNaN(impor)) {
             $("#total").val("0.00");
         }
@@ -751,7 +749,6 @@ $this->startSection('javascript');
         tr.find("td").eq(5).find("input").attr('id', '3');
         //Buscamos lo que hay dentro de la celda precios
         // var p = document.getElementById('precios_' + i);
-
         //Obtenemos la celda cantidad con función enter
         var cant = document.getElementById("1");
         cant.addEventListener("keypress", function(event) {
@@ -817,7 +814,6 @@ $this->startSection('javascript');
         var prec = _tr.find("td").eq(5).find("input").val();
         columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 6 : 8; ?>";
         var campo = _tr.find("td").eq(columantotal).find("input");
-
         if (clicksubtotal == 0) {
             var subt = parseFloat(cant) * parseFloat(prec);
             if (isNaN(subt)) {
