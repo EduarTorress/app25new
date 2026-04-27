@@ -520,12 +520,12 @@ $this->startSection('javascript');
             return false;
         }
         if (Number(txtvuelto) < 0) {
-            toastr.error("Ingrese el saldo para cancelar", 'Mensaje del sistema');
+            toastr.error("Ingrese el saldo para cancelar", 'Mensaje del Sistema');
             return false;
         }
         pago = Number(txtpago) + Number(txtefectivo);
         if (Number(txtvuelto) > 0) {
-            toastr.error("Está ingresando más de lo debido", 'Mensaje del sistema');
+            toastr.error("Está ingresando más de lo debido", 'Mensaje del Sistema');
             return false;
         }
         return true;
@@ -742,7 +742,7 @@ $this->startSection('javascript');
     function actualizar(cmensaje) {
         Swal.fire({
             title: cmensaje,
-            text: "Se modificará la venta en el sistema. ",
+            text: "Se modificará la venta en el Sistema. ",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
