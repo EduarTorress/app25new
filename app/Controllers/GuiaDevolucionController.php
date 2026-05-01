@@ -99,13 +99,10 @@ class GuiaDevolucionController extends Controller
         # PARA DESCARGAR EL ARCHIVO ES D
         $oimp->totalpeso = $tpeso;
         // $estilo=$_SESSION['estilo'];
-
         $oimp->generarPDFGuiaxdevolucion($rutapdf, 'I');
-
         $_SESSION['datosguia'] = [];
         $_SESSION['detalle'] = [];
     }
-
     function verificarsiyaesta($idart)
     {
         if (CarritoServicegdevolucion::siesta($idart)) {
@@ -114,7 +111,6 @@ class GuiaDevolucionController extends Controller
             return false;
         }
     }
-
     function agregaritem(Request $request)
     {
         $idart = $request->get('txtcodigo');
@@ -155,7 +151,6 @@ class GuiaDevolucionController extends Controller
         $total = number_format(CarritoServicegdevolucion::total(), 2, '.', '');
         $numero_items = str_pad(CarritoServicegdevolucion::numeroItems(), 2, '0', STR_PAD_LEFT);
 
-
         $carritov = session()->get('carritogd', []);
         $cvista = \retornavista('guiasd', 'detalle');
         return view($cvista, [
@@ -165,7 +160,6 @@ class GuiaDevolucionController extends Controller
             'carritogr' => session()->get("carritogd", [])
         ]);
     }
-
     function quitaritem(Request $request)
     {
         $pos = $request->get('indice');
@@ -176,7 +170,6 @@ class GuiaDevolucionController extends Controller
         $cvista = \retornavista('guiasd', 'detalle');
         return view($cvista, ['carritov' => $carritogd, 'total' => $total, 'items' => $numero_items]);
     }
-
     function registrar(Request $request)
     {
         $ovalidar = $this->validar($request);
@@ -196,9 +189,7 @@ class GuiaDevolucionController extends Controller
         $oguia->referencia = $request->get("txtreferencia");
         $oguia->cubigeo2 = $request->get("txtUbigeoproveedor");
         $oguia->brevete = $request->get("txtBrevete");
-
         $detalle = session()->get('carritogd', []);
-
         $rpta = $oguia->grabar($detalle);
         if ($rpta['estado'] == 1) {
             $datosguia = array(
@@ -240,7 +231,6 @@ class GuiaDevolucionController extends Controller
         $this->limpiar();
         return json_encode($rpta);
     }
-
     function limpiar()
     {
         session()->remove('carritogd');
@@ -254,7 +244,6 @@ class GuiaDevolucionController extends Controller
         $numero_items = str_pad(CarritoServicegdevolucion::numeroItems(), 2, '0', STR_PAD_LEFT);
         return view('guiasd/detalle', ['carritov' => $carritov, 'total' => $total, 'items' => $numero_items, 'btn' => $btn]);
     }
-
     function soloItem(Request $request)
     {
         // $itemcarrito = CarritoServicegrcompra::item($request->get('indice'));
@@ -274,7 +263,6 @@ class GuiaDevolucionController extends Controller
             'array' => $producto
         ], 200);
     }
-
     function listarDetalle()
     {
         $carritov = session()->get('carritogd', []);
@@ -284,7 +272,6 @@ class GuiaDevolucionController extends Controller
         // echo $numero_items;
         return view('guiasd/detalle', ['carritov' => $carritov, 'total' => $total, 'items' => $numero_items, 'btn' => $btn]);
     }
-
     // function consultarGuiaPorId($idGuia)
     // {
     //     // session()->set('arrayEliminados',[]);
@@ -344,25 +331,20 @@ class GuiaDevolucionController extends Controller
     //             'activo' => 'A'
     //         );
     //     }
-
     //     session()->set("estadoguia", $aceptado);
     //     $_SESSION['carritogrc'] = $detallegr;
     //     session()->set('guiac', $guiac);
     //     session()->set('proveedor', $proveedor);
     //     session()->set('transportista', $transportista);
-
     //     $cvista = retornavista('guiasc', 'index');
-
     //     $carritov = session()->get('carritogrc', []);
     //     $total = number_format(CarritoServicegdevolucion::total(), 2, '.', '');
     //     $numero_items = str_pad(CarritoServicegdevolucion::numeroItems(), 2, '0', STR_PAD_LEFT);
-
     //     $titulo = 'Actualizar guía';
     //     return view($cvista, [
     //         'titulo' => $titulo, 'carritov' => $carritov, 'total' => $total, 'items' => $numero_items
     //     ]);
     // }
-
     // function actualizar(Request $request)
     // {
     //     $ovalidar = $this->validar($request);
@@ -372,15 +354,12 @@ class GuiaDevolucionController extends Controller
     //     $estadoguia = substr(trim($_SESSION['estadoguia']), 0, 1);
     //     $array = explode(" ", $estadoguia);
     //     $validarphp = new Validator($array);
-
     //     $validarphp->rule("length", $array[0], 0)->message("Esta guia ya fue informada a SUNAT");
-
     //     if (!$validarphp->validate()) {
     //         $data = ["errors" => $validarphp->errors()];
     //         // var_dump($data);
     //         return response()->json($data, 422);
     //     }
-
     //     $oguia = new GuiaCompraRemitente();
     //     $oguia->idauto = $request->get("txtIdauto");
     //     $oguia->dfecha =  $request->get("txtFechaEmision");
@@ -395,18 +374,13 @@ class GuiaDevolucionController extends Controller
     //     $oguia->referencia = $request->get("txtreferencia");
     //     $oguia->cubigeo2 = $request->get("txtUbigeoproveedor");
     //     $oguia->brevete = $request->get("txtBrevete");
-
     //     $detalle = json_decode($request->get("detalle"));
     //     $detalle = json_decode(json_encode($detalle), true);
-
     //     $rpta = $oguia->actualizarguiacompra($detalle);
-
     //     $_SESSION['ndoc'] = "";
     //     $_SESSION['idautov'] = "";
     //     $_SESSION['idautog'] = "";
-
     //     session()->set('carritogd', []);
-
     //     return json_encode($rpta);
     // }
     function validar($request)
@@ -417,16 +391,13 @@ class GuiaDevolucionController extends Controller
         $validar->rule("required", "txtptollegada")->message('Es obligatorio la dirección del Punto de Llegada');
         $validar->rule('required', "txtFechaEmision")->message('Es obligatorio que la fecha de Emisión sea Válida');
         $validar->rule('required', "txtFechaTraslado")->message('Es obligatorio que la fecha de Traslado sea Válida');
-
         // $validar->rule('dateBefore', "txtFechaTraslado", "txtFechaEmision")->message("La fecha de traslado no puede ser antes que la fecha de emisión");
         if (!$validar->validate()) {
             $data = ["errors" => $validar->errors(), "estado" => 0];
             return $data;
         }
-
         $a = new DateTime($request->get("txtFechaEmision"));
         $b = new DateTime($request->get("txtFechaTraslado"));
-
         if ($a > $b) {
             $data = ["errors" => ["La fecha de emisión no puede ser mayor a la de traslado"], "estado" => 0];
             return $data;
