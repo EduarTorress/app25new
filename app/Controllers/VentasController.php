@@ -204,7 +204,6 @@ class VentasController extends Controller
             "detav" => $deta,
             "nitemsv" => 0
         );
-
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
         $rpta = $venta->actualizarOVenta($cabecera, $detalle);
@@ -1134,7 +1133,6 @@ class VentasController extends Controller
                 return $data;
             }
         }
-
         $venta = new Ventas();
         $cabecera = array(
             "idautov" => $request->get("idautov"),
@@ -1344,20 +1342,17 @@ class VentasController extends Controller
                 }
             }
         }
-
         $crpta = session()->get("mensajesunat", '');
         if (substr($crpta, 0, 1) == '0') {
             $data = ["errors" => ['Este documento ya fue informado a SUNAT. No es posible actualizar'], "estado" => 0];
             return $data;
         }
-
         if ($request->get('tdocv') == '03') {
             if ((floatval($request->get('total')) > 700) && (empty($request->get('txtdnicliente')))) {
                 $data = ["errors" => ['No se puede registrar la venta, porque el cliente no tiene DNI'], "estado" => 0];
                 return $data;
             }
         }
-
         $data = ["errors" => ["ok"], "estado" => 1];
         return $data;
     }
@@ -1479,9 +1474,7 @@ class VentasController extends Controller
         );
 
         $_SESSION['carritov'] = $detalle;
-
         $registro = $venta->grabarVentaGeneral($cabecera);
-
         $pedido = new Pedido();
         $cambestped = $pedido->cambiarEstado($request->get("idautop"));
 
@@ -1602,7 +1595,6 @@ class VentasController extends Controller
         if ($_SESSION['config']['validarstock'] == 'S') {
             $validar->rule("max", "txtcantidad", $stock)->message("Stock no disponible");
         }
-
         // $validar->rule("min", "txtprecio", $preciomin)->message("Precio no permitido");
         $validar->labels([
             'precio' => 'txtprecio',
@@ -1613,7 +1605,6 @@ class VentasController extends Controller
             return response()->json($data, 422);
         }
         $producto = array();
-
         $producto = array(
             'coda' => $request->get("txtcodigo"),
             'descri' => $request->get("txtdescripcion"),
