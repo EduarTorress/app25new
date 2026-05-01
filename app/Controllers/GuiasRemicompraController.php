@@ -125,7 +125,6 @@ class GuiasRemicompraController extends Controller
     //     $oimp->totalpeso = $tpeso;
     //     $oimp->generarPDFGuiaRemitente($rutapdf);
     // }
-
     function enviarsunat(Request $request)
     {
         $oguia = new GuiaRemitente();
@@ -258,7 +257,6 @@ class GuiasRemicompraController extends Controller
                 $oimp->constancia = "Constancia";
                 $oimp->rucremitente = $fila['rucproveedor'];
                 $oimp->remitente = $fila['proveedor'];
-
                 $rutapdf = 'descargas/' . $fila['ndoc'] . '.pdf';
             }
             $i++;
@@ -267,13 +265,10 @@ class GuiasRemicompraController extends Controller
         # PARA DESCARGAR EL ARCHIVO ES D
         $oimp->totalpeso = $tpeso;
         // $estilo=$_SESSION['estilo'];
-
         $oimp->generarPDFGuiaRemitenteCompra($rutapdf, 'I');
-
         $_SESSION['datosguia'] = [];
         $_SESSION['detalle'] = [];
     }
-
     function verificarsiyaesta($idart)
     {
         if (CarritoServicegrcompra::siesta($idart)) {
@@ -282,7 +277,6 @@ class GuiasRemicompraController extends Controller
             return false;
         }
     }
-
     function agregaritem(Request $request)
     {
         $idart = $request->get('txtcodigo');
@@ -323,7 +317,6 @@ class GuiasRemicompraController extends Controller
         $total = number_format(CarritoServicegrcompra::total(), 2, '.', '');
         $numero_items = str_pad(CarritoServicegrcompra::numeroItems(), 2, '0', STR_PAD_LEFT);
 
-
         $carritov = session()->get('carritogc', []);
         $cvista = \retornavista('guiasc', 'detalle');
         return view($cvista, [
@@ -333,7 +326,6 @@ class GuiasRemicompraController extends Controller
             'carritogr' => session()->get("carritogc", [])
         ]);
     }
-
     function quitaritem(Request $request)
     {
         $pos = $request->get('indice');
@@ -344,7 +336,6 @@ class GuiasRemicompraController extends Controller
         $cvista = \retornavista('guiasc', 'detalle');
         return view($cvista, ['carritov' => $carritogc, 'total' => $total, 'items' => $numero_items]);
     }
-
     function registrar(Request $request)
     {
         $ovalidar = $this->validar($request);
@@ -364,9 +355,7 @@ class GuiasRemicompraController extends Controller
         $oguia->referencia = $request->get("txtreferencia");
         $oguia->cubigeo2 = $request->get("txtUbigeoproveedor");
         $oguia->brevete = $request->get("txtBrevete");
-
         $detalle = session()->get('carritogc', []);
-
         $rpta = $oguia->Grabarguiacompra($detalle);
         if ($rpta['estado'] == 1) {
             $datosguia = array(
@@ -406,7 +395,6 @@ class GuiasRemicompraController extends Controller
         $this->limpiar();
         return json_encode($rpta);
     }
-
     function limpiar()
     {
         session()->remove('carritogc');
@@ -420,7 +408,6 @@ class GuiasRemicompraController extends Controller
         $numero_items = str_pad(CarritoServicegrcompra::numeroItems(), 2, '0', STR_PAD_LEFT);
         return view('guiasc/detalle', ['carritov' => $carritov, 'total' => $total, 'items' => $numero_items, 'btn' => $btn]);
     }
-
     function soloItem(Request $request)
     {
         // $itemcarrito = CarritoServicegrcompra::item($request->get('indice'));
@@ -440,7 +427,6 @@ class GuiasRemicompraController extends Controller
             'array' => $producto
         ], 200);
     }
-
     function listarDetalle()
     {
         $carritov = session()->get('carritogc', []);
@@ -450,7 +436,6 @@ class GuiasRemicompraController extends Controller
         // echo $numero_items;
         return view('guiasc/detalle', ['carritov' => $carritov, 'total' => $total, 'items' => $numero_items, 'btn' => $btn]);
     }
-
     function consultarGuiaPorId($idGuia)
     {
         // session()->set('arrayEliminados',[]);
@@ -532,7 +517,6 @@ class GuiasRemicompraController extends Controller
             'items' => $numero_items
         ]);
     }
-
     function actualizar(Request $request)
     {
         $ovalidar = $this->validar($request);
@@ -550,7 +534,6 @@ class GuiasRemicompraController extends Controller
             // var_dump($data);
             return response()->json($data, 422);
         }
-
         $oguia = new GuiaCompraRemitente();
         $oguia->idauto = $request->get("txtIdauto");
         $oguia->dfecha =  $request->get("txtFechaEmision");
@@ -574,9 +557,7 @@ class GuiasRemicompraController extends Controller
         $_SESSION['ndoc'] = "";
         $_SESSION['idautov'] = "";
         $_SESSION['idautog'] = "";
-
         session()->set('carritogc', []);
-
         return json_encode($rpta);
     }
     function validar($request)
@@ -587,16 +568,13 @@ class GuiasRemicompraController extends Controller
         $validar->rule("required", "txtptollegada")->message('Es obligatorio la dirección del Punto de Llegada');
         $validar->rule('required', "txtFechaEmision")->message('Es obligatorio que la fecha de Emisión sea Válida');
         $validar->rule('required', "txtFechaTraslado")->message('Es obligatorio que la fecha de Traslado sea Válida');
-
         // $validar->rule('dateBefore', "txtFechaTraslado", "txtFechaEmision")->message("La fecha de traslado no puede ser antes que la fecha de emisión");
         if (!$validar->validate()) {
             $data = ["errors" => $validar->errors(), "estado" => 0];
             return $data;
         }
-
         $a = new DateTime($request->get("txtFechaEmision"));
         $b = new DateTime($request->get("txtFechaTraslado"));
-
         if ($a > $b) {
             $data = ["errors" => ["La fecha de emisión no puede ser mayor a la de traslado"], "estado" => 0];
             return $data;
@@ -613,7 +591,6 @@ class GuiasRemicompraController extends Controller
         $data = ["errors" => "ok", "estado" => 1];
         return $data;
     }
-
     function listarcomprastocanje(Request $request)
     {
         $venta = new Compra();

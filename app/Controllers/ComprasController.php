@@ -731,25 +731,19 @@ class ComprasController extends Controller
                 $validar->rule('regex', $cserie, '/^[A-Z]{1,1}[D|N0-9]{1,1}[0-9]{2,2}$/');
                 break;
         }
-
         if (!$validar->validate()) {
             $data = ["errors" => $validar->errors()];
             return response()->json($data, 422);
         }
-
         if (empty($_SESSION["carritoc"])) {
             return response()->json(['message' => 'Se requiere productos para registrar la compra'], 422);
         }
-
-
         if (!validarrucregistro($request->get("txtrucproveedor"), $request->get("tdoc"))) {
             return response()->json(['errors' => 'No se puede hacer un comprobante electronico a la misma empresa'], 422);
         }
-
         if (empty($_SESSION['checknodescontarstock'])) {
             $_SESSION['checknodescontarstock'] = 'false';
         }
-
         $compra = new Compra();
         $var =  $request->get('deta');
         $deta = (isset($var)) ? $request->get('deta') : "";
@@ -962,12 +956,10 @@ class ComprasController extends Controller
         $validar->rule("required", "idprov");
         $validar->rule("required", "cndoc1");
         $validar->rule("required", "cndoc2");
-
         if (!$validar->validate()) {
             $data = ["errors" => $validar->errors()];
             return response()->json($data, 422);
         }
-
         $datosregistro = [
             'idautocompra' => $request->get('idautocompra'),
             'idprov' => $request->get('idprov'),
@@ -1079,14 +1071,11 @@ class ComprasController extends Controller
         $nc->prov = $request->get("razo");
         $nc->nidprov = $request->get("idprov");
         $nc->nitems = count($detalle);
-
-
         $nc->ntotal = $request->get("total");
         $nc->nidauto = $request->get("idauto");
         $nc->dfechavv = $request->get("fechvv");
         $nc->nalma = $_SESSION['idalmacen'];
         $nc->nidcodt = $_SESSION['idalmacen'];
-
         $rpta = $nc->registrarncporcompra($detalle);
         if ($rpta['estado'] == "1") {
             return response()->json(['message' => $rpta['mensaje'], 'ndoc' => $rpta['ndoc']], 200);
