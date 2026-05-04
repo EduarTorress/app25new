@@ -11,7 +11,6 @@ use Valitron\Validator;
 class CategoriaController extends Controller
 {
     private $categoria;
-    private $grupo;
     public function __construct()
     {
         $middleware = new AuthAdminMiddleware();

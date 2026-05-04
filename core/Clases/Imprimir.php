@@ -298,7 +298,6 @@ class Imprimir
             $pdf->cell(50, 4, $bc['number'], 1, 1, 'C', 0);
         }
 
-
         $pdf->SetY($y);
 
         $pdf->SetFont('Tahomab', '', 7);
@@ -385,7 +384,6 @@ class Imprimir
         $pdf = new FPDF();
         $cletras = new Cletras();
         $pdf->AddPage('P', 'A4');
-
         $i = 1;
         if ($_SERVER['SERVER_NAME'] == 'app25.test') {
             $logo = 'logos/' . trim($this->rucempresa) . '/logo.jpg';
@@ -402,19 +400,16 @@ class Imprimir
         $pdf->setx(153);
         $pdf->cell(50, 6, "RUC   " . $this->rucempresa, 'LRT', 1, 'C', 0);
         $pdf->SetFont('Arial', '', 6);
-
         $pdf->setx(60);
         $current_y = $pdf->GetY();
         $current_x = $pdf->GetX();
         $cell_width = 106;
         $pdf->Multicell(85, 3, trim($this->direccionempresa), '', '', false);
         $pdf->SetXY($current_x + $cell_width, $current_y);
-
         $pdf->setx(153);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->cell(50, 6, $this->tipocomprobante, 'LR', 1, 'C', 0);
         $pdf->cell(100);
-
         $pdf->setx(60);
         $pdf->SetFont('Arial', '', 6);
         $current_y = $pdf->GetY();
@@ -422,15 +417,12 @@ class Imprimir
         $cell_width = 106;
         $pdf->Multicell(100, 4, trim(session()->get("gene_descrii")), '', '', false);
         $pdf->SetXY($current_x + $cell_width, $current_y);
-
         $pdf->SetFont('Arial', 'B', 10);
-
         $pdf->setx(153);
         $pdf->cell(50, 6, $this->numero, 'BLR', 0, 'C', 0);
         $pdf->ln(3);
         $pdf->SetAutoPageBreak('auto', 2);
         $pdf->SetDisplayMode(75);
-
         $pdf->SetFont('Arial', '', 6);
         $pdf->setx(60);
         $current_y = $pdf->GetY();
@@ -438,7 +430,6 @@ class Imprimir
         $cell_width = 106;
         $pdf->Multicell(100, 4, 'CORREO: ' . trim(session()->get("gene_correo")), '', '', false);
         $pdf->SetXY($current_x + $cell_width, $current_y);
-
         $pdf->Ln();
         $pdf->setx(60);
         $current_y = $pdf->GetY();
@@ -446,7 +437,6 @@ class Imprimir
         $cell_width = 106;
         $pdf->Multicell(100, 4, 'CELULAR: ' . trim(session()->get("gene_fono")), '', '', false);
         $pdf->SetXY($current_x + $cell_width, $current_y);
-
         $pdf->Ln(10);
         $pdf->SetFont('Arial', 'B', 6);
         $pdf->cell(100, 5, 'RUC: ' . $this->ruccliente);
@@ -476,7 +466,6 @@ class Imprimir
         $pdf->SetFont('Arial', 'B', 6);
         $pdf->SetFillColor(240, 240, 240);
         $pdf->SetTextColor(0);
-
         $pdf->cell(8, 6, 'ITEM', 1, 0, 'C', true);
         $pdf->cell(15, 6, 'CANTIDAD', 1, 0, 'C', true);
         $pdf->cell(18, 6, 'U.M.', 1, 0, 'C', true);
@@ -501,7 +490,6 @@ class Imprimir
             $pdf->cell(22, 6, number_format($fila['subtotal'], 2, '.', ','), 1, 1, 'R', 0);
             $i++;
         }
-
         $pdf->ln();
         $pdf->SetFont('Arial', 'B', 7);
         $this->importeletras = $cletras->ValorEnLetras($this->total, $this->moneda === 'SOLES' ? 'SOLES' : 'DOLARES');
@@ -2403,14 +2391,12 @@ class Imprimir
             $i++;
         }
         $pdf->ln();
-
         $ruta_qr = 'codigoqr' . '.png';
         $texto_qr = $this->urlguiasunat . $this->qrsunat;
         $qr = QrCode::create($texto_qr);
         $writer = new PngWriter();
         $writer->write($qr)->saveToFile($ruta_qr);
         $pdf->Image($ruta_qr, 10, $pdf->gety(), 20, 20);
-
         $pdf->SetX(148);
         $pdf->SetFont('Tahoma', '', 7);
         $pdf->cell(25, 6, 'TOTAL PESO KG.', 1, 0, 'R', 0);

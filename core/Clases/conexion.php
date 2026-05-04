@@ -41,10 +41,8 @@ class conexion
     }
     public function getData($sql)
     {
-
         $data = array();
         $result = $this->conexion->query($sql);
-
         $error = $this->conexion->errorInfo();
         if ($error[0] === "00000") {
             $result->execute();
@@ -62,7 +60,6 @@ class conexion
     {
         $result = $this->conexion->query($sql);
         $error = $this->conexion->errorInfo();
-
         if ($error[0] === "00000") {
             $result->execute();
             return $result->rowCount();
@@ -72,11 +69,8 @@ class conexion
     }
     function getDataSingle($sql)
     {
-
         $result = $this->conexion->query($sql);
-
         $error = $this->conexion->errorInfo();
-
         if ($error[0] === "00000") {
             $result->execute();
             if ($result->rowCount() > 0) {
@@ -87,14 +81,10 @@ class conexion
         }
         return null;
     }
-
-
     function getDataSingleProp($sql, $prop)
     {
-
         $result = $this->conexion->query($sql);
         $error = $this->conexion->errorInfo();
-
         if ($error[0] === "00000") {
             $result->execute();
             if ($result->rowCount() > 0) {
@@ -121,10 +111,8 @@ class conexion
     }
     function executeInstruction($sql)
     {
-
         $result = $this->conexion->query($sql);
         $error = $this->conexion->errorInfo();
-
         if ($error[0] === "00000") {
             $result->execute();
             return $result->rowCount() > 0;
@@ -132,12 +120,10 @@ class conexion
             throw new Exception($error[2]);
         }
     }
-
     function close()
     {
         $this->pdo = null;
     }
-
     function getLastId()
     {
         return $this->conexion->lastInsertId();
@@ -150,14 +136,12 @@ class conexion
         }
         return true;
     }
-
     public function insertTransaction($sql, $data)
     {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($data);
         $this->lastinsertid = $this->pdo->lastInsertId();
     }
-
     public function submitTransaction()
     {
         try {
@@ -166,7 +150,6 @@ class conexion
             $this->pdo->rollBack();
             return false;
         }
-
         return true;
     }
 }

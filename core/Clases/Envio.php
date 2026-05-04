@@ -102,19 +102,15 @@ class Envio
             left join fe_unidades as u on u.unid_codu=a.unid, fe_gene as v
             where r.idauto=:nidauto and r.acti='A' and k.acti='A' order by idkar";
         }
-
         $ncon = new conexion();
         $st = $ncon->conectar()->prepare($consulta);
         $st->bindParam(":nidauto", $nidauto);
         $st->setFetchMode(PDO::FETCH_ASSOC);
         $st->execute();
-
-
         return $st;
     }
     public function ActualizaenvioCpe($condicion)
     {
-
         if ($condicion == 'T') {
             $csql = "update fe_rcom set rcom_fecd=curdate(),rcom_arch=:nxml,rcom_xml=:xml,rcom_cdr=:cdr,rcom_mens=:crpta where idauto=:idauto";
             $ncon = new conexion();
@@ -217,13 +213,11 @@ class Envio
             $pdo = $ncon->conectar();
             $pdo->beginTransaction();
             foreach ($resumen as $f) {
-
                 $ninaf = 0;
                 $cmensaje = "";
                 $chash = "";
                 $st = $pdo->prepare($sql);
                 // $st->prepare($sql);
-
                 $st->bindparam(":dfecha", $f['fech']);
                 $st->bindparam(":ctdoc", $f['tdoc']);
                 $st->bindparam(":cserie", $f['serie']);
@@ -260,7 +254,6 @@ class Envio
     }
     public function ObtenerEmisor($df)
     {
-
         $sql = 'SELECT nruc,empresa,gene_nres,gene_nbaj,ptop,ubigeo,distrito,ciudad,gene_csol,gene_usol,gene_cert,clavecertificado FROM fe_gene WHERE idgene=1';
         $ncon = new conexion();
         $st = $ncon->conectar()->prepare($sql);
@@ -382,7 +375,6 @@ class Envio
             // echo "</br>" . "No hay Boletas para enviar " . $this->empresa . ' ' . $df;
             return $respuesta;
         }
-
         $this->sql = "SELECT serie,tdoc,min(numero) as desde,max(numero) as hasta,sum(valor) as valor,SUM(rcom_exon) as exon,
         sum(igv) as igv,sum(impo) as impo
         from(select
@@ -430,14 +422,12 @@ class Envio
                 'grati'    =>    0
             );
         }
-
         $sw = 1;
         $cmensaje = "";
         foreach ($resumen as $row) {
             $cserie = $row['serie'];
             $nimpo = $row['impo'];
             $dfecha = $row['fech'];
-
             $this->sql = "select resu_tick,resu_impo FROM fe_resboletas WHERE
             resu_fech=:df AND resu_acti='A' AND LEFT(resu_tick,1)<>'' AND LEFT(resu_serie,4)=:cserie
             AND resu_impo=:nimpo ";

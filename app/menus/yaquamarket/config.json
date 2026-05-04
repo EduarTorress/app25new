@@ -9,6 +9,7 @@
       "multiigv": "N",
       "codigobarras": "S",
       "usuarioxalmacen": "S",
-      "productoxsucu": "S"
+      "productoxsucu": "S",
+      "precioeditable":"S"
    }
 ]
