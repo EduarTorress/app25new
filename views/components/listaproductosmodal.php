@@ -13,8 +13,8 @@
             <!-- <th class="">Costo sin IGV</th> -->
             <!-- <th>P. Menor</th>
             <th>P. Mayor</th> -->
-            <th id="headersysven">Precios</th>
-            <th id="headersysven" class="text-center">Agregar</th>
+            <th id="headersysven" class="text-center">Precios</th>
+            <th id="headersysven" class="text-center">Agregar </th>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +28,92 @@
         $i = -1;
         foreach ($lista1 as $k => $items) : ?>
             <tr>
-                <td style=" font-size: 10px;"><?php echo substr($items[0]['descri'], 0, 60); ?></td>
+                <?php
+                $parametro1 = str_replace("'", '"', $items[0]['descri']);
+                $parametro2 = $items[0]['idart'];
+                $parametro3 = $items[0]['unid'];
+                $parametro4 = $items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'];
+                $parametro5 = $items[0]['pre1'];
+                $parametro6 = $items[0]['pre2'];
+                $parametro7 = $items[0]['pre3'];
+                $parametro9 = $items[0]['uno'];
+                $parametro10 = $items[0]['dos'];
+                $parametro11 = $items[0]['tre'];
+                $tipro = $items[0]['tipro'];
+                $idmarca = $items[0]['idmarca'];
+                $idgrupo = $items[0]['idgrupo'];
+                $idcat = $items[0]['idcat'];
+                $prod_cod1 = str_replace("'", '"', $items[0]['prod_cod1']);
+                $peso = $items[0]['peso'];
+                $idflete = $items[0]['idflete'];
+                $prod_smin = $items[0]['prod_smin'];
+                $prod_smax = $items[0]['prod_smax'];
+                $costocigv = $items[0]['costocigv'];
+                $costosigv = $items[0]['prec'];
+                $costo = $items[0]['costo'];
+                $flete = $items[0]['flete'];
+                $tmon = $items[0]['tmon'];
+                $prod_come = $items[0]['prod_come'];
+                $prod_comc = $items[0]['prod_comc'];
+                $prod_uti1 = $items[0]['prod_uti1'];
+                $prod_uti2 = $items[0]['prod_uti2'];
+                $prod_uti3 = $items[0]['prod_uti3'];
+                $prod_tigv = $items[0]['prod_tigv'];
+                $txtcoda1 = str_replace("'", '"', $items[0]['txtcoda1']);
+                $j = 0;
+                $presentaciones = [];
+                foreach ($items as $item) {
+                    $presentaciones[$j] = array(
+                        'epta_idep' => $item['epta_idep'],
+                        'pres_desc' => $item['pres_desc'],
+                        'epta_cant' => $item['epta_cant'],
+                        'epta_prec' => $item['epta_prec'],
+                    );
+                    $j += 1;
+                }
+                $parametro12 = json_encode($presentaciones);
+                $parametros = compact(
+                    'parametro1',
+                    'parametro2',
+                    'parametro3',
+                    'parametro4',
+                    'parametro5',
+                    'parametro6',
+                    'parametro7',
+                    'idmarca',
+                    'idgrupo',
+                    'tipro',
+                    'idcat',
+                    'prod_cod1',
+                    'peso',
+                    'idflete',
+                    'prod_smin',
+                    'prod_smax',
+                    'costosigv',
+                    'costocigv',
+                    'flete',
+                    'tmon',
+                    'prod_come',
+                    'prod_comc',
+                    'prod_uti1',
+                    'prod_uti2',
+                    'prod_uti3',
+                    'parametro9',
+                    'parametro10',
+                    'parametro11',
+                    'parametro12',
+                    'costo',
+                    'txtcoda1',
+                    'prod_tigv'
+                );
+                $cadena_json = json_encode($parametros);
+                $tipousuario = $_SESSION['usua_apro'];
+                $evento = "";
+                if ($tipousuario == '1') {
+                    $evento = "modaldatosproductoxid(" . $cadena_json . ")";
+                }
+                ?>
+                <td style=" font-size: 10px;" ondblclick='<?php echo $evento; ?>'><?php echo substr($items[0]['descri'], 0, 60); ?></td>
                 <!-- <td><?php echo $items[0]['unid'] ?></td> -->
                 <?php foreach ($tds as $t) : ?>
                     <th class="text-end" id="<?php echo $t; ?>"><?php echo $items[0]["$t"]; ?></th>
@@ -45,9 +130,9 @@
                 </td>
                 <td class="text-center" id="iniciarp">
                     <?php
-                    $descri=str_replace("'",' ',$items[0]['descri']);
-                    $descri=str_replace('"',' ',$descri);
-                    $parametro1 =$descri;
+                    $descri = str_replace("'", ' ', $items[0]['descri']);
+                    $descri = str_replace('"', ' ', $descri);
+                    $parametro1 = $descri;
                     $parametro2 = $items[0]['idart'];
                     $parametro3 = $items[0]['unid'];
                     $parametro4 = $items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'] + $items[0]['cua'];
@@ -87,7 +172,7 @@
     </tbody>
 </table>
 <script>
-$(document).ready(function() {
-    focustablaproducto('#tabla_productos');
-});
+    $(document).ready(function() {
+        focustablaproducto('#tabla_productos');
+    });
 </script>

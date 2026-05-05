@@ -22,32 +22,6 @@ class ProductoController extends Controller
         $this->registerMiddleware($middleware);
         $this->producto = new Producto();
     }
-    function buscarProductoModal(Request $request)
-    {
-        $cgr = session()->get('carritogrr', 0);
-        if ($cgr != 0) {
-            $_SESSION['carritogr'] = $cgr;
-        }
-
-        $cgc = session()->get('carritogrc', 0);
-        if ($cgc != 0) {
-            $_SESSION['carritogc'] = $cgc;
-        }
-
-        if (empty($_SESSION['sucursales'])) {
-            $modelo = new Modelo();
-            $modelo->cargarsucursalesindex();
-        }
-
-        $abuscar = $request->get('cbuscar');
-        $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
-        $nid = intval($request->get('cbuscar'));
-        $nd = Tipodecambio::dtipocambiosistema();
-        \session()->set('busquedaPV', $abuscar);
-        $lista = $this->producto->BuscarProductos($abuscar, $nd, $opt, $nid);
-        \session()->set("listaPV", $lista);
-        return view('components/listaproductosmodal', ['lista' => $lista]);
-    }
     function index($opt)
     {
         $total = number_format(CarritoService::total(), 2, '.', '');
@@ -73,6 +47,21 @@ class ProductoController extends Controller
         }
         return view($vista, ['titulo' => $ctitulo, "totalpedido" => $total]);
     }
+    function buscarProductoModal(Request $request)
+    {
+        if (empty($_SESSION['sucursales'])) {
+            $modelo = new Modelo();
+            $modelo->cargarsucursalesindex();
+        }
+        $abuscar = $request->get('cbuscar');
+        $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
+        $nid = intval($request->get('cbuscar'));
+        $nd = Tipodecambio::dtipocambiosistema();
+        \session()->set('busquedaPV', $abuscar);
+        $lista = $this->producto->BuscarProductos($abuscar, $nd, $opt, $nid);
+        \session()->set("listaPV", $lista);
+        return view('components/listaproductosmodal', ['lista' => $lista]);
+    }
     function buscar(Request $request)
     {
         $abuscar = $request->get('cbuscar');
@@ -97,16 +86,16 @@ class ProductoController extends Controller
         \session()->set("lista", $lista);
         return view($cvista, ['lista' => $lista]);
     }
-    function buscarproductoparacombo(Request $request)
-    {
-        $abuscar = $request->get('cbuscar');
-        $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
-        $nid = intval($request->get('cbuscar'));
-        $nd = Tipodecambio::dtipocambiosistema();
-        $lista = $this->producto->BuscarProductos($abuscar, $nd, $opt, $nid);
-        $cvista = \retornavista('components/', 'listaproductomodalparacombo');
-        return view($cvista, ['lista' => $lista]);
-    }
+    // function buscarproductoparacombo(Request $request)
+    // {
+    //     $abuscar = $request->get('cbuscar');
+    //     $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
+    //     $nid = intval($request->get('cbuscar'));
+    //     $nd = Tipodecambio::dtipocambiosistema();
+    //     $lista = $this->producto->BuscarProductos($abuscar, $nd, $opt, $nid);
+    //     $cvista = \retornavista('components/', 'listaproductomodalparacombo');
+    //     return view($cvista, ['lista' => $lista]);
+    // }
     function create()
     {
         $titulo = 'Registrar Producto';

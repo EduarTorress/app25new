@@ -1330,6 +1330,45 @@ $this->startSection('javascript');
         });
     }
 
+    function modaldatosproductoxid(producto) {
+        datos = new FormData();
+        datos.append("idart", producto.parametro2);
+        datos.append("idcat", producto.idcat);
+        datos.append("idmar", producto.idmarca);
+        datos.append("unid", producto.parametro3);
+        datos.append("idgrupo", producto.idgrupo);
+        datos.append("descri", producto.parametro1);
+        datos.append('codigo', producto.prod_cod1);
+        datos.append('peso', producto.peso);
+        datos.append('idflete', producto.idflete);
+        datos.append('prod_smin', producto.prod_smin);
+        datos.append('prod_smax', producto.prod_smax);
+        datos.append('costocigv', producto.costocigv);
+        datos.append('costosigv', producto.costosigv);
+        datos.append('flete', producto.flete);
+        datos.append("prod_uti1", producto.prod_uti1)
+        datos.append("prod_uti2", producto.prod_uti2)
+        datos.append("prod_uti3", producto.prod_uti3)
+        datos.append("tmon", producto.tmon);
+        datos.append("pre1", producto.parametro5);
+        datos.append("pre2", producto.parametro6);
+        datos.append("pre3", producto.parametro7);
+        datos.append("tipop", producto.tipro);
+        datos.append("txtcoda1", producto.txtcoda1);
+        <?php if (!empty($_SESSION['config']['ventasexon'])) : ?>
+            datos.append("prod_tigv", producto.prod_tigv);
+        <?php endif; ?>
+        // console.log(Object.fromEntries(datos));
+        axios.post('/productos/consultarProductoPorID/', datos)
+            .then(function(respuesta) {
+                $('#modal-mantenimiento').html(respuesta.data);
+                $("#modal-mantenimiento").modal('show');
+                $("#btnagregarpresentaciones").css("display", "block");
+            }).catch(function(error) {
+                toastr.error('Error al cargar el modal ' + error, 'Mensaje del sistema');
+            });
+    }
+
     //Eventos
     var input = document.getElementById('cndoc2');
     input.addEventListener('input', function() {

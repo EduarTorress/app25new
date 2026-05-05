@@ -135,7 +135,6 @@ $app->router->get("/compras/listarcomprasmodificadas", [\App\Controllers\Compras
 
 $app->router->post('/compras/importarcompraxarchivo', [\App\Controllers\ComprasController::class, 'importarcompraxarchivo']);
 
-
 #rutas de notas de crédito compras
 $app->router->get('/compras/indexnotascredito', [\App\Controllers\ComprasController::class, "indexnotascredito"]);
 $app->router->post('/compras/registrarnotacredito', [\App\Controllers\ComprasController::class, "registrarnotacredito"]);
@@ -148,7 +147,6 @@ $app->router->get('/ocompra/getvaluedolar', [\App\Controllers\ValorDolarControll
 $app->router->post('/ocompras/registrar', [\App\Controllers\ComprasController::class, 'registrarocompra']);
 $app->router->post('/ocompras/modificar', [\App\Controllers\ComprasController::class, 'modificarocompra']);
 $app->router->get('/ocompras/buscarcompra/{id}', [\App\Controllers\ComprasController::class, 'buscarOCompraPorID']);
-
 
 #rutas de ordenes de compra
 $app->router->get('/ordenescompra/index', [\App\Controllers\OrdenCompraController::class, 'index']);
@@ -184,7 +182,6 @@ $app->router->post('/cobranzas/registrarcobranzas', [\App\Controllers\CobranzasC
 $app->router->get('/cobranzas/listarestadocuenta', [\App\Controllers\CobranzasController::class, 'listarestadocuenta']);
 $app->router->get('/cobranzas/consultardetalleventa', [\App\Controllers\CobranzasController::class, 'consultardetalleventa']);
 
-
 #rutas para cuentas por pagar
 $app->router->get('/pagosproveedor/index', [\App\Controllers\CuentasxPagarController::class, 'index']);
 $app->router->get('/pagosproveedor/listarvtos', [\App\Controllers\CuentasxPagarController::class, 'listarvtos']);
@@ -192,7 +189,6 @@ $app->router->post('/pagosproveedor/registrar', [\App\Controllers\CuentasxPagarC
 $app->router->get('/pagosproveedor/listarestadocuenta', [\App\Controllers\CuentasxPagarController::class, 'listarestadocuenta']);
 $app->router->get('/pagosproveedor/indexlistarctasxpagartodo', [\App\Controllers\CuentasxPagarController::class, 'indexlistarctasxpagartodo']);
 $app->router->get('/pagosproveedor/listartodasctasxpagar', [\App\Controllers\CuentasxPagarController::class, 'listartodasctasxpagar']);
-
 
 #rutas de guias transportista
 $app->router->get('/guias/index', [\App\Controllers\GuiasController::class, 'index']);
@@ -249,7 +245,6 @@ $app->router->get('/guiasc/limpiar', [\App\Controllers\GuiasRemicompraController
 $app->router->get('/guiasc/listarcomprastocanje', [\App\Controllers\GuiasRemicompraController::class, 'listarcomprastocanje']);
 $app->router->get('/guiasc/listardetallecompratocanje', [\App\Controllers\GuiasRemicompraController::class, 'listardetallecompratocanje']);
 
-
 #rutas de guias x devolucion
 $app->router->get('/guiasd/index', [\App\Controllers\GuiaDevolucionController::class, 'index']);
 $app->router->post('/guiasd/registrar', [\App\Controllers\GuiaDevolucionController::class, 'registrar']);
@@ -284,7 +279,6 @@ $app->router->get('/inventarios/listaajustes', [\App\Controllers\InventarioContr
 $app->router->get('/inventarios/verdetalleajuste', [\App\Controllers\InventarioController::class, 'verdetalleajuste']);
 $app->router->get('/inventarios/calcularstock', [\App\Controllers\InventarioController::class, 'calcularstock']);
 
-
 #rutas de planillas
 $app->router->get('/pagosplanilla/indexpagos', [\App\Controllers\PagoPlanillaController::class, 'indexpagos']);
 $app->router->get('/pagosplanilla/buscarsaldoxusuario', [\App\Controllers\PagoPlanillaController::class, 'buscarsaldoxusuario']);
@@ -293,7 +287,6 @@ $app->router->get('/pagosplanilla/indexreporte', [\App\Controllers\PagoPlanillaC
 $app->router->get('/pagosplanilla/buscarreporte', [\App\Controllers\PagoPlanillaController::class, 'buscarreporte']);
 $app->router->get('/pagosplanilla/mostrarmodalpagosausuarios', [\App\Controllers\PagoPlanillaController::class, 'mostrarmodalpagosausuarios']);
 $app->router->post('/pagosplanilla/eliminar/{id}', [\App\Controllers\PagoPlanillaController::class, 'eliminar']);
-
 
 
 #rutas generales
@@ -564,6 +557,6 @@ $app->router->post('/admin/flete/store', [\App\Controllers\FleteController::clas
 $app->router->post('/admin/flete/update/{id}', [\App\Controllers\FleteController::class, 'update']);
 
 #ruta para combos
-$app->router->get('/combos/modalcreatedetalle', [\App\Controllers\CombosController::class, 'modalcreatedetalle']);
-$app->router->get('/productos/buscarproductoparacombo', [\App\Controllers\ProductoController::class, 'buscarproductoparacombo']);
-$app->router->post('/combos/registrarcombo', [\App\Controllers\CombosController::class, 'registrarcombo']);
+// $app->router->get('/combos/modalcreatedetalle', [\App\Controllers\CombosController::class, 'modalcreatedetalle']);
+// $app->router->get('/productos/buscarproductoparacombo', [\App\Controllers\ProductoController::class, 'buscarproductoparacombo']);
+// $app->router->post('/combos/registrarcombo', [\App\Controllers\CombosController::class, 'registrarcombo']);
