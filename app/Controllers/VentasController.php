@@ -1100,7 +1100,6 @@ class VentasController extends Controller
         $validar->rule("required", "subtotal");
         $validar->rule("required", "igv");
         $validar->rule("required", "total");
-
         $datetime1 = date_create($request->get('fechvv'));
         $datetime2 = date_create($request->get('fechv'));
         $interval = date_diff($datetime2, $datetime1);
@@ -1239,14 +1238,10 @@ class VentasController extends Controller
             "nitem" => 0,
             "detraccion" => $request->get("detraccion")
         );
-
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
-
         $rpta = $venta->grabarVentaCanjetr($cabecera, $detalle);
-
         if ($rpta['estado'] == 1) {
-
             $_SESSION['datosovta'] = $cabecera;
             $_SESSION['detallev'] = $detalle;
             $_SESSION['ndoc'] = $rpta['ndoc'];
@@ -1447,7 +1442,6 @@ class VentasController extends Controller
         }
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
-
         $venta = new Ventas();
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
@@ -1472,16 +1466,13 @@ class VentasController extends Controller
             "txtreferencia" => $request->get("txtreferencia"),
             "txtefectivo" => 0,
         );
-
         $_SESSION['carritov'] = $detalle;
         $registro = $venta->grabarVentaGeneral($cabecera);
         $pedido = new Pedido();
         $cambestped = $pedido->cambiarEstado($request->get("idautop"));
-
         if ($cambestped['estado'] == 0) {
             return response()->json(['message' => 'Error al actualizar estado de pedido', 'error' => $cambestped['mensaje']], 422);
         }
-
         if ($registro['estado'] == 1) {
             $carritov = session()->get('carritov', []);
             $_SESSION['datosovta'] = $cabecera;
