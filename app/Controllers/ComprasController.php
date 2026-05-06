@@ -32,7 +32,6 @@ class ComprasController extends Controller
         }
         $serie = \session()->get('cndoc', '');
         $num = \session()->get('num', '');
-
         $datosproveedor = array(
             'idprov' => \session()->get('idprov', 0),
             'razo' => \session()->get('razo', ''),
@@ -129,11 +128,10 @@ class ComprasController extends Controller
             'cantequi' => $request->get('cantequi'),
             'presseleccionada' => $request->get('presseleccionada')
         );
-
         CarritoService::agregarItemCompra($producto);
+
         $total = number_format(CarritoService::totalCompra(), 2, '.', '');
         $numero_items = str_pad(CarritoService::numeroItemsCompra(), 2, '0', STR_PAD_LEFT);
-
         $carritoc = session()->get('carritoc', []);
         $cvista = \retornavista('compras', 'detalle');
 
@@ -663,7 +661,6 @@ class ComprasController extends Controller
         }
 
         $items = $i;
-
         session()->set('proveedor', $datosproveedor);
         session()->set('carritoc', $carritoc);
         $titulo = 'Actualizar Compra' . ' ' . $nrocompra;
@@ -720,7 +717,6 @@ class ComprasController extends Controller
         // $validar->rule("required", "ndo2");
         $validar->rule("required", "dolar");
         $validar->rule("required", "igv");
-
         $cserie = $request->get('cndoc');
         $cserie = $cserie . substr(0, 4);
         switch ($request->get('tdoc')) {
@@ -801,11 +797,9 @@ class ComprasController extends Controller
         $dfi = $request->get('dfechai');
         $dff = $request->get('dfechaf');
         $codt = $request->get('cmbalmacen');
-
         // $compra = new Compra();
         // $lista = $compra->listarComprasxProducto($dfi, $dff);
         // return \view('compras/informes/re_lcomprasdproducto', ['listado' => $lista]);
-
         $compra = new Compra();
         $lista = $compra->listarComprasxProducto($dfi, $dff, $codt);
         $listagrafico = array_columns($lista, 'PRODUCTO', 'cantidadcomprada');
@@ -836,12 +830,10 @@ class ComprasController extends Controller
         $validar->rule("required", "idprov");
         $validar->rule("required", "cndoc1");
         $validar->rule("required", "cndoc2");
-
         if (!$validar->validate()) {
             $data = ["errors" => $validar->errors()];
             return response()->json($data, 422);
         }
-
         $cuentasxpagar = json_decode($request->get("cuentasxpagar"));
         $cuentasxpagar = json_decode(json_encode($cuentasxpagar), true);
         $datosregistro = [
@@ -895,18 +887,13 @@ class ComprasController extends Controller
     function buscarOCompraPorID($idauto)
     {
         $ocompras = new OCompras();
-
         $datos = $ocompras->buscarxid($idauto);
         $titulo = 'Actualizar ' . $datos[0]['ndoc'];
-
         $serie = substr($datos[0]['ndoc'], 0, 4);
         $num = substr($datos[0]['ndoc'], 4, 12);
-
         $dctos = new DocumentoController();
         $listadctos = $dctos->Obtenerdctosocompras($cbuscar = "");
-
         $cvista = \retornavista('ocompras', 'index');
-
         return view($cvista, [
             'titulo' => $titulo,
             'idautocompra' => $idauto,
@@ -1058,7 +1045,6 @@ class ComprasController extends Controller
         $nc = new NotasCredito();
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
-
         $nc->cndoc = $request->get('txtndocnotacredito');
         $nc->ctdoc = "07";
         $nc->cform = $request->get("form");
