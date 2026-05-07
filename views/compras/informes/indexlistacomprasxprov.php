@@ -67,6 +67,7 @@ $this->startSection('javascript');
         evento.preventDefault();
         search();
     });
+
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
         $("#cmbAlmacen").attr("disabled", false);
@@ -113,7 +114,7 @@ $this->startSection('javascript');
     }
 
     function consultarDetalle(detalle) {
-        console.log(detalle)
+        // console.log(detalle)
         $("#tbldetalle tbody").empty();
         detalle.forEach(function(d) {
             $("#lblmodaldetalle").text("Consultar Detalle: " + d.ndoc);

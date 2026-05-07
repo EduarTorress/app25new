@@ -57,6 +57,7 @@
     //         searchable: false
     //     }],
     // });
+
     reportetablebt("#tablacompras");
 
     function limpiarsesion() {

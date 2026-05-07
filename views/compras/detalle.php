@@ -440,7 +440,6 @@
         var prec = _tr.find("td").eq(5).find("input").val();
         columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 6  : 8; ?>";
         var campo = _tr.find("td").eq(columantotal).find("input");
-
         if (clicksubtotal == 0) {
             var subt = parseFloat(cant) * parseFloat(prec);
             if (isNaN(subt)) {
