@@ -229,14 +229,12 @@ $this->startSection('javascript');
             imponoigv = ((impo * 0.18) + impo);
             $("#total").val(imponoigv.toFixed(2));
         }
-
         ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
         if (ventasexon == 'S') {
             $("#igv").val("0");
             $("#subtotal").val(impo);
             $("#total").val(impo);
         }
-
         let impor = document.querySelector("#total").value;
         if (isNaN(impor)) {
             $("#subtotal").val("0.00");
