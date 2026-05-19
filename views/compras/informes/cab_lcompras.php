@@ -70,6 +70,7 @@ $this->startSection('javascript');
         evento.preventDefault();
         search();
     });
+
     window.onload = function() {
         obtenerFechas();
         titulo('<?php echo $titulo; ?>');
