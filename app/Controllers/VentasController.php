@@ -60,8 +60,15 @@ class VentasController extends Controller
     {
         $ventas = new Ventas();
         $listado = $ventas->registroventasple($request->get('mes'), $request->get('ano'));
+        // $i = 0;
+        // foreach ($listado as $l) {
+        //     $forma = mostrarformapago($l['form']);
+        //     array_push($l[$i], $forma);
+        //     $i++;
+        // }
+        // var_dump($listado);
         // return view('ventas/informes/listarple', ['listado' => $this->obtenerlistadople($datapost)]);
-        $datapost = array('mes' => $request->get('mes'), 'ano' => $request->get('ano'), 'ruc' => $_SESSION['gene_nruc']);
+        // $datapost = array('mes' => $request->get('mes'), 'ano' => $request->get('ano'), 'ruc' => $_SESSION['gene_nruc']);
         return response()->json(['message' => 'Se logró listar correctamente', 'listado' => $listado], 200);
     }
     function obtenerlistadople($datapost)

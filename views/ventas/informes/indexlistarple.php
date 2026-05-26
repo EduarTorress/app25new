@@ -20,14 +20,14 @@ $this->startSection('contenido');
                                 <input type="date" class="form-control form-control-sm" id="txtfechaf" name="txtfechaf"> -->
                                 <label class="my-1 mr-2" for="">Mes</label>
                                 <?php
-                                    $mes = new ComboAnosComponent('');
-                                    echo $mes->renderreportmes();
-                                    ?>
+                                $mes = new ComboAnosComponent('');
+                                echo $mes->renderreportmes();
+                                ?>
                                 <label class="my-1 mr-2" for="">Año</label>
-                                   <?php
-                                    $ano = new ComboAnosComponent('');
-                                    echo $ano->renderreport();
-                                    ?>
+                                <?php
+                                $ano = new ComboAnosComponent('');
+                                echo $ano->renderreport();
+                                ?>
                                 <button type="submit" class="btn btn-primary my-1" id="btnconsultar">Consultar</button>
                                 <button type="button" class="btn btn-success my-1" onclick="exportarsire();" id="btndescargarsire">Exportar SIRE</button>
                             </form>
@@ -129,6 +129,21 @@ $this->startSection('javascript');
                     ])],
                     [new Map([
                         ['class', ''],
+                        ['width', ''],
+                        ['id', ''],
+                        ['attr', ''],
+                        ['type', 'text']
+                    ])],
+                ],
+                ['Forma', 'form',
+                    [new Map([
+                        ['class', ''],
+                        ['width', ''],
+                        ['id', ''],
+                        ['attr', ''],
+                    ])],
+                    [new Map([
+                        ['class', 'text-center'],
                         ['width', ''],
                         ['id', ''],
                         ['attr', ''],

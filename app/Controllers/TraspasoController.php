@@ -49,13 +49,14 @@ class TraspasoController extends Controller
         $compra = new Compra();
         $listado = $compra->listardetalletocanjetraspaso($request->get('idauto'));
         foreach ($listado as $item) {
-            $peso = $item['peso'] / (empty($item['kar_equi']) ? 1 : $item['kar_equi']);
+            // $peso = $item['peso'] / (empty($item['kar_equi']) ? 1 : $item['kar_equi']);
+            // $peso = $item['peso'] * (empty($item['kar_equi']) ? 1 : $item['kar_equi']);
             $c[] = array(
                 'coda' => $item["idart"],
                 'descri' => $item["descri"],
                 'unid' => $item['unid'],
                 'cant' => $item['cant'],
-                'prec' => $peso,
+                'prec' => $item['peso'],
                 'idkar' => $item["idkar"],
                 'uno' => $item["uno"],
                 'dos' => $item["dos"],
