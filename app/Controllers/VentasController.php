@@ -356,6 +356,10 @@ class VentasController extends Controller
         $cvista = \retornavista('ventasd', 'detalle');
         return view($cvista, ['carritov' => $carritov, 'total' => $total, 'items' => $numero_items]);
     }
+    function displayclientes()
+    {
+        return view('ventasrapidas/displayclientes');
+    }
     function index()
     {
         $titulo = "Ventas";

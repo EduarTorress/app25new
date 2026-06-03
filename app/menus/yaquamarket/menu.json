@@ -7,7 +7,7 @@
                 "item": "Registrar Venta Rápida",
                 "ruta": "/ventasrapidas/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "AVT"
             },
             {
                 "item": "Registrar Venta Normal",

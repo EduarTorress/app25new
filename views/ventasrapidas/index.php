@@ -188,6 +188,7 @@ $this->startSection('javascript');
 ?>
 <script>
     window.onload = function() {
+        // abrirDisplay();
         idsolicitud = 1;
         idcliente = 0;
         titulo("<?php echo $titulo ?>");
@@ -563,6 +564,7 @@ $this->startSection('javascript');
             $("#igv").val("0.00");
             $("#total").val("0.00");
         }
+        // actualizarDisplay();
     }
 
     function mostrardatoscliente() {
@@ -1001,6 +1003,45 @@ $this->startSection('javascript');
     $("#cmbvendedor").on("change", function() {
         grabarCabecera();
     });
+</script>
+<script>
+    let displayWindow = null;
+
+    function abrirDisplay() {
+        displayWindow = window.open('/displayclientes', 'displaycliente', 'width=800,height=600');
+    }
+
+    function actualizarDisplay() {
+        if (!displayWindow) {
+            return;
+        }
+        let productos = [];
+        $('#griddetalle tbody tr').each(function() {
+
+            let descripcion = $(this)
+                .find("td")
+                .eq(2)
+                .text()
+                .trim();
+            let cantidad = $(this)
+                .find("td")
+                .eq(4)
+                .find("input")
+                .val();
+            productos.push({
+                descripcion,
+                cantidad
+            });
+        });
+
+        let data = {
+            total: $("#total").val(),
+            vuelto: $("#txtvuelto").val(),
+            productos: productos
+        };
+
+        displayWindow.postMessage(data, "*");
+    }
 </script>
 <?php
 $this->endSection("javascript");

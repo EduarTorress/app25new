@@ -65,6 +65,7 @@ $app->router->post('/ventasrapidas/quitaritem', [\App\Controllers\VentasControll
 $app->router->post('/ventasrapidas/limpiar', [\App\Controllers\VentasController::class, 'limpiarvtarapida']);
 $app->router->post('/ventasrapidas/EditarLoteFechavto', [\App\Controllers\VentasController::class, 'EditarLoteFechavto']);
 $app->router->post('/ventasrapidas/cargarrespaldo', [\App\Controllers\VentasController::class, 'cargarrespaldo']);
+$app->router->get('/displayclientes', [\App\Controllers\VentasController::class, 'displayclientes']);
 
 
 #rutas de otras ventas
