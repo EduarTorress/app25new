@@ -32,7 +32,7 @@ class Ventas extends Modelo
             $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbAlmacen  ' : ' and codt=:cmbAlmacen ';
             $m = ' and mone=:cmbmoneda ';
             $sql = "select ndoc as dcto,a.fech,b.nruc,b.razo,if(a.mone='S','Soles','Dólares') as mone,
-                a.valor,a.rcom_exon,CAST(0 as decimal(12,2)) as inafecto,fusua,form,
+                a.valor,a.rcom_exon,CAST(rcom_inaf as decimal(12,2)) as inafecto,fusua,form,
                 a.igv,a.impo,rcom_mens,a.tdoc,a.ndoc,idauto,rcom_arch,b.clie_corr,tcom,tdoc,u.nomb as usuario,
                 CONCAT(v.nruc,'-',tdoc,'-',LEFT(ndoc,4),'-',SUBSTR(ndoc,5),'.xml') AS nombrexml
                 FROM fe_rcom as a 
@@ -248,6 +248,7 @@ class Ventas extends Modelo
             where rcre_acti='A' and acti='A' and rcre_idau=:nidauto group by rcre_idau) as p on p.rcre_idau=r.idauto,fe_gene AS v
             WHERE r.idauto=:nidauto AND r.acti='A' AND detv_item>0 AND detv_acti='A'";
         } else {
+            $columna =  empty($_SESSION['config']['ventasexon']) ? 'rcom_inaf' : 'rcom_exon';
             $consulta = "SELECT r.idauto,r.ndoc,r.tdoc,r.fech AS dfecha,IF(r.mone='S','PEN','USD') AS mone,valor,rcom_vuelto,
             CAST(0 AS DECIMAL(12,2)) AS inafectas,CAST(0 AS DECIMAL(12,2)) AS gratificaciones,r.mone AS moneda,clie_rete,
             CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,rcom_mret,
@@ -257,7 +258,7 @@ class Ventas extends Modelo
             CAST(0 AS DECIMAL(12,2)) AS Tisc, impo,CAST(0 AS DECIMAL(12,2)) AS montoper,k.incl,p.nomv AS vendedor,
             CAST(0 AS DECIMAL(12,2)) AS totalpercepcion,k.cant,k.prec,LEFT(r.ndoc,4) AS serie, SUBSTR(r.ndoc,5) AS numero,
             k.kar_unid as unid,a.descri,k.idart AS coda, IFNULL(unid_codu,'NIU')AS unid1,s.codigoestab,r.form,v.gene_usol,v.gene_csol,
-            'PE' AS pais, v.gene_cert,v.clavecertificado,IFNULL(p.fevto,r.fech) AS fvto,k.incl 
+            'PE' AS pais, v.gene_cert,v.clavecertificado,IFNULL(p.fevto,r.fech) AS fvto,k.incl," . $columna . " as totalexonerado
             FROM fe_rcom r INNER JOIN fe_clie c ON c.idclie=r.idcliente 
             INNER JOIN fe_kar k ON k.idauto=r.idauto 
             LEFT JOIN `fe_vend` `p`  ON ((`p`.`idven` = `k`.`codv`))
@@ -456,7 +457,7 @@ class Ventas extends Modelo
                 `c`.`ndoc`        AS `ndoc`, `c`.`dolar`       AS `dolar`, `c`.`mone`        AS `mone`,  `b`.`descri`      AS `descri`,
                 `a`.`kar_unid`        AS `unid`, `b`.`pre1`        AS `pre1`, `b`.`peso`        AS `peso`, `b`.`pre2`        AS `pre2`,
                 `c`.`vigv`        AS `vigv`, `a`.`dsnc`        AS `dsnc`, `a`.`dsnd`        AS `dsnd`, `a`.`gast`        AS `gast`,
-                `c`.`idcliente`   AS `idcliente`, `c`.`codt`        AS `codt`, `b`.`pre3`        AS `pre3`, `b`.`cost`        AS `costo`,
+                `c`.`idcliente`   AS `idcliente`, `c`.`codt`        AS `codt`, `b`.`pre3`        AS `pre3`, `b`.`cost`        AS `costo`,kar_tigv as tigv,
                 `b`.`uno`         AS `uno`, `b`.`dos`         AS `dos`, (`b`.`uno` + `b`.`dos`) AS `TAlma`, `c`.`fusua`       AS `fusua`,b.tipro,
                 `p`.`nomv`        AS `vendedor`, `q`.`nomb`        AS `Usuario`, `c`.`rcom_idtr`   AS `rcom_idtr`, `c`.`rcom_tipo`   AS `rcom_tipo`,a.`incl`,
                 a.kar_epta,a.kar_equi,a.kar_lote,a.kar_fvto,
@@ -685,7 +686,7 @@ class Ventas extends Modelo
         $this->fechv = $cabecera["fechv"];
         $this->fechvv = $cabecera["fechvv"];
         $sql = "SELECT FunIngresaCabeceraVtasicbper(:tdocv,:formv,:cndocv,:fechv,:txtreferencia,:subtotal,:igv,:total,:ndo2v,:monev,
-            :dola,:vigv,'K',:idcliev,'V',:nidus,:almv,:n1,:n2,:n3,'0','0',:reten,:vuelto) AS ID";
+            :dola,:vigv,'K',:idcliev,'V',:nidus,:almv,:n1,:n2,:n3,:totalexonerado,'0',:reten,:vuelto) AS ID";
 
         if ($cabecera['tdocv'] == '01' || $cabecera['tdocv'] == '03') {
             $nidcta1 = session()->get("gene_idctav");
@@ -733,10 +734,12 @@ class Ventas extends Modelo
                 'n3' => $nidcta3,
                 'txtreferencia' => $cabecera["txtreferencia"],
                 'reten' => $rete,
-                'vuelto' => empty($cabecera['txtvuelto']) ? '0' : $cabecera['txtvuelto']
+                'vuelto' => empty($cabecera['txtvuelto']) ? '0' : $cabecera['txtvuelto'],
+                'totalexonerado' => empty($cabecera['totalexonerado']) ? 0 : $cabecera['totalexonerado']
             ]);
             if ($st->errorCode() != '00000') {
                 $pdo->rollBack();
+                var_dump($st->debugDumpParams());
                 enviarmensajerror($sql, $st->errorInfo());
                 $rpta = array('mensaje' => "No se registro en la cabecera", "ndoc" => "", "estado" => '0');
                 return $rpta;
@@ -826,7 +829,7 @@ class Ventas extends Modelo
                     return $rpta;
                 }
             }
-            $sqliki = "SELECT FunIngresaKardexIcbper(:nid,:cc,'0',:npr,:nct,:igv,'K',:ccod,:calma,:nidcosto1,'0',:epta,:karunid,:karequi,:lote,:fechavto) AS NID";
+            $sqliki = "SELECT FunIngresaKardexIcbper(:nid,:cc,'0',:npr,:nct,:igv,'K',:ccod,:calma,:nidcosto1,:tigv,:epta,:karunid,:karequi,:lote,:fechavto) AS NID";
             $carritov = session()->get('carritov', []);
             $sqlas = "CALL astock(:coda,:nalma,:ccant,'V',:cantequi)";
             $sw = 1;
@@ -886,7 +889,8 @@ class Ventas extends Modelo
                         'karunid' => $item['unidad'],
                         'karequi' => $item['cantequi'],
                         'lote' => $item['lote'],
-                        'fechavto' => $item['fechavto']
+                        'fechavto' => $item['fechavto'],
+                        'tigv' => $item['tigv']
                     ]);
                     if ($execiki->errorCode() != '00000') {
                         enviarmensajerror($execiki, $execiki->errorInfo());
@@ -917,7 +921,7 @@ class Ventas extends Modelo
     {
         $this->fechv = $cabecera["fechv"];
         $ls = "CALL ProActualizaCabeceraCVtasicbper(:ctdoc,:cform,:cndoc,:dfecha,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,:ndolar,:ni,:ctg,:ccodp,
-            :cmvto,:nus,:reten,:nidcodt,:n1,:n2,:n3,:nitems,:npvta,:nidauto)";
+            :cmvto,:nus,:reten,:nidcodt,:n1,:n2,:n3,:totalexonerado,:npvta,:nidauto)";
 
         if ($cabecera['tdocv'] == '01' || $cabecera['tdocv'] == '03') {
             $nidcta1 = session()->get("gene_idctav");
@@ -960,7 +964,7 @@ class Ventas extends Modelo
                 'n1' => $nidcta1,
                 'n2' =>  $nidcta2,
                 'n3' => $nidcta3,
-                'nitems' => 0,
+                'totalexonerado' => empty($cabecera['totalexonerado']) ? 0 : $cabecera['totalexonerado'],
                 'npvta' => '0',
                 'nidauto' => $cabecera["nidautov"]
             ]);
@@ -1092,8 +1096,8 @@ class Ventas extends Modelo
             $carritov = session()->get('carritov', []);
 
             $sqlas = "CALL ProActualizaStock(:coda,:nalma,:ccant,'V',:cantequi,:ccant)";
-            $sqlinserta = "SELECT FunIngresaKardexIcbper(:nid,:cc,:nicbper,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:vcom,:epta,:karunid,:karequi,:lote,:fechavto) AS IDD";
-            $sqlactualiza = "CALL ProActualizaKardexICBPER(:nid,:cc,:nicbper,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:nidkar,:op,:xcom,:epta,:karunid,:karequi,:lote,:fechavto)";
+            $sqlinserta = "SELECT FunIngresaKardexIcbper(:nid,:cc,:nicbper,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:tigv,:epta,:karunid,:karequi,:lote,:fechavto) AS IDD";
+            $sqlactualiza = "CALL ProActualizaKardexICBPER(:nid,:cc,:nicbper,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:nidkar,:op,:tigv,:epta,:karunid,:karequi,:lote,:fechavto)";
             $sw = 1;
             foreach ($carritov as $item) {
                 if ($item['activo'] == 'A') {
@@ -1113,7 +1117,7 @@ class Ventas extends Modelo
                             "ccodv" => $cabecera['idvenv'],
                             "calma" => $cabecera["almv"],
                             "nidcosto1" => $costo,
-                            "vcom" => '0',
+                            'tigv' => $item['tigv'],
                             'epta' => $item['presseleccionada'],
                             'karunid' => $item['unidad'],
                             'karequi' => $item['cantequi'],
@@ -1138,7 +1142,7 @@ class Ventas extends Modelo
                             "nidcosto1" => $costo,
                             "nidkar" => $item['nreg'],
                             "op" => '1',
-                            "xcom" => '0',
+                            'tigv' => $item['tigv'],
                             'epta' => $item['presseleccionada'],
                             'karunid' => $item['unidad'],
                             'karequi' => $item['cantequi'],
@@ -1165,7 +1169,7 @@ class Ventas extends Modelo
                             "nidcosto1" => $costo,
                             "nidkar" => $item['nreg'],
                             "op" => '0',
-                            "xcom" => '0',
+                            'tigv' => $item['tigv'],
                             'epta' => $item['presseleccionada'],
                             'karunid' => $item['unidad'],
                             'karequi' => $item['cantequi'],

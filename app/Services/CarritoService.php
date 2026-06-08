@@ -527,6 +527,7 @@ class CarritoService
             'presseleccionada' => $producto['presseleccionada'],
             'lote' => empty($producto['lote']) ? '' : $producto['lote'],
             'fechavto' => empty($producto['fechavto']) ? date('Y-m-d') : $producto['fechavto'],
+            'tigv' => $producto['tigv'],
             'activo' => 'A'
         ];
         session()->set('carritov', $carritov);
@@ -626,7 +627,7 @@ class CarritoService
         $carritov = session()->get('carritov', []);
         $total = 0.00;
         foreach ($carritov as $item) {
-            if ($item['activo'] == 'A') {
+            if (($item['activo'] == 'A') && (floatval($item['tigv']) == floatval($_SESSION['gene_igv']))) {
                 $cantidad = $item['cantidad'];
                 $precio_venta = $item['precio'];
                 $total += ($cantidad * $precio_venta);
@@ -636,7 +637,29 @@ class CarritoService
     }
     public static function totalVenta()
     {
-        return self::subtotalVentas();
+        $carritov = session()->get('carritov', []);
+        $total = 0.00;
+        foreach ($carritov as $item) {
+            if ($item['activo'] == 'A') {
+                $cantidad = $item['cantidad'];
+                $precio_venta = $item['precio'];
+                $total += ($cantidad * $precio_venta);
+            }
+        }
+        return $total;
+    }
+    public static function totalexonerado()
+    {
+        $carritov = session()->get('carritov', []);
+        $total = 0.00;
+        foreach ($carritov as $item) {
+            if (($item['activo'] == 'A') && (floatval($item['tigv']) != floatval($_SESSION['gene_igv']))) {
+                $cantidad = $item['cantidad'];
+                $precio_venta = $item['precio'];
+                $total += ($cantidad * $precio_venta);
+            }
+        }
+        return $total;
     }
     public static function editarProductoVenta($producto, $cmbmoneda)
     {

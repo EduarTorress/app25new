@@ -538,6 +538,7 @@ class CpeController extends Controller
                 $oimp->igv = $fila['igv'];
                 $oimp->total = $fila['impo'];
                 $oimp->vigv = $fila['vigv'];
+                $oimp->totalexonerado = $fila['totalexonerado'];
             }
             $i++;
         }
@@ -635,6 +636,7 @@ class CpeController extends Controller
                 $oimp->igv = $fila['igv'];
                 $oimp->total = $fila['impo'];
                 $oimp->vigv = $fila['vigv'];
+                  $oimp->totalexonerado = $fila['totalexonerado'];
             }
             $i++;
         }

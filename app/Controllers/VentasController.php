@@ -385,9 +385,16 @@ class VentasController extends Controller
             'optigv' => \session()->get('optigv', 'I'),
             'txtreferencia' => \session()->get('txtreferencia', '')
         );
+
         session()->set("mensajesunat", "");
         // session()->set("vista", "R");
-        return view('ventasd/index', ['titulo' => $titulo, 'datosclientev' => $datosclientev, 'serie' => $serie, 'num' => $num, 'idventa' => $idventa]);
+        return view('ventasd/index', [
+            'titulo' => $titulo,
+            'datosclientev' => $datosclientev,
+            'serie' => $serie,
+            'num' => $num,
+            'idventa' => $idventa
+        ]);
     }
     function listarDetalle()
     {
@@ -399,8 +406,20 @@ class VentasController extends Controller
         }
         $carritov = session()->get('carritov', []);
         $total = number_format(CarritoService::totalVenta(), 2, '.', '');
+        $subtotal = number_format(CarritoService::subtotalVentas(), 2, '.', '');
+        $igv = number_format(CarritoService::subtotalVentas() / floatval($_SESSION['gene_igv']), 2, '.', '');
+        $totalexonerado = number_format(CarritoService::totalexonerado(), 2, '.', '');
         $numero_items = str_pad(CarritoService::numeroItemsVenta(), 2, '0', STR_PAD_LEFT);
-        return view('ventasd/detalle', ['carritov' => $carritov, 'total' => $total, 'items' => $numero_items, 'btn' => $btn]);
+        return view('ventasd/detalle', [
+            'carritov' => $carritov,
+            'total' => $total,
+            'items' => $numero_items,
+            'btn' => $btn,
+            'total' => $total,
+            'subtotal' => $subtotal,
+            'igv' => $igv,
+            'totalexonerado' => $totalexonerado
+        ]);
     }
     function verificarsiyaesta($idart)
     {
@@ -455,13 +474,17 @@ class VentasController extends Controller
             'tipoproducto' => $request->get('tipoproducto'),
             'costo' => $request->get('costo'),
             'presentaciones' => ($request->get('presentaciones')),
-            'cantequi' => ($request->get('cantequi')),
+            'cantequi' => $request->get('cantequi'),
+            'tigv' => $request->get('tigv'),
             'presseleccionada' => $request->get('presseleccionada'),
             'caant' => 0
         );
 
         CarritoService::agregarItemVenta($producto, $request->get('cmbmoneda'));
         $total = number_format(CarritoService::totalVenta(), 2, '.', '');
+        $subtotal = number_format(CarritoService::subtotalVentas(), 2, '.', '');
+        $totalexonerado = number_format(CarritoService::totalexonerado(), 2, '.', '');
+        $igv = number_format(CarritoService::subtotalVentas() / floatval($_SESSION['gene_igv']), 2, '.', '');
         $numero_items = str_pad(CarritoService::numeroItemsVenta(), 2, '0', STR_PAD_LEFT);
 
         $carritov = session()->get('carritov', []);
@@ -469,6 +492,9 @@ class VentasController extends Controller
         return view($cvista, [
             'carritov' => $carritov,
             'total' => $total,
+            'subtotal' => $subtotal,
+            'igv' => $igv,
+            'totalexonerado' => $totalexonerado,
             'items' => $numero_items
         ]);
     }
@@ -610,7 +636,6 @@ class VentasController extends Controller
             }
         }
 
-        // $ventasexon = (empty($_SESSION['config']['ventasexon']) ? 'N' : $_SESSION['config']['ventasexon']);
         $venta = new Ventas();
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
@@ -630,10 +655,10 @@ class VentasController extends Controller
             // $request->get("subtotal"),
             // $request->get("igv"),
             // $request->get('total')
-            // "subtotal" => ($ventasexon == 'N' ? round(CarritoService::totalVenta() / floatval($_SESSION['gene_igv']), 2) : round(CarritoService::totalVenta(), 2)),
-            "subtotal" => $request->get("subtotal"),
-            "igv" => $request->get("igv"),
+            "subtotal" => CarritoService::subtotalVentas(),
+            "igv" => (floatval(CarritoService::subtotalVentas()) / floatval($_SESSION['gene_igv'])),
             "total" => CarritoService::totalVenta(),
+            "totalexonerado" => CarritoService::totalexonerado(),
             "nidus" => session()->get('usuario_id'),
             "nitem" => str_pad(CarritoService::numeroItemsVenta(), 2, '0', STR_PAD_LEFT),
             'optigv' => $request->get("optigv"),
@@ -681,7 +706,6 @@ class VentasController extends Controller
             }
         }
 
-        // $ventasexon = (empty($_SESSION['config']['ventasexon']) ? 'N' : $_SESSION['config']['ventasexon']);
         $venta = new Ventas();
         $deta =  "";
         $cabecera = array(
@@ -697,12 +721,10 @@ class VentasController extends Controller
             "monev" => $request->get("monev"),
             "formv" => $request->get("formv"),
             "idvenv" => $request->get("idvenv"),
-            // "subtotal" => ($ventasexon == 'N' ? round(CarritoService::totalVenta() / floatval($_SESSION['gene_igv']), 2) : round(CarritoService::totalVenta(), 2)),
-            // "igv" => ($ventasexon == 'N' ?  round(CarritoService::totalVenta() - (CarritoService::totalVenta() / floatval($_SESSION['gene_igv'])), 2) : 0),
-            "subtotal" => $request->get("subtotal"),
-            "igv" => $request->get("igv"),
+            "subtotal" => CarritoService::subtotalVentas(),
+            "igv" => (floatval(CarritoService::subtotalVentas()) / floatval($_SESSION['gene_igv'])),
             "total" => CarritoService::totalVenta(),
-            // "total" => $request->get("total"),
+            "totalexonerado" => CarritoService::totalexonerado(),
             "nidus" => session()->get('usuario_id'),
             "nidautov" => $request->get("idautov"),
             'optigv' => $request->get('optigv'),
@@ -785,6 +807,7 @@ class VentasController extends Controller
                 'coda' => $item["Coda"],
                 'descri' => $item["descri"],
                 'unid' => $item['unid'],
+                'tigv' => ($item['tigv']),
                 'cant' => $item['cant'],
                 'prec' => $item["prec"],
                 'idkar' => $item["idkar"],
@@ -834,6 +857,7 @@ class VentasController extends Controller
             $carritov[] = array(
                 'coda' => $items[0]["coda"],
                 'descripcion' => $items[0]["descri"],
+                'tigv' => $items[0]['tigv'],
                 'unidad' => $items[0]['unid'],
                 'cantidad' => $items[0]['cant'],
                 'precio' => $items[0]["prec"],
@@ -888,7 +912,15 @@ class VentasController extends Controller
         \session()->set('idvenv',  $datosclientev['idvenv']);
         \session()->set('txtreferencia',  $datosclientev['txtreferencia']);
         \session()->set("vista", "E");
-        return view($cvista, ['titulo' => $titulo, 'datosclientev' => $datosclientev, 'idventa' => $idauto, 'serie' => $serie, 'num' => $num, 'carritov' => $carritov]);
+
+        return view($cvista, [
+            'titulo' => $titulo,
+            'datosclientev' => $datosclientev,
+            'idventa' => $idauto,
+            'serie' => $serie,
+            'num' => $num,
+            'carritov' => $carritov
+        ]);
     }
     function ventasresumidas()
     {
@@ -1022,6 +1054,7 @@ class VentasController extends Controller
                 $oimp->ruccliente = $fila['txtruccliente'];
                 $oimp->dnicliente = $fila['txtdnicliente'];
                 $oimp->igv = $fila['igv'];
+                $oimp->totalexonerado = $fila['totalexonerado'];
                 $oimp->vigv = session()->get('gene_igv');
                 $oimp->total = $fila['total'];
                 $oimp->vuelto = $fila['txtvuelto'];
@@ -1623,18 +1656,25 @@ class VentasController extends Controller
             'presentaciones' => ($request->get('presentaciones')),
             'presseleccionada' => $request->get('presseleccionada'),
             'cantequi' => $request->get('cantequi'),
+            'tigv' => $request->get('tigv'),
             'caant' => 0
         );
 
         CarritoService::agregarItemVenta($producto, $request->get('cmbmoneda'));
         $total = number_format(CarritoService::totalVenta(), 2, '.', '');
         $numero_items = str_pad(CarritoService::numeroItemsVenta(), 2, '0', STR_PAD_LEFT);
+        $subtotal = number_format(CarritoService::subtotalVentas(), 2, '.', '');
+        $igv = number_format(CarritoService::subtotalVentas() / floatval($_SESSION['gene_igv']), 2, '.', '');
+        $totalexonerado = number_format(CarritoService::totalexonerado(), 2, '.', '');
 
         $carritov = session()->get('carritov', []);
         $cvista = \retornavista('ventasrapidas', 'detalle');
         return view($cvista, [
             'carritov' => $carritov,
             'total' => $total,
+            'subtotal' => $subtotal,
+            'igv' => $igv,
+            'totalexonerado' => $totalexonerado,
             'items' => $numero_items,
             'carrito' => session()->get("carrito", [])
         ]);

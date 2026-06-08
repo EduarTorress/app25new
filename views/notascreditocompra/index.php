@@ -211,10 +211,6 @@ $this->startSection('javascript');
         }).then(function(respuesta) {
             const contenido_tabla = respuesta.data;
             $('#detalle').html(contenido_tabla);
-            ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
-            if (ventasexon == 'S') {
-                $("#lblsubtotal").text("EXONER.")
-            }
         }).catch(function(error) {
             toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
         });
@@ -245,12 +241,6 @@ $this->startSection('javascript');
             // $("#igv").val("18");
             imponoigv = ((impo * 0.18) + impo);
             $("#total").val(imponoigv.toFixed(2));
-        }
-        ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
-        if (ventasexon == 'S') {
-            $("#igv").val("0");
-            $("#subtotal").val(impo);
-            $("#total").val(impo);
         }
         let impor = document.querySelector("#total").value;
         if (isNaN(impor)) {

@@ -130,47 +130,7 @@ class Producto extends Modelo
     }
     function registrarProducto($datos)
     {
-        $sql = "SELECT FuncreaProductos(:cdesc,:cunid,:nprec, :ncosto,
-        :txtprecioma,:txtprecioe,:txtpreciome,:npeso,:ccat,:cmar,:ctipro,:nflete,:cm,'web',
-        :ncome,:ncomc,:nutil1,:nutil2,:nutil3,:nidusua,:nsmax,:nsmin, 
-        :ccodigo1,:ndolar,:coda1) AS id";
-        try {
-            $execsql = $this->prepare($sql);
-            $execsql->execute([
-                'cdesc' => $datos['txtdescrip'],
-                'cunid' => $datos['cmbunidad'],
-                'nprec' => $datos['txtcostosig'],
-                'ncosto' => $datos['txtcoston'],
-                'txtprecioma' => $datos['txtprecioma'],
-                'txtprecioe' => $datos['txtprecioe'],
-                'txtpreciome' => $datos['txtpreciome'],
-                'npeso' => $datos['txtpeso'],
-                'ccat' => $datos['cmbcategoria'],
-                'cmar' => $datos['cmbmarca'],
-                'ctipro' => $datos['cmbtipp'],
-                'nflete' => $datos['txtcostot'],
-                'cm' => $datos['cmbMoneda'],
-                'ncome' => (empty($datos['txtcomisione']) ? 0 : $datos['txtcomisione']),
-                'ncomc' => (empty($datos['txtcomisionc']) ? 0 : $datos['txtcomisionc']),
-                'nutil1' => (empty($datos['txtporcprecma']) ? 0 : $datos['txtporcprecma']),
-                'nutil2' => (empty($datos['txtporcpreces']) ? 0 : $datos['txtporcpreces']),
-                'nutil3' => (empty($datos['txtporcprecem']) ? 0 : $datos['txtporcprecem']),
-                'nidusua' => $datos['nidusua'],
-                'nsmax' => $datos['txtStockMax'],
-                'nsmin' => $datos['txtStockMin'],
-                'ccodigo1' => $datos['txtcodigo'],
-                'ndolar' => $datos['dolar'],
-                'coda1' => $datos['txtcoda1']
-            ]);
-            $rpta = ['estado' => true, 'idregistro' => $execsql->fetchColumn()];
-        } catch (PDOException $pdo_error) {
-            $rpta = ['estado' => false, 'idregistro' => $pdo_error];
-        }
-        return $rpta;
-    }
-    function registrarProductoparaselva($datos)
-    {
-        $sql = "SELECT FuncreaProductos(:cdesc,:cunid,:nprec, :ncosto,
+        $sql = "SELECT FuncreaProductos(:cdesc,:cunid,:nprec,:ncosto,
         :txtprecioma,:txtprecioe,:txtpreciome,:npeso,:ccat,:cmar,:ctipro,:nflete,:cm,'web',
         :ncome,:ncomc,:nutil1,:nutil2,:nutil3,:nidusua,:nsmax,:nsmin, 
         :ccodigo1,:ndolar,:coda1,:prod_tigv) AS id";
@@ -209,66 +169,48 @@ class Producto extends Modelo
         }
         return $rpta;
     }
+    // function registrarProductoparaselva($datos)
+    // {
+    //     $sql = "SELECT FuncreaProductos(:cdesc,:cunid,:nprec, :ncosto,
+    //     :txtprecioma,:txtprecioe,:txtpreciome,:npeso,:ccat,:cmar,:ctipro,:nflete,:cm,'web',
+    //     :ncome,:ncomc,:nutil1,:nutil2,:nutil3,:nidusua,:nsmax,:nsmin, 
+    //     :ccodigo1,:ndolar,:coda1,:prod_tigv) AS id";
+    //     try {
+    //         $execsql = $this->prepare($sql);
+    //         $execsql->execute([
+    //             'cdesc' => $datos['txtdescrip'],
+    //             'cunid' => $datos['cmbunidad'],
+    //             'nprec' => $datos['txtcostosig'],
+    //             'ncosto' => $datos['txtcoston'],
+    //             'txtprecioma' => $datos['txtprecioma'],
+    //             'txtprecioe' => $datos['txtprecioe'],
+    //             'txtpreciome' => $datos['txtpreciome'],
+    //             'npeso' => $datos['txtpeso'],
+    //             'ccat' => $datos['cmbcategoria'],
+    //             'cmar' => $datos['cmbmarca'],
+    //             'ctipro' => $datos['cmbtipp'],
+    //             'nflete' => $datos['txtcostot'],
+    //             'cm' => $datos['cmbMoneda'],
+    //             'ncome' => (empty($datos['txtcomisione']) ? 0 : $datos['txtcomisione']),
+    //             'ncomc' => (empty($datos['txtcomisionc']) ? 0 : $datos['txtcomisionc']),
+    //             'nutil1' => (empty($datos['txtporcprecma']) ? 0 : $datos['txtporcprecma']),
+    //             'nutil2' => (empty($datos['txtporcpreces']) ? 0 : $datos['txtporcpreces']),
+    //             'nutil3' => (empty($datos['txtporcprecem']) ? 0 : $datos['txtporcprecem']),
+    //             'nidusua' => $datos['nidusua'],
+    //             'nsmax' => $datos['txtStockMax'],
+    //             'nsmin' => $datos['txtStockMin'],
+    //             'ccodigo1' => $datos['txtcodigo'],
+    //             'ndolar' => $datos['dolar'],
+    //             'coda1' => $datos['txtcoda1'],
+    //             'prod_tigv' => $datos['prod_tigv']
+    //         ]);
+    //         $rpta = ['estado' => true, 'idregistro' => $execsql->fetchColumn()];
+    //     } catch (PDOException $pdo_error) {
+    //         $rpta = ['estado' => false, 'idregistro' => $pdo_error];
+    //     }
+    //     return $rpta;
+    // }
     function actualizarProducto($datos)
-    {
-        // $sql = "update fe_art set descri=:txtdescrip,unid=:cmbunidad,uno=:txtStockMin,peso=:txtpeso,prec=:txtprecio where idart=:txtidart";
-        // try {
-        //     $query = $this->prepare($sql);
-        //     $query->execute([
-        //         "txtdescrip" => $this->txtdescrip,
-        //         "cmbunidad" => $this->cmbunidad,
-        //         "txtStockMin" => $this->txtStockMin,
-        //         "txtpeso" => $this->txtpeso,
-        //         "txtprecio" => $this->txtprecio,
-        //         "txtidart" => $this->txtidart
-        //     ]);
-        //     $rpta = array('mensaje' => $query->errorInfo(), "estado" => '1');
-        //     return $rpta;
-        // } catch (PDOException $pdo_error) {
-        //     $rpta = array('mensaje' => $query->errorInfo(), "estado" => '0');
-        //     return $rpta;
-        // }
-        $sql = "call ProActualizaProductos(:cdesc,:cunid,:ncosto,
-        :txtprecioma,:txtprecioe,:txtpreciome,:npeso,:ccat,:cmar,:ctipro,:nflete,:cm,:nprec,
-        :nidgrupo,:nutil1,:nutil2,:nutil3,:ncome,:ncomc,:nidusua,:idart,:nsmax,:nsmin, 
-        :ccodigo1,:ndolar,'A',:coda1)";
-        try {
-            $query = $this->prepare($sql);
-            $query->execute([
-                'cdesc' => $datos['txtdescrip'],
-                'cunid' => $datos['cmbunidad'],
-                'ncosto' => $datos['txtcoston'],
-                'txtprecioma' => $datos['txtprecioma'],
-                'txtprecioe' => $datos['txtprecioe'],
-                'txtpreciome' => $datos['txtpreciome'],
-                'npeso' => $datos['txtpeso'],
-                'ccat' => $datos['cmbcategoria'],
-                'cmar' => $datos['cmbmarca'],
-                'ctipro' => $datos['cmbtipp'],
-                'nflete' => $datos['txtcostot'],
-                'cm' => $datos['cmbMoneda'],
-                'nprec' => $datos['txtcostosig'],
-                "nidgrupo" => $datos['cmbgrupo'],
-                'ncome' => $datos['txtcomisione'],
-                'ncomc' => $datos['txtcomisionc'],
-                'nutil1' => $datos['txtporcprecma'],
-                'nutil2' => $datos['txtporcpreces'],
-                'nutil3' => $datos['txtporcprecem'],
-                'nidusua' => $datos['nidusua'],
-                'idart' => $datos['idart'],
-                'nsmax' => $datos['txtStockMax'],
-                'nsmin' => $datos['txtStockMin'],
-                'ccodigo1' => $datos['txtcodigo'],
-                'ndolar' => $datos['dolar'],
-                'coda1' => $datos['txtcoda1']
-            ]);
-            return true;
-        } catch (PDOException $pdo_error) {
-            echo $pdo_error;
-            return false;
-        }
-    }
-    function actualizarProductoparaselva($datos)
     {
         // $sql = "update fe_art set descri=:txtdescrip,unid=:cmbunidad,uno=:txtStockMin,peso=:txtpeso,prec=:txtprecio where idart=:txtidart";
         // try {
@@ -328,26 +270,64 @@ class Producto extends Modelo
             return false;
         }
     }
-    // function registrarProducto()
+    // function actualizarProductoparaselva($datos)
     // {
-    //     $sql = "INSERT INTO fe_art(descri,unid,idmar,idcat,idflete,uno,tipro,peso,prec) VALUES(:txtdescrip,:cmbunidad,:cmbmarca,:cmbcategoria,:idflete,:txtStockMin,'K',:txtpeso,:txtprecio)";
+    //     // $sql = "update fe_art set descri=:txtdescrip,unid=:cmbunidad,uno=:txtStockMin,peso=:txtpeso,prec=:txtprecio where idart=:txtidart";
+    //     // try {
+    //     //     $query = $this->prepare($sql);
+    //     //     $query->execute([
+    //     //         "txtdescrip" => $this->txtdescrip,
+    //     //         "cmbunidad" => $this->cmbunidad,
+    //     //         "txtStockMin" => $this->txtStockMin,
+    //     //         "txtpeso" => $this->txtpeso,
+    //     //         "txtprecio" => $this->txtprecio,
+    //     //         "txtidart" => $this->txtidart
+    //     //     ]);
+    //     //     $rpta = array('mensaje' => $query->errorInfo(), "estado" => '1');
+    //     //     return $rpta;
+    //     // } catch (PDOException $pdo_error) {
+    //     //     $rpta = array('mensaje' => $query->errorInfo(), "estado" => '0');
+    //     //     return $rpta;
+    //     // }
+    //     $sql = "call ProActualizaProductos(:cdesc,:cunid,:ncosto,
+    //     :txtprecioma,:txtprecioe,:txtpreciome,:npeso,:ccat,:cmar,:ctipro,:nflete,:cm,:nprec,
+    //     :nidgrupo,:nutil1,:nutil2,:nutil3,:ncome,:ncomc,:nidusua,:idart,:nsmax,:nsmin, 
+    //     :ccodigo1,:ndolar,'A',:coda1,:prod_tigv)";
     //     try {
     //         $query = $this->prepare($sql);
     //         $query->execute([
-    //             "txtdescrip" => $this->txtdescrip,
-    //             "cmbunidad" => $this->cmbunidad,
-    //             "cmbmarca" => 1,
-    //             "cmbcategoria" => 29,
-    //             "idflete" => 1,
-    //             "txtStockMin" => $this->txtStockMin,
-    //             "txtpeso" => $this->txtpeso,
-    //             "txtprecio" => $this->txtprecio
+    //             'cdesc' => $datos['txtdescrip'],
+    //             'cunid' => $datos['cmbunidad'],
+    //             'ncosto' => $datos['txtcoston'],
+    //             'txtprecioma' => $datos['txtprecioma'],
+    //             'txtprecioe' => $datos['txtprecioe'],
+    //             'txtpreciome' => $datos['txtpreciome'],
+    //             'npeso' => $datos['txtpeso'],
+    //             'ccat' => $datos['cmbcategoria'],
+    //             'cmar' => $datos['cmbmarca'],
+    //             'ctipro' => $datos['cmbtipp'],
+    //             'nflete' => $datos['txtcostot'],
+    //             'cm' => $datos['cmbMoneda'],
+    //             'nprec' => $datos['txtcostosig'],
+    //             "nidgrupo" => $datos['cmbgrupo'],
+    //             'ncome' => $datos['txtcomisione'],
+    //             'ncomc' => $datos['txtcomisionc'],
+    //             'nutil1' => $datos['txtporcprecma'],
+    //             'nutil2' => $datos['txtporcpreces'],
+    //             'nutil3' => $datos['txtporcprecem'],
+    //             'nidusua' => $datos['nidusua'],
+    //             'idart' => $datos['idart'],
+    //             'nsmax' => $datos['txtStockMax'],
+    //             'nsmin' => $datos['txtStockMin'],
+    //             'ccodigo1' => $datos['txtcodigo'],
+    //             'ndolar' => $datos['dolar'],
+    //             'coda1' => $datos['txtcoda1'],
+    //             'prod_tigv' => $datos['prod_tigv']
     //         ]);
-    //         $rpta = array('mensaje' => $query->errorInfo(), "estado" => '1');
-    //         return $rpta;
+    //         return true;
     //     } catch (PDOException $pdo_error) {
-    //         $rpta = array('mensaje' => $query->errorInfo(), "estado" => '0');
-    //         return $rpta;
+    //         echo $pdo_error;
+    //         return false;
     //     }
     // }
     function updateStock($cabecera, $detalle)

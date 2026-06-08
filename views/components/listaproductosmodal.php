@@ -161,7 +161,8 @@
                     $stockuno = $items[0]['uno'];
                     $stockdos = $items[0]['dos'];
                     $stocktre = $items[0]['tre'];
-                    $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8', 'parametro9', 'parametro10', 'parametro11', 'stockuno', 'stockdos', 'stocktre');
+                    $tigv = $items[0]['prod_tigv'];
+                    $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8', 'parametro9', 'parametro10', 'parametro11', 'stockuno', 'stockdos', 'stocktre', 'tigv');
                     $cadena_json = json_encode($parametros);
                     ?>
                     <button class="btn <?php echo ((intval($parametro4) < 0) ?  'btn-danger' : 'btn-success') ?>" data-target="#agregar_cantidad" id="<?php echo 'agregar' . $parametro2 ?>" onclick='agregarunitemVenta(<?php echo $cadena_json ?>)'><i href="" style="color:white;" class="fas fa-plus-circle"></i></button>

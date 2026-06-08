@@ -7,9 +7,9 @@
       "allcamposproductos": "N",
       "idprovajuste": "2",
       "multiigv": "N",
-      "ventasexon": "S",
       "tipobotica": "S",
       "cajaxtienda": "S",
-      "precioeditable": "S"
+      "precioeditable": "S",
+      "ventasexon":"S"
    }
 ]

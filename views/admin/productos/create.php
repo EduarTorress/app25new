@@ -132,12 +132,9 @@
             </div>
         </div>
         <div class="modal-footer">
-            <div class="form-group col-6 text-start" <?php echo ((empty($_SESSION['config']['ventasexon'])) ? 'style="display:none"' : '')  ?>>
+            <div class="form-group col-6 text-start">
                  <?php $dp = (empty($datosProducto['prod_tigv']) ? $_SESSION['gene_igv'] : $datosProducto['prod_tigv']); ?> 
                 <?php $prod_tigv = (floatval($dp) == floatval($_SESSION['gene_igv'])) ? $_SESSION['gene_igv'] : $datosProducto['prod_tigv']; ?>
-                <?php if (empty($_SESSION['config']['ventasexon'])) {
-                    $prod_tigv = $_SESSION['gene_igv'];
-                } ?>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input igvproducto" type="radio" name="igvproducto" <?php echo (floatval($prod_tigv) == 1 ? 'checked' : '') ?> onclick="" value="E" onchange="cambiarcostoigv();">
                     <label class="form-check-label" for="incluido"><b>Exonerado</b></label>
@@ -149,9 +146,9 @@
             </div>
             <button class="btn btn-dark" id="btnagregarpresentaciones" onclick="openmodalpresent()" style="<?php echo (empty($datosProducto) ? 'display:none' : '') ?>"><i class="fas fa-plus"></i> Agregar</button>
             <button class="btn btn-primary" onclick="grabarproducto()"><i class="fas fa-save"></i> Grabar</button>
-            <?php if (empty($datosProducto)) : ?>
+            <!-- <?php if (empty($datosProducto)) : ?> -->
                 <button type="button" id="btncerrarpres" class="btn btn-danger" onclick="cerrarModal()"><i class="fas fa-close"></i> Cerrar</button>
-            <?php endif; ?>
+            <!-- <?php endif; ?> -->
         </div>
     </div>
 </div>
@@ -280,9 +277,7 @@
                 data.append("txtcomisione", txtcomisione);
                 data.append("txtcomisionc", txtcomisionc);
                 data.append("txtcoda1", $("#txtcoda1").val())
-                <?php if (!empty($_SESSION['config']['ventasexon'])) : ?>
-                    data.append("prod_tigv", obtenerTipoIGVProducto());
-                <?php endif; ?>
+                data.append("prod_tigv", obtenerTipoIGVProducto());
                 axios.post("/productos/actualizar", data)
                     .then(function(respuesta) {
                         toastr.success(respuesta.data.message, 'Mensaje del Sistema')
@@ -391,9 +386,7 @@
                 data.append("txtcomisione", txtcomisione);
                 data.append("txtcomisionc", txtcomisionc);
                 data.append("txtcoda1", $("#txtcoda1").val())
-                <?php if (!empty($_SESSION['config']['ventasexon'])) : ?>
-                    data.append("prod_tigv", obtenerTipoIGVProducto());
-                <?php endif; ?>
+                  data.append("prod_tigv", obtenerTipoIGVProducto());
                 axios.post("/productos/registrar", data)
                     .then(function(respuesta) {
                         // toastr.success(respuesta.data.message)

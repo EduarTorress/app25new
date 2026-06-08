@@ -121,10 +121,6 @@
         $(".unidad").css("display", "none");
         $(".cantequi").css("display", "none");
         $("td").removeClass("dtr-control")
-        ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
-        if (ventasexon == 'S') {
-            $("#lblsubtotal").text("EXON.")
-        }
     });
 
     //Poner editable luego de quitar el focus a los campos.

@@ -21,8 +21,8 @@
                 <td><?php echo $item['dcto'] ?></td>
                 <td><?php echo $item['razo'] ?></td>
                 <td><?php echo $item['mone'] ?></td>
-                <td class="text-end"><?php echo empty($_SESSION['config']['ventasexon']) ?  evaluarvalortdoc($item['tdoc'], $item['valor']) : '0.00'; ?></td>
-                <td class="text-end"><?php echo empty($_SESSION['config']['ventasexon']) ?  '0.00' : evaluarvalortdoc($item['tdoc'], $item['rcom_exon']); ?></td>
+                <td class="text-end"><?php echo $item['valor']?></td>
+                <td class="text-end"><?php echo $item['rcom_exon'] ?></td>
                 <td class="text-end"><?php echo evaluarvalortdoc($item['tdoc'], $item['inafecto']); ?></td>
                 <td class="text-end"><?php echo evaluarvalortdoc($item['tdoc'], $item['igv']); ?></td>
                 <td class="text-end"><?php echo evaluarvalortdoc($item['tdoc'], $item['impo']); ?></td>

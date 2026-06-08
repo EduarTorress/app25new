@@ -75,6 +75,7 @@ class Imprimir
     var $ingresos;
     var $clienteretencion;
     var $retencion;
+    var $totalexonerado;
     var $items = array();
     var $urlguiasunat = "https://e-factura.sunat.gob.pe/v1/contribuyente/gre/comprobantes/descargaqr?";
     var $qrsunat;
@@ -258,13 +259,6 @@ class Imprimir
         $pdf->cell(120, 5, "SON: " . $this->importeletras);
         $pdf->setx(144);
 
-        $ventasexon =  empty($_SESSION['config']['ventasexon']) ? 'N' : 'S';
-        if ($ventasexon == 'S') {
-            $this->valorgravado = 0;
-            $this->vigv = 1;
-            $this->igv = 0;
-        }
-
         $pdf->cell(25, 6, 'VALOR GRAVADO', 1, 0, 'R', 0);
         $pdf->cell(29, 6, number_format($this->valorgravado, 2, '.', ','), 1, 0, 'R', 0);
 
@@ -302,8 +296,7 @@ class Imprimir
         $pdf->SetFont('Tahomab', '', 7);
         $pdf->setx(144);
         $pdf->cell(25, 6, 'VALOR EXON.', 1, 0, 'R', 0);
-        $ventasexon =  empty($_SESSION['config']['ventasexon']) ? '0.00' : $this->total;
-        $pdf->cell(29, 6, $ventasexon, 1, 0, 'R', 0);
+        $pdf->cell(29, 6, number_format($this->totalexonerado, 2, '.', ','), 1, 0, 'R', 0);
         $pdf->ln();
 
         $pdf->SetFont('Tahomab', '', 7);
@@ -1402,13 +1395,6 @@ class Imprimir
         // $pdf->cell(29, 6, number_format($this->valorgravado, 2, '.', ','), 1, 0, 'R', 0);
 
         $lblsubtotal = 'VALOR GRAVADO';
-        $ventasexon =  empty($_SESSION['config']['ventasexon']) ? 'N' : 'S';
-        if ($ventasexon == 'S') {
-            $this->valorgravado = $this->total;
-            $this->vigv = 1;
-            $this->igv = 0;
-            $lblsubtotal = 'EXONERADO';
-        }
         $pdf->cell(25, 6, $lblsubtotal, 1, 0, 'R', 0);
         $pdf->cell(29, 6, '-' . number_format($this->valorgravado, 2, '.', ','), 1, 0, 'R', 0);
 
@@ -1626,30 +1612,24 @@ class Imprimir
 
         if ($this->tdoc != '20') {
             // $pdf->setx(0);
-            $totalgravado =  empty($_SESSION['config']['ventasexon']) ? number_format($this->valorgravado, 2, '.', ',') : '0.00';
             $pdf->Cell(67, 5, 'Op. Grav:', 0, 0, 'R');
             $pdf->setx(6.5);
-            $pdf->Cell(67, 5, $totalgravado, 0, 1, 'R');
-
+            $pdf->Cell(67, 5, number_format($this->valorgravado, 2, '.', ','), 0, 1, 'R');
 
             // $pdf->setx(0);
-            $totalexon =  empty($_SESSION['config']['ventasexon']) ? '0.00' : $this->total;
             $pdf->Cell(67, 5, 'Op. Exon:', 0, 0, 'R');
             $pdf->setx(6.5);
-            $pdf->Cell(67, 5, $totalexon, 0, 1, 'R');
-
+            $pdf->Cell(67, 5, number_format($this->totalexonerado, 2, '.', ','), 0, 1, 'R');
 
             // $pdf->setx(0);
-            $totaligv =  empty($_SESSION['config']['ventasexon']) ? number_format($this->igv, 2, '.', ',') : '0.00';
             $pdf->Cell(67, 5, 'IGV:', 0, 0, 'R');
             $pdf->setx(6.5);
-            $pdf->Cell(67, 5, $totaligv, 0, 1, 'R');
+            $pdf->Cell(67, 5, $this->igv, 0, 1, 'R');
         }
         // $pdf->setx(0);
         $pdf->Cell(67, 5, 'Total:', 0, 0, 'R');
         $pdf->setx(6.5);
         $pdf->Cell(67, 5, number_format($this->total, 2, '.', ','), 0, 1, 'R');
-
 
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Ln(6);

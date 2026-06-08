@@ -197,6 +197,7 @@ $this->startSection('javascript');
             const contenido_tabla = respuesta.data;
             $('#detalle').html(contenido_tabla);
             $(".codigo").css("display", "none");
+            $(".tigv").css("display", "none");
             <?php if ($_SESSION['config']['multiigv'] != 'S') : ?>
                 $(".valorunitario").css("display", "none");
             <?php endif; ?>
@@ -219,10 +220,6 @@ $this->startSection('javascript');
             $(".tipodocumentos option[value='07']").remove();
             $(".tipodocumentos option[value='08']").remove();
             $("#cmbforma option[value='O']").remove();
-            ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
-            if (ventasexon == 'S') {
-                $("#lblsubtotal").text("EXONER.")
-            }
             $("#btncrearproductomodal").css("display", "none");
         }).catch(function(error) {
             // 400, 500
@@ -388,6 +385,7 @@ $this->startSection('javascript');
         data.append("precio1", datos.parametro6);
         data.append("precio2", datos.parametro7);
         data.append("precio3", datos.parametro5);
+        data.append("tigv", datos.tigv);
         data.append("costo", datos.parametro8);
         data.append("tipoproducto", datos.parametro10);
         data.append("presentaciones", datos.parametro11);
@@ -446,45 +444,46 @@ $this->startSection('javascript');
 
     function calcularIGV() {
         igv = obtenerTipoIGV();
-        var total_col = 0;
-        valorigv = Number("<?php echo $_SESSION['gene_igv']; ?>");
+        var total_normal = 0;
+        var total_exon = 0;
         $('#griddetalle tbody').find('tr').each(function(i, el) {
-            columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 7 : 9; ?>";
-            t = $(this).find('td').eq(columantotal).text();
-            // t = t.replace(",", "")
-            total_col += parseFloat(t);
-        });
-        if (igv == 'I') {
-            $('#griddetalle tbody tr').each(function() {
-                $(this).find(".preciosgv").html("");
-            });
-        } else {
-            $('#griddetalle tbody tr').each(function() {
-                precio = $(this).find(".precio input").val();
-                preciosgv = precio / Number(valorigv);
-                $(this).find(".preciosgv").html(Number(preciosgv).toFixed(2));
-            });
-        }
+            columnatotal = "<?php echo (empty($_SESSION['config']['tipobotica']) ? 7 : 9); ?>";
+            columnatigv = "<?php echo (empty($_SESSION['config']['tipobotica']) ? 8 : 10); ?>";
+            valorigv = $(this).find('td').eq(columnatigv).text();
 
-        let impo = (Number(total_col)).toFixed(2);
-        let valor = (impo / valorigv).toFixed(2);
-        let nigv = (impo - valor).toFixed(2);
+            if (Number(valorigv) == Number("<?php echo $_SESSION['gene_igv']; ?>")) {
+                tn = $(this).find('td').eq(columnatotal).text();
+                total_normal += parseFloat(tn);
+            } else {
+                te = $(this).find('td').eq(columnatotal).text();
+                total_exon += parseFloat(te);
+            }
+        });
+
+        // console.log('total normal', total_normal);
+        // console.log('total exon', total_exon);
+
+        // $('#griddetalle tbody tr').each(function() {
+        //     precio = $(this).find(".precio input").val();
+        //     // preciosgv = precio / Number(valorigv);
+        //     // $(this).find(".preciosgv").html(Number(preciosgv).toFixed(2));
+        // });
+
+        let impo = (Number(total_normal) + Number(total_exon)).toFixed(2);
+        let valor = (total_normal).toFixed(2);
+        let exonerado = (total_exon).toFixed(2);
+        let nigv = (Number(total_normal) / Number("<?php echo $_SESSION['gene_igv']; ?>")).toFixed(2);
         $("#igv").val(nigv);
         $("#subtotal").val(valor);
+        $("#exonerado").val(exonerado);
         $("#total").val(impo);
-
-        ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
-        if (ventasexon == 'S') {
-            $("#igv").val("0");
-            $("#subtotal").val(impo);
-            $("#total").val(impo);
-        }
 
         let impor = document.querySelector("#total").value;
         if (isNaN(impor)) {
             $("#subtotal").val("0.00");
             $("#igv").val("0.00");
             $("#total").val("0.00");
+            $("#exonerado").val("0.00");
         }
     }
 
@@ -555,10 +554,10 @@ $this->startSection('javascript');
         pagoefectivo = $("#txtefectivo").val();
         pagototal = Number(pago) + Number(pagoefectivo)
         diferenciavuelto = Number(pagototal) - Number(total);
+        $("#txtvuelto").val(diferenciavuelto.toFixed(2))
         // if (diferenciavuelto < 0) {
         //     $("#txtvuelto").val("0.00")
         // } else {
-        $("#txtvuelto").val(diferenciavuelto.toFixed(2))
         // }
     }
 

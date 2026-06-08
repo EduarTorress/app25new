@@ -15,6 +15,7 @@
                 <th scope="col" style="width:5%" class="text-center valorunitario">Valor Unit.</th>
                 <th scope="col" style="width:5%">Importe</th>
                 <th scope="col" style="width:5%" class="indice">Indice</th>
+                <th scope="col" style="width:5%" class="tigv">tigv</th>
             </tr>
         </thead>
         <tbody id="carritoventas">
@@ -78,6 +79,7 @@
                             <td class="preciosgv text-center valorunitario"></td>
                             <td name="tdtotal" class="text-center" class="total"><?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?></td>
                             <td class="indice" name="indice"><?php echo $indice ?></td>
+                            <td class="tigv" name="tigv"><?php echo $item['tigv'] ?></td>
                             <?php $i++; ?>
                         </tr>
                     <?php } ?>
@@ -122,7 +124,18 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text text-sm"><strong id="lblsubtotal">SubTotal</strong></span>
                     </div>
-                    <input type="text" class="form-control text-right text-sm" id="subtotal" aria-label="Small" value="" aria-describedby="inputGroup-sizing-sm" disabled>
+                    <input type="text" class="form-control text-right text-sm" id="subtotal" aria-label="Small" value="<?php echo (empty($subtotal) ? '0.00' : $subtotal) ?>" aria-describedby="inputGroup-sizing-sm" disabled>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10"></div>
+            <div class="col-2">
+                <div class="input-group" style="width: 90%;">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text text-sm" id=""><strong>IGV&emsp;&emsp;&nbsp;&nbsp;</strong></span>
+                    </div>
+                    <input type="text" class="form-control text-right text-sm" id="igv" aria-label="Small" value="<?php echo (empty($igv) ? '0.00' : $igv) ?>" aria-describedby="inputGroup-sizing-sm" disabled>
                 </div>
             </div>
         </div>
@@ -131,9 +144,9 @@
             <div class="col-2">
                 <div class="input-group " style="width: 90%;">
                     <div class="input-group-prepend">
-                        <span class="input-group-text text-sm" id=""><strong>IGV&emsp;&emsp;&nbsp;&nbsp;</strong></span>
+                        <span class="input-group-text text-sm" id=""><strong>EXO&emsp;&emsp;&nbsp;</strong></span>
                     </div>
-                    <input type="text" class="form-control text-right text-sm" id="igv" aria-label="Small" value="" aria-describedby="inputGroup-sizing-sm" disabled>
+                    <input type="text" class="form-control text-right text-sm" id="exonerado" aria-label="Small" value="<?php echo (empty($totalexonerado) ? '0.00' : $totalexonerado) ?>" aria-describedby="inputGroup-sizing-sm" disabled>
                 </div>
             </div>
         </div>
@@ -226,13 +239,10 @@
     $(document).ready(function() {
         $(".codigo").css("display", "none");
         $(".indice").css("display", "none");
+        $(".tigv").css("display", "none");
         <?php if ($_SESSION['config']['multiigv'] != 'S') : ?>
             $(".valorunitario").css("display", "none");
         <?php endif; ?>
-        ventasexon = "<?php echo empty($_SESSION['config']['ventasexon']) ? 'N' : 'S'; ?>";
-        if (ventasexon == 'S') {
-            $("#lblsubtotal").text("EXON.")
-        }
         validarvaloresporgrupo();
         // $("#txtreferencia").val("hola");
         // console.log($("#txtreferencia").val())
@@ -429,7 +439,7 @@
             <?php if (!empty($_SESSION['config']['precioeditable'])): ?>
                 costo = Number(resultado.costo).toFixed(2);
                 if (Number(precio) < costo) {
-                    _ //tr.find("td").eq(5).css("backgroundColor", "#F67979");
+                     //_tr.find("td").eq(5).css("backgroundColor", "#F67979");
                     //$("#grabar").attr("disabled", true);
                 } else {
                     _tr.find("td").eq(5).css("backgroundColor", "");

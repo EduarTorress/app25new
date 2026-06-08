@@ -190,11 +190,6 @@ class ProductoController extends Controller
             "txtcoda1" => empty($request->get("txtcoda1")) ? ' ' : $request->get("txtcoda1"),
             "prod_tigv" => empty($request->get("prod_tigv")) ? 1 : $request->get("prod_tigv")
         );
-
-        // if (!empty($_SESSION['config']['ventasexon'])) {
-        //     $rpta = $this->producto->registrarProductoparaselva($datos);
-        // } else {
-        // }
         $rpta = $this->producto->registrarProducto($datos);
 
         if ($rpta['estado']) {
@@ -355,10 +350,6 @@ class ProductoController extends Controller
             'txtcoda1' => empty($request->get('txtcoda1')) ? ' ' : $request->get('txtcoda1'),
             "prod_tigv" => empty($request->get("prod_tigv")) ? 1 : $request->get("prod_tigv")
         );
-        // if (!empty($_SESSION['config']['ventasexon'])) {
-        //     $rptaactualizar = $this->producto->actualizarProductoparaselva($datos);
-        // } else {
-        // }
         $rptaactualizar = $this->producto->actualizarProducto($datos);
         if ($rptaactualizar) {
             return response()->json(['message' => 'Producto actualizado correctamente'], 200);
