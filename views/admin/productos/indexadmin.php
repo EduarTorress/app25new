@@ -273,9 +273,9 @@ $this->startSection('javascript');
         datos.append('costocigv', producto.costocigv);
         datos.append('costosigv', producto.costosigv);
         datos.append('flete', producto.flete);
-        datos.append("prod_uti1", producto.prod_uti1)
-        datos.append("prod_uti2", producto.prod_uti2)
-        datos.append("prod_uti3", producto.prod_uti3)
+        datos.append("prod_uti1", producto.prod_uti1);
+        datos.append("prod_uti2", producto.prod_uti2);
+        datos.append("prod_uti3", producto.prod_uti3);
         datos.append("tmon", producto.tmon);
         datos.append("pre1", producto.parametro5);
         datos.append("pre2", producto.parametro6);
@@ -358,12 +358,12 @@ $this->startSection('javascript');
     function obtener() {
         let vdvto = 0;
         if (document.getElementsByName('optradios')[0].checked) {
-            vdvto = 'nombre';
             document.getElementById('txtbuscar').type = 'text';
+            vdvto = 'nombre';
         }
         if (document.getElementsByName('optradios')[1].checked) {
-            vdvto = 'codigo';
             document.getElementById('txtbuscar').type = 'text';
+            vdvto = 'codigo';
         }
         if (document.getElementsByName('optradios')[2].checked) {
             document.getElementById('txtbuscar').type = 'text';

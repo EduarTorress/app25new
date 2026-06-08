@@ -224,7 +224,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Aplicacion -->
     <script src="js/app.js"> </script>
-    <script src="https://yaquamarket.compania-sysven.com/jsgeneral/index.js"></script>
+    <script src="https://companysysven.com/jsgeneral/index.js"></script>
     <!-- para compornentes React -->
     <script type="module" src="js/fechas.js"></script>
     <?php echo $this->section('javascript') ?>

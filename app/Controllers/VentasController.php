@@ -610,7 +610,7 @@ class VentasController extends Controller
             }
         }
 
-        $ventasexon = (empty($_SESSION['config']['ventasexon']) ? 'N' : $_SESSION['config']['ventasexon']);
+        // $ventasexon = (empty($_SESSION['config']['ventasexon']) ? 'N' : $_SESSION['config']['ventasexon']);
         $venta = new Ventas();
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
@@ -629,9 +629,10 @@ class VentasController extends Controller
             "idvenv" => $request->get("idvenv"),
             // $request->get("subtotal"),
             // $request->get("igv"),
-            // $request->get('')
-            "subtotal" => ($ventasexon == 'N' ? round(CarritoService::totalVenta() / floatval($_SESSION['gene_igv']), 2) : round(CarritoService::totalVenta(), 2)),
-            "igv" => ($ventasexon == 'N' ?  round(CarritoService::totalVenta() - (CarritoService::totalVenta() / floatval($_SESSION['gene_igv'])), 2) : 0),
+            // $request->get('total')
+            // "subtotal" => ($ventasexon == 'N' ? round(CarritoService::totalVenta() / floatval($_SESSION['gene_igv']), 2) : round(CarritoService::totalVenta(), 2)),
+            "subtotal" => $request->get("subtotal"),
+            "igv" => $request->get("igv"),
             "total" => CarritoService::totalVenta(),
             "nidus" => session()->get('usuario_id'),
             "nitem" => str_pad(CarritoService::numeroItemsVenta(), 2, '0', STR_PAD_LEFT),
@@ -680,7 +681,7 @@ class VentasController extends Controller
             }
         }
 
-        $ventasexon = (empty($_SESSION['config']['ventasexon']) ? 'N' : $_SESSION['config']['ventasexon']);
+        // $ventasexon = (empty($_SESSION['config']['ventasexon']) ? 'N' : $_SESSION['config']['ventasexon']);
         $venta = new Ventas();
         $deta =  "";
         $cabecera = array(
@@ -696,11 +697,11 @@ class VentasController extends Controller
             "monev" => $request->get("monev"),
             "formv" => $request->get("formv"),
             "idvenv" => $request->get("idvenv"),
-            "subtotal" => ($ventasexon == 'N' ? round(CarritoService::totalVenta() / floatval($_SESSION['gene_igv']), 2) : round(CarritoService::totalVenta(), 2)),
-            "igv" => ($ventasexon == 'N' ?  round(CarritoService::totalVenta() - (CarritoService::totalVenta() / floatval($_SESSION['gene_igv'])), 2) : 0),
+            // "subtotal" => ($ventasexon == 'N' ? round(CarritoService::totalVenta() / floatval($_SESSION['gene_igv']), 2) : round(CarritoService::totalVenta(), 2)),
+            // "igv" => ($ventasexon == 'N' ?  round(CarritoService::totalVenta() - (CarritoService::totalVenta() / floatval($_SESSION['gene_igv'])), 2) : 0),
+            "subtotal" => $request->get("subtotal"),
+            "igv" => $request->get("igv"),
             "total" => CarritoService::totalVenta(),
-            // "subtotal" => $request->get("subtotal"),
-            // "igv" => $request->get("igv"),
             // "total" => $request->get("total"),
             "nidus" => session()->get('usuario_id'),
             "nidautov" => $request->get("idautov"),

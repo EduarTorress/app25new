@@ -258,7 +258,6 @@ class Imprimir
         $pdf->cell(120, 5, "SON: " . $this->importeletras);
         $pdf->setx(144);
 
-
         $ventasexon =  empty($_SESSION['config']['ventasexon']) ? 'N' : 'S';
         if ($ventasexon == 'S') {
             $this->valorgravado = 0;
