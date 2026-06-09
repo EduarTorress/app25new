@@ -1624,7 +1624,7 @@ class Imprimir
             // $pdf->setx(0);
             $pdf->Cell(67, 5, 'IGV:', 0, 0, 'R');
             $pdf->setx(6.5);
-            $pdf->Cell(67, 5, $this->igv, 0, 1, 'R');
+            $pdf->Cell(67, 5, number_format($this->igv, 2, '.', ','), 0, 1, 'R');
         }
         // $pdf->setx(0);
         $pdf->Cell(67, 5, 'Total:', 0, 0, 'R');
