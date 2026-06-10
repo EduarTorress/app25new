@@ -656,7 +656,7 @@ class VentasController extends Controller
             // $request->get("igv"),
             // $request->get('total')
             "subtotal" => (floatval(CarritoService::subtotalVentas()) / floatval($_SESSION['gene_igv'])),
-            "igv" => (CarritoService::totalVenta() - (floatval(CarritoService::subtotalVentas()) / floatval($_SESSION['gene_igv']))),
+            "igv" => (CarritoService::subtotalVentas() - (floatval(CarritoService::subtotalVentas()) / floatval($_SESSION['gene_igv']))),
             "total" => CarritoService::totalVenta(),
             "totalexonerado" => CarritoService::totalexonerado(),
             "nidus" => session()->get('usuario_id'),
@@ -722,7 +722,7 @@ class VentasController extends Controller
             "formv" => $request->get("formv"),
             "idvenv" => $request->get("idvenv"),
             "subtotal" => (floatval(CarritoService::subtotalVentas()) / floatval($_SESSION['gene_igv'])),
-            "igv" => (CarritoService::totalVenta() - (floatval(CarritoService::subtotalVentas()) / floatval($_SESSION['gene_igv']))),
+            "igv" => (CarritoService::subtotalVentas() - (floatval(CarritoService::subtotalVentas()) / floatval($_SESSION['gene_igv']))),
             "total" => CarritoService::totalVenta(),
             "totalexonerado" => CarritoService::totalexonerado(),
             "nidus" => session()->get('usuario_id'),
