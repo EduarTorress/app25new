@@ -470,9 +470,15 @@ $this->startSection('javascript');
         // });
 
         let impo = (Number(total_normal) + Number(total_exon)).toFixed(2);
-        let valor = (total_normal).toFixed(2);
+        let valor = (Number(total_normal) / Number("<?php echo $_SESSION['gene_igv']; ?>")).toFixed(2);
         let exonerado = (total_exon).toFixed(2);
-        let nigv = (Number(total_normal) / Number("<?php echo $_SESSION['gene_igv']; ?>")).toFixed(2);
+        let nigv = (Number(impo) - Number(total_normal) / Number("<?php echo $_SESSION['gene_igv']; ?>")).toFixed(2);
+        $("#igv").val(nigv);
+        $("#subtotal").val(valor);
+        $("#exonerado").val(exonerado);
+        $("#total").val(impo);
+
+
         $("#igv").val(nigv);
         $("#subtotal").val(valor);
         $("#exonerado").val(exonerado);
