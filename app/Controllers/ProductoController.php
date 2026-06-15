@@ -12,6 +12,7 @@ use Core\Http\Request;
 use App\Middlewares\AuthAdminMiddleware;
 use App\Models\Presentacion;
 use Core\Routing\Modelo;
+use Core\View\View;
 
 class ProductoController extends Controller
 {
@@ -485,9 +486,10 @@ class ProductoController extends Controller
     }
     function indexlistapreciosdecliente()
     {
-        $vista = \retornavista('admin/productos', 'indexlistapreciosdecliente');
         $ctitulo = 'Consultar Precios - Cliente';
-        return view($vista, ['titulo' => $ctitulo]);
+        $view = new View();
+        return $view->render('admin/productos/indexlistapreciosdecliente', ['titulo' => $ctitulo]);
+        // return view('', );
     }
     function listapreciosdecliente(Request $request)
     {
