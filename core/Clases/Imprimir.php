@@ -1651,7 +1651,7 @@ class Imprimir
         $pdf->MultiCell(70, 4, mb_convert_encoding('Puede consultar este comprobante vía web:', 'ISO-8859-1', 'UTF-8'), 0, 'C');
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->setx(5);
-        $pdf->MultiCell(70, 4, 'https://info.companysysven.com/consulta', 0, 'C');
+        $pdf->MultiCell(70, 4, 'https://info.companiasysven.com/consulta', 0, 'C');
         $pdf->Ln(7);
         $texto_qr = $this->rucempresa . '|' . $this->tdoc . '|' . $this->serie . '|' . $this->ndoc . '|' . $this->igv . '|' . $this->total . '|' . $this->fecha;
         $ruta_qr = 'codigoqr' . '.png';

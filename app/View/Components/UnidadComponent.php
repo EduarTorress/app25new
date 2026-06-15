@@ -16,7 +16,7 @@ class UnidadComponent extends Component
     {
         // $unidad = new Unidad();
         // $lista = $unidad->listar();
-        $linkjson = file_get_contents('https://yaquamarket.companysysven.com/datasetunidades.json');
+        $linkjson = file_get_contents('https://yaquamarket.companiasysven.com/datasetunidades.json');
         $json = json_decode($linkjson,true);
         return view('components/unidad', ['lista' => $json['unidades'], 'idunid' => $this->idunid]);
     }

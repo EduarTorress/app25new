@@ -51,7 +51,7 @@ class Empresa extends Modelo
         curl_close($curl);
         if ($err) {
             // echo "cURL Error #:" . $err;
-            $url = 'https://companysysven.com/tc.php';
+            $url = 'https://companiasysven.com/tc.php';
             $data = array("dfi" => $df, "dff" => $df);
             $postdata = json_encode($data);
             $curlcomp = curl_init($url);

@@ -52,7 +52,7 @@ class LoginController extends Controller
                 return;
             }
             if ($request->get('cmbtipoacceso') == 'C') {
-                header('Location:  http://contabilidad.companysysven.com/');
+                header('Location:  http://contabilidad.companiasysven.com/');
                 return;
             }
             cargarconfig();

@@ -361,7 +361,7 @@ class CpeController extends Controller
         ];
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://www.companysysven.com/app88/sendwhatsapp.php',
+            CURLOPT_URL => 'https://www.companiasysven.com/app88/sendwhatsapp.php',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
