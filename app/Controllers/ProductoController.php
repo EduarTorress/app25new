@@ -483,4 +483,18 @@ class ProductoController extends Controller
         $rpta = $p->listarlotesyfechasvto($idart);
         return view('components/modallistalotes', ['lista' => $rpta['listado'], 'idart' => $idart]);
     }
+    function indexlistapreciosdecliente()
+    {
+        $vista = \retornavista('admin/productos', 'indexlistapreciosdecliente');
+        $ctitulo = 'Consultar Precios - Cliente';
+        return view($vista, ['titulo' => $ctitulo]);
+    }
+    function listapreciosdecliente(Request $request)
+    {
+        $abuscar = $request->get('cbuscar');
+        $nd = Tipodecambio::dtipocambiosistema();
+        $lista = $this->producto->BuscarProductos($abuscar, $nd, 0, 0);
+        return response()->json(['listado' => $lista], 200);
+        // return view($cvista, ['lista' => $lista]);
+    }
 }

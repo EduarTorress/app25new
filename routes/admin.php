@@ -500,6 +500,9 @@ $app->router->post('/productos/actualizar', [\App\Controllers\ProductoController
 $app->router->post('/productos/darBaja/{id}', [\App\Controllers\ProductoController::class, 'anularProducto']);
 $app->router->post('/productos/listarlotesyfechasvto/{id}', [\App\Controllers\ProductoController::class, 'listarlotesyfechasvto']);
 
+$app->router->get('/productos/indexlistapreciosdecliente', [\App\Controllers\ProductoController::class, 'indexlistapreciosdecliente']);
+$app->router->get('/productos/listapreciosdecliente', [\App\Controllers\ProductoController::class, 'listapreciosdecliente']);
+
 $app->router->get('/productos/create', [\App\Controllers\ProductoController::class, 'create']);
 $app->router->post('/productos/consultarProductoPorID/', [\App\Controllers\ProductoController::class, 'consultarProductoPorID']);
 

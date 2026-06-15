@@ -139,10 +139,6 @@
                     <input class="form-check-input igvproducto" type="radio" name="igvproducto" <?php echo (floatval($prod_tigv) == 1 ? 'checked' : '') ?> onclick="" value="E" onchange="cambiarcostoigv();">
                     <label class="form-check-label" for="incluido"><b>Exonerado</b></label>
                 </div>
-                 <div class="form-check form-check-inline">
-                    <input class="form-check-input igvproducto" type="radio" name="igvproducto" <?php echo (floatval($prod_tigv) == 1.04 ? 'checked' : '') ?> onclick="" value="I" onchange="cambiarcostoigv();">
-                    <label class="form-check-label" for="incluido"><b>Inafecto</b></label>
-                </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input igvproducto" type="radio" <?php echo (floatval($prod_tigv) == floatval($_SESSION['gene_igv']) ? 'checked' : '') ?> name="igvproducto" value="N" onchange="cambiarcostoigv();">
                     <label class="form-check-label" for="noincluido"><b>No Exonerado</b></label>
