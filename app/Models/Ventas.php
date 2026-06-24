@@ -1923,7 +1923,7 @@ class Ventas extends Modelo
                 inner join fe_aresumen a on r.idauto=a.lres_idau
                 INNER JOIN fe_usua u ON a.lres_idus=u.idusua
                 WHERE r.idcliente>0 AND acti='A' AND tdoc IN ('01','03','GI') 
-                AND idusua1>0 AND impo>0 and lres_idus>0 ORDER BY lres_fech";
+                AND idusua1>0 AND impo>0 and lres_idus>0 ORDER BY lres_fech desc";
         $query = $this->prepare($sql);
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute();
