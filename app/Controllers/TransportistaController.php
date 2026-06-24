@@ -83,6 +83,8 @@ class TransportistaController extends Controller
             $transportista->txtbrevete = $request->get('txtbrevete');
             $transportista->txtmarca = $request->get('txtmarca');
             $transportista->txtconstancia = $request->get('txtconstancia');
+                        $transportista->cmbtipotransporte = $request->get('cmbtipotransporte');
+
             if ($transportista->save()) {
                 return response()->json(['message' => 'Transportista registrado correctamente'], 200);
             } else {
@@ -104,6 +106,8 @@ class TransportistaController extends Controller
             $transportista->txtbrevete = $request->get('txtbrevete');
             $transportista->txtmarca = $request->get('txtmarca');
             $transportista->txtconstancia = $request->get('txtconstancia');
+                        $transportista->cmbtipotransporte = $request->get('cmbtipotransporte');
+
             $idTransportista = $transportista->buscarid($id);
             if ($transportista->update($idTransportista['idtra'])) {
                 return response()->json(['message' => 'Transportista actualizado correctamente'], 200);

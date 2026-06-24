@@ -1,4 +1,5 @@
 <?php
+
 use App\View\Components\UbigeosComponent;
 ?>
 <div class="modal-header">
@@ -10,7 +11,7 @@ use App\View\Components\UbigeosComponent;
         <div class="form-group row">
             <label class="col-sm-4 col-form-label" for="">Razon Social:</label>
             <div class="col-sm-8">
-                <input type="text" name="txtrazon" id="txtrazon" placeholder="" class="form-control" onkeyup="mayusculas(this)"  value="<?php echo ($modo == 'A' ?  $lista['razon'] : '') ?>">
+                <input type="text" name="txtrazon" id="txtrazon" placeholder="" class="form-control" onkeyup="mayusculas(this)" value="<?php echo ($modo == 'A' ?  $lista['razon'] : '') ?>">
             </div>
         </div>
         <div class="form-group row">
@@ -22,7 +23,7 @@ use App\View\Components\UbigeosComponent;
         <div class="form-group row">
             <label class="col-sm-4 col-form-label" for="">Transportista:</label>
             <div class="col-sm-8">
-                <input type="text" name="txttransportista" id="txttransportista" class="form-control" onkeyup="mayusculas(this)"  value="<?php echo ($modo == 'A' ?  $lista['nombr'] : '') ?>">
+                <input type="text" name="txttransportista" id="txttransportista" class="form-control" onkeyup="mayusculas(this)" value="<?php echo ($modo == 'A' ?  $lista['nombr'] : '') ?>">
             </div>
         </div>
         <div class="form-group row">
@@ -55,6 +56,16 @@ use App\View\Components\UbigeosComponent;
                 <input type="text" name="txtconstancia" id="txtconstancia" class="form-control" onkeyup="mayusculas(this)" value="<?php echo ($modo == 'A' ?  $lista['constancia'] : '') ?>">
             </div>
         </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="">Tipo de Transporte:</label>
+            <div class="col-sm-8">
+                <?php $cmbtipotransporte = ($modo == 'A' ?  $lista['tipot'] : '') ?>
+                <select class="form-select form-control" id="cmbtipotransporte" name="cmbtipotransporte">
+                    <option <?php echo ($cmbtipotransporte == '02' ? 'selected' : '') ?> value="02">Privado</option>
+                    <option <?php echo ($cmbtipotransporte == '01' ? 'selected' : '') ?> value="01">Público</option>
+                </select>
+            </div>
+        </div>
         <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-danger" id="cmdcerrar" onclick="cerrarmodal()" data-dismiss="modal"><i class="fa fa-window-close"></i> Cerrar
             </button>
@@ -63,6 +74,20 @@ use App\View\Components\UbigeosComponent;
         </div>
 </form>
 <script>
+
+     $("#cmbtipotransporte").on("change", function() {
+        // Check input( $( this ).val() ) for validity here
+        if ($(this).val() == '01') {
+            $("#txtrazon").css("border", "3px solid blue");
+            $("#txtruc").css("border", "3px solid blue");
+            $("#txtconstancia").css("border", "3px solid blue")
+        } else {
+            $("#txtrazon").css("border", "");
+            $("#txtruc").css("border", "");
+            $("#txtconstancia").css("border", "")
+        }
+    });
+    
     document.getElementById('formulario-crear').addEventListener('submit', function(evento) {
         evento.preventDefault();
         store('<?php echo $modo ?>', <?php echo $id ?>);

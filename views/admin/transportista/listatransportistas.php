@@ -36,7 +36,7 @@
                         $cadena_json = json_encode($parametros);
                         ?>
                         <button onclick='modalEdit("<?php echo $parametro1 ?>")' class="btn btn-warning">Editar</button>
-                        <!-- <button onclick='darBaja("<?php echo $parametro1 ?>")' class="btn btn-danger">Eliminar</button> -->
+                         <button onclick='darBaja("<?php echo $parametro1 ?>")' class="btn btn-danger">Eliminar</button> 
                     </td>
                 </tr>
             <?php endforeach; ?>

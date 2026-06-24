@@ -1051,10 +1051,13 @@ $this->startSection('javascript');
                 return;
             }
             importetotal = $("#total").val();
-            if (Number(totalsuma) > Number(importetotal)) {
-                toastr.error("El monto sumado no debe ser mayor al total", 'Mensaje del sistema');
-                return;
+            if (Number(importetotal) != 0) {
+                if (Number(totalsuma) > Number(importetotal)) {
+                    toastr.error("El monto sumado no debe ser mayor al total", 'Mensaje del sistema');
+                    return;
+                }
             }
+
             txtnumeroletras = $("#txtnumeroletras").val();
             if (txtnumeroletras.length == 0 || txtnumeroletras == '' || Number(txtnumeroletras) == 0) {
                 toastr.error("Ingrese el numero de letras", 'Mensaje del sistema');
@@ -1355,7 +1358,7 @@ $this->startSection('javascript');
         datos.append("pre3", producto.parametro7);
         datos.append("tipop", producto.tipro);
         datos.append("txtcoda1", producto.txtcoda1);
-       datos.append("prod_tigv", producto.prod_tigv);
+        datos.append("prod_tigv", producto.prod_tigv);
         // console.log(Object.fromEntries(datos));
         axios.post('/productos/consultarProductoPorID/', datos)
             .then(function(respuesta) {

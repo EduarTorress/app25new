@@ -129,7 +129,7 @@ $this->startSection('javascript');
                 axios.post(ruta)
                     .then(function(respuesta) {
                         // console.log(respuesta.data);
-                        toastr.success('Eliminado correctamente','Mensaje del Sistema');
+                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
                         buscar();
                     }).catch(function(error) {
                         if (error.hasOwnProperty('response')) {
@@ -156,6 +156,17 @@ $this->startSection('javascript');
             toastr.error('Ingrese un nombre de empresa', 'Mensaje del sistema');
             return;
         }
+        cmbtipotransporte = $("#cmbtipotransporte").val();
+        if (cmbtipotransporte == '02') {
+            if (txttransportista.length == 0) {
+                toastr.error('Ingrese un nombre del transportista', 'Mensaje del Sistema');
+                return;
+            }
+            if (txtbrevete.length == 0) {
+                toastr.error('Ingrese el brevete del conductor', 'Mensaje del Sistema');
+                return;
+            }
+        }
         const formulario = document.getElementById('formulario-crear');
         const data = new FormData(formulario);
         if (modo == 'N') {
@@ -172,7 +183,7 @@ $this->startSection('javascript');
                     axios.post('/transportista/store', data)
                         .then(function(respuesta) {
                             $('#modal-mantenimiento').modal('hide');
-                            toastr.success('Registrado correctamente','Mensaje del Sistema');
+                            toastr.success('Registrado correctamente', 'Mensaje del Sistema');
                             buscar();
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
@@ -203,7 +214,7 @@ $this->startSection('javascript');
                         .then(function() {
                             $('#modal-mantenimiento').modal('hide');
                             buscar();
-                            toastr.success('Actualizado satisfactoriamente','Mensaje del Sistema');
+                            toastr.success('Actualizado satisfactoriamente', 'Mensaje del Sistema');
                         }).catch(function(error) {
                             if (error.hasOwnProperty('response')) {
                                 if (error.response.status === 422) {

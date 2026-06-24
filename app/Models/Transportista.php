@@ -23,6 +23,7 @@ class Transportista extends Modelo
     var $txtbrevete = "";
     var $txtmarca = "";
     var $txtconstancia = "";
+    var $cmbtipotransporte = "";
 
     function BuscarTransportista($buscar, $opt)
     {
@@ -99,7 +100,7 @@ class Transportista extends Modelo
     }
     function save()
     {
-        $sql = "INSERT INTO fe_tra (razon,ructr,nombr,placa,placa1,breve,marca,cons) VALUES (:txtrazon,:txtruc,:txttransportista,:txtplaca,:txtplaca1,:txtbrevete,:txtmarca,:cons)";
+        $sql = "INSERT INTO fe_tra (razon,ructr,nombr,placa,placa1,breve,marca,cons,tran_tipo) VALUES (:txtrazon,:txtruc,:txttransportista,:txtplaca,:txtplaca1,:txtbrevete,:txtmarca,:cons;:tran_tipo)";
         $query = $this->prepare($sql);
         $query->execute([
             'txtrazon' => $this->txtrazon,
@@ -109,7 +110,8 @@ class Transportista extends Modelo
             'txtplaca1' => $this->txtplaca1,
             'txtbrevete' => $this->txtbrevete,
             'txtmarca' => $this->txtmarca,
-            'cons' => $this->txtconstancia
+            'cons' => $this->txtconstancia,
+             'tran_tipo' => $this->cmbtipotransporte
         ]);
         if ($query->errorCode() != '00000') {
             // var_dump($query->errorInfo());
@@ -120,7 +122,7 @@ class Transportista extends Modelo
     }
     function update($id)
     {
-        $sql = "UPDATE fe_tra SET razon=:txtrazon,ructr=:txtruc,nombr=:txttransportista,placa=:txtplaca,placa1=:txtplaca1,breve=:txtbrevete,marca=:txtmarca,cons=:txtconstancia WHERE idtra=:id";
+        $sql = "UPDATE fe_tra SET razon=:txtrazon,ructr=:txtruc,nombr=:txttransportista,placa=:txtplaca,placa1=:txtplaca1,breve=:txtbrevete,marca=:txtmarca,cons=:txtconstancia,tran_tipo=:tran_tipo WHERE idtra=:id";
         $query = $this->prepare($sql);
         $query->execute([
             'txtrazon' => $this->txtrazon,
@@ -130,6 +132,7 @@ class Transportista extends Modelo
             'txtplaca1' => $this->txtplaca1,
             'txtbrevete' => $this->txtbrevete,
             'txtmarca' => $this->txtmarca,
+             'tran_tipo' => $this->cmbtipotransporte,
             'txtconstancia' => $this->txtconstancia,
             'id' => $id
         ]);
