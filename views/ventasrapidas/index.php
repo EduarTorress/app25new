@@ -414,7 +414,6 @@ $this->startSection('javascript');
             columnatotal = "<?php echo (empty($_SESSION['config']['tipobotica']) ? 7 : 9); ?>";
             columnatigv = "<?php echo (empty($_SESSION['config']['tipobotica']) ? 9 : 11); ?>";
             valorigv = $(this).find('td').eq(columnatigv).text();
-
             if (Number(valorigv) == Number("<?php echo $_SESSION['gene_igv']; ?>")) {
                 tn = $(this).find('td').eq(columnatotal).text();
                 total_normal += parseFloat(tn);
@@ -603,6 +602,12 @@ $this->startSection('javascript');
                 return false;
             }
         }
+        // vigv = $("#igv").val(nigv);
+        // exonerado = $("#exonerado").val(exonerado);
+        // if ((Number(exonerado) > 0) && (Number(vigv) > 0)) {
+        //     toastr.error("No se puede vender productos exonerado y no exonerados en la misma venta", "Mensaje del Sistema");
+        //     return false;
+        // }
         return true;
     }
 
