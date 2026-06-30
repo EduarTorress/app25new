@@ -392,7 +392,6 @@ $app->router->post('/cajaybancos/registraregresolibro', [\App\Controllers\CajaCo
 $app->router->get('/cajaybancos/indexlistar', [\App\Controllers\CajaController::class, 'indexlistarcajabanco']);
 $app->router->get('/cajaybancos/listarinformes', [\App\Controllers\CajaController::class, 'listarinformescajaybancos']);
 
-
 $app->router->get('/cajas/generarticketcaja', [\App\Controllers\CajaController::class, 'generarticketcaja']);
 
 #Caja Efectivo
