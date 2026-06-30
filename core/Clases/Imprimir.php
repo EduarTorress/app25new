@@ -1955,7 +1955,7 @@ class Imprimir
         $pdf->Cell(15, 4, '- S/ ' . (Round($this->egresos, 2)), 0, 1, 'L');
         $pdf->ln();
 
-        $pdf->SetFont('Arial', 'B', 9);
+        //$pdf->SetFont('Arial', 'B', 9);
         $pdf->setx(5);
         $pdf->Cell(50, 4, 'TOTAL EFECTIVO: ', 0, 0, 'L');
         $pdf->Cell(15, 4, 'S/ ' . (Round(($this->efectivo) - floatval($this->egresos), 2)), 0, 1, 'L');
