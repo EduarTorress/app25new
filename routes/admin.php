@@ -429,6 +429,7 @@ $app->router->get('/transportista/create', [\App\Controllers\TransportistaContro
 $app->router->get('/transportista/edit/{id}', [\App\Controllers\TransportistaController::class, 'edit']);
 $app->router->post('/transportista/store', [\App\Controllers\TransportistaController::class, 'store']);
 $app->router->post('/transportista/update/{id}', [\App\Controllers\TransportistaController::class, 'update']);
+$app->router->post('/transportista/darBaja/{id}', [\App\Controllers\TransportistaController::class, 'darBaja']);
 
 #rutas de unidades
 $app->router->get('/unidades/index', [\App\Controllers\UnidadesController::class, 'index']);

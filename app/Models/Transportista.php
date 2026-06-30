@@ -143,4 +143,18 @@ class Transportista extends Modelo
             return true;
         }
     }
+    function darbaja($id)
+    {
+        $sql = "UPDATE fe_tra set tran_acti='I' WHERE idtra=:id";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'id' => $id
+        ]);
+        if ($query->errorCode() != '00000') {
+            // var_dump($query->errorInfo());
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

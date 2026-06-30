@@ -437,7 +437,7 @@ class TraspasoController extends Controller
                 $oimp->ructransportista = $fila['ructransportista'];
                 // $oimp->remitente = $fila['remitente'];
                 // $oimp->destinatario = $fila['destinatario'];
-                $oimp->tipotransporte  = $fila['tran_tipo'] == '01' ? 'Público' : 'Privado';
+                $oimp->tipotransporte  = ($fila['tran_tipo'] == '01') ? 'Público' : 'Privado';
 
                 $oimp->ptopartida = $fila['cptop'];
                 $oimp->ptollegada = $fila['cptoll'];

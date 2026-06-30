@@ -83,7 +83,7 @@ class TransportistaController extends Controller
             $transportista->txtbrevete = $request->get('txtbrevete');
             $transportista->txtmarca = $request->get('txtmarca');
             $transportista->txtconstancia = $request->get('txtconstancia');
-                        $transportista->cmbtipotransporte = $request->get('cmbtipotransporte');
+            $transportista->cmbtipotransporte = $request->get('cmbtipotransporte');
 
             if ($transportista->save()) {
                 return response()->json(['message' => 'Transportista registrado correctamente'], 200);
@@ -106,8 +106,7 @@ class TransportistaController extends Controller
             $transportista->txtbrevete = $request->get('txtbrevete');
             $transportista->txtmarca = $request->get('txtmarca');
             $transportista->txtconstancia = $request->get('txtconstancia');
-                        $transportista->cmbtipotransporte = $request->get('cmbtipotransporte');
-
+            $transportista->cmbtipotransporte = $request->get('cmbtipotransporte');
             $idTransportista = $transportista->buscarid($id);
             if ($transportista->update($idTransportista['idtra'])) {
                 return response()->json(['message' => 'Transportista actualizado correctamente'], 200);
@@ -117,5 +116,11 @@ class TransportistaController extends Controller
         } catch (\Exception $error) {
             return response()->json(['message' => 'Hubo un error' . $error], 500);
         }
+    }
+     function darBaja($idtra)
+    {
+        $p = new Transportista();
+        $p->darbaja($idtra);
+        return response()->json(['message' => 'Eliminado correctamente'], 200);
     }
 }

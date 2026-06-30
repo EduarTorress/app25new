@@ -460,6 +460,7 @@ $this->startSection('javascript');
                 data.append("txtIdTransportista", $("#txtIdTransportista").val());
                 data.append("txtChoferVehiculo", $("#txtChoferVehiculo").val());
                 data.append("txtregmtc", $("#txtregmtc").val());
+                data.append("txttipot", $("#txttipot").val());
                 data.append("idautoc", $("#idautoc").val());
                 // data.append("ndo2", ndo2);
                 // data.append("mon", mon);
