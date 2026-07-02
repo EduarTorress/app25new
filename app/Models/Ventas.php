@@ -806,27 +806,30 @@ class Ventas extends Modelo
                 return $rpta;
             }
             if (!empty(floatval($cabecera['txtefectivo']))) {
-                $sqlefec = "call ProIngresaDatosLcajaEefectivo11(:fechv,:cndocv,:deta,:n3,:total,'0','S','0',:nidus,:nidclie,:nidauto,:cform,:cndocv,:ctdoc,:almv) ";
-                $execefec = $pdo->prepare($sqlefec);
-                $execefec->execute([
-                    'fechv' =>  $this->fechv,
-                    'cndocv' => $this->cndoc,
-                    'deta' => $cabecera['razov'],
-                    'n3' => session()->get('gene_idctat'),
-                    'total' => $cabecera["txtefectivo"],
-                    'nidus' => $cabecera["nidus"],
-                    'nidauto' => $id,
-                    'nidclie' => $cabecera["idcliev"],
-                    'cform' => 'E',
-                    'ctdoc' => $cabecera["tdocv"],
-                    'almv' => $cabecera["almv"]
-                ]);
-                // $query->debugDumpParams();
-                if ($execefec->errorCode() != '00000') {
-                    $pdo->rollBack();
-                    enviarmensajerror($sqlefec, $execefec->errorInfo());
-                    $rpta = array('mensaje' => "No se registro", "ndoc" => "", "estado" => '0');
-                    return $rpta;
+                if (floatval($cabecera['txtefectivo']) > 0) {
+                    $sqlefec = "call ProIngresaDatosLcajaEefectivo11(:fechv,:cndocv,:deta,:n3,:total,'0','S','0',:nidus,:nidclie,:nidauto,:cform,:cndocv,:ctdoc,:almv) ";
+                    $execefec = $pdo->prepare($sqlefec);
+                    $totalefectivo = floatval($cabecera['total']) - floatval($cabecera['txtpago']);
+                    $execefec->execute([
+                        'fechv' =>  $this->fechv,
+                        'cndocv' => $this->cndoc,
+                        'deta' => $cabecera['razov'],
+                        'n3' => session()->get('gene_idctat'),
+                        'total' => $totalefectivo,
+                        'nidus' => $cabecera["nidus"],
+                        'nidauto' => $id,
+                        'nidclie' => $cabecera["idcliev"],
+                        'cform' => 'E',
+                        'ctdoc' => $cabecera["tdocv"],
+                        'almv' => $cabecera["almv"]
+                    ]);
+                    // $query->debugDumpParams();
+                    if ($execefec->errorCode() != '00000') {
+                        $pdo->rollBack();
+                        enviarmensajerror($sqlefec, $execefec->errorInfo());
+                        $rpta = array('mensaje' => "No se registro", "ndoc" => "", "estado" => '0');
+                        return $rpta;
+                    }
                 }
             }
             $sqliki = "SELECT FunIngresaKardexIcbper(:nid,:cc,'0',:npr,:nct,:igv,'K',:ccod,:calma,:nidcosto1,:tigv,:epta,:karunid,:karequi,:lote,:fechavto) AS NID";
@@ -1010,28 +1013,31 @@ class Ventas extends Modelo
             }
 
             if (!empty(floatval($cabecera['txtefectivo']))) {
-                $sqlefec = "call ProIngresaDatosLcajaEefectivo11(:fechv,:cndocv,:deta,:n3,:total,'0','S','0',:nidus,:nidclie,:nidauto,:cform,:cndocv,:ctdoc,:almv) ";
-                $execefec = $pdo->prepare($sqlefec);
-                $execefec->execute([
-                    'fechv' => $cabecera["fechv"],
-                    'cndocv' => $cabecera["cndocv"],
-                    'deta' => $cabecera['razov'],
-                    'n3' => session()->get('gene_idctat'),
-                    'total' => $cabecera["txtefectivo"],
-                    'nidus' => $cabecera["nidus"],
-                    'nidauto' =>  $cabecera["nidautov"],
-                    'nidclie' => $cabecera["idcliev"],
-                    'cform' => 'E',
-                    'ctdoc' => $cabecera["tdocv"],
-                    'almv' => $cabecera["almv"]
-                ]);
+                if (floatval($cabecera['txtefectivo']) > 0) {
+                    $sqlefec = "call ProIngresaDatosLcajaEefectivo11(:fechv,:cndocv,:deta,:n3,:total,'0','S','0',:nidus,:nidclie,:nidauto,:cform,:cndocv,:ctdoc,:almv) ";
+                    $totalefectivo = floatval($cabecera['total']) - floatval($cabecera['txtpago']);
+                    $execefec = $pdo->prepare($sqlefec);
+                    $execefec->execute([
+                        'fechv' => $cabecera["fechv"],
+                        'cndocv' => $cabecera["cndocv"],
+                        'deta' => $cabecera['razov'],
+                        'n3' => session()->get('gene_idctat'),
+                        'total' => $totalefectivo,
+                        'nidus' => $cabecera["nidus"],
+                        'nidauto' =>  $cabecera["nidautov"],
+                        'nidclie' => $cabecera["idcliev"],
+                        'cform' => 'E',
+                        'ctdoc' => $cabecera["tdocv"],
+                        'almv' => $cabecera["almv"]
+                    ]);
 
-                // $query->debugDumpParams();
-                if ($execefec->errorCode() != '00000') {
-                    $pdo->rollBack();
-                    enviarmensajerror($execefec, $execefec->errorInfo());
-                    $rpta = array('mensaje' => "No se registro", "ndoc" => "", "estado" => '0');
-                    return $rpta;
+                    // $query->debugDumpParams();
+                    if ($execefec->errorCode() != '00000') {
+                        $pdo->rollBack();
+                        enviarmensajerror($execefec, $execefec->errorInfo());
+                        $rpta = array('mensaje' => "No se registro", "ndoc" => "", "estado" => '0');
+                        return $rpta;
+                    }
                 }
             }
 
