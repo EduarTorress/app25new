@@ -779,6 +779,7 @@ class Ventas extends Modelo
             }
             if ($cabecera['formv'] == 'Y' || $cabecera['formv'] == 'P' || $cabecera['formv'] == 'T' || $cabecera['formv'] == 'D') {
                 if (!empty($cabecera['txtpago'])) {
+                    $total=$cabecera['total'];
                     $cabecera["total"] = $cabecera['txtpago'];
                 }
             }
@@ -809,7 +810,7 @@ class Ventas extends Modelo
                 if (floatval($cabecera['txtefectivo']) > 0) {
                     $sqlefec = "call ProIngresaDatosLcajaEefectivo11(:fechv,:cndocv,:deta,:n3,:total,'0','S','0',:nidus,:nidclie,:nidauto,:cform,:cndocv,:ctdoc,:almv) ";
                     $execefec = $pdo->prepare($sqlefec);
-                    $totalefectivo = floatval($cabecera['total']) - floatval($cabecera['txtpago']);
+                    $totalefectivo = floatval($total) - floatval($cabecera['txtpago']);
                     $execefec->execute([
                         'fechv' =>  $this->fechv,
                         'cndocv' => $this->cndoc,
@@ -983,6 +984,7 @@ class Ventas extends Modelo
 
             if ($cabecera['formv'] == 'Y' || $cabecera['formv'] == 'P' || $cabecera['formv'] == 'T' || $cabecera['formv'] == 'D') {
                 if (!empty($cabecera['txtpago'])) {
+                    $total=$cabecera['total'];
                     $cabecera["total"] = $cabecera['txtpago'];
                 }
             }
@@ -1015,7 +1017,7 @@ class Ventas extends Modelo
             if (!empty(floatval($cabecera['txtefectivo']))) {
                 if (floatval($cabecera['txtefectivo']) > 0) {
                     $sqlefec = "call ProIngresaDatosLcajaEefectivo11(:fechv,:cndocv,:deta,:n3,:total,'0','S','0',:nidus,:nidclie,:nidauto,:cform,:cndocv,:ctdoc,:almv) ";
-                    $totalefectivo = floatval($cabecera['total']) - floatval($cabecera['txtpago']);
+                    $totalefectivo = floatval($total) - floatval($cabecera['txtpago']);
                     $execefec = $pdo->prepare($sqlefec);
                     $execefec->execute([
                         'fechv' => $cabecera["fechv"],
