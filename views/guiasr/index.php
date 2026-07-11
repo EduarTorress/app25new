@@ -146,7 +146,7 @@ echo $oimp->render();
                                                             <th scope="col" style="width:5%">U.M.</th>
                                                             <th scope="col" class="text-center" style="width:5%">Cantidad</th>
                                                             <th scope="col" class="text-center" style="width:5%">Peso</th>
-                                                            <th scope="col" class="text-center" style="width:5%">SCOP</th>
+                                                            <th scope="col" class="scop" style="width:5%"></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="carritoventas">
@@ -262,6 +262,7 @@ $this->startSection('javascript');
         titulo("<?php echo $titulo ?>");
         calcularPesoTotal();
         $(".codigo").css("display", "none");
+        $(".scop").css('display', 'none');
     }
 
     $("#modal_transportista").on("hidden.bs.modal", function() {
@@ -524,7 +525,7 @@ $this->startSection('javascript');
                 data.append("detalle", JSON.stringify(detalle));
                 axios.post("/guiasr/modificar", data)
                     .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc,'Mensaje del Sistema');
+                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         window.location.href = '/guiasr/index';
                         limpiarGuia();
                     }).catch(function(error) {
@@ -634,6 +635,7 @@ $this->startSection('javascript');
     /////
     $(document).ready(function() {
         $(".codigo").css("display", "none");
+        $(".scop").css('display', 'none');
     });
 
     //Poner editable luego de quitar el focus a los campos.

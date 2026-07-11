@@ -1827,12 +1827,10 @@ class Ventas extends Modelo
                     CONCAT(v.nruc,'-',tdoc,'-',LEFT(ndoc,4),'-',SUBSTR(ndoc,5),'.xml') AS nombrexml
                     FROM fe_rcom as a 
                     inner JOIN fe_clie as b ON (a.idcliente=b.idclie),fe_gene as v
-                    where a.acti='A' and tdoc<>'09' and tdoc<>'07' and MONTH(a.fech)=MONTH(LOCALTIME()) and codt=:codt order by fech desc";
+                    where a.acti='A' and tdoc<>'09' and tdoc<>'07' and MONTH(a.fech)=MONTH(LOCALTIME()) order by fech desc";
             $query = $this->prepare($sql);
             $query->fetchAll(PDO::FETCH_ASSOC);
-            $query->execute([
-                'codt' => $_SESSION['idalmacen']
-            ]);
+            $query->execute();
             return $query;
         } catch (PDOException $e) {
             echo ('Error al Consultar ' . $e->getMessage());

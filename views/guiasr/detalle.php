@@ -8,7 +8,7 @@
                 <th scope="col" style="width:5%">U.M.</th>
                 <th scope="col" class="text-center" style="width:5%">Cantidad</th>
                 <th scope="col" class="text-center" style="width:5%">Peso</th>
-                <th scope="col" class="text-center" style="width:5%"></th>
+                <th scope="col" class="scop" style="width:5%"></th>
             </tr>
         </thead>
         <tbody id="carritoventas">
@@ -94,7 +94,9 @@
 <script>
     $(document).ready(function() {
         $(".codigo").css("display", "none");
+        $(".scop").css('display', 'none');
     });
+
     //No admitir letras, solo numeros con punto y coma.
     function isNumber(evt) {
         evt = (evt) ? evt : window.event;

@@ -72,7 +72,7 @@
             $('#detalle').html(contenido_tabla);
             calcularPesoTotal();
         }).catch(function(error) {
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado','Mensaje del Sistema')
         });
         $("#modal_ventas").modal('hide');
     }

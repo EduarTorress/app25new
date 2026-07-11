@@ -423,8 +423,8 @@ class GuiaRemitente extends Modelo
                     $cmbunidad = $item['unidad'];
                     $cmbunidad = explode("-", $cmbunidad);
                     $descunidad = $cmbunidad[0];
-                    $cantequi = $cmbunidad[1];
-                    $presseleccionada = $cmbunidad[2];
+                    // $cantequi = $cmbunidad[1];
+                    // $presseleccionada = $cmbunidad[2];
                     $execguiase = $pdo->prepare($sqlguiase);
                     $ncant = floatval($item['cantidad']);
                     $execguiase->execute([
