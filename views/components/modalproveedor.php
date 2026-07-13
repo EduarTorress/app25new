@@ -79,8 +79,8 @@
                 ciudad = "-",
                 direccion = "-",
                 ubigeo = "-";
-            const tblcl = $("#iniciar").val();
-            if ((tblcl == null) && (noption == '1' || noption == '2')) {
+            const tblprov = $("#iniciar").val();
+            if ((tblprov == null) && (noption == '1' || noption == '2')) {
                 switch (noption) {
                     case 1:
                         if (abuscar.length == 11) {
