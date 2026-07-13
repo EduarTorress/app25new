@@ -130,19 +130,21 @@
                                                         $(btnagregar).click();
                                                     });
                                                 }).catch(function(error) {
-                                                    if (error.hasOwnProperty('response')) {
-                                                        if (error.response.status === 422) {
-                                                            const respuesta_servidor = error.response.data;
-                                                            const errores = respuesta_servidor.errors;
-                                                            mostrarErrores('formulario-crear', errores);
-                                                        }
-                                                    }
+                                                    // if (error.hasOwnProperty('response')) {
+                                                    //     if (error.response.status === 422) {
+                                                    //         const respuesta_servidor = error.response.data;
+                                                    //         const errores = respuesta_servidor.errors;
+                                                    //         mostrarErrores('formulario-crear', errores);
+                                                    //     }
+                                                    // }
+                                                    toastr.error(error.response.data.message, 'Mensaje del Sistema')
                                                 })
                                         }
                                     });
                                 }
                             }).catch(function(error) {
-                                toastr.error(error, 'Mensaje del Sistema')
+                                toastr.error(error.response.data.message, 'Mensaje del Sistema')
+                                // toastr.error(error, 'Mensaje del Sistema')
                             });
                         }
                         break;
@@ -190,20 +192,22 @@
                                                             $(btnagregar).click();
                                                         });
                                                     }).catch(function(error) {
-                                                        if (error.hasOwnProperty('response')) {
-                                                            if (error.response.status === 422) {
-                                                                const respuesta_servidor = error.response.data;
-                                                                const errores = respuesta_servidor.errors;
-                                                                mostrarErrores('formulario-crear', errores);
-                                                            }
-                                                        }
+                                                        toastr.error(error.response.data.message, 'Mensaje del Sistema')
+                                                        // if (error.hasOwnProperty('response')) {
+                                                        //     if (error.response.status === 422) {
+                                                        //         const respuesta_servidor = error.response.data;
+                                                        //         const errores = respuesta_servidor.errors;
+                                                        //         mostrarErrores('formulario-crear', errores);
+                                                        //     }
+                                                        // }
                                                     })
                                             }
                                         }
                                     });
                                 }
                             }).catch(function(error) {
-                                toastr.error(error, 'Mensaje del Sistema')
+                                toastr.error(error.response.data.message, 'Mensaje del Sistema')
+                                // toastr.error(error, 'Mensaje del Sistema')
                             });
                         }
                         break;
@@ -234,7 +238,7 @@
             $('#modal_proveedor').modal('toggle');
         }).catch(function(error) {
             $('#modal_proveedor').modal('toggle');
-            toastr.error(error,'Mensaje del Sistema');
+            toastr.error(error, 'Mensaje del Sistema');
         });
     }
 </script>
