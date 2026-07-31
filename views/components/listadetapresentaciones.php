@@ -12,7 +12,7 @@
         </thead>
         <tbody>
             <?php foreach ($listadetapresxproducto as $p) : ?>
-                <tr>
+                <tr ondblclick="generarpdfnombreypresentacion('<?php echo $p['pres_desc'] ?>' ,'<?php echo $p['epta_prec'] ?>')">
                     <td><?php echo $p['pres_desc'] ?></td>
                     <td class="text-end"><?php echo $p['epta_cant'] ?></td>
                     <td class="text-end"><?php echo $p['epta_cost'] ?></td>

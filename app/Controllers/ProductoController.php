@@ -11,6 +11,7 @@ use Core\Routing\Controller;
 use Core\Http\Request;
 use App\Middlewares\AuthAdminMiddleware;
 use App\Models\Presentacion;
+use Core\Clases\Imprimir;
 use Core\Routing\Modelo;
 use Core\View\View;
 
@@ -498,5 +499,15 @@ class ProductoController extends Controller
         $lista = $this->producto->BuscarProductos($abuscar, $nd, 0, 0);
         return response()->json(['listado' => $lista], 200);
         // return view($cvista, ['lista' => $lista]);
+    }
+    function generarimpresionbarras(Request $request)
+    {
+        $imprimir = new Imprimir();
+        $imprimir->generarimpresionbarrasproducto();
+    }
+    function generarpdfnombreypresentacion(Request $request)
+    {
+        $imprimir = new Imprimir();
+        $imprimir->generarpdfnombreproducto($request->get('descripcion'), $request->get('precio'));
     }
 }

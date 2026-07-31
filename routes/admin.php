@@ -514,6 +514,10 @@ $app->router->get('/productos/consultarstockxminimos', [\App\Controllers\Product
 
 $app->router->get('/productos/verdetallecombo', [\App\Controllers\ProductoController::class, 'verdetallecombo']);
 
+
+$app->router->get('/productos/generarimpresionbarras', [\App\Controllers\ProductoController::class, 'generarimpresionbarras']);
+$app->router->get('/productos/generarpdfnombreypresentacion', [\App\Controllers\ProductoController::class, 'generarpdfnombreypresentacion']);
+
 #Presentaciones
 $app->router->get('/productos/listarmodalpres', [\App\Controllers\PresentacionController::class, 'listarmodalpres']);
 $app->router->get('/presentaciondetalle/listar', [\App\Controllers\PresentacionController::class, 'listarpresentaciondetalle']);

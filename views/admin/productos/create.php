@@ -40,6 +40,7 @@
                 </div>
                 <div class="form-group col-2">
                     <label for="codigo">Código:</label>
+                    <!-- ondblclick="generarimpresionbarras();" -->
                     <input type="text" onclick="select()" class="form-control form-control-sm inputright" id="txtcodigoo" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['codigo']) ?>" required>
                 </div>
                 <div class="form-group col-2">
@@ -133,7 +134,7 @@
         </div>
         <div class="modal-footer">
             <div class="form-group col-6 text-start">
-                 <?php $dp = (empty($datosProducto['prod_tigv']) ? $_SESSION['gene_igv'] : $datosProducto['prod_tigv']); ?> 
+                <?php $dp = (empty($datosProducto['prod_tigv']) ? $_SESSION['gene_igv'] : $datosProducto['prod_tigv']); ?>
                 <?php $prod_tigv = (floatval($dp) == floatval($_SESSION['gene_igv'])) ? $_SESSION['gene_igv'] : $datosProducto['prod_tigv']; ?>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input igvproducto" type="radio" name="igvproducto" <?php echo (floatval($prod_tigv) == 1 ? 'checked' : '') ?> onclick="" value="E" onchange="cambiarcostoigv();">
@@ -147,7 +148,7 @@
             <button class="btn btn-dark" id="btnagregarpresentaciones" onclick="openmodalpresent()" style="<?php echo (empty($datosProducto) ? 'display:none' : '') ?>"><i class="fas fa-plus"></i> Agregar</button>
             <button class="btn btn-primary" onclick="grabarproducto()"><i class="fas fa-save"></i> Grabar</button>
             <!-- <?php if (empty($datosProducto)) : ?> -->
-                <button type="button" id="btncerrarpres" class="btn btn-danger" onclick="cerrarModal()"><i class="fas fa-close"></i> Cerrar</button>
+            <button type="button" id="btncerrarpres" class="btn btn-danger" onclick="cerrarModal()"><i class="fas fa-close"></i> Cerrar</button>
             <!-- <?php endif; ?> -->
         </div>
     </div>
@@ -386,7 +387,7 @@
                 data.append("txtcomisione", txtcomisione);
                 data.append("txtcomisionc", txtcomisionc);
                 data.append("txtcoda1", $("#txtcoda1").val())
-                  data.append("prod_tigv", obtenerTipoIGVProducto());
+                data.append("prod_tigv", obtenerTipoIGVProducto());
                 axios.post("/productos/registrar", data)
                     .then(function(respuesta) {
                         // toastr.success(respuesta.data.message)
@@ -460,7 +461,7 @@
         data.append("id", id);
         axios.post("/presentaciondetalle/eliminar", data)
             .then(function(respuesta) {
-                toastr.success(respuesta.data.message,'Mensaje del Sistema');
+                toastr.success(respuesta.data.message, 'Mensaje del Sistema');
                 listardetapresxproducto();
             }).catch(function(error) {
                 toastr.error(error, 'Mensaje del sistema');
@@ -655,6 +656,38 @@
                     toastr.error('Error al registrar ' + error, "Mensaje del sistema");
                 })
         }
+    }
+
+    function generarimpresionbarras() {
+        axios.get('/productos/generarimpresionbarras', {
+            // "params": {
+            //     "cbuscar": abuscar,
+            //     "option": noption
+            // }
+        }).then(function(respuesta) {
+            console.log(respuesta);
+        }).catch(function(error) {
+            toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
+        });
+    }
+
+    function generarpdfnombreypresentacion(presentacion, precio) {
+        nombre = $("#txtdescrip").val() + "  -  " + presentacion;
+        var params = "descripcion=" + nombre + '&precio=' + precio;
+        var xhr = new XMLHttpRequest();
+        var cruta = '/productos/generarpdfnombreypresentacion';
+        xhr.open('GET', cruta + "?" + params, true);
+        xhr.responseType = 'blob';
+        xhr.onload = function(e) {
+            if (this.status == 200) {
+                var blob = new Blob([this.response]);
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = nombre + ".pdf";
+                link.click();
+            }
+        };
+        xhr.send();
     }
 </script>
 <script>

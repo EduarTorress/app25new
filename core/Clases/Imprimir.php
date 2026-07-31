@@ -7,6 +7,7 @@ use Core\Foundation\Application;
 use Fpdf\Fpdf;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 use tFPDF;
 
 class Imprimir
@@ -2398,5 +2399,84 @@ class Imprimir
             // $pdf->Output('D', $rutapdf);
             $pdf->Output($rutapdf, 'D');
         }
+    }
+    function generarimpresionbarrasproducto()
+    {
+        // Datos del producto
+        $codigo = "750123456789";
+        $descripcion = "LAMPARA LED";
+        $precio = 39.90;
+
+        // Generador
+        $generator = new BarcodeGeneratorPNG();
+
+        // Genera el código de barras
+        $barcode = $generator->getBarcode(
+            $codigo,
+            $generator::TYPE_CODE_128,
+            4,      // ancho
+            100      // alto
+        );
+
+        // Crear lienzo
+        $ancho = 696;
+        $alto = 220;
+
+        $imagen = imagecreatetruecolor($ancho, $alto);
+
+        $blanco = imagecolorallocate($imagen, 255, 255, 255);
+        $negro  = imagecolorallocate($imagen, 0, 0, 0);
+
+        imagefill($imagen, 0, 0, $blanco);
+
+        // Guardar temporalmente el código de barras
+        $temp = "barcode.png";
+        file_put_contents($temp, $barcode);
+
+        $codigoBarras = imagecreatefrompng($temp);
+
+        // Dibujar código de barras
+        imagecopy($imagen, $codigoBarras, 20, 45, 0, 0, imagesx($codigoBarras), imagesy($codigoBarras));
+
+        // Texto
+        imagestring($imagen, 5, 20, 20, $descripcion, $negro);
+        imagestring($imagen, 6, 150, 150, $codigo, $negro);
+
+        // Precio grande al costado
+        $precioTexto = "S/ " . number_format($precio, 2);
+
+        imagestring($imagen, 5, 500, 85, $precioTexto, $negro);
+
+        // Mostrar
+        header("Content-Type: image/png");
+        imagepng($imagen);
+
+        imagedestroy($imagen);
+        imagedestroy($codigoBarras);
+
+        unlink($temp);
+    }
+    function generarpdfnombreproducto($nombre, $precio)
+    {
+$pdf = new FPDF('L', 'mm', array(62,29));
+
+        $pdf->AddPage();
+        $pdf->SetMargins(2, 2, 2);
+        $pdf->SetAutoPageBreak(false);
+
+        $descripcion = $nombre;
+        $precio = $precio;
+
+
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->SetXY(2, 3);
+        $pdf->MultiCell(58, 5, utf8_decode($descripcion), 0, 'C');
+
+
+        $pdf->SetFont('Arial', 'B', 24);
+        $pdf->SetXY(2, 14);
+        $pdf->Cell(58, 10, "S/ " . number_format(floatval($precio), 2), 0, 0, 'C');
+
+        $pdf->Output('datosproducto.pdf', 'D');
     }
 }

@@ -16,7 +16,8 @@
         "fpdf/fpdf": "^1.83",
         "vlucas/phpdotenv": "^5.4",
         "endroid/qrcode": "^4.6",
-        "symfony/mailer": "^5.4"
+        "symfony/mailer": "^5.4",
+        "picqer/php-barcode-generator": "^2.4"
     },
     "autoload": {
         "psr-4": {

@@ -29,6 +29,7 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\EventDispatcher\\' => array($vendorDir . '/psr/event-dispatcher/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
+    'Picqer\\Barcode\\' => array($vendorDir . '/picqer/php-barcode-generator/src'),
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
     'Illuminate\\Support\\' => array($vendorDir . '/illuminate/collections', $vendorDir . '/illuminate/macroable', $vendorDir . '/illuminate/support'),
     'Illuminate\\Database\\' => array($vendorDir . '/illuminate/database'),
