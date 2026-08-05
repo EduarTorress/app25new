@@ -2458,7 +2458,7 @@ class Imprimir
     }
     function generarpdfnombreproducto($nombre, $precio)
     {
-$pdf = new FPDF('L', 'mm', array(62,29));
+        $pdf = new FPDF('L', 'mm', array(62,29));
 
         $pdf->AddPage();
         $pdf->SetMargins(2, 2, 2);
@@ -2473,7 +2473,7 @@ $pdf = new FPDF('L', 'mm', array(62,29));
         $pdf->MultiCell(58, 5, utf8_decode($descripcion), 0, 'C');
 
 
-        $pdf->SetFont('Arial', 'B', 24);
+        $pdf->SetFont('Arial', 'B', 22);
         $pdf->SetXY(2, 14);
         $pdf->Cell(58, 10, "S/ " . number_format(floatval($precio), 2), 0, 0, 'C');
 
