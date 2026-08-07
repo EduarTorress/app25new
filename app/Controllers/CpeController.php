@@ -357,7 +357,7 @@ class CpeController extends Controller
             'number' => $request->get('number'),
             'mediatype' => 'document',
             'fileName' => $request->get('nombrepdf'),
-            'media' => 'https://' . $_SERVER['SERVER_NAME'] . '/' . $rutapdf
+            'media' => base64_encode(file_get_contents('https://' . $_SERVER['SERVER_NAME'] . '/' . $rutapdf))
         ];
         $curl = curl_init();
         curl_setopt_array($curl, array(
