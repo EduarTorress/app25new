@@ -134,7 +134,7 @@
                                     <button class="btn btn-success" id="<?php echo "agregar" . $parametro2 ?>" onclick='agregarunitemcarrito(<?php echo $cadena_json ?>)'><a style="color:white;" class="a fas fa-plus-circle"></a></button>
                                 <?php break;
                                 case 1: ?>
-                                    <button class="btn btn-warning" id="<?php echo "agregar" . $parametro2 ?>" data-target="#agregar_cantidad" onclick='agregar_producto(<?php echo $cadena_json ?>)'><i href="" style="color:white;" class="fas fa-plus-circle"></i></button>
+                                    <!-- <button class="btn btn-warning" id="<?php echo "agregar" . $parametro2 ?>" data-target="#agregar_cantidad" onclick='agregar_producto(<?php echo $cadena_json ?>)'><i href="" style="color:white;" class="fas fa-plus-circle"></i></button> -->
                                 <?php break;
                                 case 3: ?>
                                     <?php if ($tipro == 'C') : ?>

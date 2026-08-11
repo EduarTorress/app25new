@@ -342,6 +342,8 @@ $app->router->post('/pedido/sesion', [\App\Controllers\PedidoController::class, 
 $app->router->post('/detail/changedolarp', [\App\Controllers\PedidoController::class, 'changedolarp']);
 $app->router->post('/pedido/verutilidad', [\App\Controllers\PedidoController::class, 'verutilidad']);
 
+$app->router->get('/pedidos/indexespecial', [\App\Controllers\PedidoController::class, 'indexespecial']);
+$app->router->post('/pedidos/agregaritemrapido', [\App\Controllers\PedidoController::class, 'agregaritemrapido']);
 
 #ruta de traspasos
 

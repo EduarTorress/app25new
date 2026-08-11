@@ -50,6 +50,85 @@ class PedidoController extends Controller
         $cvista = \retornavista('pedidos', 're_pedido');
         return view($cvista, ['carrito' => $carrito, 'total' => $total, 'items' => $numero_items, 'datoscliente' => $datoscliente]);
     }
+    function indexespecial()
+    {
+        $datoscliente = array(
+            'idcliente' => '',
+            'nombre' => '',
+            'txtdireccion' => '',
+            'txtdnicliente' => '',
+            'txtruccliente' => '',
+            'idven' => '0',
+            'tdoc' => 'B',
+            'form' => 'E',
+            'mone' => 'S',
+            'optigvp' => 'I'
+        );
+        $idpedido = 0;
+        $ctitulo = 'Registrar Cotización';
+        $cvista = \retornavista('pedidos', 'indexespecial');
+        $vendedor = new Vendedor();
+        $listav = $vendedor->listar('');
+        return view($cvista, ['titulo' => $ctitulo, 'datoscliente' => $datoscliente, 'idautop' => $idpedido, 'vendedores' => $listav]);
+    }
+    function agregaritemrapido(Request $request)
+    {
+        $idart = $request->get('txtcodigo');
+        // if ($this->verificarsiyaesta($idart)) {
+        //     $data = [
+        //         'message' => 'Producto ya agregado a la cotización',
+        //         'rpta' => 'N'
+        //     ];
+        //     return response()->json($data, 422);
+        // }
+        // $stock = $request->get("stock");
+        $preciomin = min($request->get("precio1"), $request->get("precio2"), $request->get("precio3"));
+        $validar = new Validator($request->getBody());
+        $validar->rule("required", "txtprecio")->message('Precio es Obligatorio');
+        $validar->rule("required", "txtcantidad")->message('Cantidad es Obligatorio');
+        $validar->rule("numeric", "txtprecio")->message('El Precio debe ser Numerico');
+        $validar->rule("numeric", "txtcantidad")->message('Cantidad debe de ser Númerico');
+        $validar->rule("min", "txtcantidad", 0)->message('La Cantidad debe de ser mayor a 0');
+        // $validar->rule("min", "txtprecio", 1)->message('El precio debe de ser mayor a 0');
+        //$validar->rule("max", "txtcantidad", $stock)->message("Stock no Disponible");
+        $validar->rule("min", "txtprecio", $preciomin)->message("Precio no permitido");
+        $validar->labels([
+            'precio' => 'txtprecio',
+            'cantidad' => 'txtcantidad'
+        ]);
+        if (!$validar->validate()) {
+            $data = ["errors" => $validar->errors()];
+            return response()->json($data, 422);
+        }
+        $producto = array();
+
+        $producto = array(
+            'coda' => $request->get("txtcodigo"),
+            'descri' => $request->get("txtdescripcion"),
+            'unidad' => $request->get('txtunidad'),
+            'cantidad' => $request->get('txtcantidad'),
+            'precio' => $request->get("txtprecio"),
+            'precio1' => $request->get("precio1"),
+            'precio2' => $request->get("precio2"),
+            'precio3' => $request->get("precio3"),
+            'stock' => $request->get('stock'),
+            'costo' => $request->get('costo'),
+            'mone' => 'S',
+            'eptaidep' => $request->get('eptaidep'),
+            'tipoproducto' => $request->get('tipoproducto'),
+            'textopresentacion' => $request->get('textopresentacion'),
+            'cantpresentacion' => $request->get('cantpresentacion'),
+            'preciopresentacion' => $request->get('preciopresentacion'),
+        );
+
+        CarritoService::agregar($producto);
+
+        $carrito = session()->get('carrito', []);
+        $total = number_format(CarritoService::total(), 2, '.', '');
+        $numero_items = str_pad(CarritoService::numeroItems(), 2, '0', STR_PAD_LEFT);
+        $cvista = \retornavista('pedidos', 're_pedido');
+        return view($cvista, ['carrito' => $carrito, 'total' => $total, 'items' => $numero_items, 'indice' => count($carrito)]);
+    }
     function verificarsiyaesta($idart)
     {
         if (CarritoService::siesta($idart)) {
@@ -307,9 +386,9 @@ class PedidoController extends Controller
         $dfi = $request->get('dfechai');
         $dff = $request->get('dfechaf');
         $ctipop = $request->get('ctipopedidos');
-        $cmbAlmacen=$request->get('cmbAlmacen');
+        $cmbAlmacen = $request->get('cmbAlmacen');
         $pedido = new Pedido();
-        $lista = $pedido->listarpedidosresumidos($dfi, $dff, $ctipop,$cmbAlmacen);
+        $lista = $pedido->listarpedidosresumidos($dfi, $dff, $ctipop, $cmbAlmacen);
         return \view('pedidos/informes/listaPedidos', ['listado' => $lista]);
     }
     function buscarpedido($id, Request $request)

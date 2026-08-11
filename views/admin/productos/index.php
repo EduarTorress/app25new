@@ -46,11 +46,11 @@ echo $mdGs->render();
                                                 <span class="input-group-btn">
                                                     <button type="submit" id="buscar" class="btn btn-outline-secondary">Buscar</button>
                                                 </span>&nbsp;
-                                                <?php
+                                                <!-- <?php
                                                 $opt = session()->get('tiposel', '0');
                                                 if ($opt == '1') : ?>
                                                     <a href="/pedidos/listarpedido" class="btn btn-success">Ver Carrito</a>
-                                                <?php endif; ?>
+                                                <?php endif; ?> -->
                                                 <?php if ($opt == '5') : ?>
                                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdStockProducto">
                                                         Ver Gestión Stock

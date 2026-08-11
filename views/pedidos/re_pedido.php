@@ -53,7 +53,7 @@
 </table><br>
 <div class="col-lg-12">
     <div class="card card-primary card-outline" style="width:auto;">
-        <div class="input-group">
+        <div class="input-group" id="divobservaciones">
             <label for="" class="col-form-label form-control-sm ">Observaciones:</label>
             <div>
                 <textarea class="form-control form-control-sm" placeholder="" id="txtdetalle" name="txtdetalle" style="width:200%; height:65%"></textarea>
@@ -61,17 +61,12 @@
         </div>
         <div class="row">
             <div class="col-6"><br>
-                <button class="btn btn-primary btn-sm" role="button"><a style="color:white;" href="<?php echo "/productos/index/1" ?>">Agregar</a></button>
+                <button class="btn btn-primary btn-sm" id="btnagregarprod" role="button" data-bs-toggle="modal" data-bs-target="#modal_productos">Agregar</button>
                 <button class="btn btn-danger btn-sm" id="cancelar" role="button" onclick="cancelarpedido()">Limpiar</button>
                 <button class="btn btn-success btn-sm" role="button" onclick="grabarpedido()">Grabar </button>
-                <?php if ($_SESSION['tipousuario'] == 'A') : ?>
-                    <!-- <button class="btn btn-warning btn-sm" onclick="verutilidad();">Ver Utilidad</button> -->
-                <?php endif; ?>
-                <?php if (!empty($_SESSION['idpedido'])) : ?>
-                    <?php if (!empty($_SESSION['config']['guardarpedidocomonuevo'])) : ?>
-                        <button class="btn btn-success btn-sm" role="button" onclick="guardarpedido('Registrar Pedido como nuevo')">Grabar Nuevo </button>
-                    <?php endif; ?>
-                <?php endif; ?>
+                <!-- <?php if ($_SESSION['tipousuario'] == 'A') : ?> -->
+                <!-- <button class="btn btn-warning btn-sm" onclick="verutilidad();">Ver Utilidad</button> -->
+                <!-- <?php endif; ?> -->
             </div>
             <div class="col-2 align-items-end"><br>
                 <div class="input-group mb-3" style="width: 85%; display:none" id="divutilidad">
@@ -100,23 +95,24 @@
             </div>
         </div>
     </div>
+    <input type="hidden" id="txtindice" value="<?php echo $indice; ?>">
 </div>
 <script>
-    var table = $('#gridpedidos').DataTable({
-        "paging": true,
-        "keys": true,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": false,
-        "info": false,
-        "autoWidth": false,
-        "responsive": true,
-        "columnDefs": [{
-            targets: 3,
-            orderable: false,
-            searchable: false
-        }]
-    });
+    // var table = $('#gridpedidos').DataTable({
+    //     "paging": true,
+    //     "keys": true,
+    //     "lengthChange": false,
+    //     "searching": true,
+    //     "ordering": false,
+    //     "info": false,
+    //     "autoWidth": false,
+    //     "responsive": true,
+    //     "columnDefs": [{
+    //         targets: 3,
+    //         orderable: false,
+    //         searchable: false
+    //     }]
+    // });
     $(".coda").css("display", "none");
     <?php if ($_SESSION['config']['multiigv'] == 'N') : ?>
         $(".preciosgv").css("display", "none");

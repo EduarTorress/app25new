@@ -239,7 +239,7 @@
             },
             {
                 "item": "Registrar Cotización",
-                "ruta": "/pedidos/listarpedido",
+                "ruta": "/pedidos/indexespecial",
                 "class": "far fa-circle nav-icon",
                 "opt": "AVS"
             },

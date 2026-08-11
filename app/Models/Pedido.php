@@ -209,7 +209,7 @@ class Pedido extends Modelo
             $a = ($cmbAlmacen == '0') ? ' and idtienda<>:cmbAlmacen  ' : ' and idtienda=:cmbAlmacen ';
             // $cwhere = ($ctipop == '' ? '' : ($ctipop == 'W' ? ' and idpcped=:ctipo ' : ' and idpcped<>:ctipo '));
             $t = ($ctipop == '0') ? ' and idpcped<>:ctipop' : ' and idpcped=:ctipop ';
-            $sql = "SELECT a.ndoc,a.fech,d.razo,e.nomv,x.nomb AS usuario,
+            $sql = "SELECT a.ndoc,a.fech,d.razo,e.nomv,x.nomb AS usuario,fecho,
             CAST(a.impo AS DECIMAL(12,2)) AS impo,a.idclie AS codigo,idautop FROM fe_rped AS a
             INNER JOIN fe_vend AS e ON(e.idven=a.idven)
             LEFT JOIN fe_clie AS d ON(d.idclie=a.idclie)
