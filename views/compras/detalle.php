@@ -5,16 +5,17 @@
                 <th scope="col" style="width:2%">Opciones</th>
                 <th scope="col" class="codigo" style="width:3%">Código</th>
                 <th scope="col" style="width:28%">Producto</th>
-                <th scope="col" style="width:5%">U.M.</th>
-                <th scope="col" style="width:5%">Cantidad</th>
+                <th scope="col" style="width:5%; text-align:center;">U.M.</th>
+                <th scope="col" style="width:5%; text-align:center;">Cantidad</th>
                 <!-- <th scope="col" style="width:5%">Precios</th> -->
-                <th scope="col" style="width:5%">Precio</th>
+                <th scope="col" style="width:5%; text-align:center;">Precio</th>
                 <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
                     <th scope="col" style="width:5%">Lote</th>
                     <th scope="col" style="width:5%">Fecha Vto.</th>
                 <?php endif; ?>
-                <th scope="col" style="width:5%">Importe</th>
-                <th scope="col" style="width:5%" class="text-center">No Afecto</th>
+                <th scope="col" style="width:5%; text-align:center;">Importe</th>
+                <th scope="col" style="width:5%" class="text-center afecto">No Afecto</th>
+                <th scope="col" style="width:5%" class="text-center flete">Costo (Flete)</th>
             </tr>
         </thead>
         <tbody id="bodycompras">
@@ -75,6 +76,8 @@
                             ?>
                             <input type="checkbox" <?php echo $checkafecto; ?> class="" id="checkmarcado<?php echo $indice; ?>" name="checkafecto" onclick="cambiarcheckafecto(this,<?php echo $indice ?>)">
                         </td>
+                        <?php $flete = empty($item['flete']) ? 0 : $item['flete']; ?>
+                        <td class="text-center flete"><input onclick="this.select();" onkeyup="ingresarfletexproducto(<?php echo $indice ?>,this)" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo $flete; ?>"></td>
                         <?php $i++; ?>
                     </tr>
                 <?php } ?>
@@ -198,12 +201,28 @@
 </div>
 <script>
     calcularIGV();
+    <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']) ?>
+    <?php if ($proyecto == 'xsys5'): ?>
+        $(".afecto").css("display", "none");
+    <?php else: ?>
+        $("flete").css("display", "none");
+    <?php endif; ?>
 
     function seleccionarproducto(indice, codigoproducto) {
         if (codigoproducto == 0) {
             ie = indice;
             $("#modal_productos").modal("show");
         }
+    }
+
+    function ingresarfletexproducto(indice, valorflete) {
+        const data = new FormData();
+        data.append("indice", indice);
+        data.append("valorflete", $(valorflete).val());
+        axios.post('/compras/ingresarfletexproducto', data)
+            .then(function(respuesta) {}).catch(function(error) {
+                console.log(error);
+            });
     }
 
     $('#cbpercepcion').change(function() {

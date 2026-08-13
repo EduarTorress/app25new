@@ -116,197 +116,7 @@ echo $prod->render();
                 <div class="col-lg-12">
                     <div class="card card-success card-outline" style="width:max-content; width:auto;">
                         <div class="col-12" id="detalle">
-                            <?php if ($v == 'M') : ?>
-                                <div class="table-responsive">
-                                    <table class="table table-sm small table table-hover" id="griddetalle">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" style="width:2%">Opciones</th>
-                                                <th scope="col" style="width:3%" class="codigo">Código</th>
-                                                <th scope="col" style="width:28%">Producto</th>
-                                                <th scope="col" style="width:5%">U.M.</th>
-                                                <th scope="col" style="width:5%">Cantidad</th>
-                                                <th scope="col" style="width:5%">Precio</th>
-                                                <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
-                                                    <th scope="col" style="width:5%">Lote</th>
-                                                    <th scope="col" style="width:5%">Fecha Vto.</th>
-                                                <?php endif; ?>
-                                                <th scope="col" style="width:5%">Importe</th>
-                                                <th scope="col" style="width:5%" class="text-center">No Afecto</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="bodycompras">
-                                            <?php $i = 0; ?>
-                                            <?php foreach ($carritoc as $indice => $item) : ?>
-                                                <?php if ($item['activo'] == 'A') { ?>
-                                                    <tr onkeyup="calcularsubtotal(this); actualizarProducto(this,<?php echo $indice ?>); " onchange="obtenerPrecio(this,<?php echo $indice ?>);">
-                                                        <?php
-                                                        $parametro1 = $item['descri'];
-                                                        $parametro2 = $item['coda'];
-                                                        $parametro3 = $item['unidad'];
-                                                        $parametro4 = $item['cantidad'];
-                                                        $parametro5 = $item['precio'];
-                                                        $parametro6 = $indice;
-                                                        $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6');
-                                                        $cadena_json = json_encode($parametros);
-                                                        ?>
-                                                        <td>
-                                                            <button class="btn btn-warning" onclick="quitaritem(<?php echo $indice ?>)"><a style="color:white" class="fas fa-trash-alt"></a></button>
-                                                        </td>
-                                                        <td class="codigo"><?php echo $item['coda'] ?></td>
-                                                        <td><?php echo $item['descri'] ?></td>
-                                                        <td><?php
-                                                            $presentaciones = json_decode($item['presentaciones'], true); ?>
-                                                            <select onchange="cambiarpresentacion(this,<?php echo $indice ?>)" class="form-control form-control-sm" name="cmbpresentaciones" id="cmbpresentaciones" onkeypress="entertest(this)">
-                                                                <?php foreach ($presentaciones as $p) : ?>
-                                                                    <option value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'] ?>" <?php echo (($p['epta_idep'] == $item['presseleccionada']) ? 'selected' : '') ?>>
-                                                                        <?php echo trim($p['pres_desc']) . '-' . $p['epta_cant']; ?>
-                                                                    </option>
-                                                                <?php endforeach;
-                                                                ?>
-                                                            </select>
-                                                        </td>
-                                                        <td class="text-center cantidad" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="false" name="cantidad"><input onclick="this.select(); clicksubtotal=0;" type="text" class="inputright" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
-                                                        <td class="precio text-center" id="precio" onkeypress="return isNumber(event);" contenteditable="false" name="precio"><input onclick="this.select(); clicksubtotal=0;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
-                                                        <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
-                                                            <td class="text-center" class="lote"><input onclick="this.select(); clicksubtotal=0;" type="text" class="" value="<?php echo (empty($item['lote']) ? ' ' : $item['lote']); ?>"></td>
-                                                            <td class="text-center" class="fechavto"><input class="fechavtoproducto" min="<?php echo date('Y-m-d'); ?>" onclick="this.select(); clicksubtotal=0;" type="date" value="<?php echo (empty($item['fechavto']) ? ' ' : $item['fechavto']); ?>"></td>
-                                                            <style>
-                                                                .fechavtoproducto::-webkit-inner-spin-button,
-                                                                .fechavtoproducto::-webkit-calendar-picker-indicator {
-                                                                    display: none;
-                                                                    -webkit-appearance: none;
-                                                                }
-                                                            </style>
-                                                        <?php endif; ?>
-                                                        <td class="text-center" class="total"><input onclick="this.select(); clicksubtotal=1;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?>"></td>
-                                                        <td class="text-center" class="afecto">
-                                                            <?php
-                                                            $checkafecto = "";
-                                                            if (trim($item['checkafecto']) == "true") {
-                                                                $checkafecto = "checked";
-                                                            }
-                                                            ?>
-                                                            <input type="checkbox" <?php echo $checkafecto; ?> class="" id="checkmarcado<?php echo $indice; ?>" name="checkafecto" onclick="cambiarcheckafecto(this,<?php echo $indice ?>)">
-                                                        </td>
-                                                        <?php $i++; ?>
-                                                    </tr>
-                                                <?php } ?>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div><br>
-                                <div class="col-lg-12">
-                                    <div class="card card-success card-outline" style="width:auto;">
-                                        <div class="row">
-                                            <div class="col-7 align-items-start">
-                                                <div class="input-group">
-                                                    <label class="col-form-label form-control-sm">Observaciones:</label>
-                                                    <div>
-                                                        <textarea class="form-control form-control-sm" id="txtdetalle" name="txtdetalle" style="width:150%; height:65%;"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-2 align-items-start">
-                                                <div class="input-group mb-3" style="width: 85%;">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text text-sm" id=""><strong>Items:</strong></span>
-                                                    </div>
-                                                    <input type="text" class="form-control text-right text-sm" id="totalitems" aria-label="Small" value="<?php echo $items ?>" aria-describedby="inputGroup-sizing-sm" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-3 align-items-start">
-                                                <div class="input-group" style="width: 90%;">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text text-sm"><strong>Sub Total</strong></span>
-                                                    </div>
-                                                    <input type="text" class="form-control text-right text-sm" id="subtotal" aria-label="Small" value="<?php ?>" aria-describedby="inputGroup-sizing-sm" disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-7">
-                                                <div class="form-check" id="inputpercepcion">
-                                                    <input class="form-check-input" type="checkbox" class="" value="S" id="cbpercepcion">
-                                                    <label class="form-check-label" for="">
-                                                        Aplica Percepción
-                                                    </label>
-                                                </div>
-                                                <?php
-                                                $check = "";
-                                                if (trim($checknodescontarstock) == "true") {
-                                                    $check = "checked";
-                                                }
-                                                ?>
-                                                <div class="form-check" style="display:none">
-                                                    <input class="form-check-input" <?php echo $check; ?> type="checkbox" class="" value="0" id="cbdescontarstock" onclick="cambiarchecknodescontarstock(this)">
-                                                    <label class="form-check-label" for="">
-                                                        No incrementar Stock
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <div class="input-group mb-3" style="width: 85%;">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text text-sm" id=""><strong>Perce.</strong></span>
-                                                    </div>
-                                                    <input type="text" class="form-control text-right text-sm" id="txtpercepcion" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="input-group " style="width: 90%;">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text text-sm" id=""><strong>EXON. &emsp;</strong></span>
-                                                    </div>
-                                                    <input type="text" class="form-control text-right text-sm" id="exonerado" aria-label="Small" value="" aria-describedby="inputGroup-sizing-sm" disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-7">
-                                                <button class="btn btn-primary btn-sm" role="button" data-bs-toggle="modal" data-bs-target="#modal_productos"><a style="color:white;">Agregar</a></button>
-                                                <button class="btn btn-danger btn-sm" id="cancelar" role="button" onclick="cancelarCompra()">Limpiar</button>
-                                                <button class="btn btn-success btn-sm" id="grabar" role="button" onclick="vermodalactualizarprecios();"><?php echo (isset($btn) ? $btn : 'Grabar') ?></button>
-                                            </div>
-                                            <div class="col-2">
-                                                <div class="input-group mb-3" style="width: 85%;">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text text-sm" id=""><strong>Pagar</strong></span>
-                                                    </div>
-                                                    <input type="text" class="form-control text-right text-sm" id="txttotalpercepcion" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
-                                                </div>
-                                            </div>
-                                            <div class="col-3">
-                                                <div class="input-group " style="width: 90%;">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text text-sm" id=""><strong>IGV &emsp;&emsp;&ensp;</strong></span>
-                                                    </div>
-                                                    <input type="text" class="form-control text-right text-sm" id="igv" aria-label="Small" value="" aria-describedby="inputGroup-sizing-sm" disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-7"></div>
-                                            <div class="col-2">
-                                                <div class="input-group mb-3" style="width: 85%;">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text text-sm" id=""><strong>Desc.</strong></span>
-                                                    </div>
-                                                    <input type="text" onkeypress="return isNumber();" class="form-control text-right text-sm" onblur="grabardescuento();" id="txtdescuento" value="<?php echo (empty($_SESSION['txtdescuento']) ? '0.00' : $_SESSION['txtdescuento']) ?>" onclick="this.select();" aria-label="Small">
-                                                </div>
-                                            </div>
-                                            <div class="col-3 align-items-start">
-                                                <div class="input-group mb-3" style="width: 90%;">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text text-sm" id=""><strong>TOTAL &emsp;</strong></span>
-                                                    </div>
-                                                    <input type="text" class="form-control text-right text-sm" id="total" aria-label="Small" value="<?php echo  $total ?>" aria-describedby="inputGroup-sizing-sm" disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
+                           
                         </div>
                     </div>
                 </div>
@@ -349,15 +159,15 @@ $this->startSection('javascript');
         clicksubtotal = 0;
         ie = -1;
         titulo("<?php echo $titulo ?>");
-        valor = "<?php echo $v ?>";
-        if (valor == 'R') {
+        // valor = "<?php echo $v ?>";
+        // if (valor == 'R') {
             axios.get('/compras/listardetalle').then(function(respuesta) {
                 const contenido_tabla = respuesta.data;
                 $('#detalle').html(contenido_tabla);
             }).catch(function(error) {
                 toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
             });
-        }
+        // }
         $(".tipodocumentos option[value='07']").remove();
         $(".tipodocumentos option[value='08']").remove();
         $(".tipodocumentos option[value='22']").remove();

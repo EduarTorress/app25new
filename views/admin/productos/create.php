@@ -47,7 +47,8 @@
                     <label for="peso">Peso:</label>
                     <input type="text" onclick="select()" class="form-control form-control-sm inputright" placeholder="KG" id="txtpeso" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['peso']) ?>" required>
                 </div>
-                <div class="form-group col-2">
+                <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']) ?>
+                <div class="form-group col-2" <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <?php
                     $idflete = isset($datosProducto['idflete']) ? $datosProducto['idflete'] : '';
                     $flet = new \App\View\Components\FleteComponent($idflete);
@@ -70,15 +71,15 @@
                     <label for="">Costo con IGV:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtcostocig" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['costocigv']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">Costo Transp:</label>
-                    <input type="text" onkeypress="return isNumber(event);" onclick="select()" disabled class="form-control form-control-sm inputright" id="txtcostot" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['flete']) ?>">
+                    <input type="text" onkeypress="return isNumber(event);" onclick="select()" ondblclick="$(this).removeAttr('readonly')" readonly class="form-control form-control-sm inputright" id="txtcostot" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['flete']) ?>">
                 </div>
-                <div class="form-group col-4">
+                <div class="form-group col-3">
                     <label for="">Costo Neto:</label>
-                    <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtcoston" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['costocigv']) ?>" required>
+                    <input type="text" onkeypress="return isNumber(event);" onchange="calcularcostopresentaciones()" onclick="select()" class="form-control form-control-sm inputright" id="txtcoston" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['costocigv']) ?>" required>
                 </div>
-                <div style="display:none" class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="" class="">Moneda:</label>
                     <div>
                         <?php $cmon = isset($datosProducto['tmon']) ? $datosProducto['tmon'] : ''; ?>
@@ -90,7 +91,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="codigo">Cod Prov:</label>
                     <input type="text" onclick="select()" class="form-control form-control-sm inputright" id="txtcoda1" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['txtcoda1']) ?>" required>
                 </div>
@@ -102,27 +103,28 @@
                     <label for="">Comisión Cred:</label>
                     <input type="text" onkeypress="return isNumber(event);" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm" id="txtcomisionc" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_comc']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <label for="">% Precio Mayor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcprecma" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti1']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <label for="">% Precio Especial:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcpreces" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti2']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <label for="">% Precio Menor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcprecem" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti3']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <label for="">Precio Mayor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtprecioma" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre1']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <label for="">Precio Especial:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtprecioe" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre2']) ?>" required>
                 </div>
-                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <label for="">Precio Menor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtpreciome" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre3']) ?>" required>
                 </div>
@@ -147,9 +149,7 @@
             </div>
             <button class="btn btn-dark" id="btnagregarpresentaciones" onclick="openmodalpresent()" style="<?php echo (empty($datosProducto) ? 'display:none' : '') ?>"><i class="fas fa-plus"></i> Agregar</button>
             <button class="btn btn-primary" onclick="grabarproducto()"><i class="fas fa-save"></i> Grabar</button>
-            <!-- <?php if (empty($datosProducto)) : ?> -->
             <button type="button" id="btncerrarpres" class="btn btn-danger" onclick="cerrarModal()"><i class="fas fa-close"></i> Cerrar</button>
-            <!-- <?php endif; ?> -->
         </div>
     </div>
 </div>
@@ -184,6 +184,30 @@
         }
         return true;
     }
+
+    function calcularcostopresentaciones() {
+        epta_cant = 1;
+        epta_marg = 0;
+        epta_prec = 0;
+        nuevoprecio = 0;
+        txtcoston = $("#txtcoston").val();
+        $("#tblpresentaciones tbody tr").each(function() {
+            epta_cant = $(this).find("td:eq(1) input").val();
+            epta_marg = $(this).find("td:eq(3) input").val();
+            costoporpresentacion = txtcoston * epta_cant;
+            $(this).find("td:eq(2) input").val(Number(costoporpresentacion));
+            if (txtcoston != '') {
+                nuevoprecio = (costoporpresentacion * (1 + (epta_marg / 100))).toFixed(2);
+            } else {
+                nuevoprecio = 0;
+            }
+            $(this).find("td:eq(4) input").val(round(nuevoprecio, 0.1))
+            $(this).find("td:eq(2) input").css("color", "blue");
+            $(this).find("td:eq(4) input").css("color", "blue");
+
+        });
+    }
+
 
     function openmodalpresent() {
         axios.get('/productos/listarmodalpres', {
@@ -233,7 +257,7 @@
                 let txtcostocig = document.getElementById("txtcostocig").value;
                 cmbCostoT = document.getElementById("cmbCostoT").value;
                 cmbCostoT = cmbCostoT.split('-');
-                let txtcostot = cmbCostoT[0];
+                let txtcostot = $("#txtcostot").val();
                 let txtcoston = document.getElementById("txtcoston").value;
                 let porcprecma = document.getElementById("txtporcprecma").value;
                 txtporcprecma = ((Number(porcprecma) / 100) + 1).toFixed(6);
@@ -278,6 +302,17 @@
                 data.append("txtcomisione", txtcomisione);
                 data.append("txtcomisionc", txtcomisionc);
                 data.append("txtcoda1", $("#txtcoda1").val())
+                const detalle = []
+                $("#tblpresentaciones tbody tr").each(function() {
+                    json = "";
+                    $(this).find("td input").each(function() {
+                        $this = $(this);
+                        json += ',"' + $this.attr("class") + '":"' + $this.val() + '"'
+                    })
+                    obj = JSON.parse('{' + json.substr(1) + '}');
+                    detalle.push(obj)
+                });
+                data.append("presentaciones", JSON.stringify(detalle));
                 data.append("prod_tigv", obtenerTipoIGVProducto());
                 axios.post("/productos/actualizar", data)
                     .then(function(respuesta) {
@@ -337,7 +372,8 @@
                 let txtcostocig = document.getElementById("txtcostocig").value;
                 cmbCostoT = document.getElementById("cmbCostoT").value;
                 cmbCostoT = cmbCostoT.split('-');
-                let txtcostot = cmbCostoT[0];
+                // let txtcostot = cmbCostoT[0];
+                let txtcostot = $("#txtcostot").val();
                 let txtcoston = document.getElementById("txtcoston").value;
                 let porcprecma = document.getElementById("txtporcprecma").value;
                 txtporcprecma = ((Number(porcprecma) / 100) + 1).toFixed(6);
@@ -400,7 +436,7 @@
                         });
                         $("#txtidart").val(respuesta.data.idregistro);
                         $("#btnagregarpresentaciones").css("display", "block");
-                        $("#btncerrarpres").css("display", "none");
+                        // $("#btncerrarpres").css("display", "none");
                         // limpiarTodo();
                         // $("#modal-mantenimiento").modal('hide');
                     }).catch(function(error) {
@@ -497,6 +533,7 @@
         costoconigv = $("#txtcostocig").val();
         costotransporte = $("#txtcostot").val();
         $("#txtcoston").val(Number(costoconigv) + Number(costotransporte));
+        $('#txtcoston').change()
     }
 
     function calcularcostosinigv() {
@@ -781,4 +818,10 @@
             $("#txtpreciome").click();
         }
     });
+
+    function round(value, step) {
+        step || (step = 1.0);
+        var inv = 1.0 / step;
+        return Math.round(value * inv) / inv;
+    }
 </script>

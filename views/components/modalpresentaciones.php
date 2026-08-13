@@ -57,7 +57,7 @@
         txtgananciapres = $("#txtgananciapres").val();
         txtcostopres = $("#txtcostopres").val();
         nuevoprecio = (txtcostopres * (1 + (txtgananciapres / 100))).toFixed(2);
-        console.log(nuevoprecio);
+        // console.log(nuevoprecio);
         $("#txtpreciopres").val(round(nuevoprecio, 0.1));
     }
 
@@ -92,12 +92,6 @@
             txtgananciapres = (((nuevoprecio - txtcostopres) / txtcostopres) * 100).toFixed(2);
             $("#txtgananciapres").val(round(txtgananciapres, 0.1));
         }
-    }
-
-    function round(value, step) {
-        step || (step = 1.0);
-        var inv = 1.0 / step;
-        return Math.round(value * inv) / inv;
     }
 
     function registrardetallepresentacion() {

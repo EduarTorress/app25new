@@ -318,6 +318,9 @@ class ProductoController extends Controller
         $validar->rule("required", "txtporcprecma");
         $validar->rule("required", "txtcostosig");
 
+        $presentaciones = json_decode($request->get("presentaciones"));
+        $presentaciones = json_decode(json_encode($presentaciones), true);
+
         if (!$validar->validate()) {
             $data = ["errors" => $validar->errors()];
             return response()->json($data, 422);
@@ -350,7 +353,8 @@ class ProductoController extends Controller
             'idart' => $request->get("idart"),
             'nflete' => $request->get('nflete'),
             'txtcoda1' => empty($request->get('txtcoda1')) ? ' ' : $request->get('txtcoda1'),
-            "prod_tigv" => empty($request->get("prod_tigv")) ? 1 : $request->get("prod_tigv")
+            "prod_tigv" => empty($request->get("prod_tigv")) ? 1 : $request->get("prod_tigv"),
+            'presentaciones' => $presentaciones
         );
         $rptaactualizar = $this->producto->actualizarProducto($datos);
         if ($rptaactualizar) {

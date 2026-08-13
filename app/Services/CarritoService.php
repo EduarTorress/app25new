@@ -452,6 +452,14 @@ class CarritoService
         $carritoc[$indice]['fechavto'] = empty($producto['fechavto']) ? date('Y-m-d') : $producto['fechavto'];
         session()->set('carritoc', $carritoc);
     }
+       public static function ingresarfletexproducto($indice,$flete)
+    {
+        $carritoc = session()->get('carritoc', []);
+       
+        $carritoc[$indice]['flete'] = $flete;
+        
+        session()->set('carritoc', $carritoc);
+    }
     public static function editarProductocheckafecto($producto)
     {
         $carritoc = session()->get('carritoc', []);

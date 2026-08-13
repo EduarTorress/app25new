@@ -248,7 +248,7 @@
     }
 
     function actualizarProducto(o, i) {
-        console.log($(o).html());
+        // console.log($(o).html());
         // $(o).each(function() {
         var _tr = $(o);
         cmbpresentacion = _tr.find("td").eq(3).find("select").val();

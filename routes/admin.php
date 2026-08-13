@@ -109,6 +109,7 @@ $app->router->post('/compras/agregaritem', [\App\Controllers\ComprasController::
 $app->router->post('/compras/quitaritem', [\App\Controllers\ComprasController::class, 'quitaritem']);
 $app->router->post('/compras/limpiar', [\App\Controllers\ComprasController::class, 'limpiar']);
 $app->router->post('/compras/EditarUno', [\App\Controllers\ComprasController::class, 'soloItem']);
+$app->router->post('/compras/ingresarfletexproducto', [\App\Controllers\ComprasController::class, 'ingresarfletexproducto']);
 $app->router->post('/compras/checkafecto', [\App\Controllers\ComprasController::class, 'checkafecto']);
 $app->router->post('/compras/checknodescontarstock', [\App\Controllers\ComprasController::class, 'checknodescontarstock']);
 $app->router->get('/compras/listar', [\App\Controllers\ComprasController::class, 'indexListaCompras']);

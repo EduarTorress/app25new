@@ -280,16 +280,19 @@ class Imprimir
         // $pdf->SetY($y + 2);
         $pdf->setx(37);
 
-        $pdf->cell(50, 4, 'CUENTAS BANCO', 1, 0, 'C', true);
-        $pdf->cell(50, 4, 'NUMERO', 1, 0, 'C', true);
-
         $cuentasbanco = obtenercuentasbanco();
-        $pdf->SetFont('Tahoma', '', 7);
-        $pdf->SetY($y + 4);
-        foreach ($cuentasbanco as $bc) {
-            $pdf->SetX(37);
-            $pdf->cell(50, 4, $bc['mame'], 1, 0, 'C', 0);
-            $pdf->cell(50, 4, $bc['number'], 1, 1, 'C', 0);
+
+        if (count($cuentasbanco) > 0) {
+            $pdf->cell(50, 4, 'CUENTAS BANCO', 1, 0, 'C', true);
+            $pdf->cell(50, 4, 'NUMERO', 1, 0, 'C', true);
+
+            $pdf->SetFont('Tahoma', '', 7);
+            $pdf->SetY($y + 4);
+            foreach ($cuentasbanco as $bc) {
+                $pdf->SetX(37);
+                $pdf->cell(50, 4, $bc['mame'], 1, 0, 'C', 0);
+                $pdf->cell(50, 4, $bc['number'], 1, 1, 'C', 0);
+            }
         }
 
         $pdf->SetY($y);
@@ -1471,7 +1474,9 @@ class Imprimir
             $logo = $_SERVER['DOCUMENT_ROOT'] . '/../logos/' . trim($this->rucempresa) . '/logoticket.jpg';
         }
         if (\file_exists($logo)) {
-            $pdf->Cell(70, 3, $pdf->Image($logo, 9, -12, 62, 60), 0, 'C');
+            $pdf->Image($logo, 9, -12, 62, 60);
+
+            // $pdf->Cell(70, 3, $pdf->Image($logo, 9, -12, 62, 60), 0, 'C');
         }
 
         // Información de la tienda
@@ -1510,7 +1515,7 @@ class Imprimir
         $pdf->Cell(17, 5, mb_convert_encoding('FORMA DE PAGO: ' . $this->formadepago, 'ISO-8859-1', 'UTF-8'), 0, 0, 'L');
         $pdf->Ln(5);
 
-        if (empty($this->dnicliente) && $this->tdoc == '01') {
+        if ($this->tdoc == '01') {
             $documentocliente = 'RUC: ' . $this->ruccliente;
         } else {
             $documentocliente = 'DNI: ' . $this->dnicliente;
@@ -2458,7 +2463,7 @@ class Imprimir
     }
     function generarpdfnombreproducto($nombre, $precio)
     {
-        $pdf = new FPDF('L', 'mm', array(62,29));
+        $pdf = new FPDF('L', 'mm', array(62, 29));
 
         $pdf->AddPage();
         $pdf->SetMargins(2, 2, 2);

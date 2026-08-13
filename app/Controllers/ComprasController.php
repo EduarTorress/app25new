@@ -608,7 +608,8 @@ class ComprasController extends Controller
                 'kar_equi' => empty($item['kar_equi']) ? 1 : $item['kar_equi'],
                 'checkafecto' => (floatval($item['kar_tigv']) > 1 ? "true" : "false"),
                 'kar_lote' => empty($item['kar_lote']) ? '' : $item['kar_lote'],
-                'kar_fvto' => empty($item['kar_fvto']) ? '' : $item['kar_fvto']
+                'kar_fvto' => empty($item['kar_fvto']) ? '' : $item['kar_fvto'],
+                'flete' => empty($item['kar_flet']) ? 0 : $item['kar_flet']
                 // ($item['rcom_exon'] > 0 ? true : false)
             );
         }
@@ -656,6 +657,7 @@ class ComprasController extends Controller
                 'checkafecto' => $items[0]['checkafecto'],
                 'lote' => $items[0]['kar_lote'],
                 'fechavto' => $items[0]['kar_fvto'],
+                "flete"=>$items[0]['flete'],
                 'activo' => 'A'
             );
         }
@@ -1148,5 +1150,13 @@ class ComprasController extends Controller
         return view('compras/informes/listacomprasmodificadas', [
             "listado" => $listado
         ]);
+    }
+    function ingresarfletexproducto(Request $request)
+    {
+        CarritoService::ingresarfletexproducto($request->get('indice'), $request->get('valorflete'));
+        return response()->json([
+            'message' => 'Flete ingresado correctamente',
+            'array' => []
+        ], 200);
     }
 }

@@ -264,6 +264,17 @@ class Producto extends Modelo
                 'coda1' => $datos['txtcoda1'],
                 'prod_tigv' => $datos['prod_tigv']
             ]);
+            $sqlpresentaciones = "UPDATE fe_epta SET epta_cant=:epta_cant,epta_cost=:epta_cost,epta_marg=:epta_marg,epta_prec=:epta_prec WHERE epta_idep=:epta_idep";
+            foreach ($datos['presentaciones'] as $d) {
+                $execpresentaciones = $this->prepare($sqlpresentaciones);
+                $execpresentaciones->execute([
+                    'epta_cant' => $d['epta_cant'],
+                    'epta_cost' => $d['epta_cost'],
+                    'epta_marg' => $d['epta_marg'],
+                    'epta_prec' => $d['epta_prec'],
+                    'epta_idep' => $d['epta_idep']
+                ]);
+            }
             return true;
         } catch (PDOException $pdo_error) {
             echo $pdo_error;
