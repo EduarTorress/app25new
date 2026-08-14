@@ -21,7 +21,7 @@ class Pedido extends Modelo
             $pdo->beginTransaction();
 
             $ls = "INSERT INTO fe_rped(fech,idclie,ndoc,impo,form,rped_idus,idpcped,fecho,idven,idtienda,tipopedido,rped_mone,detalle,tdoc,forma,plazo,validez,entrega,aten)
-            VALUES(:dfech,:nidclie,:cndoc,:nimpo,:cform,:nidus,'web',LOCALTIME,:nidven,:nidtda,:ctp,:cmone,:cdetalle,:ctdoc,'','','','','')";
+            VALUES(:dfech,:nidclie,:cndoc,:nimpo,:cform,:nidus,'web',LOCALTIME,:nidven,:nidtda,:ctp,:cmone,:cdetalle,:ctdoc,'',:txtplazoentrega,:txtvalidezoferta,:txtlugarentrega,:txtdetallepago)";
             $st = $pdo->prepare($ls);
             $st->execute([
                 'dfech' => $dfech,
@@ -35,7 +35,11 @@ class Pedido extends Modelo
                 'ctp' => $cabecera["ctp"],
                 'cmone' => $cabecera["cmone"],
                 'cdetalle' => $cabecera["detalle"],
-                'ctdoc' => $cabecera['ctdoc']
+                'ctdoc' => $cabecera['ctdoc'],
+                'txtdetallepago' => empty($cabecera['txtdetallepago']) ? ' ' : $cabecera['txtdetallepago'],
+                'txtvalidezoferta' => empty($cabecera['txtvalidezoferta']) ? ' ' : $cabecera['txtvalidezoferta'],
+                'txtplazoentrega' => empty($cabecera['txtplazoentrega']) ? ' ' : $cabecera['txtplazoentrega'],
+                'txtlugarentrega' => empty($cabecera['txtlugarentrega']) ? ' ' :  $cabecera['txtlugarentrega']
             ]);
 
             $id = $pdo->lastInsertId();
@@ -77,7 +81,7 @@ class Pedido extends Modelo
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->beginTransaction();
 
-            $ls = "update fe_rped set idclie=:nidclie,impo=:nimpo,idven=:nidven,form=:cform,detalle=:cdetalle,tdoc=:ctdoc where idautop=:nidautop";
+            $ls = "update fe_rped set idclie=:nidclie,impo=:nimpo,idven=:nidven,form=:cform,detalle=:cdetalle,tdoc=:ctdoc,plazo=:txtplazoentrega,validez=:txtvalidezoferta,entrega=:txtlugarentrega,aten=:txtdetallepago where idautop=:nidautop";
             $st = $pdo->prepare($ls);
             $st->execute([
                 "nidclie" => $cabecera['idclie'],
@@ -86,7 +90,11 @@ class Pedido extends Modelo
                 'cform' => $cabecera["form"],
                 'nidven' => $cabecera["nidven"],
                 'cdetalle' => $cabecera["detalle"],
-                'ctdoc' => $cabecera['ctdoc']
+                'ctdoc' => $cabecera['ctdoc'],
+                'txtdetallepago' => empty($cabecera['txtdetallepago']) ? ' ' : $cabecera['txtdetallepago'],
+                'txtvalidezoferta' => empty($cabecera['txtvalidezoferta']) ? ' ' : $cabecera['txtvalidezoferta'],
+                'txtplazoentrega' => empty($cabecera['txtplazoentrega']) ? ' ' : $cabecera['txtplazoentrega'],
+                'txtlugarentrega' => empty($cabecera['txtlugarentrega']) ? ' ' :  $cabecera['txtlugarentrega']
             ]);
 
             $sqlinserta = "SELECT FunIngresaDPedidos(:ncoda,:ncant,:nprec,:nidauto,:incl,:textopresentacion,:cantpresentacion,:eptaidep) AS NID";

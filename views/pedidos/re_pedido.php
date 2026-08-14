@@ -53,6 +53,32 @@
 </table><br>
 <div class="col-lg-12">
     <div class="card card-primary card-outline" style="width:auto;">
+         <div class="row">
+            <div class="col-sm-3">
+                <div class="input-group mb-3">
+                    <label class="form-control form-control-sm" for="">Detalle de Pago:</label>
+                    <input class="form-control form-control-sm" type="text" name="txtdetallepago" id="txtdetallepago" value="<?php echo (empty($_SESSION['cliente']['forma']) ? ' ' : $_SESSION['cliente']['forma']) ?>">
+                </div>
+            </div>
+            <div class=" col-sm-3">
+                <div class="input-group mb-3">
+                    <label class="form-control form-control-sm" for="">Validez de Oferta:</label>
+                    <input class="form-control form-control-sm" type="text" name="txtvalidezoferta" id="txtvalidezoferta" value="<?php echo (empty($_SESSION['cliente']['validez']) ? ' ' : $_SESSION['cliente']['validez']) ?>">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group mb-3">
+                    <label class="form-control form-control-sm" for="">Plazo de Entrega:</label>
+                    <input class="form-control form-control-sm" type="text" name="txtplazoentrega" id="txtplazoentrega" value="<?php echo (empty($_SESSION['cliente']['plazo']) ? ' ' : $_SESSION['cliente']['plazo']) ?>">
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="input-group mb-3">
+                    <label class="form-control form-control-sm" for="">Lugar de Entrega:</label>
+                    <input class="form-control form-control-sm" type="text" name="txtlugarentrega" id="txtlugarentrega" value="<?php echo (empty($_SESSION['cliente']['entrega']) ? ' ' : $_SESSION['cliente']['entrega']) ?>">
+                </div>
+            </div>
+        </div>
         <div class="input-group" id="divobservaciones">
             <label for="" class="col-form-label form-control-sm ">Observaciones:</label>
             <div>

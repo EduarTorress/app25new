@@ -428,7 +428,6 @@ $this->startSection('javascript');
         if (!validarpedido()) {
             return;
         }
-
         Swal.fire({
             title: "¿Registrar Cotización?",
             text: "Se grabará en el sistema. ",
@@ -482,16 +481,25 @@ $this->startSection('javascript');
     }
 
     function agregarunitemVenta(datos) {
+        presentaciones = JSON.parse(datos.parametro11);
+        precio = presentaciones[0]['epta_prec'];
+        unidad = presentaciones[0]['pres_desc'];
+        cantequi = presentaciones[0]['epta_cant'];
+        eptaidep = presentaciones[0]['epta_idep'];
         const data = new FormData();
         data.append('txtcodigo', datos.parametro2);
         data.append("txtdescripcion", datos.parametro1);
         data.append("txtunidad", datos.parametro3);
-        data.append("txtprecio", datos.parametro5);
+        data.append("txtprecio", datos.parametro12);
         data.append("txtcantidad", 1);
         data.append("precio1", datos.parametro6);
         data.append("precio2", datos.parametro7);
         data.append("precio3", datos.parametro5);
         data.append("costo", datos.parametro8);
+        data.append("eptaidep", eptaidep);
+        data.append("textopresentacion", unidad);
+        data.append("cantpresentacion", cantequi);
+        data.append("preciopresentacion", precio);
         data.append("stock", parseFloat(datos.parametro4.toFixed(2)));
         // data.append("indice", $("#txtindice").val());
         axios.post('/pedidos/agregaritemrapido', data)

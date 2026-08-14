@@ -338,9 +338,12 @@ class PedidoController extends Controller
             "cmone" => $request->get('mone'),
             "detalle" => $cdetalle,
             "ctdoc" => $request->get("ctdoc"),
-            'optigvp' => $request->get('optigvp')
+            'optigvp' => $request->get('optigvp'),
+            'txtdetallepago' => $request->get('txtdetallepago'),
+            'txtvalidezoferta' => $request->get('txtvalidezoferta'),
+            'txtplazoentrega' => $request->get('txtplazoentrega'),
+            'txtlugarentrega' => $request->get('txtlugarentrega')
         );
-
         $rpta = $pedido->GrabarPedido($cabecera,  $idserie);
         if ($rpta['estado'] == '1') {
             $this->LimpiarSesion();
@@ -417,7 +420,11 @@ class PedidoController extends Controller
                     'ruc' => $item['nruc'],
                     'mone' => $item['rped_mone'],
                     'optigvp' => $item['incl'],
-                    'txtdnicliente' => $item['ndni']
+                    'txtdnicliente' => $item['ndni'],
+                    'forma' => $item['aten'],
+                    'plazo' => $item['plazo'],
+                    'validez' => $item['validez'],
+                    'entrega' => $item['entrega']
                 );
                 $nropedido = $item['ndoc'];
                 $idautop = $item['idautop'];
@@ -499,7 +506,11 @@ class PedidoController extends Controller
             "cmone" => "S",
             "detalle" => $cdetalle,
             "ctdoc" => $request->get("ctdoc"),
-            'optigvp' => $request->get('optigvp')
+            'optigvp' => $request->get('optigvp'),
+            'txtdetallepago' => $request->get('txtdetallepago'),
+            'txtvalidezoferta' => $request->get('txtvalidezoferta'),
+            'txtplazoentrega' => $request->get('txtplazoentrega'),
+            'txtlugarentrega' => $request->get('txtlugarentrega')
         );
         $carrito = $request->get("carrito");
         if (!empty($_SESSION['config']['cambiarproductoxposicion'])) {
@@ -586,6 +597,10 @@ class PedidoController extends Controller
                 $oimp->formadepago = ($fila['form'] == 'E' ? 'CONTADO' : 'CREDITO');
                 $oimp->moneda = $fila['rped_mone'] === 'S' ? 'SOLES' : 'DOLARES';
                 $oimp->total = $fila['impo'];
+                $oimp->forma = $fila['aten'];
+                $oimp->plazo = $fila['plazo'];
+                $oimp->validez = $fila['validez'];
+                $oimp->entrega = $fila['entrega'];
                 $rutapdf = 'descargas/' . $fila['ndoc'] . 'pdf';
             }
             $i++;

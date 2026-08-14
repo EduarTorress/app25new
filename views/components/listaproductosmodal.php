@@ -17,9 +17,11 @@
             <th id="headersysven" class="text-center">Agregar </th>
         </tr>
     </thead>
+
     <tbody>
         <?php $tds = cargarsucursalestbody(); ?>
         <?php
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $lista1 = array();
         foreach ($lista['lista']['items'] as $k => $prod) {
             $idart = $prod["idart"];
@@ -68,6 +70,7 @@
                         'pres_desc' => $item['pres_desc'],
                         'epta_cant' => $item['epta_cant'],
                         'epta_prec' => $item['epta_prec'],
+                        'epta_pcor' => $item['epta_pcor']
                     );
                     $j += 1;
                 }
@@ -125,7 +128,7 @@
                 <!-- <td class="text-end"><?php echo $items[0]['pre1'] ?></td>
                 <td class="text-end"><?php echo $items[0]['pre3'] ?></td> -->
                 <td><?php foreach ($items as $item) { ?>
-                        <?php echo $item['pres_desc'] . ' - S/ ' . Round($item['epta_prec'], 2) . '<br>' ?>
+                        <?php echo $item['pres_desc'] . ' - S/ ' . Round($item['epta_prec'], 2) . ($proyecto != 'xsys5' ? ' ' : ' - S/ ' . $item['epta_pcor']) . '<br>' ?>
                     <?php } ?>
                 </td>
                 <td class="text-center" id="iniciarp">
@@ -154,15 +157,17 @@
                             'pres_desc' => $item['pres_desc'],
                             'epta_cant' => $item['epta_cant'],
                             'epta_prec' => $item['epta_prec'],
+                            'epta_pcor' => ($proyecto != 'xsys5' ? ' ' :  $item['epta_pcor'])
                         );
                         $i += 1;
                     }
                     $parametro11 = json_encode($presentaciones);
+                    $parametro12 = $presentaciones[0]['epta_prec'];
                     $stockuno = $items[0]['uno'];
                     $stockdos = $items[0]['dos'];
                     $stocktre = $items[0]['tre'];
                     $tigv = $items[0]['prod_tigv'];
-                    $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8', 'parametro9', 'parametro10', 'parametro11', 'stockuno', 'stockdos', 'stocktre', 'tigv');
+                    $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8', 'parametro9', 'parametro10', 'parametro11', 'stockuno', 'stockdos', 'stocktre', 'tigv', 'parametro12');
                     $cadena_json = json_encode($parametros);
                     ?>
                     <button class="btn <?php echo ((intval($parametro4) < 0) ?  'btn-danger' : 'btn-success') ?>" data-target="#agregar_cantidad" id="<?php echo 'agregar' . $parametro2 ?>" onclick='agregarunitemVenta(<?php echo $cadena_json ?>)'><i href="" style="color:white;" class="fas fa-plus-circle"></i></button>

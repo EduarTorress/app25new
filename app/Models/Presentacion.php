@@ -60,11 +60,17 @@ class Presentacion extends Modelo
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
-    function registrardetapresent($idpres, $idart, $prec, $cant, $costo, $ganancia)
+    function registrardetapresent($idpres, $idart, $prec, $cant, $costo, $ganancia, $gananciacorp, $preciocorp)
     {
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         try {
-            $sql = "INSERT INTO fe_epta(epta_idar,epta_pres,epta_prec,epta_cant,epta_cost,epta_marg) 
-            VALUES (:idart,:idpres,:prec,:cant,:costo,:ganancia)";
+            if ($proyecto != 'xsys5') {
+                $sql = "INSERT INTO fe_epta(epta_idar,epta_pres,epta_prec,epta_cant,epta_cost,epta_marg) 
+                VALUES (:idart,:idpres,:prec,:cant,:costo,:ganancia)";
+            } else {
+                $sql = "INSERT INTO fe_epta(epta_idar,epta_pres,epta_prec,epta_cant,epta_cost,epta_marg,epta_mcor,epta_pcor) 
+                VALUES (:idart,:idpres,:prec,:cant,:costo,:ganancia," . $gananciacorp . "," . $preciocorp . ")";
+            }
             $exec = $this->prepare($sql);
             $exec->execute([
                 'idpres' => $idpres,

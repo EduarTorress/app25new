@@ -100,8 +100,8 @@ class Producto extends Modelo
                         "epta_prec" => (isset($row['epta_prec'])) ? $row['epta_prec'] : $row['pre1'],
                         "epta_cant" => (isset($row['epta_cant'])) ? $row['epta_cant'] : '1',
                         "epta_idep" => (isset($row['epta_idep'])) ? $row['epta_idep'] : '0',
-                        "prod_tigv" => (empty($row['prod_tigv'])) ? 1 : $row['prod_tigv']
-                        #falta sacar la formula del costo neto
+                        "prod_tigv" => (empty($row['prod_tigv'])) ? 1 : $row['prod_tigv'],
+                        "epta_pcor" => (empty($row['epta_pcor'])) ? 0 : $row['epta_pcor']
                     );
                     array_push($lista["items"], $item);
                 }
@@ -267,8 +267,13 @@ class Producto extends Modelo
                 'coda1' => $datos['txtcoda1'],
                 'prod_tigv' => $datos['prod_tigv']
             ]);
-            $sqlpresentaciones = "UPDATE fe_epta SET epta_cant=:epta_cant,epta_cost=:epta_cost,epta_marg=:epta_marg,epta_prec=:epta_prec WHERE epta_idep=:epta_idep";
             foreach ($datos['presentaciones'] as $d) {
+                if ($proyecto != 'xsys5') {
+                    $sqlpresentaciones = "UPDATE fe_epta SET epta_cant=:epta_cant,epta_cost=:epta_cost,epta_marg=:epta_marg,epta_prec=:epta_prec WHERE epta_idep=:epta_idep";
+                } else {
+                    $sqlpresentaciones = "UPDATE fe_epta SET epta_cant=:epta_cant,epta_cost=:epta_cost,epta_marg=:epta_marg,
+                    epta_prec=:epta_prec,epta_mcor=" . $d['epta_mcor'] . ",epta_pcor=" . $d['epta_pcor'] . " WHERE epta_idep=:epta_idep";
+                }
                 $execpresentaciones = $this->prepare($sqlpresentaciones);
                 $execpresentaciones->execute([
                     'epta_cant' => $d['epta_cant'],

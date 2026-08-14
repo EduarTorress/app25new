@@ -116,7 +116,7 @@ echo $prod->render();
                 <div class="col-lg-12">
                     <div class="card card-success card-outline" style="width:max-content; width:auto;">
                         <div class="col-12" id="detalle">
-                           
+
                         </div>
                     </div>
                 </div>
@@ -161,12 +161,12 @@ $this->startSection('javascript');
         titulo("<?php echo $titulo ?>");
         // valor = "<?php echo $v ?>";
         // if (valor == 'R') {
-            axios.get('/compras/listardetalle').then(function(respuesta) {
-                const contenido_tabla = respuesta.data;
-                $('#detalle').html(contenido_tabla);
-            }).catch(function(error) {
-                toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
-            });
+        axios.get('/compras/listardetalle').then(function(respuesta) {
+            const contenido_tabla = respuesta.data;
+            $('#detalle').html(contenido_tabla);
+        }).catch(function(error) {
+            toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
+        });
         // }
         $(".tipodocumentos option[value='07']").remove();
         $(".tipodocumentos option[value='08']").remove();
@@ -281,6 +281,9 @@ $this->startSection('javascript');
                 switch (ndoc[0].substr(0, 1)) {
                     case 'F':
                         $("#cmbdcto").val("01");
+                        break;
+                    case 'T':
+                        $("#cmbdcto").val("09");
                         break;
                     case 'E':
                         $("#cmbdcto").val("01");

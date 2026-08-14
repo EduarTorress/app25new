@@ -27,12 +27,9 @@
             <label class="col-sm-0 col-form-label-sm">Stock:</label>
             <input type="number" disabled style="width: 100px;" class="form-control form-control-sm" id="txtstock" name="txtstock" value="<?php echo $tipo <> 'N' ? $itemcarrito['stock'] : 0.00 ?>">
         </div>
+        <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']); ?>
         <div class="mb-3 form-group row">
             <label class="col-sm-0 col-form-label col-form-label-sm">Precios:</label>
-            <!-- <select class="form-select form-select-sm mb-3" id="cmbprecios" name="cmbprecios" aria-label="">
-                <option><?php echo ($tipo <> 'N' ? Round($itemcarrito['precio1'], 2) : 0) ?></option>
-                <option <?php echo 'selected' ?>><?php echo ($tipo <> 'N' ? Round($itemcarrito['precio3'], 2) : 0) ?></option>
-            </select> -->
             <?php
             if ($tipo == 'N') :
                 $presentaciones = json_decode($presentaciones, true);
@@ -45,12 +42,12 @@
             ?>
             <select class="form-control form-control-sm mb-3" name="cmbpresentacion" id="cmbpresentacion" onkeypress="entercmbpresentacion(this)">
                 <?php foreach ($presentaciones as $p) : ?>
-                    <option value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'] ?>" <?php echo (($p['epta_idep'] == $eptaidep) ? 'selected' : '') ?>>
+                    <option value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'] . ($proyecto != 'xsys5' ? '' : '-' . $p['epta_pcor']) ?>" <?php echo (($p['epta_idep'] == $eptaidep) ? 'selected' : '') ?>>
                         <?php echo trim($p['pres_desc']) . '-' . $p['epta_cant']; ?>
                     </option>
-                <?php endforeach;
-                ?>
+                <?php endforeach; ?>
             </select>
+            <input type="number" ondblclick="colocarpreciocorporativo();" style="width: 100px; <?php echo ($proyecto != 'xsys5' ? 'display:none;' : '') ?>" onkeyup="calcularigv();" class="form-control form-control-sm" readonly name="txtpreciocorp" id="txtpreciocorp" placeholder="0.00" value="">
         </div>
         <div class="form-group row">
             <label class="col-sm-0 col-form-label-sm" for="">Cantidad:</label>
@@ -66,14 +63,19 @@
         </div>
     </div>
     <div class="modal-footer">
-        <?php
-        if (!empty($_SESSION['config']['combos'])) : ?>
+        <!-- <?php if (!empty($_SESSION['config']['combos'])) : ?>
             <button type="button" onclick="verdetalle()" class="btn btn-success">Ver detalle</button>
-        <?php endif; ?>
+        <?php endif; ?> -->
         <button type="submit button" class="btn btn-primary" onclick="<?php echo ($tipo <> 'N') ? "actualizaritem()" : "agregarItem()" ?>">Aceptar</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cerrarventana('detalleitem','#item')">Cerrar</button>
     </div>
 </form>
+<style>
+    #txtpreciocorp {
+        position: absolute;
+        left: 190px;
+    }
+</style>
 <script>
     $(document).ready(function() {
         $('#detalleitem').submit(function(e) {
@@ -96,7 +98,6 @@
                     $('#txtcantidad').focus();
                     $('#txtcantidad').select();
                     $('#txtcantidad').click();
-
                 }
                 enterPressedpres++;
                 return;
@@ -104,6 +105,16 @@
         };
     }
 
+    $(document).on('keydown', '#txtcantidad', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            $('#txtprecio').focus();
+            $('#txtprecio').select();
+        }
+    });
+
+    // txtprecio.addEventListener("keydown", (event) => {
+    // });
 
     // function verdetalle() {
     //     tipoproducto = $("#tipoproducto").val();
@@ -144,6 +155,7 @@
         precio1presentacion = valpresentacion[1];
         // costoprec = valpresentacion[1];
         document.getElementById("txtprecio").value = precio1presentacion;
+        document.getElementById("txtpreciocorp").value = valpresentacion[2];
         // $("#txtcosto").val(costoprec);
     }
 
@@ -156,5 +168,9 @@
         txtcantidad = $("#txtcantidad").val();
         txtprecio = (Number(precio1presentacion) * Number(txtcantidad)).toFixed(2);
         $("#txtsubtotal").val(txtprecio);
+    }
+
+    function colocarpreciocorporativo() {
+        document.getElementById("txtprecio").value = document.getElementById("txtpreciocorp").value;
     }
 </script>

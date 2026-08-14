@@ -77,6 +77,10 @@ class Imprimir
     var $clienteretencion;
     var $retencion;
     var $totalexonerado;
+    var $forma;
+    var $plazo;
+    var $validez;
+    var $entrega;
     var $items = array();
     var $urlguiasunat = "https://e-factura.sunat.gob.pe/v1/contribuyente/gre/comprobantes/descargaqr?";
     var $qrsunat;
@@ -458,7 +462,6 @@ class Imprimir
         $pdf->ln();
         $pdf->setx(155);
         $pdf->ln();
-        $pdf->ln();
         $pdf->SetFont('Arial', 'B', 6);
         $pdf->SetFillColor(240, 240, 240);
         $pdf->SetTextColor(0);
@@ -475,7 +478,7 @@ class Imprimir
         foreach ($this->items as $fila) {
             $pdf->cell(8, 6, $i, 1, 0, 'C', 0);
             $pdf->cell(15, 6, number_format($fila['cant'], 2, '.', ','), 1, 0, 'R', 0);
-            $pdf->cell(18, 6, $fila['unid'], 1, 0, 'C', 0);
+            $pdf->cell(18, 6,trim( $fila['unid']), 1, 0, 'C', 0);
             $pdf->cell(114, 6, $fila['descri'], 1, 0, 'L', 0);
             if ($this->optigv == 'N') {
                 $precio = $fila['prec'] / $_SESSION['gene_igv'];
@@ -492,6 +495,24 @@ class Imprimir
         $pdf->cell(120, 5, "SON: " . $this->importeletras);
         $pdf->setx(145);
         $pdf->ln();
+        $pdf->SetFont('Arial', 'B', 6);
+        $pdf->cell(100, 5, 'DETALLE PAGO: ');
+        $pdf->setx(70);
+        $pdf->cell(100, 5, 'PLAZO: ');
+        $pdf->setx(130);
+        $pdf->cell(100, 5, 'VALIDEZ: ');
+        $pdf->setx(180);
+        $pdf->cell(100, 5, 'ENTREGA: ');
+        $pdf->ln();
+        $pdf->SetFont('Arial', '', 6);
+        $pdf->cell(100, 5, trim($this->forma));
+        $pdf->setx(70);
+        $pdf->cell(100, 5, trim($this->plazo));
+        $pdf->setx(130);
+        $pdf->cell(100, 5,  trim($this->validez));
+        $pdf->setx(180);
+        $pdf->cell(100, 5,  trim($this->entrega));
+            $pdf->ln(7);
         $pdf->setx(149);
         $pdf->cell(25, 6, 'TOTAL ', 1, 0, 'R', 0);
         $pdf->cell(29, 6, number_format($this->total, 2, '.', ','), 1, 0, 'R', 0);

@@ -30,10 +30,22 @@
                         <label for="">Precio:</label>
                         <input type="text" onkeypress="return isNumber(event);" onkeyup="calculargananciaxprecio()" value="0" onclick="this.select();" class="form-control form-control-sm" id="txtpreciopres" value="">
                     </div>
-
                     <div class="form-group col-md-2 text-center"><br>
                         <button class="btn btn-success btn-sm" onclick="registrardetallepresentacion()">Registrar</button>
                         <button class="btn btn-danger btn-sm" onclick="limpiardetapres()">Limpiar&nbsp;&nbsp; </button>
+                    </div>
+                </div>
+                <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']); ?>
+                <div class="row" <?php echo ($proyecto != 'xsys5' ? 'style="display:none;"' : ' ') ?>>
+                    <div class="form-group col-md-6">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Ganan. Corp:</label>
+                        <input type="text" onkeypress="return isNumber(event);" onkeyup="calcularpreciocorpxgananciacorp();" value="0" onclick="this.select();" class="form-control form-control-sm" id="txtgananciaprescorp" value="">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="">Prec. Corp:</label>
+                        <input type="text" onkeypress="return isNumber(event);" onkeyup="calculargananciacorpxpreciocorp()" value="0" onclick="this.select();" class="form-control form-control-sm" id="txtprecioprescorp" value="">
                     </div>
                 </div>
             </div>
@@ -61,6 +73,18 @@
         $("#txtpreciopres").val(round(nuevoprecio, 0.1));
     }
 
+    function calculargananciaxprecio() {
+        //console.log('calculando ganancia por precio')
+        nuevoprecio = $("#txtpreciopres").val();
+        txtcostopres = $("#txtcostopres").val();
+        if (Number(txtcostopres) == 0) {
+            $("#txtgananciapres").val("0");
+        } else {
+            txtgananciapres = (((nuevoprecio - txtcostopres) / txtcostopres) * 100).toFixed(2);
+            $("#txtgananciapres").val(round(txtgananciapres, 0.1));
+        }
+    }
+
     $('#txtcostopres').keypress(function(e) {
         if (e.keyCode == 13) {
             $("#txtgananciapres").focus();
@@ -77,21 +101,41 @@
 
     $('#txtpreciopres').keypress(function(e) {
         if (e.keyCode == 13) {
+            $("#txtgananciaprescorp").focus();
+            $("#txtgananciaprescorp").click();
+        }
+    });
+
+    $('#txtgananciaprescorp').keypress(function(e) {
+        if (e.keyCode == 13) {
+            $("#txtprecioprescorp").focus();
+            $("#txtprecioprescorp").click();
+        }
+    });
+
+    $('#txtprecioprescorp').keypress(function(e) {
+        if (e.keyCode == 13) {
             registrardetallepresentacion();
             limpiardetapres();
         }
     });
 
-    function calculargananciaxprecio() {
-        //console.log('calculando ganancia por precio')
-        nuevoprecio = $("#txtpreciopres").val();
+    function calculargananciacorpxpreciocorp() {
+        nuevoprecio = $("#txtprecioprescorp").val();
         txtcostopres = $("#txtcostopres").val();
         if (Number(txtcostopres) == 0) {
-            $("#txtgananciapres").val("0");
+            $("#txtgananciaprescorp").val("0");
         } else {
             txtgananciapres = (((nuevoprecio - txtcostopres) / txtcostopres) * 100).toFixed(2);
-            $("#txtgananciapres").val(round(txtgananciapres, 0.1));
+            $("#txtgananciaprescorp").val(round(txtgananciapres, 0.1));
         }
+    }
+
+    function calcularpreciocorpxgananciacorp() {
+        txtgananciapres = $("#txtgananciaprescorp").val();
+        txtcostopres = $("#txtcostopres").val();
+        nuevoprecio = (txtcostopres * (1 + (txtgananciapres / 100))).toFixed(2);
+        $("#txtprecioprescorp").val(round(nuevoprecio, 0.1));
     }
 
     function registrardetallepresentacion() {
@@ -114,9 +158,11 @@
         pres = cmbpresentaciones.split("-");
         data = new FormData();
         data.append("idart", txtidart);
-        data.append("prec", txtpreciopres);
         data.append("txtcostopres", txtcostopres);
         data.append("txtgananciapres", $("#txtgananciapres").val());
+        data.append("prec", txtpreciopres);
+        data.append("txtprecioprescorp", $("#txtprecioprescorp").val());
+        data.append("txtgananciaprescorp", $("#txtgananciaprescorp").val());
         data.append("idpres", pres[0]);
         data.append("cant", pres[1]);
         axios.post("/presentaciondetalle/registrar", data)
@@ -131,8 +177,10 @@
 
     function limpiardetapres() {
         $("#txtpreciopres").val("0");
+        $("#txtprecioprescorp").val("0");
         $("#txtcostopres").val("0");
         $("#txtgananciapres").val("0");
+        $("#txtgananciaprescorp").val("0");
     }
 
     //UNIDADES DE MEDIDA (PRESENTACIONES)

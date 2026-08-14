@@ -486,6 +486,10 @@ $this->startSection('javascript');
                 let tigv = obtenerTipoIGV();
                 data.append("optigvp", tigv);
                 data.append("ctdoc", ctdoc);
+                data.append("txtdetallepago", $("#txtdetallepago").val());
+                data.append("txtvalidezoferta", $("#txtvalidezoferta").val());
+                data.append("txtplazoentrega", $("#txtplazoentrega").val());
+                data.append("txtlugarentrega", $("#txtlugarentrega").val());
                 axios.post("/pedido/actualizar", data)
                     .then(function(respuesta) {
                         const tabla = respuesta.data;
