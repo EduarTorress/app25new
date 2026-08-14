@@ -46,7 +46,8 @@ class DocumentoComponent extends Component
                 'items' => [
                     ['tdoc' => '01', 'nomb' => 'FACTURA', 'idtdoc' => '7'],
                     ['tdoc' => '03', 'nomb' => 'BOLETA', 'idtdoc' => '10'],
-                    ['tdoc' => 'GI', 'nomb' => 'INTERNO', 'idtdoc' => '27']
+                    ['tdoc' => 'GI', 'nomb' => 'INTERNO', 'idtdoc' => '27'],
+                    ['tdoc' => '09', 'nomb' => 'GUIA DE REMISIÓN', 'idtdoc' => '11']
                 ]
             ]
         ];
