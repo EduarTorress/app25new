@@ -257,6 +257,7 @@
                 let txtcostocig = document.getElementById("txtcostocig").value;
                 cmbCostoT = document.getElementById("cmbCostoT").value;
                 cmbCostoT = cmbCostoT.split('-');
+                let cmbtipotransporte = cmbCostoT[0];
                 let txtcostot = $("#txtcostot").val();
                 let txtcoston = document.getElementById("txtcoston").value;
                 let porcprecma = document.getElementById("txtporcprecma").value;
@@ -292,6 +293,7 @@
                 data.append("txtcostosig", txtcostosig);
                 data.append("txtcostocig", txtcostocig);
                 data.append("txtcostot", txtcostot);
+                data.append("cmbtipotransporte", cmbtipotransporte);
                 data.append("txtcoston", txtcoston);
                 data.append("txtporcprecma", txtporcprecma);
                 data.append("txtprecioma", txtprecioma);
@@ -372,7 +374,7 @@
                 let txtcostocig = document.getElementById("txtcostocig").value;
                 cmbCostoT = document.getElementById("cmbCostoT").value;
                 cmbCostoT = cmbCostoT.split('-');
-                // let txtcostot = cmbCostoT[0];
+                let cmbtipotransporte = cmbCostoT[0];
                 let txtcostot = $("#txtcostot").val();
                 let txtcoston = document.getElementById("txtcoston").value;
                 let porcprecma = document.getElementById("txtporcprecma").value;
@@ -413,6 +415,7 @@
                 data.append("txtcostosig", txtcostosig);
                 data.append("txtcostocig", txtcostocig);
                 data.append("txtcostot", txtcostot);
+                data.append("cmbtipotransporte", cmbtipotransporte);
                 data.append("txtcoston", txtcoston);
                 data.append("txtporcprecma", txtporcprecma);
                 data.append("txtprecioma", txtprecioma);

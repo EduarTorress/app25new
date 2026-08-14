@@ -342,24 +342,6 @@
         ]
     },
     {
-        "main": "Planilla de Trabajadores",
-        "class": "fas fa-address-card",
-        "elementos": [
-            {
-                "item": "Registrar Pagos",
-                "ruta": "/pagosplanilla/indexpagos",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Reporte de Pagos",
-                "ruta": "/pagosplanilla/indexreporte",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            }
-        ]
-    },
-    {
         "main": "Administración",
         "class": "fa fa-bars",
         "elementos": [

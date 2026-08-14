@@ -441,8 +441,6 @@ class Compra extends Modelo
             }
             $wc = 1;
             if ($cabecera['actualizarprecios'] == 'S') {
-                $sqlpp = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,'0',:eptaprec,:eptaidep,:cantequi)";
-                $execpp = $pdo->prepare($sqlpp);
                 foreach ($carritoc as $item) {
                     if ($item['activo'] == 'A') {
                         if ($cabecera['igv'] == 'N') {
@@ -450,24 +448,50 @@ class Compra extends Modelo
                         } else {
                             $prec = floatval($item['precio']) / floatval($_SESSION['gene_igv']);
                         }
-                        $execpp->execute([
-                            "coda" => $item['coda'],
-                            "fech" => $this->dfecha,
-                            "prec" => $prec,
-                            "nauto" => $id,
-                            "prov" => $cabecera["idprov"],
-                            "cm" => $cabecera["mon"],
-                            "tigv" => $igv,
-                            "dolar" => $cabecera["dolar"],
-                            "eptaidep" => $item['presseleccionada'],
-                            "eptaprec" => $prec,
-                            'cantequi' => trim($item['cantequi'])
-                        ]);
-                        if ($execpp->errorCode() != '00000') {
-                            $wc = 0;
-                            $execpp->debugDumpParams();
-                            $pdo->rollBack();
-                            break;
+                        if ($proyecto != 'xsys5') {
+                            $sqlpp = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,'0',:eptaprec,:eptaidep,:cantequi)";
+                            $execpp = $pdo->prepare($sqlpp);
+                            $execpp->execute([
+                                "coda" => $item['coda'],
+                                "fech" => $this->dfecha,
+                                "prec" => $prec,
+                                "nauto" => $id,
+                                "prov" => $cabecera["idprov"],
+                                "cm" => $cabecera["mon"],
+                                "tigv" => $igv,
+                                "dolar" => $cabecera["dolar"],
+                                "eptaidep" => $item['presseleccionada'],
+                                "eptaprec" => $prec,
+                                'cantequi' => trim($item['cantequi'])
+                            ]);
+                            if ($execpp->errorCode() != '00000') {
+                                $wc = 0;
+                                $execpp->debugDumpParams();
+                                $pdo->rollBack();
+                                break;
+                            }
+                        } else {
+                            // cc INTEGER,dfe DATE,npr DECIMAL(12,4),cnd INTEGER,idp INTEGER,cmda CHAR,ni DECIMAL(5,3),ndolar FLOAT,nidusua INTEGER,nflete DECIMAL(10,6)
+                            $sqlpp = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,:nidusua,:flete)";
+                            $execpp = $pdo->prepare($sqlpp);
+                            $execpp->execute([
+                                "coda" => $item['coda'],
+                                "fech" => $this->dfecha,
+                                "prec" => $prec,
+                                "nauto" => $id,
+                                "prov" => $cabecera["idprov"],
+                                "cm" => $cabecera["mon"],
+                                "tigv" => $igv,
+                                "dolar" => $cabecera["dolar"],
+                                "nidusua" => session()->get("usuario_id"),
+                                "eptaprec" => empty($item['flete']) ? 0 : $item['flete']
+                            ]);
+                            if ($execpp->errorCode() != '00000') {
+                                $wc = 0;
+                                $execpp->debugDumpParams();
+                                $pdo->rollBack();
+                                break;
+                            }
                         }
                     }
                 }
@@ -778,8 +802,6 @@ class Compra extends Modelo
                 return false;
             }
             if ($cabecera['actualizarprecios'] == 'S') {
-                $sqlc = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,'0',:eptaprec,:eptaidep,:cantequi)";
-                $queryc = $pdo->prepare($sqlc);
                 foreach ($carritoc as $item) {
                     if ($item['activo'] == 'A') {
                         if ($cabecera['igv'] == 'N') {
@@ -787,25 +809,49 @@ class Compra extends Modelo
                         } else {
                             $prec = floatval($item['precio']) / floatval($_SESSION['gene_igv']);
                         }
-                        $queryc->execute([
-                            "coda" => $item['coda'],
-                            "fech" => $this->dfecha,
-                            "prec" => $prec,
-                            "nauto" => $cabecera['nidauto'],
-                            "prov" => $cabecera["idprov"],
-                            "cm" => $cabecera["mon"],
-                            "tigv" => $igv,
-                            "dolar" => $cabecera["dolar"],
-                            "eptaidep" => $item['presseleccionada'],
-                            "eptaprec" => $prec,
-                            'cantequi' => $item['cantequi']
-                        ]);
-                        if ($queryc->errorCode() != '00000') {
-                            $queryc->debugDumpParams();
-                            $pdo->rollBack();
-                            break;
+                        if ($proyecto != 'xsys5') {
+                            $sqlc = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,'0',:eptaprec,:eptaidep,:cantequi)";
+                            $queryc = $pdo->prepare($sqlc);
+                            $queryc->execute([
+                                "coda" => $item['coda'],
+                                "fech" => $this->dfecha,
+                                "prec" => $prec,
+                                "nauto" => $cabecera['nidauto'],
+                                "prov" => $cabecera["idprov"],
+                                "cm" => $cabecera["mon"],
+                                "tigv" => $igv,
+                                "dolar" => $cabecera["dolar"],
+                                "eptaidep" => $item['presseleccionada'],
+                                "eptaprec" => $prec,
+                                'cantequi' => $item['cantequi']
+                            ]);
+                            if ($queryc->errorCode() != '00000') {
+                                $queryc->debugDumpParams();
+                                $pdo->rollBack();
+                                break;
+                            }
+                        } else {
+                            // cc INTEGER,dfe DATE,npr DECIMAL(12,4),cnd INTEGER,idp INTEGER,cmda CHAR,ni DECIMAL(5,3),ndolar FLOAT,nidusua INTEGER,nflete DECIMAL(10,6)
+                            $sqlc = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,:nidusua,:flete)";
+                            $queryc = $pdo->prepare($sqlc);
+                            $queryc->execute([
+                                "coda" => $item['coda'],
+                                "fech" => $this->dfecha,
+                                "prec" => $prec,
+                                "nauto" => $cabecera['nidauto'],
+                                "prov" => $cabecera["idprov"],
+                                "cm" => $cabecera["mon"],
+                                "tigv" => $igv,
+                                "dolar" => $cabecera["dolar"],
+                                "nidusua" => session()->get("usuario_id"),
+                                "eptaprec" => empty($item['flete']) ? 0 : $item['flete']
+                            ]);
+                            if ($queryc->errorCode() != '00000') {
+                                $queryc->debugDumpParams();
+                                $pdo->rollBack();
+                                break;
+                            }
                         }
-                        // var_dump($queryc->debugDumpParams());
                     }
                 }
             }

@@ -130,6 +130,7 @@ class Producto extends Modelo
     }
     function registrarProducto($datos)
     {
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $sql = "SELECT FuncreaProductos(:cdesc,:cunid,:nprec,:ncosto,
         :txtprecioma,:txtprecioe,:txtpreciome,:npeso,:ccat,:cmar,:ctipro,:nflete,:cm,'web',
         :ncome,:ncomc,:nutil1,:nutil2,:nutil3,:nidusua,:nsmax,:nsmin, 
@@ -148,7 +149,7 @@ class Producto extends Modelo
                 'ccat' => $datos['cmbcategoria'],
                 'cmar' => $datos['cmbmarca'],
                 'ctipro' => $datos['cmbtipp'],
-                'nflete' => $datos['txtcostot'],
+                'nflete' => ($proyecto != 'xsys5' ?  $datos['cmbtipotransporte'] : $datos['txtcostot']),
                 'cm' => $datos['cmbMoneda'],
                 'ncome' => (empty($datos['txtcomisione']) ? 0 : $datos['txtcomisione']),
                 'ncomc' => (empty($datos['txtcomisionc']) ? 0 : $datos['txtcomisionc']),
@@ -229,6 +230,7 @@ class Producto extends Modelo
         //     $rpta = array('mensaje' => $query->errorInfo(), "estado" => '0');
         //     return $rpta;
         // }
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $sql = "call ProActualizaProductos(:cdesc,:cunid,:ncosto,
         :txtprecioma,:txtprecioe,:txtpreciome,:npeso,:ccat,:cmar,:ctipro,:nflete,:cm,:nprec,
         :nidgrupo,:nutil1,:nutil2,:nutil3,:ncome,:ncomc,:nidusua,:idart,:nsmax,:nsmin, 
@@ -246,7 +248,8 @@ class Producto extends Modelo
                 'ccat' => $datos['cmbcategoria'],
                 'cmar' => $datos['cmbmarca'],
                 'ctipro' => $datos['cmbtipp'],
-                'nflete' => $datos['txtcostot'],
+                // 'nflete' => $datos['txtcostot'],
+                'nflete' => ($proyecto != 'xsys5' ?  $datos['cmbtipotransporte'] : $datos['txtcostot']),
                 'cm' => $datos['cmbMoneda'],
                 'nprec' => $datos['txtcostosig'],
                 "nidgrupo" => $datos['cmbgrupo'],

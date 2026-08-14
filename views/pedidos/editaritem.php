@@ -27,10 +27,6 @@
             <label class="col-sm-0 col-form-label-sm">Stock:</label>
             <input type="number" disabled style="width: 100px;" class="form-control form-control-sm" id="txtstock" name="txtstock" value="<?php echo $tipo <> 'N' ? $itemcarrito['stock'] : 0.00 ?>">
         </div>
-        <div class="form-group row">
-            <label class="col-sm-0 col-form-label-sm" for="">Cantidad:</label>
-            <input type="number" style="width: 100px;" class="form-control form-control-sm" name="txtcantidad" id="txtcantidad" placeholder="0.00" value="<?php echo $tipo <> 'N' ? $itemcarrito['cantidad'] : 0.00 ?>">
-        </div>
         <div class="mb-3 form-group row">
             <label class="col-sm-0 col-form-label col-form-label-sm">Precios:</label>
             <!-- <select class="form-select form-select-sm mb-3" id="cmbprecios" name="cmbprecios" aria-label="">
@@ -47,7 +43,7 @@
                 $eptaidep = $itemcarrito['eptaidep'];
             }
             ?>
-            <select class="form-control form-control-sm mb-3" name="cmbpresentacion" id="cmbpresentacion">
+            <select class="form-control form-control-sm mb-3" name="cmbpresentacion" id="cmbpresentacion" onkeypress="entercmbpresentacion(this)">
                 <?php foreach ($presentaciones as $p) : ?>
                     <option value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'] ?>" <?php echo (($p['epta_idep'] == $eptaidep) ? 'selected' : '') ?>>
                         <?php echo trim($p['pres_desc']) . '-' . $p['epta_cant']; ?>
@@ -55,6 +51,10 @@
                 <?php endforeach;
                 ?>
             </select>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-0 col-form-label-sm" for="">Cantidad:</label>
+            <input type="number" style="width: 100px;" class="form-control form-control-sm" name="txtcantidad" id="txtcantidad" placeholder="0.00" value="<?php echo $tipo <> 'N' ? $itemcarrito['cantidad'] : 0.00 ?>">
         </div>
         <div class="mb-3 form-group row" style="<?php echo ($_SESSION['config']['multiigv'] == 'S' ? '' : 'display:none') ?>">
             <label class="col-sm-0 col-form-label col-form-label-sm" for="txtpreciosingv">Precio SGV:</label>
@@ -81,19 +81,39 @@
         });
         cmbPresentacion();
         calcularigv();
-        $("#txtcantidad").focus();
-        $("#txtcantidad").click();
+        // $("#cmbpresentacion").focus();
+        // $("#cmbpresentacion").click();
     });
 
-    function verdetalle() {
-        tipoproducto = $("#tipoproducto").val();
-        if (tipoproducto != 'C') {
-            toastr.error("El producto no es un combo");
-        } else {
-            idart = $('#txtcodigo').val();
-            verdetallecombo(idart);
-        }
+    var enterPressedpres = 1;
+
+    function entercmbpresentacion(u) {
+        u.onkeypress = function(e) {
+            var keyCode = (e.keyCode || e.which);
+            if (keyCode === 13) {
+                if (enterPressedpres == 0) {} else if (enterPressedpres >= 1) {
+                    e.preventDefault();
+                    $('#txtcantidad').focus();
+                    $('#txtcantidad').select();
+                    $('#txtcantidad').click();
+
+                }
+                enterPressedpres++;
+                return;
+            }
+        };
     }
+
+
+    // function verdetalle() {
+    //     tipoproducto = $("#tipoproducto").val();
+    //     if (tipoproducto != 'C') {
+    //         toastr.error("El producto no es un combo", 'Mensaje del Sistema');
+    //     } else {
+    //         idart = $('#txtcodigo').val();
+    //         verdetallecombo(idart);
+    //     }
+    // }
 
     function calcularigv() {
         igv = Number("<?php echo $_SESSION['gene_igv']; ?>");

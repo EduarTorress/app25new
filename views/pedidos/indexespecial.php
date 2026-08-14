@@ -190,8 +190,8 @@ $this->startSection('javascript');
     }
 
     $('#item').on('shown.bs.modal', function() {
-        $('#txtcantidad').focus();
-        $('#txtcantidad').select();
+        $("#cmbpresentacion").focus();
+        $("#cmbpresentacion").click();
     });
 
     $('#item').on('hidden.bs.modal', function() {
@@ -317,7 +317,7 @@ $this->startSection('javascript');
     }
 
     function actualizaritem() {
-          var precio = document.querySelector("#txtprecio").value;
+        var precio = document.querySelector("#txtprecio").value;
         var cantidad = document.querySelector("#txtcantidad").value;
 
         var cmbpresentacion = document.querySelector("#cmbpresentacion");

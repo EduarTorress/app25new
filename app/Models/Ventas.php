@@ -779,7 +779,7 @@ class Ventas extends Modelo
             }
             if ($cabecera['formv'] == 'Y' || $cabecera['formv'] == 'P' || $cabecera['formv'] == 'T' || $cabecera['formv'] == 'D') {
                 if (!empty($cabecera['txtpago'])) {
-                    $total=$cabecera['total'];
+                    $total = $cabecera['total'];
                     $cabecera["total"] = $cabecera['txtpago'];
                 }
             }
@@ -892,9 +892,9 @@ class Ventas extends Modelo
                         'epta' => $item['presseleccionada'],
                         'karunid' => $item['unidad'],
                         'karequi' => $item['cantequi'],
-                        'lote' => $item['lote'],
-                        'fechavto' => $item['fechavto'],
-                        'tigv' => $item['tigv']
+                        'lote' => empty($item['lote']) ? ' ' : $item['lote'],
+                        'fechavto' => empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto'],
+                        'tigv' => empty($item['tigv']) ? '1.18' : $item['tigv']
                     ]);
                     if ($execiki->errorCode() != '00000') {
                         enviarmensajerror($execiki, $execiki->errorInfo());
@@ -984,7 +984,7 @@ class Ventas extends Modelo
 
             if ($cabecera['formv'] == 'Y' || $cabecera['formv'] == 'P' || $cabecera['formv'] == 'T' || $cabecera['formv'] == 'D') {
                 if (!empty($cabecera['txtpago'])) {
-                    $total=$cabecera['total'];
+                    $total = $cabecera['total'];
                     $cabecera["total"] = $cabecera['txtpago'];
                 }
             }
