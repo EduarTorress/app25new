@@ -82,7 +82,7 @@ class Compra extends Modelo
             FROM fe_rcom AS a 
             INNER JOIN fe_prov AS b USING(idprov)
             inner join fe_usua u on a.idusua=u.idusua
-            WHERE a.fecr BETWEEN :dfi AND :dff AND a.acti<>'I' and tdoc IN('01','07','08','03','GI','09') AND mone=:cmbmoneda " . $a . $f . $tc .
+            WHERE a.fech BETWEEN :dfi AND :dff AND a.acti<>'I' and tdoc IN('01','07','08','03','GI','09') AND mone=:cmbmoneda " . $a . $f . $tc .
                 " ORDER BY fech,ndoc";
             $query = $this->prepare($sql);
             $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -484,7 +484,7 @@ class Compra extends Modelo
                                 "tigv" => $igv,
                                 "dolar" => $cabecera["dolar"],
                                 "nidusua" => session()->get("usuario_id"),
-                                "eptaprec" => empty($item['flete']) ? 0 : $item['flete']
+                                "flete" => empty($item['flete']) ? 0 : $item['flete']
                             ]);
                             if ($execpp->errorCode() != '00000') {
                                 $wc = 0;

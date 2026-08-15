@@ -657,7 +657,7 @@ class ComprasController extends Controller
                 'checkafecto' => $items[0]['checkafecto'],
                 'lote' => $items[0]['kar_lote'],
                 'fechavto' => $items[0]['kar_fvto'],
-                "flete"=>$items[0]['flete'],
+                "flete" => $items[0]['flete'],
                 'activo' => 'A'
             );
         }
@@ -1073,30 +1073,33 @@ class ComprasController extends Controller
     }
     function importarcompraxarchivo(Request $request)
     {
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         session()->set('carritoc', []);
         $archivoxml = $request->get('archivo');
         $comprobante = ($this->obtenerdetallexdocumento($archivoxml));
         $i = 0;
+
         foreach ($comprobante['carrito_de_compras'] as $item) {
+            $precioconIGV = round($item["precio"] * 1.18, 2);
             $c[] = array(
                 'indice' => $i++,
                 'coda' => 0,
                 'descri' => $item["descripcion"],
                 'unidad' => $item['unidad'],
                 'cantidad' => $item['cantidad'],
-                'precio' => $item["precio"],
-                'preciocopia' => $item['precio'],
+                'precio' => $precioconIGV,
+                'preciocopia' => $precioconIGV,
                 'nreg' => 0,
                 'idprov' => 0,
-                'subtotal' => $item['precio'] * $item['cantidad'],
+                'subtotal' => $precioconIGV * $item['cantidad'],
                 'activo' => 'A',
                 'epta_idep' =>  0,
                 'pres_desc' => 'UNID',
                 'epta_cant' =>  1,
-                'epta_prec' =>  $item['precio'],
+                'epta_prec' =>  $precioconIGV,
                 'presseleccionada' => 0,
                 'kar_equi' => 1,
-                'checkafecto' => "true",
+                'checkafecto' => ($proyecto != 'xsys5' ? "true" :  "false"),
                 'kar_lote' =>  '',
                 'kar_fvto' => '',
                 'presentaciones' => json_encode(

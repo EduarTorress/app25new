@@ -54,7 +54,7 @@
                             </select>
                         </td>
                         <td class="text-center cantidad" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="false" name="cantidad"><input type="text" onclick="this.select(); clicksubtotal=0;" class="inputright" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
-                        <td class="precio text-center" id="precio" onkeypress="return isNumber(event);" contenteditable="false" name="precio"><input onclick="this.select(); clicksubtotal=0;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
+                        <td class="precio text-center" id="precio" onkeypress="return isNumber(event);" contenteditable="false" name="precio"><input onclick="this.select(); clicksubtotal=0;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format($item['precio'], 5, '.', '') ?>"></td>
                         <?php if (!empty($_SESSION['config']['tipobotica'])) : ?>
                             <td class="text-center" class="lote"><input onclick="this.select(); clicksubtotal=0;" type="text" class="" value="<?php echo (empty($item['lote']) ? ' ' : $item['lote']); ?>"></td>
                             <td class="text-center" class="fechavto"><input class="fechavtoproducto" min="<?php echo date('Y-m-d'); ?>" onclick="this.select(); clicksubtotal=0;" type="date" value="<?php echo (empty($item['fechavto']) ? ' ' : $item['fechavto']); ?>"></td>
@@ -66,7 +66,7 @@
                                 }
                             </style>
                         <?php endif; ?>
-                        <td class="text-center total"><input onclick="this.select(); clicksubtotal=1;" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?>"></td>
+                        <td class="text-center total"><input onclick="this.select();" onkeypress="return isNumber(event);" onkeydown="clicksubtotal=1;" type="text" class="inputright" value="<?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?>"></td>
                         <td class="text-center afecto">
                             <?php
                             $checkafecto = "";
@@ -232,7 +232,7 @@
     $("#griddetalle tr:last td:eq(5) .inputright").on("keypress", function(evt) {
         // console.log(evt)
         celdasiguiente = $(this).parent().parent().find(".total input");
-        console.log(celdasiguiente)
+        // console.log(celdasiguiente)
         if (evt.key === "Enter") {
             $(celdasiguiente).click();
             $(celdasiguiente).select();

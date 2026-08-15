@@ -278,6 +278,8 @@ $this->startSection('javascript');
                 $("#cndoc1").addClass("border border-success border-3");
                 $("#cndoc2").val(ndoc[1]);
                 $("#cndoc2").addClass("border border-success border-3");
+                $("#ndo2").val(rpta.guia);
+                $("#ndo2").addClass("border border-success border-3");
                 switch (ndoc[0].substr(0, 1)) {
                     case 'F':
                         $("#cmbdcto").val("01");
@@ -426,6 +428,8 @@ $this->startSection('javascript');
                         toastr.error(error, 'Mensaje del Sistema')
                     });
                 }
+            } else {
+                $("#modal_proveedor").modal("show");
             }
         }).catch(function(error) {
             toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
@@ -1012,6 +1016,17 @@ $this->startSection('javascript');
             }).catch(function(error) {
                 toastr.error("Error al guardar sesión", "Mensaje del Sistema");
             });
+    }
+
+    function obtenerTipoIGV() {
+        let vdvto = 'I';
+        if (document.getElementsByName("igv")[0].checked) {
+            vdvto = 'I';
+        }
+        if (document.getElementsByName("igv")[1].checked) {
+            vdvto = 'N';
+        }
+        return vdvto;
     }
 
     function calcularIGV() {
