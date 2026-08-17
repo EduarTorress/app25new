@@ -198,7 +198,8 @@ class Compra extends Modelo
                 LEFT JOIN (SELECT lcaj_idau,lcaj_idus FROM fe_lcaja  WHERE lcaj_acti='A' ) AS l ON l.lcaj_idau=a.idauto
                 LEFT JOIN fe_epta e ON (idart=e.epta_idar)
                 LEFT JOIN `fe_presentaciones` pe ON (e.epta_pres=pe.pres_idpr)
-                WHERE idauto=:idauto and epta_acti='A' ORDER BY idkar";
+                WHERE idauto=:idauto ORDER BY idkar";
+        // ($proyecto != 'xsys5' ? "and epta_acti='A'" : ' ') .
         $query = $this->prepare($sql);
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute([
@@ -349,9 +350,9 @@ class Compra extends Modelo
                         $query = $pdo->prepare($sql);
                         $cant = floatval($item['cantidad']);
                         $prec = floatval($item['precio']);
-                        $afecto = "1.00";
-                        if (trim($item['checkafecto']) == "true") {
-                            $afecto = "1.18";
+                        $afecto = "1.18";
+                        if ((trim($item['checkafecto']) == "true")) {
+                            $afecto = "1.00";
                         }
                         $query->execute([
                             "nauto" => $id,
@@ -376,9 +377,9 @@ class Compra extends Modelo
                         $query = $pdo->prepare($sql);
                         $cant = floatval($item['cantidad']);
                         $prec = floatval($item['precio']);
-                        $afecto = "1.00";
-                        if (trim($item['checkafecto']) == "true") {
-                            $afecto = "1.18";
+                       $afecto = "1.18";
+                        if ((trim($item['checkafecto']) == "true")) {
+                            $afecto = "1.00";
                         }
                         $query->execute([
                             "nauto" => $id,
@@ -625,9 +626,9 @@ class Compra extends Modelo
                     if ($item['nreg'] == 0) {
                         $ncant = floatval($item['cantidad']);
                         $nprecio = floatval($item['precio']);
-                        $afecto = "1.00";
+                        $afecto = "1.18";
                         if ((trim($item['checkafecto']) == "true")) {
-                            $afecto = "1.18";
+                            $afecto = "1.00";
                         }
                         if ($proyecto != 'xsys5') {
                             $sqlinserta = "SELECT FunIngresaKardex1(:nid,:cc,:ct,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:vcom,:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS IDD";
@@ -687,9 +688,9 @@ class Compra extends Modelo
                             }
                         }
                     } else {
-                        $afecto = "1.00";
+                       $afecto = "1.18";
                         if ((trim($item['checkafecto']) == "true")) {
-                            $afecto = "1.18";
+                            $afecto = "1.00";
                         }
                         // echo $item['checkafecto'] . '<br>';
                         $query = $pdo->prepare($sqlactualiza);
@@ -751,9 +752,9 @@ class Compra extends Modelo
                 } else {
                     if ($item['nreg'] > 0) {
                         $query = $pdo->prepare($sqlactualiza);
-                        $afecto = "1.00";
+                       $afecto = "1.18";
                         if ((trim($item['checkafecto']) == "true")) {
-                            $afecto = "1.18";
+                            $afecto = "1.00";
                         }
                         $ncant = floatval($item['cantidad']);
                         $nprecio = floatval($item['precio']);
@@ -844,7 +845,7 @@ class Compra extends Modelo
                                 "tigv" => $igv,
                                 "dolar" => $cabecera["dolar"],
                                 "nidusua" => session()->get("usuario_id"),
-                                "eptaprec" => empty($item['flete']) ? 0 : $item['flete']
+                                "flete" => empty($item['flete']) ? 0 : $item['flete']
                             ]);
                             if ($queryc->errorCode() != '00000') {
                                 $queryc->debugDumpParams();

@@ -480,7 +480,8 @@ class Producto extends Modelo
     }
     function consultarcompxprod($ano)
     {
-        $sql = "SELECT b.razo,c.fech,cant,ROUND(prec*c.vigv,2) as prec,c.mone,c.tdoc,c.ndoc,
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
+        $sql = "SELECT b.razo,c.fech,cant," . ($proyecto != 'xsys5' ? "ROUND(prec*c.vigv,2)" : 'prec') . " as prec,c.mone,c.tdoc,c.ndoc,
 		MONTH(c.fech) as mes FROM fe_kar as a
 		INNER JOIN fe_rcom  as c ON(c.idauto=a.idauto)
 		inner join fe_prov as b ON (b.idprov=c.idprov)

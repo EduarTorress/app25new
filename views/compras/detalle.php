@@ -205,7 +205,7 @@
     <?php if ($proyecto == 'xsys5'): ?>
         $(".afecto").css("display", "none");
     <?php else: ?>
-        $("flete").css("display", "none");
+        $(".flete").css("display", "none");
     <?php endif; ?>
 
     function seleccionarproducto(indice, codigoproducto) {

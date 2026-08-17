@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="">U. M. :</label>
-                        <select class="selectpicker" data-live-search="true" id="cmbpresentacionesc">
+                        <select onchange="calcularcostoporcantidadequivalente();" class="selectpicker" data-live-search="true" id="cmbpresentacionesc">
                             <?php foreach ($cmbpresentaciones as $um) : ?>
                                 <option value="<?php echo $um['pres_idpr'] . '-' . $um['pres_cant'] ?>" data-tokens="<?php echo $um['pres_desc'] ?>"><?php echo $um['pres_desc'] ?></option>
                             <?php endforeach; ?>
@@ -119,6 +119,13 @@
             limpiardetapres();
         }
     });
+
+    function calcularcostoporcantidadequivalente() {
+        txtcoston = $("#txtcoston").val();
+        cmbpresentacionesc = $("#cmbpresentacionesc").val();
+        cantidadequivalente = cmbpresentacionesc.split("-")[1]
+        txtcostopres = $("#txtcostopres").val((Number(txtcoston) * Number(cantidadequivalente)).toFixed(2));
+    }
 
     function calculargananciacorpxpreciocorp() {
         nuevoprecio = $("#txtprecioprescorp").val();

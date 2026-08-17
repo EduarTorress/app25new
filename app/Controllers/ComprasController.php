@@ -552,6 +552,7 @@ class ComprasController extends Controller
     }
     function buscarCompraPorId($idauto)
     {
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $compra = new Compra();
         $nrocompra = "";
         $this->LimpiarSesion();
@@ -606,7 +607,7 @@ class ComprasController extends Controller
                 'epta_prec' => empty($item['epta_prec']) ? $item['prec'] : $item['epta_prec'],
                 'presseleccionada' => empty($item['kar_epta']) ? 0 : $item['kar_epta'],
                 'kar_equi' => empty($item['kar_equi']) ? 1 : $item['kar_equi'],
-                'checkafecto' => (floatval($item['kar_tigv']) > 1 ? "true" : "false"),
+                'checkafecto' => (floatval($item['kar_tigv']) > 1 ? "false" : "true"),
                 'kar_lote' => empty($item['kar_lote']) ? '' : $item['kar_lote'],
                 'kar_fvto' => empty($item['kar_fvto']) ? '' : $item['kar_fvto'],
                 'flete' => empty($item['kar_flet']) ? 0 : $item['kar_flet']
