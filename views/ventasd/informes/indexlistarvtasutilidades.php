@@ -56,7 +56,7 @@ $this->startSection('javascript');
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
         obtenerFechas();
-        $("#cmbAlmacen").attr("disabled", true);
+        $("#cmbAlmacen").attr("disabled", false);
         $("#cmbAlmacen").val("<?php echo $_SESSION['idalmacen'] ?>");
     }
 

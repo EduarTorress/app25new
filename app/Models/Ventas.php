@@ -1896,19 +1896,36 @@ class Ventas extends Modelo
         try {
             $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbAlmacen  ' : ' and codt=:cmbAlmacen ';
             // $m = ($cmbmoneda == '0') ? ' and mone<>:cmbmoneda  ' : ' and mone=:cmbmoneda ';
+            // $tiporeporteganancia = (empty($_SESSION['config']['tiporeporteganancia']) ? 'N' : '');
+            // if ($tiporeporteganancia == 'N') {
+            //     $sql = "SELECT Ndoc,fech,cliente,Vendedor,Importe,(SUM(Utilidad)*100)/SUM(costototal) AS porcentaje,SUM(Utilidad) AS Utilidad,
+            //     Idauto FROM (SELECT k.idart AS Coda,b.Descri,k.kar_unid,cant,CAST(kar_cost AS DECIMAL(12,4)) AS costounitario,
+            //     CAST(IF(c.Mone='S',k.Prec,k.Prec*c.dolar) AS DECIMAL(12,4))AS PrecioVenta, CAST((cant)*(k.kar_cost) AS DECIMAL(12,2)) AS costototal, 
+            //     CAST(cant*IF(c.Mone='S',k.Prec,k.Prec*c.dolar) AS DECIMAL(12,2)) AS ventatotal, 
+            //     CAST(((cant)*IF(c.Mone='S',k.Prec,k.Prec*c.dolar))-((cant)*(k.kar_cost)) AS DECIMAL(12,2)) AS Utilidad,
+            //     cc.Razo AS cliente,v.`nomv` AS Vendedor,c.idauto,Ndoc,fech,IF(c.Mone='S',Impo,Impo*c.dolar) AS Importe 
+            //     FROM fe_rcom AS c 
+            //     INNER JOIN fe_kar AS k ON k.idauto=c.idauto
+            //     INNER JOIN fe_art AS b ON b.idart=k.idart
+            //     INNER JOIN fe_clie AS cc ON cc.idclie=c.idcliente
+            //     INNER JOIN fe_vend AS v ON v.idven=k.Codv
+            //     WHERE k.Acti='A' AND c.Acti='A' AND c.fech BETWEEN :dfi AND :dff" . $a . " AND c.tcom<>'T' ) 
+            //     AS xx GROUP BY idauto ORDER BY fech,Ndoc";
+            // } else {
             $sql = "SELECT Ndoc,fech,cliente,Vendedor,Importe,(SUM(Utilidad)*100)/SUM(costototal) AS porcentaje,SUM(Utilidad) AS Utilidad,
-                    Idauto FROM (SELECT k.idart AS Coda,b.Descri,k.kar_unid,cant,CAST(kar_cost AS DECIMAL(12,4)) AS costounitario,
-                    CAST(IF(c.Mone='S',k.Prec,k.Prec*c.dolar) AS DECIMAL(12,4))AS PrecioVenta, CAST((cant)*(k.kar_cost* k.kar_equi) AS DECIMAL(12,2)) AS costototal, 
-                    CAST(cant*IF(c.Mone='S',k.Prec,k.Prec*c.dolar) AS DECIMAL(12,2)) AS ventatotal, 
-                    CAST(((cant)*IF(c.Mone='S',k.Prec,k.Prec*c.dolar))-((cant)*(k.kar_cost  * k.kar_equi )) AS DECIMAL(12,2))/kar_equi AS Utilidad,
-                    cc.Razo AS cliente,v.`nomv` AS Vendedor,c.idauto,Ndoc,fech,IF(c.Mone='S',Impo,Impo*c.dolar) AS Importe 
-                    FROM fe_rcom AS c 
-                    INNER JOIN fe_kar AS k ON k.idauto=c.idauto
-                    INNER JOIN fe_art AS b ON b.idart=k.idart
-                    INNER JOIN fe_clie AS cc ON cc.idclie=c.idcliente
-                    INNER JOIN fe_vend AS v ON v.idven=k.Codv
-                    WHERE k.Acti='A' AND c.Acti='A' AND c.fech BETWEEN :dfi AND :dff" . $a . "AND c.tcom<>'T' ) 
-                    AS xx GROUP BY idauto ORDER BY fech,Ndoc";
+                Idauto FROM (SELECT k.idart AS Coda,b.Descri,k.kar_unid,cant,CAST(kar_cost AS DECIMAL(12,4)) AS costounitario,
+                CAST(IF(c.Mone='S',k.Prec,k.Prec*c.dolar) AS DECIMAL(12,4))AS PrecioVenta, CAST((cant)*(k.kar_cost* k.kar_equi) AS DECIMAL(12,2)) AS costototal, 
+                CAST(cant*IF(c.Mone='S',k.Prec,k.Prec*c.dolar) AS DECIMAL(12,2)) AS ventatotal, 
+                CAST(((cant* k.kar_equi )*IF(c.Mone='S',k.Prec,k.Prec*c.dolar))-((cant)*(k.kar_cost  * k.kar_equi )) AS DECIMAL(12,2))/kar_equi AS Utilidad,
+                cc.Razo AS cliente,v.`nomv` AS Vendedor,c.idauto,Ndoc,fech,IF(c.Mone='S',Impo,Impo*c.dolar) AS Importe  
+                FROM fe_rcom AS c 
+                INNER JOIN fe_kar AS k ON k.idauto=c.idauto
+                INNER JOIN fe_art AS b ON b.idart=k.idart
+                INNER JOIN fe_clie AS cc ON cc.idclie=c.idcliente
+                INNER JOIN fe_vend AS v ON v.idven=k.Codv
+                WHERE k.Acti='A' AND c.Acti='A' AND c.fech BETWEEN :dfi AND :dff" . $a . "AND c.tcom<>'T' ) 
+                AS xx GROUP BY idauto ORDER BY fech,Ndoc";
+            // }
             $query = $this->prepare($sql);
             $query->execute([
                 'dfi' => $dfi,

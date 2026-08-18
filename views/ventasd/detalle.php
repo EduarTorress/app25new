@@ -48,7 +48,7 @@
                             $presentaciones = json_decode($item['presentaciones'], true); ?>
                             <select onchange="cambiarpresentacion(this,<?php echo $indice ?>)" class="form-control form-control-sm" name="cmbpresentaciones" id="cmbpresentaciones" onkeypress="entertest(this)">
                                 <?php foreach ($presentaciones as $p) : ?>
-                                    <option value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'] ?>" <?php echo (($p['epta_idep'] == $item['presseleccionada']) ? 'selected' : '') ?>>
+                                    <option value="<?php echo $p['epta_idep'] . '-' . $p['epta_prec'].'-'.$p['epta_cost'] ?>" <?php echo (($p['epta_idep'] == $item['presseleccionada']) ? 'selected' : '') ?>>
                                         <?php echo trim($p['pres_desc']) . '-' . $p['epta_cant']; ?>
                                     </option>
                                 <?php endforeach;
@@ -302,6 +302,7 @@
         data.append("cmbmoneda", $("#cmbmoneda").val());
         data.append("cantequi", textpresentacion[1]);
         data.append("presseleccionada", cmbpresentacion[0])
+        data.append("costo", cmbpresentacion[2])
         tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
         if (tipobotica == 'S') {
             data.append("lote", _tr.find("td").eq(6).find("input").val());

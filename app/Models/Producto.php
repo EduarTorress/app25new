@@ -100,6 +100,7 @@ class Producto extends Modelo
                         "epta_prec" => (isset($row['epta_prec'])) ? $row['epta_prec'] : $row['pre1'],
                         "epta_cant" => (isset($row['epta_cant'])) ? $row['epta_cant'] : '1',
                         "epta_idep" => (isset($row['epta_idep'])) ? $row['epta_idep'] : '0',
+                        "epta_cost" => (isset($row['epta_cost'])) ? $row['epta_cost'] : '',
                         "prod_tigv" => (empty($row['prod_tigv'])) ? 1 : $row['prod_tigv'],
                         "epta_pcor" => (empty($row['epta_pcor'])) ? 0 : $row['epta_pcor']
                     );

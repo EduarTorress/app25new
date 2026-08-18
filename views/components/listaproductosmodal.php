@@ -146,7 +146,6 @@
                     }
                     $parametro6 = $items[0]['pre2'];
                     $parametro7 = $items[0]['prec'];
-                    $parametro8 = $items[0]['costo'];
                     $parametro9 = $items[0]['peso'];
                     $parametro10 = $items[0]['tipro'];
                     $presentaciones = [];
@@ -157,11 +156,13 @@
                             'pres_desc' => $item['pres_desc'],
                             'epta_cant' => $item['epta_cant'],
                             'epta_prec' => $item['epta_prec'],
-                            'epta_pcor' => ($proyecto != 'xsys5' ? ' ' :  $item['epta_pcor'])
+                            'epta_pcor' => ($proyecto != 'xsys5' ? ' ' :  $item['epta_pcor']),
+                            'epta_cost' => (empty($item['epta_cost']) ? 0 : $item['epta_cost'])
                         );
                         $i += 1;
                     }
                     $parametro11 = json_encode($presentaciones);
+                    $parametro8 = empty($presentaciones[0]['epta_cost']) ? $items[0]['costo'] : $presentaciones[0]['epta_cost'];
                     $parametro12 = $presentaciones[0]['epta_prec'];
                     $stockuno = $items[0]['uno'];
                     $stockdos = $items[0]['dos'];

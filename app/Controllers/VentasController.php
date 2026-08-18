@@ -509,6 +509,7 @@ class VentasController extends Controller
             'precio' => floatval($request->get('txtprecio') <= 0.00  ? 1 : $request->get('txtprecio')),
             'cantequi' => $request->get('cantequi'),
             'presseleccionada' => $request->get('presseleccionada'),
+            'costo' => (empty($request->get('costo')) ? 0 : $request->get('costo')),
             'lote' => $request->get('lote'),
             'fechavto' => $request->get('fechavto'),
             'activo' => 'A'
@@ -1692,6 +1693,7 @@ class VentasController extends Controller
             'cantequi' => $request->get('cantequi'),
             'lote' => $request->get('lote'),
             'fechavto' => $request->get('fechavto'),
+            'costo' => (empty($request->get('costo')) ? 0 : $request->get('costo')),
             'activo' => 'A'
         );
         CarritoService::editarProductoVenta($producto, $request->get('cmbmoneda'));

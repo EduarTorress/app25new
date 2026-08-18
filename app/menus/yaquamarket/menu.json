@@ -297,7 +297,7 @@
                 "class": "far fa-circle nav-icon",
                 "opt": "AV"
             },
-               {
+            {
                 "item": "Transacciones Generales ",
                 "ruta": "/cajas/indextransaccionesgenerales",
                 "class": "far fa-circle nav-icon",

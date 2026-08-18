@@ -452,12 +452,12 @@ class CarritoService
         $carritoc[$indice]['fechavto'] = empty($producto['fechavto']) ? date('Y-m-d') : $producto['fechavto'];
         session()->set('carritoc', $carritoc);
     }
-       public static function ingresarfletexproducto($indice,$flete)
+    public static function ingresarfletexproducto($indice, $flete)
     {
         $carritoc = session()->get('carritoc', []);
-       
+
         $carritoc[$indice]['flete'] = $flete;
-        
+
         session()->set('carritoc', $carritoc);
     }
     public static function editarProductocheckafecto($producto)
@@ -685,6 +685,9 @@ class CarritoService
         $carritov[$indice]['presseleccionada'] = $producto['presseleccionada'];
         $carritov[$indice]['cantequi'] = $producto['cantequi'];
         $carritov[$indice]['unidad'] = $producto['unidad'];
+        if (floatval($producto['costo']) != 0) {
+            $carritov[$indice]['costo'] = $producto['costo'];
+        }
         $carritov[$indice]['lote'] = empty($producto['lote']) ? ' ' : $producto['lote'];
         $carritov[$indice]['fechavto'] = empty($producto['fechavto']) ? date('Y-m-d') : $producto['fechavto'];
         if ($cmbmoneda == 'D') {
