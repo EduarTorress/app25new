@@ -615,7 +615,8 @@ class Producto extends Modelo
                         "epta_prec" => (isset($row['epta_prec'])) ? $row['epta_prec'] : $row['pre1'],
                         "epta_cant" => (isset($row['epta_cant'])) ? $row['epta_cant'] : '1',
                         "epta_idep" => (isset($row['epta_idep'])) ? $row['epta_idep'] : '0',
-                        "prod_tigv" => (empty($row['prod_tigv'])) ? 1 : $row['prod_tigv']
+                        "prod_tigv" => (empty($row['prod_tigv'])) ? 1 : $row['prod_tigv'],
+                        "prod_dola" => (empty($row['prod_dola'])) ? session()->get('gene_dola') : $row['prod_dola']
                         #falta sacar la formula del costo neto
                     );
                     array_push($lista["items"], $item);

@@ -52,7 +52,7 @@ class Presentacion extends Modelo
         $sql = "SELECT e.*,p.pres_desc
                 FROM fe_epta e
                 INNER JOIN `fe_presentaciones` p ON (e.epta_pres=p.pres_idpr)
-                WHERE p.pres_acti='A' and e.epta_idar=:idart AND e.`epta_acti`='A'";
+                WHERE p.pres_acti='A' and e.epta_idar=:idart AND e.`epta_acti`='A' order by epta_cant";
         $query = $this->prepare($sql);
         $query->execute([
             'idart' => $idart

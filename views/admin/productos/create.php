@@ -55,6 +55,10 @@
                     echo $flet->render();
                     ?>
                 </div>
+                <div class="form-group col-2" <?php echo (($proyecto == 'xsys5') ? '' : 'style="display:none"') ?>>
+                    <label for="" class="">Valor Dolar:</label>
+                    <input type="text" readonly onkeyup="convertirvalordolar()" ondblclick="$(this).removeAttr('readonly')" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="prod_dola" value="<?php echo (empty($datosProducto['prod_dola']) ? session()->get('gene_dola') : $datosProducto['prod_dola']) ?>">
+                </div>
                 <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="" class="">Stock Mínimo:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm" id="txtStockMin" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_smin']) ?>">
@@ -204,10 +208,49 @@
             $(this).find("td:eq(4) input").val(round(nuevoprecio, 0.1))
             $(this).find("td:eq(2) input").css("color", "blue");
             $(this).find("td:eq(4) input").css("color", "blue");
-
         });
     }
 
+    function convertprectodolar() {
+        cmbmoneda = $("#cmbMoneda").val();
+        dolar = Number($("#prod_dola").val());
+        txtprecioma = $("#txtprecioma").val();
+        txtprecioe = $("#txtprecioe").val();
+        txtpreciome = $("#txtpreciome").val();
+        txtcoston = Number($("#txtcoston").val());
+        // costoconigv = $("#txtcostocig").val();
+        // costosingiv = $("#txtcostosig").val();
+        if (cmbmoneda == 'S') {
+            // $("#txtcoston").val(txtcoston);
+            $("#txtcoston").val(Number(txtcoston / dolar).toFixed(2));
+            // $("#txtprecioma").val(Number(txtprecioma * dolar).toFixed(2));
+            // $("#txtprecioe").val(Number(txtprecioe * dolar).toFixed(2));
+            // $("#txtpreciome").val(Number(txtpreciome * dolar).toFixed(2));
+        } else {
+            $("#txtcoston").val(Number(txtcoston * dolar).toFixed(2));
+            // $("#txtprecioma").val(Number(txtprecioma / dolar).toFixed(2));
+            // $("#txtprecioe").val(Number(txtprecioe / dolar).toFixed(2));
+            // $("#txtpreciome").val(Number(txtpreciome / dolar).toFixed(2));
+        }
+        calcularPreciosPorPorcentaje("#txtporcprecma", "#txtprecioma");
+        calcularPreciosPorPorcentaje("#txtporcpreces", "#txtprecioe");
+        calcularPreciosPorPorcentaje("#txtporcprecem", "#txtpreciome");
+        calcularcostopresentaciones();
+    }
+
+    function convertirvalordolar() {
+        cmbmoneda = $("#cmbMoneda").val();
+        console.log(cmbmoneda)
+        if (cmbmoneda == 'D') {
+            <?php if (empty($datosProducto['costocigv'])): ?>
+                txtcoston = Number($("#txtcoston").val());
+            <?php else: ?>
+                txtcoston = "<?php echo $datosProducto['costocigv'] ?>";
+            <?php endif; ?>
+            $("#txtcoston").val(Number(txtcoston * dolar).toFixed(2));
+            calcularcostopresentaciones();
+        }
+    }
 
     function openmodalpresent() {
         axios.get('/productos/listarmodalpres', {
@@ -221,114 +264,6 @@
             $("#modal_presentaciones").modal('show');
         }).catch(function(error) {
             toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
-        });
-    }
-
-    function actualizar() {
-        if (validarcampos() == false) {
-            return;
-        }
-        Swal.fire({
-            title: "Mensaje del Sistema",
-            text: "¿Desea actualizar el producto? ",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si, modificar'
-        }).then(function(respuesta) {
-            if (respuesta.isConfirmed) {
-                let txtcodigo = document.getElementById("txtcodigoo").value;
-                let cmbgrupo = 1;
-                let cmbcategoria = document.getElementById("cmbcategoria").value;
-                let cmbmarca = document.getElementById("cmbmarca").value;
-                let txtdescrip = document.getElementById("txtdescrip").value;
-                let cmbunidad = document.getElementById("cmbunidad").value;
-                let cmbtipp = document.getElementById("cmbtipoproducto").value;
-                let cmbest = "1";
-                let txtpeso = document.getElementById("txtpeso").value;
-                let txtStockMin = document.getElementById("txtStockMin").value;
-                let txtStockMax = document.getElementById("txtStockMax").value;
-                // let txtcodprov = document.getElementById("txtStockMax").value;
-                let cmbMoneda = document.getElementById("cmbMoneda").value;
-                // let txtprecioc = document.getElementById("txtprecioc").value;
-                // let txttcprod = document.getElementById("txttcproducto").value;
-                let txtcostosig = document.getElementById("txtcostosig").value;
-                let txtcostocig = document.getElementById("txtcostocig").value;
-                cmbCostoT = document.getElementById("cmbCostoT").value;
-                cmbCostoT = cmbCostoT.split('-');
-                let cmbtipotransporte = cmbCostoT[0];
-                let txtcostot = $("#txtcostot").val();
-                let txtcoston = document.getElementById("txtcoston").value;
-                let porcprecma = document.getElementById("txtporcprecma").value;
-                txtporcprecma = ((Number(porcprecma) / 100) + 1).toFixed(6);
-                let txtprecioma = document.getElementById("txtprecioma").value;
-                let porcpreces = document.getElementById("txtporcpreces").value;
-                txtporcpreces = ((Number(porcpreces) / 100) + 1).toFixed(6);
-                let txtprecioe = document.getElementById("txtprecioe").value;
-                let porcprecem = document.getElementById("txtporcprecem").value;
-                txtporcprecem = ((Number(porcprecem) / 100) + 1).toFixed(6);
-                let txtpreciome = document.getElementById("txtpreciome").value;
-                let txtcomisione = document.getElementById("txtcomisione").value;
-                let txtcomisionc = document.getElementById("txtcomisionc").value;
-
-                //(Porcentaje / 100 ) + 1
-                data = new FormData();
-                data.append("idart", $("#txtidart").val());
-                data.append("txtcodigo", txtcodigo);
-                data.append("cmbgrupo", cmbgrupo);
-                data.append("cmbcategoria", cmbcategoria);
-                data.append("cmbmarca", cmbmarca);
-                data.append("txtdescrip", txtdescrip);
-                data.append("cmbunidad", cmbunidad);
-                data.append("cmbtipp", cmbtipp);
-                data.append("cmbest", cmbest);
-                data.append("txtpeso", txtpeso);
-                data.append("txtStockMin", txtStockMin);
-                data.append("txtStockMax", txtStockMax);
-                data.append("txtcodprov", "0");
-                data.append("cmbMoneda", cmbMoneda);
-                data.append("txtprecioc", 0.00);
-                data.append("txttcprod", 0.00);
-                data.append("txtcostosig", txtcostosig);
-                data.append("txtcostocig", txtcostocig);
-                data.append("txtcostot", txtcostot);
-                data.append("cmbtipotransporte", cmbtipotransporte);
-                data.append("txtcoston", txtcoston);
-                data.append("txtporcprecma", txtporcprecma);
-                data.append("txtprecioma", txtprecioma);
-                data.append("txtporcpreces", txtporcpreces);
-                data.append("txtprecioe", txtprecioe);
-                data.append("txtporcprecem", txtporcprecem);
-                data.append("txtpreciome", txtpreciome);
-                data.append("txtcomisione", txtcomisione);
-                data.append("txtcomisionc", txtcomisionc);
-                data.append("txtcoda1", $("#txtcoda1").val())
-                const detalle = []
-                $("#tblpresentaciones tbody tr").each(function() {
-                    json = "";
-                    $(this).find("td input").each(function() {
-                        $this = $(this);
-                        json += ',"' + $this.attr("class") + '":"' + $this.val() + '"'
-                    })
-                    obj = JSON.parse('{' + json.substr(1) + '}');
-                    detalle.push(obj)
-                });
-                data.append("presentaciones", JSON.stringify(detalle));
-                data.append("prod_tigv", obtenerTipoIGVProducto());
-                axios.post("/productos/actualizar", data)
-                    .then(function(respuesta) {
-                        toastr.success(respuesta.data.message, 'Mensaje del Sistema')
-                        limpiarTodo();
-                        $("#modal-mantenimiento").modal('hide');
-                        buscar();
-                    }).catch(function(error) {
-                        if (error.response.status === 422) {
-                            errors = error.response.data.errors;
-                            showtoastrerrors(errors);
-                        }
-                    });
-            }
         });
     }
 
@@ -427,6 +362,7 @@
                 data.append("txtcomisionc", txtcomisionc);
                 data.append("txtcoda1", $("#txtcoda1").val())
                 data.append("prod_tigv", obtenerTipoIGVProducto());
+                data.append("prod_dola", $("#prod_dola").val());
                 axios.post("/productos/registrar", data)
                     .then(function(respuesta) {
                         // toastr.success(respuesta.data.message)
@@ -448,6 +384,115 @@
                                 errors = error.response.data.errors;
                                 showtoastrerrors(errors);
                             }
+                        }
+                    });
+            }
+        });
+    }
+
+    function actualizar() {
+        if (validarcampos() == false) {
+            return;
+        }
+        Swal.fire({
+            title: "Mensaje del Sistema",
+            text: "¿Desea actualizar el producto? ",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, modificar'
+        }).then(function(respuesta) {
+            if (respuesta.isConfirmed) {
+                let txtcodigo = document.getElementById("txtcodigoo").value;
+                let cmbgrupo = 1;
+                let cmbcategoria = document.getElementById("cmbcategoria").value;
+                let cmbmarca = document.getElementById("cmbmarca").value;
+                let txtdescrip = document.getElementById("txtdescrip").value;
+                let cmbunidad = document.getElementById("cmbunidad").value;
+                let cmbtipp = document.getElementById("cmbtipoproducto").value;
+                let cmbest = "1";
+                let txtpeso = document.getElementById("txtpeso").value;
+                let txtStockMin = document.getElementById("txtStockMin").value;
+                let txtStockMax = document.getElementById("txtStockMax").value;
+                // let txtcodprov = document.getElementById("txtStockMax").value;
+                let cmbMoneda = document.getElementById("cmbMoneda").value;
+                // let txtprecioc = document.getElementById("txtprecioc").value;
+                // let txttcprod = document.getElementById("txttcproducto").value;
+                let txtcostosig = document.getElementById("txtcostosig").value;
+                let txtcostocig = document.getElementById("txtcostocig").value;
+                cmbCostoT = document.getElementById("cmbCostoT").value;
+                cmbCostoT = cmbCostoT.split('-');
+                let cmbtipotransporte = cmbCostoT[0];
+                let txtcostot = $("#txtcostot").val();
+                let txtcoston = document.getElementById("txtcoston").value;
+                let porcprecma = document.getElementById("txtporcprecma").value;
+                txtporcprecma = ((Number(porcprecma) / 100) + 1).toFixed(6);
+                let txtprecioma = document.getElementById("txtprecioma").value;
+                let porcpreces = document.getElementById("txtporcpreces").value;
+                txtporcpreces = ((Number(porcpreces) / 100) + 1).toFixed(6);
+                let txtprecioe = document.getElementById("txtprecioe").value;
+                let porcprecem = document.getElementById("txtporcprecem").value;
+                txtporcprecem = ((Number(porcprecem) / 100) + 1).toFixed(6);
+                let txtpreciome = document.getElementById("txtpreciome").value;
+                let txtcomisione = document.getElementById("txtcomisione").value;
+                let txtcomisionc = document.getElementById("txtcomisionc").value;
+
+                //(Porcentaje / 100 ) + 1
+                data = new FormData();
+                data.append("idart", $("#txtidart").val());
+                data.append("txtcodigo", txtcodigo);
+                data.append("cmbgrupo", cmbgrupo);
+                data.append("cmbcategoria", cmbcategoria);
+                data.append("cmbmarca", cmbmarca);
+                data.append("txtdescrip", txtdescrip);
+                data.append("cmbunidad", cmbunidad);
+                data.append("cmbtipp", cmbtipp);
+                data.append("cmbest", cmbest);
+                data.append("txtpeso", txtpeso);
+                data.append("txtStockMin", txtStockMin);
+                data.append("txtStockMax", txtStockMax);
+                data.append("txtcodprov", "0");
+                data.append("cmbMoneda", cmbMoneda);
+                data.append("txtprecioc", 0.00);
+                data.append("txttcprod", 0.00);
+                data.append("txtcostosig", txtcostosig);
+                data.append("txtcostocig", txtcostocig);
+                data.append("txtcostot", txtcostot);
+                data.append("cmbtipotransporte", cmbtipotransporte);
+                data.append("txtcoston", txtcoston);
+                data.append("txtporcprecma", txtporcprecma);
+                data.append("txtprecioma", txtprecioma);
+                data.append("txtporcpreces", txtporcpreces);
+                data.append("txtprecioe", txtprecioe);
+                data.append("txtporcprecem", txtporcprecem);
+                data.append("txtpreciome", txtpreciome);
+                data.append("txtcomisione", txtcomisione);
+                data.append("txtcomisionc", txtcomisionc);
+                data.append("prod_dola", $("#prod_dola").val());
+                data.append("txtcoda1", $("#txtcoda1").val())
+                const detalle = []
+                $("#tblpresentaciones tbody tr").each(function() {
+                    json = "";
+                    $(this).find("td input").each(function() {
+                        $this = $(this);
+                        json += ',"' + $this.attr("class") + '":"' + $this.val() + '"'
+                    })
+                    obj = JSON.parse('{' + json.substr(1) + '}');
+                    detalle.push(obj)
+                });
+                data.append("presentaciones", JSON.stringify(detalle));
+                data.append("prod_tigv", obtenerTipoIGVProducto());
+                axios.post("/productos/actualizar", data)
+                    .then(function(respuesta) {
+                        toastr.success(respuesta.data.message, 'Mensaje del Sistema')
+                        limpiarTodo();
+                        $("#modal-mantenimiento").modal('hide');
+                        buscar();
+                    }).catch(function(error) {
+                        if (error.response.status === 422) {
+                            errors = error.response.data.errors;
+                            showtoastrerrors(errors);
                         }
                     });
             }

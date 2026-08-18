@@ -283,6 +283,7 @@ $this->startSection('javascript');
         datos.append("tipop", producto.tipro);
         datos.append("txtcoda1", producto.txtcoda1);
         datos.append("prod_tigv", producto.prod_tigv);
+        datos.append("prod_dola", producto.prod_dola);
         // console.log(Object.fromEntries(datos));
         axios.post('/productos/consultarProductoPorID/', datos)
             .then(function(respuesta) {
@@ -325,32 +326,6 @@ $this->startSection('javascript');
             // $('#loading').modal('hide');
             toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
         });
-    }
-
-    function convertprectodolar() {
-        cmbmoneda = $("#cmbMoneda").val();
-        dolar = Number("<?php echo session()->get('gene_dola'); ?>");
-        txtprecioma = $("#txtprecioma").val();
-        txtprecioe = $("#txtprecioe").val();
-        txtpreciome = $("#txtpreciome").val();
-        txtcoston = $("#txtcoston").val();
-        // costoconigv = $("#txtcostocig").val();
-        // costosingiv = $("#txtcostosig").val();
-        if (cmbmoneda == 'S') {
-            $("#txtcoston").val(Number(txtcoston / dolar).toFixed(2));
-            // $("#txtprecioma").val(Number(txtprecioma * dolar).toFixed(2));
-            // $("#txtprecioe").val(Number(txtprecioe * dolar).toFixed(2));
-            // $("#txtpreciome").val(Number(txtpreciome * dolar).toFixed(2));
-        } else {
-            $("#txtcoston").val(Number(txtcoston * dolar).toFixed(2));
-            // $("#txtprecioma").val(Number(txtprecioma / dolar).toFixed(2));
-            // $("#txtprecioe").val(Number(txtprecioe / dolar).toFixed(2));
-            // $("#txtpreciome").val(Number(txtpreciome / dolar).toFixed(2));
-        }
-        calcularPreciosPorPorcentaje("#txtporcprecma", "#txtprecioma");
-        calcularPreciosPorPorcentaje("#txtporcpreces", "#txtprecioe");
-        calcularPreciosPorPorcentaje("#txtporcprecem", "#txtpreciome");
-        // calcularcostoneto();
     }
 
     function obtener() {

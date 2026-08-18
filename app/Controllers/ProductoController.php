@@ -188,7 +188,7 @@ class ProductoController extends Controller
             "txtpreciome" => empty($request->get("txtpreciome")) ? 0 : $request->get("txtpreciome"),
             "txtStockMax" => empty($request->get("txtStockMax")) ? 0 : $request->get("txtStockMax"),
             "txtStockMin" => empty($request->get("txtStockMin")) ? 0 : $request->get("txtStockMin"),
-            "dolar" =>  session()->get('gene_dola'),
+            "dolar" =>  empty($request->get("prod_dola")) ? session()->get('gene_dola') : $request->get("prod_dola"),
             "nidusua" => session()->get('usuario_id'),
             "txtcoda1" => empty($request->get("txtcoda1")) ? ' ' : $request->get("txtcoda1"),
             "prod_tigv" => empty($request->get("prod_tigv")) ? 1 : $request->get("prod_tigv")
@@ -252,7 +252,8 @@ class ProductoController extends Controller
             'pre3' => empty($request->get('pre3')) ? 0 : $request->get('pre3'),
             'tipop' => $request->get('tipop'),
             'txtcoda1' => empty($txtcoda1) ? '' : trim($txtcoda1),
-            'prod_tigv' => $request->get('prod_tigv')
+            'prod_tigv' => $request->get('prod_tigv'),
+            "prod_dola" => empty($request->get("prod_dola")) ? session()->get('gene_dola') : $request->get("prod_dola")
 
             // prod_come => comisión efectivo
             // prod_comc=> comisión crédito
@@ -346,7 +347,7 @@ class ProductoController extends Controller
             "txtporcprecem" => empty($request->get("txtporcprecem")) ? 0 : $request->get("txtporcprecem"),
             "txtStockMax" => empty($request->get("txtStockMax")) ? 0 : $request->get("txtStockMax"),
             "txtStockMin" => empty($request->get("txtStockMin")) ? 0 : $request->get("txtStockMin"),
-            "dolar" =>  session()->get('gene_dola'),
+            "dolar" =>   empty($request->get("prod_dola")) ? session()->get('gene_dola') : $request->get("prod_dola"),
             "nidusua" => session()->get('usuario_id'),
             "txtprecioma" => empty($request->get("txtprecioma")) ? 0 : $request->get("txtprecioma"),
             "txtprecioe" => empty($request->get("txtprecioe")) ? 0 : $request->get("txtprecioe"),
