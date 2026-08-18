@@ -193,7 +193,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text text-sm" id=""><strong>TOTAL &emsp;</strong></span>
                     </div>
-                    <input type="text" class="form-control text-right text-sm" id="total" aria-label="Small" value="<?php echo  $total ?>" aria-describedby="inputGroup-sizing-sm" disabled>
+                    <input type="text" class="form-control text-right text-sm" id="total" aria-label="Small" value="<?php echo $total ?>" aria-describedby="inputGroup-sizing-sm" disabled>
                 </div>
             </div>
         </div>

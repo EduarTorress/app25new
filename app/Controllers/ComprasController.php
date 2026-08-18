@@ -586,8 +586,11 @@ class ComprasController extends Controller
                 $checknodescontarstock = ($item['alma'] == 0) ? 'true' : 'false';
             }
 
-            $subtotal = $item['prec'] * $item['cant'];
-            $montototal = $subtotal + $subtotal;
+            // $subtotal = $item['prec'] * $item['cant'];
+            $montototal = $item['impo'];
+            $valor = $item['valor'];
+            $igv = $item['igv'];
+            $rcom_exon = $item['rcom_exon'];
             $i++;
 
             $c[] = array(
@@ -703,7 +706,10 @@ class ComprasController extends Controller
             'carritoc' => $carritoc,
             'items' => count($carritoc),
             'total' => $montototal,
-            'checknodescontarstock' => $checknodescontarstock
+            'checknodescontarstock' => $checknodescontarstock,
+            'rcom_exon' => $rcom_exon,
+            'valor' => $valor,
+            'igvvalor' => $igv
         ]);
     }
     function modificar(Request $request)

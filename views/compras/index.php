@@ -164,6 +164,7 @@ $this->startSection('javascript');
         axios.get('/compras/listardetalle').then(function(respuesta) {
             const contenido_tabla = respuesta.data;
             $('#detalle').html(contenido_tabla);
+            calcularIGV();
         }).catch(function(error) {
             toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
         });
@@ -176,7 +177,6 @@ $this->startSection('javascript');
         $("#cmbAlmacen").removeAttr("disabled");
         fechai = document.getElementById('txtfechai').value;
         obtenerDolar(fechai);
-        calcularIGV();
         $("#cndoc1").val("<?php echo isset($serie) ?  $serie : '' ?>");
         $("#txtidproveedor").val("<?php echo isset($datosproveedor['idprov']) ?  $datosproveedor['idprov'] : '' ?>");
         $("#txtproveedor").val("<?php echo isset($datosproveedor['razo']) ?  $datosproveedor['razo'] : '' ?>");
@@ -1082,7 +1082,16 @@ $this->startSection('javascript');
             $("#igv").val("0.00");
             $("#total").val("0.00");
         }
-        // calcularafecto();
+        <?php
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
+        if ($proyecto == 'xsys5'):
+            if ($v == 'M'): ?>
+                $("#exonerado").val("<?php echo (empty($rcom_exon) ? 0 : $rcom_exon) ?>");
+                $("#total").val("<?php echo (empty($total) ? 0 : $total) ?>");
+                $("input#igv").val("<?php echo (empty($igvvalor) ? 0 : $igvvalor) ?>");
+                $("#subtotal").val("<?php echo (empty($valor) ? 0 : $valor) ?>");
+            <?php endif; ?>
+        <?php endif; ?>
     }
 
     function actualizar(cmensaje, actualizarprecios) {
