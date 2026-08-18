@@ -13,6 +13,7 @@
                 <th scope="col" style="width:3%" class="tipoproducto"></th>
                 <th scope="col" style="width:3%" class="cantequi"></th>
                 <th scope="col" style="width:3%" class="presseleccionada"></th>
+                <th scope="col" style="width:3%" class="costo"></th>
             </tr>
         </thead>
         <tbody id="carritoventas">
@@ -32,6 +33,7 @@
                     <td class="tipoproducto" style="text-align: center;"><?php echo $item['tipoproducto'] ?></td>
                     <td class="cantequi" style="text-align: center;"><?php echo $item['equipres'] ?></td>
                     <td class="presseleccionada" style="text-align: center;"><?php echo $item['eptaidep'] ?></td>
+                    <td class="costo" style="text-align: center;"><?php echo $item['costo'] ?></td>
                     <?php $i++; ?>
                 </tr>
             <?php endforeach; ?>
@@ -100,6 +102,7 @@
         $(".tipoproducto").css("display", "none");
         $(".presseleccionada").css("display", "none");
         $(".cantequi").css("display", "none");
+        $(".costo").css("display", "none");
         <?php if ($_SESSION['config']['multiigv'] != 'S') : ?>
             $(".preciosgv").css("display", "none");
         <?php endif; ?>
@@ -189,12 +192,11 @@
         var _tr = $(o);
         var cant = _tr.find("td").eq(4).html();
         var prec = _tr.find("td").eq(5).html();
-
         var subt = parseFloat(cant) * parseFloat(prec);
         // console.log(subt);
         var campo = _tr.find("td").eq(7);
         if (isNaN(subt)) {
-            toastr.info("Dígite un número correcto",'Mensaje del Sistema')
+            toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
         } else {
             campo.html(subt.toFixed(2));
             var total_col1 = 0;

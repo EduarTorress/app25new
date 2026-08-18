@@ -664,7 +664,8 @@ class PedidoController extends Controller
                 'precio' => $item["prec"],
                 'subtotal' => $item['cant'] * $item['prec'],
                 'equipres' => $item["equipres"],
-                'eptaidep' => $item["eptaidep"]
+                'eptaidep' => $item["eptaidep"],
+                'costo' => $item["costo"]
             );
             $subtotal = ($item['cant'] * $item['prec']) + $subtotal;
             $cantidaditems = $cantidaditems + 1;

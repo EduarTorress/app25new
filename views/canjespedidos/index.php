@@ -154,7 +154,6 @@ $this->startSection('javascript');
         $("#txtfecha").prop("readonly", false);
     });
 
-
     $("#modal_productos").on("shown.bs.modal", function() {
         moverCursorFinalTexto("txtbuscarProducto");
     });
@@ -180,7 +179,6 @@ $this->startSection('javascript');
                 $(this).find(".preciosgv").html(Number(preciosgv).toFixed(2));
             });
         }
-
         let impo = (Number(total_col)).toFixed(2);
         let valor = (impo / valorigv).toFixed(2);
         let nigv = (impo - valor).toFixed(2);

@@ -322,12 +322,13 @@ class Pedido extends Modelo
     function listardetalleparacanje($idautop)
     {
         try {
-            $sql = "SELECT p.`idart`,a.`descri`,p.`prec`,p.`cant`,p.unidpres as unid,a.tipro as tipoproducto,
-            equipres,eptaidep
-            FROM fe_rped rp
-            INNER JOIN fe_ped AS p ON rp.`idautop`=p.`idautop`
-            INNER JOIN fe_art a ON p.`idart`=a.`idart`
-            WHERE rp.`acti`='A' AND p.`acti`='A' AND rp.idautop=:idautop";
+            $sql = "SELECT p.`idart`,a.`descri`,p.`prec`,p.`cant`,p.unidpres AS unid,a.tipro AS tipoproducto,epta_cost,
+                    equipres,eptaidep
+                    FROM fe_rped rp
+                    INNER JOIN fe_ped AS p ON rp.`idautop`=p.`idautop`
+                    INNER JOIN fe_art a ON p.`idart`=a.`idart`
+                    INNER JOIN fe_epta e ON a.`idart`=e.`epta_idar`
+                    WHERE rp.`acti`='A' AND p.`acti`='A' AND rp.idautop=:idautop";
             $query = $this->prepare($sql);
             $query->fetchAll(PDO::FETCH_ASSOC);
             $query->execute([
