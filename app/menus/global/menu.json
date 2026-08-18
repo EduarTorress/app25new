@@ -7,7 +7,7 @@
                 "item": "Registrar Venta Rápida",
                 "ruta": "/ventasrapidas/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AVT"
+                "opt": "AV"
             },
             {
                 "item": "Registrar Venta Normal",
@@ -349,7 +349,7 @@
                 "item": "Productos",
                 "ruta": "/productos/index/4",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "A"
             },
             {
                 "item": "Clientes",
@@ -361,7 +361,7 @@
                 "item": "Proveedores",
                 "ruta": "/proveedor/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Unidades de Medida",
@@ -402,12 +402,6 @@
             {
                 "item": "Transportistas",
                 "ruta": "/transportista/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Direcciones",
-                "ruta": "/direccion/index",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },

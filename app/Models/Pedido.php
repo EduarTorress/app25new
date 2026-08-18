@@ -250,7 +250,7 @@ class Pedido extends Modelo
                 IFNULL(ROUND(IF(tmon='S',((b.prec*v.igv)+p.prec)*prod_uti3,((b.prec*v.igv*IF(b.prod_dola>v.dola,prod_dola,v.dola))+p.prec)*prod_uti3),2),0) AS pre3,
                 IFNULL(ROUND(IF(tmon='S',((b.prec*v.igv)+p.prec)*prod_uti0,((b.prec*v.igv*IF(b.prod_dola>v.dola,prod_dola,v.dola))+p.prec)*prod_uti0),2),0) AS pre0,
                 ROUND(IF(tmon='S',(b.prec*v.igv)+p.prec,(b.prec*v.igv*v.dola)+p.prec),2) AS costo,b.uno,b.dos,b.tre,b.cua,b.prod_idco AS idco,tdoc,v.empresa,a.incl,
-                v.nruc as rucempresa,v.ptop,b.`tipro`,
+                v.nruc as rucempresa,v.ptop,b.`tipro`,forma,plazo,validez,entrega,
                 equipres,unidpres,eptaidep
                 FROM `fe_ped` `a`
                 JOIN `fe_rped` `c` ON `a`.`idautop` = `c`.`idautop`
