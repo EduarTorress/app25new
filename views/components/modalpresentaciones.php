@@ -101,8 +101,13 @@
 
     $('#txtpreciopres').keypress(function(e) {
         if (e.keyCode == 13) {
-            $("#txtgananciaprescorp").focus();
-            $("#txtgananciaprescorp").click();
+            <?php if ($proyecto != 'xsys5'): ?>
+                registrardetallepresentacion();
+                limpiardetapres();
+            <?php else: ?>
+                $("#txtgananciaprescorp").focus();
+                $("#txtgananciaprescorp").click();
+            <?php endif; ?>
         }
     });
 
