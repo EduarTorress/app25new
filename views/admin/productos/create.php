@@ -615,12 +615,7 @@
     function calcularPreciosPorPorcentaje(precioporc, precio) {
         txtcoston = parseFloat($("#txtcoston").val());
         txtporprecio = parseFloat($(precioporc).val());
-        // <?php if ($_SESSION['config']['valorutilidad'] == 'D') : ?>
-        //     preciod = ((txtporprecio / 100) + 1) * <?php echo  $_SESSION['config']['valorutilidad']; ?>;
-        //     preciod = txtcoston / preciod;
-        // <?php else : ?>
         preciod = ((txtporprecio / 100) + 1) * txtcoston;
-        // <?php endif; ?>
         if (isNaN(preciod)) {
             $(precio).val("0.00");
         } else {
