@@ -80,7 +80,7 @@
                             $prod_uti2 = $items[0]['prod_uti2'];
                             $prod_uti3 = $items[0]['prod_uti3'];
                             $prod_tigv = $items[0]['prod_tigv'];
-                            $prod_dola = $items[0]['prod_dola'];
+                            $prod_dola = (empty($items[0]['prod_dola']) ? '0' : $items[0]['prod_dola']);
                             $txtcoda1 = str_replace("'", '"', $items[0]['txtcoda1']);
                             $j = 0;
                             $presentaciones = [];
