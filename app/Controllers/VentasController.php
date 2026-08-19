@@ -447,7 +447,8 @@ class VentasController extends Controller
         $validar->rule("numeric", "txtprecio")->message('El Precio debe ser Numerico');
         $validar->rule("numeric", "txtcantidad")->message('Cantidad debe de ser Númerico');
         $validar->rule("min", "txtcantidad", 1)->message('La Cantidad debe de ser mayor a 0');
-        if ($_SESSION['config']['validarstock'] == 'S') {
+        $validarstock = (empty($_SESSION['config']['validarstock']) ? 'N' : $_SESSION['config']['validarstock']);
+        if ($validarstock == 'S') {
             $validar->rule("max", "txtcantidad", $stock)->message("Stock no disponible");
         }
         $validar->rule("min", "txtprecio", $preciomin)->message("Precio no permitido");
@@ -1367,12 +1368,13 @@ class VentasController extends Controller
             $data = ["errors" => ["Sesión vacía"], "estado" => 0];
             return $data;
         }
+        $validarstock = (empty($_SESSION['config']['validarstock']) ? 'N' : $_SESSION['config']['validarstock']);
         if ($tipovta == 'V') {
             if (empty($_SESSION["carritov"])) {
                 $data = ["errors" => ['Hubo un error con la conexión a internet, por favor actualice la página'], "estado" => 0];
                 return $data;
             }
-            if ($_SESSION['config']['validarstock'] == 'S') {
+            if ($validarstock == 'S') {
                 foreach ($_SESSION['carritov'] as $item) {
                     if ($item['activo'] == 'A') {
                         if (intval($item['cantidad']) > intval($item['stock'])) {
@@ -1629,7 +1631,8 @@ class VentasController extends Controller
         $validar->rule("numeric", "txtprecio")->message('El precio debe ser numerico');
         $validar->rule("numeric", "txtcantidad")->message('Cantidad debe de ser númerica');
         $validar->rule("min", "txtcantidad", 1)->message('La Cantidad debe de ser mayor a 0');
-        if ($_SESSION['config']['validarstock'] == 'S') {
+        $validarstock = (empty($_SESSION['config']['validarstock']) ? 'N' : $_SESSION['config']['validarstock']);
+        if ($validarstock == 'S') {
             $validar->rule("max", "txtcantidad", $stock)->message("Stock no disponible");
         }
         // $validar->rule("min", "txtprecio", $preciomin)->message("Precio no permitido");

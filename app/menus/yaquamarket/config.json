@@ -1,11 +1,7 @@
 [
    {
-      "utilidad": "D",
-      "valorutilidad": "0.8",
-      "validarstock": "N",
       "facturardolares": "N",
       "allcamposproductos": "S",
-      "idprovajuste": "2",
       "multiigv": "N",
       "codigobarras": "S",
       "usuarioxalmacen": "S",

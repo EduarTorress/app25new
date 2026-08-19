@@ -409,7 +409,7 @@ class ProductoController extends Controller
             'ndolar' => session()->get("gene_dola"),
             'ni' => session()->get("gene_igv"),
             'ctg' => 'K',
-            'ccodp' => $_SESSION['config']['idprovajuste'],
+            'ccodp' => 2,
             // 'ccodp' => '301', //Este valor es el código del proveedor, se tiene que obtener de la configuración del JSON
             'cmvto' => 'C',
             'nus' => session()->get('usuario_id'),

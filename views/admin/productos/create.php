@@ -57,7 +57,8 @@
                 </div>
                 <div class="form-group col-2" <?php echo (($proyecto == 'xsys5') ? '' : 'style="display:none"') ?>>
                     <label for="" class="">Valor Dolar:</label>
-                    <input type="text" readonly onkeyup="convertirvalordolar()" ondblclick="$(this).removeAttr('readonly')" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="prod_dola" value="<?php echo (empty($datosProducto['prod_dola']) ? session()->get('gene_dola') : $datosProducto['prod_dola']) ?>">
+                    <?php $txtvalordolar = (empty($datosProducto['prod_dola']) ? session()->get('gene_dola') : $datosProducto['prod_dola']); ?>
+                    <input type="text" readonly onkeyup="convertirvalordolar()" ondblclick="$(this).removeAttr('readonly')" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="prod_dola" value="<?php echo $txtvalordolar ?>">
                 </div>
                 <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="" class="">Stock Mínimo:</label>
@@ -73,7 +74,10 @@
                 </div>
                 <div class="form-group <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'col-4' : 'col-3') ?>">
                     <label for="">Costo con IGV:</label>
-                    <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtcostocig" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['costocigv']) ?>" required>
+                    <input type="text" onkeypress="return isNumber(event);" onclick="select()"
+                        class="form-control form-control-sm inputright" id="txtcostocig"
+                        value="<?php echo (empty($datosProducto) ? '' : ($datosProducto['tmon'] == 'S' ? $datosProducto['costocigv'] : round($datosProducto['costocigv'] / $txtvalordolar, 3))) ?>"
+                        required>
                 </div>
                 <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">Costo Transp:</label>
@@ -81,7 +85,10 @@
                 </div>
                 <div class="form-group col-3">
                     <label for="">Costo Neto:</label>
-                    <input type="text" onkeypress="return isNumber(event);" onchange="calcularcostopresentaciones()" onclick="select()" class="form-control form-control-sm inputright" id="txtcoston" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['costocigv']) ?>" required>
+                    <input type="text" onkeypress="return isNumber(event);" onchange="calcularcostopresentaciones()" onclick="select()"
+                        class="form-control form-control-sm inputright" id="txtcoston"
+                        value="<?php echo (empty($datosProducto) ? '' : $datosProducto['costocigv']) ?>"
+                        required>
                 </div>
                 <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="" class="">Moneda:</label>
@@ -222,12 +229,12 @@
         // costosingiv = $("#txtcostosig").val();
         if (cmbmoneda == 'S') {
             // $("#txtcoston").val(txtcoston);
-            $("#txtcoston").val(Number(txtcoston / dolar).toFixed(2));
+            $("#txtcoston").val(Number(txtcoston / dolar).toFixed(3));
             // $("#txtprecioma").val(Number(txtprecioma * dolar).toFixed(2));
             // $("#txtprecioe").val(Number(txtprecioe * dolar).toFixed(2));
             // $("#txtpreciome").val(Number(txtpreciome * dolar).toFixed(2));
         } else {
-            $("#txtcoston").val(Number(txtcoston * dolar).toFixed(2));
+            $("#txtcoston").val(Number(txtcoston * dolar).toFixed(3));
             // $("#txtprecioma").val(Number(txtprecioma / dolar).toFixed(2));
             // $("#txtprecioe").val(Number(txtprecioe / dolar).toFixed(2));
             // $("#txtpreciome").val(Number(txtpreciome / dolar).toFixed(2));
@@ -240,14 +247,14 @@
 
     function convertirvalordolar() {
         cmbmoneda = $("#cmbMoneda").val();
-        console.log(cmbmoneda)
+        dolar = $("#prod_dola").val();
         if (cmbmoneda == 'D') {
             <?php if (empty($datosProducto['costocigv'])): ?>
                 txtcoston = Number($("#txtcoston").val());
             <?php else: ?>
-                txtcoston = "<?php echo $datosProducto['costocigv'] ?>";
+                txtcoston = "<?php echo round($datosProducto['costocigv'] / $txtvalordolar, 3); ?>";
             <?php endif; ?>
-            $("#txtcoston").val(Number(txtcoston * dolar).toFixed(2));
+            $("#txtcoston").val(Number(txtcoston * dolar).toFixed(3));
             calcularcostopresentaciones();
         }
     }
@@ -608,12 +615,12 @@
     function calcularPreciosPorPorcentaje(precioporc, precio) {
         txtcoston = parseFloat($("#txtcoston").val());
         txtporprecio = parseFloat($(precioporc).val());
-        <?php if ($_SESSION['config']['valorutilidad'] == 'D') : ?>
-            preciod = ((txtporprecio / 100) + 1) * <?php echo  $_SESSION['config']['valorutilidad']; ?>;
-            preciod = txtcoston / preciod;
-        <?php else : ?>
-            preciod = ((txtporprecio / 100) + 1) * txtcoston;
-        <?php endif; ?>
+        // <?php if ($_SESSION['config']['valorutilidad'] == 'D') : ?>
+        //     preciod = ((txtporprecio / 100) + 1) * <?php echo  $_SESSION['config']['valorutilidad']; ?>;
+        //     preciod = txtcoston / preciod;
+        // <?php else : ?>
+        preciod = ((txtporprecio / 100) + 1) * txtcoston;
+        // <?php endif; ?>
         if (isNaN(preciod)) {
             $(precio).val("0.00");
         } else {

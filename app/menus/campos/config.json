@@ -1,11 +1,8 @@
 [
    {
-      "utilidad": "D",
-      "valorutilidad": "0.8",
       "validarstock": "S",
       "facturardolares": "N",
       "allcamposproductos": "N",
-      "idprovajuste": "2",
       "multiigv": "N",
       "tipobotica": "S",
       "cajaxtienda": "S",
