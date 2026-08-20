@@ -204,30 +204,6 @@
         ]
     },
     {
-        "main": "Guias x Traspaso",
-        "class": "fa fa-car",
-        "elementos": [
-            {
-                "item": "Registrar Traspaso",
-                "ruta": "/traspasos/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Listar Traspasos",
-                "ruta": "/traspasos/indexlistar",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Aceptar Traspasos",
-                "ruta": "/traspasos/indexlistarxrecibir",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            }
-        ]
-    },
-    {
         "main": "Cotizaciones",
         "class": "fa fa-pencil-square-o",
         "elementos": [
@@ -392,12 +368,6 @@
                 "ruta": "/categorias/index",
                 "class": "far fa-circle nav-icon",
                 "opt": "AS"
-            },
-            {
-                "item": "Fletes",
-                "ruta": "/fletes/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
             },
             {
                 "item": "Transportistas",
