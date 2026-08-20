@@ -31,7 +31,7 @@ echo $prod->render();
             <div class="row ">
                 <div class="col-sm-4">
                     <div class="input-group ">
-                        <button class="btn btn-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_pedidos"><i class="fa fa-file-text-o" aria-hidden="true"></i></button> &nbsp;&nbsp;
+                        <button class="btn btn-light" onclick="buscarpedidos();" role="button" data-bs-toggle="modal" data-bs-target="#modal_pedidos"><i class="fa fa-file-text-o" aria-hidden="true"></i></button> &nbsp;&nbsp;
                         <input type="text" class="form-control form-control-sm" id="txtcliente" placeholder="Cliente" disabled value="">
                         <input type="hidden" id="txtidcliente" value="">
                         <input type="hidden" id="txtruccliente" value="">
@@ -239,6 +239,7 @@ $this->startSection('javascript');
     }
 
     function limpiardatos() {
+         $("#btngrabar").removeAttr("disabled");
         $("#cmbmoneda").attr('disabled', false);
         $("#txtcliente").val("");
         $("#titulo").html("Facturar Cotizaciones");
@@ -265,6 +266,7 @@ $this->startSection('javascript');
     }
 
     function grabar(cmensaje) {
+        $("#grabar").attr("disabled");
         Swal.fire({
             title: cmensaje,
             text: "Se registrará en el sistema ",
