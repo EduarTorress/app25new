@@ -81,7 +81,7 @@
                 </div>
                 <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">Costo Transp:</label>
-                    <input type="text" onkeypress="return isNumber(event);" onclick="select()" ondblclick="$(this).removeAttr('readonly')" readonly class="form-control form-control-sm inputright" id="txtcostot" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['flete']) ?>">
+                    <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtcostot" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['flete']) ?>">
                 </div>
                 <div class="form-group col-3">
                     <label for="">Costo Neto:</label>
@@ -206,7 +206,7 @@
             epta_cant = $(this).find("td:eq(1) input").val();
             epta_marg = $(this).find("td:eq(3) input").val();
             costoporpresentacion = txtcoston * epta_cant;
-            $(this).find("td:eq(2) input").val(Number(costoporpresentacion));
+            $(this).find("td:eq(2) input").val(Number(costoporpresentacion).toFixed(4));
             if (txtcoston != '') {
                 nuevoprecio = (costoporpresentacion * (1 + (epta_marg / 100))).toFixed(2);
             } else {
@@ -512,7 +512,7 @@
         $("#txtcostot").val(cmbCostoT[1]);
         costot = $("#txtcostot").val();
         txtcostocig = $("#txtcostocig").val();
-        $("#txtcoston").val((Number(costot) + Number(txtcostocig)).toFixed(2));
+        $("#txtcoston").val((Number(costot) + Number(txtcostocig)).toFixed(4));
     }
 
     function listardetapresxproducto() {
@@ -585,9 +585,23 @@
     }
 
     function calcularcostoneto() {
-        costoconigv = $("#txtcostocig").val();
+        txtcostocig = $("#txtcostocig").val();
         costotransporte = $("#txtcostot").val();
-        $("#txtcoston").val(Number(costoconigv) + Number(costotransporte));
+        // $('#txtcoston').change()
+        //      costoconigv = $("#txtcostocig").val();
+        // costotransporte = $("#txtcostot").val();
+        let ndolar = 1;
+        // let coston = costoconigv;
+        if ($("#cmbMoneda").val() == 'D') {
+            ndolar = $("#prod_dola").val();
+            console.log(ndolar)
+            console.log(txtcostocig)
+            // coston = costoconigv * ndolar;
+            txtcostocig = Number(txtcostocig * ndolar).toFixed(4);
+            console.log(txtcostocig);
+
+        }
+        $("#txtcoston").val((Number(txtcostocig) + Number(costotransporte)).toFixed(4));
         $('#txtcoston').change()
     }
 
@@ -607,7 +621,7 @@
         if (isNaN(txtcostocig)) {
             $("#txtcostocig").val("0.00");
         } else {
-            $("#txtcostocig").val(txtcostocig.toFixed(2));
+            $("#txtcostocig").val(txtcostocig.toFixed(4));
         }
     }
 

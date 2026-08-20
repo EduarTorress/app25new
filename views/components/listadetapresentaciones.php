@@ -19,7 +19,7 @@
             <?php foreach ($listadetapresxproducto as $p) : ?>
                 <tr ondblclick="generarpdfnombreypresentacion('<?php echo $p['pres_desc'] ?>' ,'<?php echo $p['epta_prec'] ?>')">
                     <td><?php echo $p['pres_desc'] ?></td>
-                    <td class="text-end"><input type="text" onkeypress="return isNumber(event);" onclick="this.select()" onkeyup="enterceldacantidad(this,event)" style="width: 70px; text-align:right;" class="epta_cant" value="<?php echo $p['epta_cant'] ?>"></td>
+                    <td class="text-end"><input type="text" readonly onkeypress="return isNumber(event);" onclick="this.select()" onkeyup="enterceldacantidad(this,event)" style="width: 70px; text-align:right;" class="epta_cant" value="<?php echo $p['epta_cant'] ?>"></td>
                     <td class="text-end"><input type="text" onkeypress="return isNumber(event);" onclick="this.select()" onkeyup="enterceldacosto(this,event)" style="width: 70px; text-align:right;" class="epta_cost" value="<?php echo $p['epta_cost'] ?>"></td>
                     <td class="text-end"><input type="text" onkeypress="return isNumber(event);" onclick="this.select()" onkeyup="enterceldamargen(this,event)" style="width: 70px; text-align:right;" class="epta_marg" value="<?php echo $p['epta_marg'] ?>"></td>
                     <td class="text-end"><input type="text" onkeypress="return isNumber(event);" onclick="this.select()" onkeyup="enterceldaprecio(this,event)" style="width: 70px; text-align:right;" class="epta_prec" value="<?php echo $p['epta_prec'] ?>"></td>
