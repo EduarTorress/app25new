@@ -21,7 +21,7 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" id="txtbuscarProducto" name="buscar" onkeypress="pulsarenterbuscarproductos(event)" onkeyup="mayusculas(this)" placeholder="Producto a Buscar" value="<?php echo session()->get('busquedaPV') ?>">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success" id="cmdbuscarP" onclick="buscarProducto()" type="button">Buscar</button>
+                        <button class="btn btn-outline-success" id="cmdbuscarP" onclick="buscarProducto()" autocomplete="off" type="button">Buscar</button>
                     </div>
                 </div>
                 <div id="searchP">

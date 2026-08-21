@@ -238,8 +238,8 @@ class ProductoController extends Controller
             "idflete" => $request->get('idflete'),
             "prod_smin" => empty($request->get('prod_smin')) ? 0 : $request->get('prod_smin'),
             "prod_smax" => empty($request->get('prod_smax')) ? 0 : $request->get('prod_smax'),
-            "costocigv" => empty($request->get('costocigv')) ? 0 : $request->get('costocigv'),
             "costosigv" => empty($request->get('costosigv')) ? 0 : $request->get('costosigv'),
+            "costocigv" => empty($request->get('costocigv')) ? 0 : $request->get('costocigv'),
             "flete" => $request->get("flete"),
             "tmon" => $request->get("tmon"),
             'prod_come' => empty($request->get('prod_come')) ? 0 : $request->get('prod_come'),
@@ -354,7 +354,6 @@ class ProductoController extends Controller
             "txtpreciome" => empty($request->get("txtpreciome")) ? 0 : $request->get("txtpreciome"),
             "cmbgrupo" => $request->get("cmbgrupo"),
             'idart' => $request->get("idart"),
-            'nflete' => $request->get('nflete'),
             'txtcoda1' => empty($request->get('txtcoda1')) ? ' ' : $request->get('txtcoda1'),
             "prod_tigv" => empty($request->get("prod_tigv")) ? 1 : $request->get("prod_tigv"),
             'presentaciones' => $presentaciones

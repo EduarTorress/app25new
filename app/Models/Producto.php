@@ -116,19 +116,19 @@ class Producto extends Modelo
         }
         return $data;
     }
-    function buscarProductoPorID($id)
-    {
-        try {
-            $sql = "SELECT idart,descri,unid,prec,peso,uno FROM fe_art WHERE idart=:idart";
-            $query = $this->prepare($sql);
-            $query->setFetchMode(PDO::FETCH_ASSOC);
-            $query->execute(['idart' => $id]);
-            return $query;
-        } catch (PDOException $e) {
-            $rpta = array("mensaje" => $e->getMessage(), "estado" => '0', "lista" => []);
-            return $rpta;
-        }
-    }
+    // function buscarProductoPorID($id)
+    // {
+    //     try {
+    //         $sql = "SELECT idart,descri,unid,prec,peso,uno FROM fe_art WHERE idart=:idart";
+    //         $query = $this->prepare($sql);
+    //         $query->setFetchMode(PDO::FETCH_ASSOC);
+    //         $query->execute(['idart' => $id]);
+    //         return $query;
+    //     } catch (PDOException $e) {
+    //         $rpta = array("mensaje" => $e->getMessage(), "estado" => '0', "lista" => []);
+    //         return $rpta;
+    //     }
+    // }
     function registrarProducto($datos)
     {
         $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);

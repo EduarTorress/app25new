@@ -4,6 +4,7 @@
       "allcamposproductos": "S",
       "multiigv": "N",
       "codigobarras": "S",
-      "proyecto": "xsys5"
+      "proyecto": "xsys5",
+      "precioeditable":"S"
    }
 ]

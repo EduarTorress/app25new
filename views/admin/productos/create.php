@@ -76,18 +76,19 @@
                     <label for="">Costo con IGV:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()"
                         class="form-control form-control-sm inputright" id="txtcostocig"
-                        value="<?php echo (empty($datosProducto) ? '' : ($datosProducto['tmon'] == 'S' ? $datosProducto['costocigv'] : round($datosProducto['costocigv'] / $txtvalordolar, 3))) ?>"
+                        value="<?php echo (empty($datosProducto) ? '' : ($datosProducto['tmon'] == 'S' ? $datosProducto['costocigv'] : round(($datosProducto['costocigv']), 3))) ?>"
                         required>
                 </div>
                 <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
                     <label for="">Costo Transp:</label>
-                    <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtcostot" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['flete']) ?>">
+                    <?php $flete = (empty($datosProducto) ? '' : $datosProducto['flete']); ?>
+                    <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtcostot" value="<?php echo $flete; ?>">
                 </div>
                 <div class="form-group col-3">
                     <label for="">Costo Neto:</label>
                     <input type="text" onkeypress="return isNumber(event);" onchange="calcularcostopresentaciones()" onclick="select()"
                         class="form-control form-control-sm inputright" id="txtcoston"
-                        value="<?php echo (empty($datosProducto) ? '' : $datosProducto['costocigv']) ?>"
+                        value="<?php echo (empty($datosProducto) ? '' : ($datosProducto['tmon'] == 'S' ? $datosProducto['costocigv'] : round(($datosProducto['costocigv'] * $txtvalordolar) + $flete, 3))) ?>"
                         required>
                 </div>
                 <div class="form-group col-3" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
@@ -114,7 +115,6 @@
                     <label for="">Comisión Cred:</label>
                     <input type="text" onkeypress="return isNumber(event);" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm" id="txtcomisionc" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_comc']) ?>" required>
                 </div>
-
                 <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <label for="">% Precio Mayor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtporcprecma" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['prod_uti1']) ?>" required>
@@ -571,6 +571,7 @@
     }
 
     cambiarcostoigv();
+    calcularcostoneto();
 
     function cambiarcostoigv() {
         igv = obtenerTipoIGVProducto();
@@ -579,8 +580,9 @@
             $("#txtcostocig").val(Number(costocigv).toFixed(2));
             $("#txtcostosig").val(Number(costocigv).toFixed(2));
             $("#txtcoston").val(Number(costocigv).toFixed(2));
-        } else {
-            calcularcostosinigv();
+        } 
+        else {
+            calcularCostoConIGV();
         }
     }
 
@@ -594,12 +596,11 @@
         // let coston = costoconigv;
         if ($("#cmbMoneda").val() == 'D') {
             ndolar = $("#prod_dola").val();
-            console.log(ndolar)
-            console.log(txtcostocig)
+            //console.log(ndolar)
+            //console.log(txtcostocig)
             // coston = costoconigv * ndolar;
             txtcostocig = Number(txtcostocig * ndolar).toFixed(4);
-            console.log(txtcostocig);
-
+            //console.log(txtcostocig);
         }
         $("#txtcoston").val((Number(txtcostocig) + Number(costotransporte)).toFixed(4));
         $('#txtcoston').change()
