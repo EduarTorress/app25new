@@ -88,7 +88,7 @@ class Modelo
     function cargarsucursalesindex()
     {
         try {
-            $sql = "SELECT * FROM fe_sucu where dire<>''";
+            $sql = "call ProMuestraAlmacenes();";
             $ncon = $this->db->conectar();
             $query = $ncon->prepare($sql);
             $query->execute();

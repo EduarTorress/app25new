@@ -182,6 +182,9 @@ function cargarsucursalestbody()
             case 3:
                 array_push($nomb, "tre");
                 break;
+            case 4:
+                array_push($nomb, "cua");
+                break;
         }
         $i += 1;
     }
