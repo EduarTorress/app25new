@@ -58,8 +58,15 @@
             <input type="number" style="width: 100px;" readonly class="form-control form-control-sm" name="txtpreciosgv" id="txtpreciosgv" placeholder="0.00" value="">
         </div>
         <div class="mb-3 form-group row">
+            <?php
+            $e = "readonly";
+            $propiedad = (empty($_SESSION['config']['precioeditable']) ? 'N' :  $_SESSION['config']['precioeditable']);
+            if ($propiedad == 'S') {
+                $e = "";
+            }
+            ?>
             <label class="col-sm-0 col-form-label col-form-label-sm">Precio:</label>
-            <input type="number" style="width: 100px;" onkeyup="calcularigv();" class="form-control form-control-sm" readonly name="txtprecio" id="txtprecio" placeholder="0.00" value="<?php echo ($tipo <> 'N' ? Round($itemcarrito['precio'], 2) : 0.00) ?>">
+            <input type="number" style="width: 100px;" onkeyup="calcularigv();" class="form-control form-control-sm" <?php echo $e; ?> name="txtprecio" id="txtprecio" placeholder="0.00" value="<?php echo ($tipo <> 'N' ? Round($itemcarrito['precio'], 2) : 0.00) ?>">
         </div>
     </div>
     <div class="modal-footer">
