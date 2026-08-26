@@ -917,6 +917,8 @@ class Ventas extends Modelo
         } catch (PDOException $pdo_error) {
             $pdo->rollBack();
             $rpta = array('mensaje' => $pdo_error->getMessage(), "ndoc" => "", "estado" => '0');
+        } finally {
+            $ncon->close();
         }
         return $rpta;
     }
