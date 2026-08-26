@@ -572,16 +572,19 @@
 
     cambiarcostoigv();
     calcularcostoneto();
+    calcularPreciosPorPorcentaje("#txtporcprecma", "#txtprecioma");
+    calcularPreciosPorPorcentaje("#txtporcpreces", "#txtprecioe");
+    calcularPreciosPorPorcentaje("#txtporcprecem", "#txtpreciome");
 
     function cambiarcostoigv() {
+        // console.log($("#txtcostosig").val());
         igv = obtenerTipoIGVProducto();
         if (igv == 1) {
-            costocigv = $("#txtcostocig").val();
-            $("#txtcostocig").val(Number(costocigv).toFixed(2));
-            $("#txtcostosig").val(Number(costocigv).toFixed(2));
-            $("#txtcoston").val(Number(costocigv).toFixed(2));
-        } 
-        else {
+            txtcostosig = $("#txtcostosig").val();
+            $("#txtcostocig").val(Number(txtcostosig).toFixed(2));
+            // $("#txtcostosig").val(Number(costocigv).toFixed(2));
+            $("#txtcoston").val(Number(txtcostosig).toFixed(2));
+        } else {
             calcularCostoConIGV();
         }
     }
