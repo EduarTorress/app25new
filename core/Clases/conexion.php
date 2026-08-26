@@ -13,438 +13,157 @@ class conexion
     private $nombre_de_base = '';
     private $usuario = '';
     private $contrasena = '';
-
-    /**
-     * Conexión PDO compartida durante la misma petición PHP.
-     *
-     * Esto evita que cada instancia de conexion() cree
-     * otra conexión MySQL dentro de la misma petición.
-     */
-    private static ?PDO $pdo = null;
-
-    /**
-     * Último PDOStatement utilizado por execute().
-     */
-    private $pdoStat = null;
-
+    private $empresa;
     public $lastinsertid;
-
+    protected $pdo;
     public function __construct()
     {
         $config = require $_ENV['DIR_ROOT'] . "/config/app.php";
-
         $this->nombre_de_base = $config['database']['database'];
-        $this->host           = $config['database']['host'];
-        $this->usuario        = $config['database']['username'];
-        $this->contrasena     = $config['database']['password'];
+        $this->host = $config['database']['host'];
+        $this->usuario = $config['database']['username'];
+        $this->contrasena = $config['database']['password'];
     }
-
-    /**
-     * ==========================================================
-     * CONECTAR
-     * ==========================================================
-     *
-     * Si ya existe una conexión PDO durante esta petición,
-     * se reutiliza.
-     *
-     * Si no existe, se crea una nueva.
-     */
     public function conectar(): PDO
     {
-        try {
+        if ($this->pdo === null) {
 
-            // ==================================================
-            // Ya existe una conexión.
-            // Reutilizarla.
-            // ==================================================
-            if (self::$pdo instanceof PDO) {
-                return self::$pdo;
-            }
-
-            // ==================================================
-            // Configuración de conexión
-            // ==================================================
-            $connection =
-                $this->tipo_de_base .
-                ":host=" . $this->host .
-                ";dbname=" . $this->nombre_de_base .
-                ";charset=utf8mb4";
+            $connection = "mysql:host={$this->host};dbname={$this->nombre_de_base};charset=utf8mb4";
 
             $options = [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_EMULATE_PREPARES   => true,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-
-                // MUY IMPORTANTE
-                // No usar conexiones persistentes.
-                PDO::ATTR_PERSISTENT         => false,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_EMULATE_PREPARES => true,
             ];
 
-            // ==================================================
-            // Crear conexión
-            // ==================================================
-            self::$pdo = new PDO(
+            $this->pdo = new PDO(
                 $connection,
                 $this->usuario,
                 $this->contrasena,
                 $options
             );
-
-            return self::$pdo;
-
-        } catch (PDOException $e) {
-
-            throw new Exception(
-                'Error de conexión con la base de datos: ' .
-                $e->getMessage(),
-                0,
-                $e
-            );
         }
-    }
 
-    /**
-     * ==========================================================
-     * GET DATA
-     * ==========================================================
-     */
+        return $this->pdo;
+    }
     public function getData($sql)
     {
-        $stmt = $this->conectar()->query($sql);
+        $data = [];
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $pdo = $this->conectar();
+
+        $result = $pdo->query($sql);
+
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $data[] = $row;
+        }
+
+        return $data;
     }
-
-    /**
-     * ==========================================================
-     * GET DATA SINGLE
-     * ==========================================================
-     */
-    public function getDataSingle($sql)
+    public function numRows($sql)
     {
-        $stmt = $this->conectar()->query($sql);
+        $pdo = $this->conectar();
 
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $pdo->query($sql);
+
+        return $result->rowCount();
+    }
+    function getDataSingle($sql)
+    {
+        $pdo = $this->conectar();
+
+        $result = $pdo->query($sql);
+
+        $data = $result->fetch(PDO::FETCH_ASSOC);
 
         return $data ?: null;
     }
-
-    /**
-     * ==========================================================
-     * GET DATA SINGLE PROP
-     * ==========================================================
-     */
-    public function getDataSingleProp($sql, $prop)
+    function getDataSingleProp($sql, $prop)
     {
-        $data = $this->getDataSingle($sql);
+        $pdo = $this->conectar();
+
+        $result = $pdo->query($sql);
+
+        $data = $result->fetch(PDO::FETCH_ASSOC);
 
         return $data[$prop] ?? null;
     }
-
-    /**
-     * ==========================================================
-     * NUM ROWS
-     * ==========================================================
-     */
-    public function numRows($sql)
-    {
-        $stmt = $this->conectar()->query($sql);
-
-        return $stmt->rowCount();
-    }
-
-    /**
-     * ==========================================================
-     * EXECUTE
-     * ==========================================================
-     *
-     * COMPATIBLE CON TU MÉTODO ANTIGUO.
-     *
-     * Mantiene:
-     *
-     * - bindParam()
-     * - parámetros posicionales ?
-     * - $array_valores
-     * - $array_tipos
-     * - $return_rows
-     *
-     * Ejemplo:
-     *
-     * $sql = "SELECT * FROM tabla WHERE id = ? AND estado = ?";
-     *
-     * $conexion->execute(
-     *     $sql,
-     *     1,
-     *     [$id, $estado],
-     *     ['INT', 'STR']
-     * );
-     */
     public function execute(
         $query = '',
         $return_rows = 0,
-        $array_valores = array(),
-        $array_tipos = array()
+        $array_valores = [],
+        $array_tipos = []
     ) {
-        /**
-         * Obtener la conexión compartida.
-         */
         $pdo = $this->conectar();
 
-        /**
-         * Preparar consulta.
-         */
-        $this->pdoStat = $pdo->prepare($query);
+        $stmt = $pdo->prepare($query);
 
-        /**
-         * Mantener exactamente el comportamiento
-         * del execute() antiguo.
-         */
         foreach ($array_valores as $posicion => &$valor) {
+            $tipo_var = ($array_tipos[$posicion] ?? 'STR') === 'STR'
+                ? PDO::PARAM_STR
+                : PDO::PARAM_INT;
 
-            $tipo_var =
-                isset($array_tipos[$posicion]) &&
-                'STR' == $array_tipos[$posicion]
-                    ? PDO::PARAM_STR
-                    : PDO::PARAM_INT;
-
-            $this->pdoStat->bindParam(
+            $stmt->bindParam(
                 $posicion + 1,
                 $valor,
                 $tipo_var
             );
         }
 
-        /**
-         * Ejecutar.
-         */
-        $result = $this->pdoStat->execute();
+        $result = $stmt->execute();
 
-        /**
-         * Si se solicitaron resultados.
-         */
-        if (0 < $return_rows && $result) {
-
+        if ($return_rows > 0 && $result) {
             return $return_rows == 2
-                ? $this->pdoStat->fetch()
-                : $this->pdoStat->fetchAll();
+                ? $stmt->fetch(PDO::FETCH_ASSOC)
+                : $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
         return $result;
     }
-
-    /**
-     * ==========================================================
-     * EXECUTE INSTRUCTION
-     * ==========================================================
-     */
-    public function executeInstruction($sql)
+    function executeInstruction($sql)
     {
-        $stmt = $this->conectar()->query($sql);
+        $pdo = $this->conectar();
 
-        return $stmt->rowCount() > 0;
+        $result = $pdo->exec($sql);
+
+        return $result !== false && $result > 0;
     }
-
-    /**
-     * ==========================================================
-     * LAST INSERT ID
-     * ==========================================================
-     */
-    public function getLastId()
+    public function close(): void
+    {
+        $this->pdo = null;
+    }
+    function getLastId()
     {
         return $this->conectar()->lastInsertId();
     }
-
-    /**
-     * ==========================================================
-     * START TRANSACTION
-     * ==========================================================
-     */
     public function startTransaction()
     {
         try {
-
-            $pdo = $this->conectar();
-
-            if (!$pdo->inTransaction()) {
-                $pdo->beginTransaction();
-            }
-
-            return true;
-
+            return $this->conectar()->beginTransaction();
         } catch (PDOException $e) {
-
             return false;
         }
     }
-
-    /**
-     * ==========================================================
-     * INSERT TRANSACTION
-     * ==========================================================
-     */
     public function insertTransaction($sql, $data)
     {
         $pdo = $this->conectar();
 
         $stmt = $pdo->prepare($sql);
-
         $stmt->execute($data);
 
         $this->lastinsertid = $pdo->lastInsertId();
-
-        return true;
     }
-
-    /**
-     * ==========================================================
-     * SUBMIT TRANSACTION
-     * ==========================================================
-     */
     public function submitTransaction()
     {
         try {
-
-            $pdo = $this->conectar();
-
-            if ($pdo->inTransaction()) {
-                $pdo->commit();
-            }
-
+            $this->conectar()->commit();
             return true;
-
         } catch (PDOException $e) {
-
-            try {
-
-                $pdo = self::$pdo;
-
-                if (
-                    $pdo instanceof PDO &&
-                    $pdo->inTransaction()
-                ) {
-                    $pdo->rollBack();
-                }
-
-            } catch (PDOException $rollbackError) {
-                // No hacer nada.
+            if ($this->pdo !== null && $this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
             }
-
             return false;
         }
-    }
-
-    /**
-     * ==========================================================
-     * ROLLBACK
-     * ==========================================================
-     */
-    public function rollback()
-    {
-        try {
-
-            if (
-                self::$pdo instanceof PDO &&
-                self::$pdo->inTransaction()
-            ) {
-                self::$pdo->rollBack();
-            }
-
-            return true;
-
-        } catch (PDOException $e) {
-
-            return false;
-        }
-    }
-
-    /**
-     * ==========================================================
-     * VERIFICAR CONEXIÓN
-     * ==========================================================
-     */
-    public function isConnected()
-    {
-        return self::$pdo instanceof PDO;
-    }
-
-    /**
-     * ==========================================================
-     * VERIFICAR TRANSACCIÓN
-     * ==========================================================
-     */
-    public function inTransaction()
-    {
-        return (
-            self::$pdo instanceof PDO &&
-            self::$pdo->inTransaction()
-        );
-    }
-
-    /**
-     * ==========================================================
-     * CLOSE
-     * ==========================================================
-     *
-     * Cierra manualmente la conexión PDO.
-     *
-     * IMPORTANTE:
-     * No debe ejecutarse mientras todavía se estén
-     * realizando consultas con esta conexión.
-     */
-    public function close()
-    {
-        try {
-
-            if (self::$pdo instanceof PDO) {
-
-                /**
-                 * Si quedó una transacción abierta,
-                 * hacer rollback antes de cerrar.
-                 */
-                if (self::$pdo->inTransaction()) {
-                    self::$pdo->rollBack();
-                }
-
-                /**
-                 * Liberar PDO.
-                 */
-                self::$pdo = null;
-            }
-
-            /**
-             * Liberar también el statement.
-             */
-            $this->pdoStat = null;
-
-            return true;
-
-        } catch (PDOException $e) {
-
-            self::$pdo = null;
-            $this->pdoStat = null;
-
-            return false;
-        }
-    }
-
-    /**
-     * Alias.
-     */
-    public function desconectar()
-    {
-        return $this->close();
-    }
-
-    /**
-     * ==========================================================
-     * DESTRUCTOR
-     * ==========================================================
-     *
-     * Al finalizar la petición PHP, PDO será liberado.
-     */
-    public function __destruct()
-    {
-        // PHP libera automáticamente los recursos al finalizar
-        // la petición.
     }
 }
+/*https://www.digitalocean.com/community/tutorials/how-to-use-the-pdo-php-extension-to-perform-mysql-transactions-in-php-on-ubuntu-18-04-es*/
+/*https://es.stackoverflow.com/questions/8197/m%C3%A9todo-din%C3%A1mico-para-realizar-transacciones-de-actualizaci%C3%B3n-con-pdo*/
