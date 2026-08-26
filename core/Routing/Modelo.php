@@ -21,20 +21,20 @@ class Modelo
     {
         return $this->db->conectar()->prepare($prepare);
     }
-    function tipocambio()
-    {
-        $csql = "select dola from fe_gene where idgene=1";
-        $ncon = $this->db->conectar();
-        $query = $ncon->prepare($csql);
-        $query->execute();
-        $results = $query->fetchAll(PDO::FETCH_OBJ);
-        if ($query->rowCount() > 0) {
-            foreach ($results as $result) {
-                $this->mdolar = $result->dola;
-            }
-        }
-        return $this->mdolar;
-    }
+    // function tipocambio()
+    // {
+    //     $csql = "select dola from fe_gene where idgene=1";
+    //     $ncon = $this->db->conectar();
+    //     $query = $ncon->prepare($csql);
+    //     $query->execute();
+    //     $results = $query->fetchAll(PDO::FETCH_OBJ);
+    //     if ($query->rowCount() > 0) {
+    //         foreach ($results as $result) {
+    //             $this->mdolar = $result->dola;
+    //         }
+    //     }
+    //     return $this->mdolar;
+    // }
     function buscardato($datos)
     {
         $vdvto = 0;
