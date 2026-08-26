@@ -239,6 +239,7 @@ $this->startSection('javascript');
         if (!validarVenta()) {
             return;
         }
+        $("#grabar").prop("disabled", true);
         cmensaje = '¿Registrar Venta?';
         grabar(cmensaje);
     }
@@ -299,7 +300,8 @@ $this->startSection('javascript');
             confirmButtonText: 'Si'
         }).then(function(respuesta) {
             if (respuesta.isConfirmed) {
-                data = new FormData();
+                $("#grabar").prop("disabled", true);
+                let data = new FormData();
                 data.append("idcliev", $("#txtidcliente").val());
                 data.append("iddire", $("#txtdireccion").val())
                 data.append("razov", $("#txtcliente").val());
@@ -326,8 +328,9 @@ $this->startSection('javascript');
                 data.append("txtreferencia", $("#txtreferencia").val());
                 axios.post("canje/registrar", data)
                     .then(function(respuesta) {
-                        toastr.success('Se genero el documento: ' + respuesta.data.ndoc,'Mensaje del Sistema');
+                        toastr.success('Se genero el documento: ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         limpiardatos();
+                        $("#grabar").prop("disabled", false);
                         var cruta = '/vtas/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', cruta, true);
@@ -359,6 +362,7 @@ $this->startSection('javascript');
                         };
                         xhr.send();
                     }).catch(function(error) {
+                        $("#grabar").prop("disabled", false);
                         if (error.hasOwnProperty("response")) {
                             if (error.response.status === 422) {
                                 //mostrarErrores("formulario-agregar-presentacion", error.response.data.errors);

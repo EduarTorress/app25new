@@ -141,6 +141,7 @@ $this->startSection('javascript');
 ?>
 <script>
     window.onload = function() {
+        $("#cmbforma option[value='O']").remove();
         $(".tipodocumentos option[value='07']").remove();
         $(".tipodocumentos option[value='08']").remove();
         $(".tipodocumentos option[value='GI']").remove();

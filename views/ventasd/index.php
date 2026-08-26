@@ -191,7 +191,7 @@ $this->startSection('javascript');
 <script>
     window.onload = function() {
         idcliente = 0;
-        titulo("<?php echo $titulo ?>");
+        titulo("<?php echo isset($titulo) ? $titulo : ''; ?>");
         axios.get('/vtas/listardetalle').then(function(respuesta) {
             // 100, 200, 300
             const contenido_tabla = respuesta.data;
@@ -681,6 +681,7 @@ $this->startSection('javascript');
         }).then(function(respuesta) {
             if (respuesta.isConfirmed) {
                 data = new FormData();
+                $("#grabar").prop("disabled", true);
                 data.append("idcliev", $("#txtidcliente").val());
                 data.append("razov", $("#txtcliente").val());
                 data.append("tdocv", $("#cmbdcto").val());
@@ -708,6 +709,7 @@ $this->startSection('javascript');
                     .then(function(respuesta) {
                         toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
                         $('#griddetalle tbody tr').remove();
+                        $("#grabar").prop("disabled", false);
                         var cruta = '/vtas/imprimirdirecto/';
                         var xhr = new XMLHttpRequest();
                         xhr.open('GET', cruta, true);
@@ -737,6 +739,7 @@ $this->startSection('javascript');
                         xhr.send();
                         limpiardatos();
                     }).catch(function(error) {
+                        $("#grabar").prop("disabled", true);
                         mostrarerroresvalidacion(error);
                     });
             }

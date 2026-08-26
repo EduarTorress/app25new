@@ -31,7 +31,7 @@ $this->startSection('contenido');
                                 </div>
                                 <div class="input-group">&nbsp;&nbsp;&nbsp;
                                     <label class="col-sm-0 col-form-label col-form-label-sm">Documento :</label>
-                                    <input type="text" class="form-control form-control-sm" required id="txtserie" maxlength="4" placeholder="0001" value="" onkeyup="mayusculas(this)";>
+                                    <input type="text" class="form-control form-control-sm" required id="txtserie" maxlength="4" placeholder="0001" value="" onkeyup="mayusculas(this)" ;>
                                     <input type=" number" class="form-control form-control-sm" required id="txtNumeroDocumento" maxlength="8" placeholder="00000001" value="" onkeypress="return isNumberNdoc(event);" onblur="rellenaNumeroanular();">
                                 </div>
                                 <button type="submit" class="btn btn-primary my-1">Consultar</button>
@@ -62,14 +62,16 @@ $this->startSection('javascript');
         $("#cmbdcto").append('<option value="I">INGRESO</option>')
         $("#cmbdcto").append('<option value="E">EGRESO</option>')
     }
-function rellenaNumeroanular() {
-  valor = document.getElementById("txtNumeroDocumento").value;
-  cndoc = "00000000" + valor.trim();
-  document.getElementById("txtNumeroDocumento").value = cndoc.substr(cndoc.length - 8);
-}
+
+    function rellenaNumeroanular() {
+        valor = document.getElementById("txtNumeroDocumento").value;
+        cndoc = "00000000" + valor.trim();
+        document.getElementById("txtNumeroDocumento").value = cndoc.substr(cndoc.length - 8);
+    }
+
     function consultarDetalle() {
         let cndoc
-        cndoc = document.getElementById("txtserie").value.document.getElementById("txtNumeroDocumento").value;
+        cndoc = document.getElementById("txtserie").value + document.getElementById("txtNumeroDocumento").value;
         var txtNumeroDocumento = cndoc;
         var cmbdcto = document.getElementById("cmbdcto").value;
         var cmbTipoMovimiento = document.getElementById("cmbTipoMovimiento").value;

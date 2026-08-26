@@ -58,7 +58,7 @@ class ProductoController extends Controller
         $abuscar = $request->get('cbuscar');
         $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
         $nid = intval($request->get('cbuscar'));
-        $nd = Tipodecambio::dtipocambiosistema();
+        $nd =session()->get('gene_dola');
         \session()->set('busquedaPV', $abuscar);
         $lista = $this->producto->BuscarProductos($abuscar, $nd, $opt, $nid);
         \session()->set("listaPV", $lista);
@@ -69,7 +69,7 @@ class ProductoController extends Controller
         $abuscar = $request->get('cbuscar');
         $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
         $nid = intval($request->get('cbuscar'));
-        $nd = Tipodecambio::dtipocambiosistema();
+        $nd = session()->get('gene_dola');
         \session()->set('busqueda', $abuscar);
         $lista = $this->producto->BuscarProductos($abuscar, $nd, $opt, $nid);
         $cvista = \retornavista('admin/productos', 're_listaproductos');
@@ -81,7 +81,7 @@ class ProductoController extends Controller
         $abuscar = $request->get('cbuscar');
         $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
         $nid = intval($request->get('cbuscar'));
-        $nd = Tipodecambio::dtipocambiosistema();
+        $nd = session()->get('gene_dola');
         \session()->set('busqueda', $abuscar);
         $lista = $this->producto->BuscarProductosadmin($abuscar, $nd, $opt, $nid);
         $cvista = \retornavista('admin/productos', 're_listaproductos');

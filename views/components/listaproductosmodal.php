@@ -116,7 +116,7 @@
                     $evento = "modaldatosproductoxid(" . $cadena_json . ")";
                 }
                 ?>
-                <td style=" font-size: 10px;" ondblclick='<?php echo $evento; ?>'><?php echo substr($items[0]['descri'], 0, 60); ?></td>
+                <td style=" font-size: 10px;" ondblclick='<?php echo $evento; ?>'><?php echo substr($items[0]['descri'], 0, 120) . ' ' . $items[0]['marca']; ?></td>
                 <!-- <td><?php echo $items[0]['unid'] ?></td> -->
                 <?php foreach ($tds as $t) : ?>
                     <th class="text-end" id="<?php echo $t; ?>"><?php echo $items[0]["$t"]; ?></th>
@@ -135,7 +135,9 @@
                     <?php
                     $descri = str_replace("'", ' ', $items[0]['descri']);
                     $descri = str_replace('"', ' ', $descri);
-                    $parametro1 = $descri;
+                    $cmarca = str_replace("'", ' ', $items[0]['marca']);
+                    $cmarca = str_replace('"', ' ', $cmarca);
+                    $parametro1 = $descri . ' - ' . $cmarca;
                     $parametro2 = $items[0]['idart'];
                     $parametro3 = $items[0]['unid'];
                     $parametro4 = $items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'] + $items[0]['cua'];

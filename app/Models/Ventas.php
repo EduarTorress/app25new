@@ -460,8 +460,7 @@ class Ventas extends Modelo
                 `c`.`idcliente`   AS `idcliente`, `c`.`codt`        AS `codt`, `b`.`pre3`        AS `pre3`, `b`.`cost`        AS `costo`,kar_tigv as tigv,
                 `b`.`uno`         AS `uno`, `b`.`dos`         AS `dos`, (`b`.`uno` + `b`.`dos`) AS `TAlma`, `c`.`fusua`       AS `fusua`,b.tipro,
                 `p`.`nomv`        AS `vendedor`, `q`.`nomb`        AS `Usuario`, `c`.`rcom_idtr`   AS `rcom_idtr`, `c`.`rcom_tipo`   AS `rcom_tipo`,a.`incl`,
-                a.kar_epta,a.kar_equi,a.kar_lote,a.kar_fvto,
-                pe.pres_desc,e.epta_prec,epta_cant,epta_idep
+                a.kar_epta,a.kar_equi,a.kar_lote,a.kar_fvto,kar_cost,epta_cost,pe.pres_desc,e.epta_prec,epta_cant,epta_idep
                 FROM `fe_rcom` `c`
                 JOIN `fe_kar` `a`  ON ((`a`.`idauto` = `c`.`idauto`))
                 JOIN `vlistaprecios` `b`  ON ((`b`.`idart` = `a`.`idart`))

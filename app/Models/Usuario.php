@@ -74,7 +74,7 @@ class Usuario extends Modelo
     {
         try {
             $data = array();
-            $sql = "select idusua,nomb,password from fe_usua as a where nomb=:nombre and clave=:pass and a.activo='S' ";
+            $sql = "select idusua,nomb,password from fe_usua as a where trim(nomb)=:nombre and trim(clave)=:pass and a.activo='S' ";
             $query = $this->prepare($sql);
             $query->setFetchMode(PDO::FETCH_ASSOC);
             $query->execute([
@@ -206,7 +206,7 @@ class Usuario extends Modelo
     }
     function consultarsoloadmin()
     {
-        $sql = "select * from fe_usua where activo='S' and tipo='Administrador'";
+        $sql = "select * from fe_usua where activo='S' and tipo='Administrador' order by nomb";
         $query = $this->prepare($sql);
         $query->execute();
         $resultado = $query->fetchAll(PDO::FETCH_ASSOC);

@@ -5,7 +5,8 @@ $datos = json_encode(array('empresa' => $app->empresa));
 if (empty($app->empresa)) {
     return;
 }
-if (empty($app->ht)) {
+
+if (empty($_SESSION['db_config'])) {
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://companiasysven.com/otros.php',
@@ -32,15 +33,37 @@ if (empty($app->ht)) {
         return;
     }
 
-    $servername = $odatac->server;
-    $username = $odatac->usuario;
-    $password = $odatac->pwd;
-    $dbname = $odatac->data;
-    $app->ht = $servername;
-    $app->dt = $dbname;
-    $app->pw = $password;
-    $app->us = $username;
+    $_SESSION['db_config'] = [
+        'ht' => $odatac->server,
+        'dt' => $odatac->data,
+        'us' => $odatac->usuario,
+        'pw' => $odatac->pwd
+    ];
+
 }
+// $_ENV["DB_HOST"] = $odatac->server;
+// $_ENV["DB_USER"] = $odatac->usuario;;
+// $_ENV["DB_DATABASE"]  = $odatac->data;
+// $_ENV["DB_PASSWORD"] = $odatac->pwd;
+// $dotenv = \Dotenv\Dotenv::createImmutable($_ENV['DIR_ROOT']);
+// $dotenv->load();
+// return [
+//     "database" => [
+//         'driver' => $_ENV["DB_DRIVER"],
+//         'host' => $_ENV["DB_HOST"],
+//         'database' => $_ENV["DB_DATABASE"],
+//         'username' => $_ENV["DB_USER"],
+//         'password' => $_ENV["DB_PASSWORD"],
+//         'charset' => 'utf8mb4',
+//         'collation' => 'utf8mb4_unicode_ci',
+//         'prefix' => '',
+//     ],
+//     "mail" => [],
+// ];
+$app->ht = $_SESSION['db_config']['ht'];
+$app->dt = $_SESSION['db_config']['dt'];
+$app->us = $_SESSION['db_config']['us'];
+$app->pw = $_SESSION['db_config']['pw'];
 return [
     "database" => [
         'driver' => 'mysql',
@@ -54,18 +77,3 @@ return [
     ],
     "mail" => [],
 ];
-
-
-// return [
-//     "database" => [
-//         'driver' => 'mysql',
-//         'host' => 'slave.solucionesasumedida.net',
-//         'database' => 'eduar_bdyaquam',
-//         'username' => 'jpanta',
-//         'password' => 'gigi240602',
-//         'charset' => 'utf8mb4',
-//         'collation' => 'utf8mb4_unicode_ci',
-//         'prefix' => ''
-//     ],
-//     "mail" => [],
-// ];

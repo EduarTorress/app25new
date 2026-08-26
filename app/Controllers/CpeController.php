@@ -627,6 +627,9 @@ class CpeController extends Controller
                     case 'P':
                         $formapago = "PLIN";
                         break;
+                    default:
+                        $formapago = "EFECTIVO";
+                        break;
                 }
                 $oimp->formadepago = $formapago;
                 $oimp->moneda = $fila['moneda'] === 'S' ? 'SOLES' : 'DOLARES';
@@ -636,7 +639,7 @@ class CpeController extends Controller
                 $oimp->igv = $fila['igv'];
                 $oimp->total = $fila['impo'];
                 $oimp->vigv = $fila['vigv'];
-                  $oimp->totalexonerado = $fila['totalexonerado'];
+                $oimp->totalexonerado = $fila['totalexonerado'];
             }
             $i++;
         }
@@ -806,7 +809,7 @@ class CpeController extends Controller
         $pass = $request->get("txtPassword");
         $idauto = $request->get("txtIdauto");
         $ousuario = new Usuario();
-        $valor = $ousuario->verificarUsuarioLogueado(trim($usua), $pass);
+        $valor = $ousuario->verificarUsuarioLogueado(trim($usua), trim($pass));
         if (!empty($valor[0]['idusua'])) {
             $datos = array(
                 "rucempresa" => session()->get("gene_nruc"),
@@ -847,14 +850,6 @@ class CpeController extends Controller
             curl_close($curl);
             echo json_decode($response, true);
             return;
-
-            $rpta = json_decode($response, true);
-
-            if ($rpta['estado'] == '0') {
-                return response()->json(['message' => 'Eliminado correctamente'], 200);
-            } else {
-                return response()->json(['message' => $rpta['estado'] . ' ' . $rpta['mensaje']], 200);
-            }
         } else {
             return response()->json(['message' => 'Las credenciales no son correctas'], 422);
         }

@@ -10,14 +10,14 @@
                     <!-- <input type="usuario" class="form-control" name="" id="txtUsuario"> -->
                     <select class="form-control form-control-sm" id="txtUsuario" name="txtUsuario">
                         <?php foreach ($usuarios as $row) : ?>
-                            <option value=<?php echo $row['nomb'] ?>><?php echo $row['nomb'] ?></option>
+                            <option value="<?php echo $row['nomb'] ?>"><?php echo $row['nomb'] ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label class="col-form-label">Contraseña:</label>
                     <input type="password" class="form-control" name="txtPassword" id="txtPassword">
-                    <input style="display:none;" type="text" name="txtfakeusuario" >
+                    <input style="display:none;" type="text" name="txtfakeusuario">
                 </div>
                 <input style="display:none" type="text" class="form-control" name="txtIdauto" id="txtIdauto">
                 <input style="display:none" type="text" class="form-control" name="txttdoc" id="txttdoc">

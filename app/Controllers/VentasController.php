@@ -829,7 +829,8 @@ class VentasController extends Controller
                 'fechavto' => empty($item['kar_fvto']) ? date('Y-m-d') : $item['kar_fvto'],
                 'lote' => empty($item['kar_lote']) ? '' : $item['kar_lote'],
                 'caant' => $item['cant'],
-                'activo' => 'A'
+                'activo' => 'A',
+                'epta_cost' => $item['epta_cost']
             );
         }
         $ltagrupada = array();
@@ -837,12 +838,6 @@ class VentasController extends Controller
             $idart = $producto["idkar"];
             $ltagrupada[$idart][] = $producto;
         }
-
-        // echo '<pre>';
-        // var_dump($ltagrupada);
-        // echo '</pre>';
-        // return;
-
         foreach ($ltagrupada as $k => $items) {
             $presentaciones = [];
             $j = 0;
@@ -851,11 +846,11 @@ class VentasController extends Controller
                     'epta_idep' => $p['epta_idep'],
                     'pres_desc' => $p['pres_desc'],
                     'epta_cant' => $p['epta_cant'],
-                    'epta_prec' => $p['epta_prec']
+                    'epta_prec' => $p['epta_prec'],
+                    'epta_cost' => $p['epta_cost']
                 );
                 $j += 1;
             }
-
             $carritov[] = array(
                 'coda' => $items[0]["coda"],
                 'descripcion' => $items[0]["descri"],
@@ -880,7 +875,6 @@ class VentasController extends Controller
                 'activo' => 'A'
             );
         }
-
         session()->set('opigv', 'N'); //ESTO PARA QUE SOLO SE VEA EL IGV DE MANERA VISUAL
         session()->set('moneda', 'SI'); //(SIGNIFICA QUE YA HA SIDO SELECCIONADA) ESTO PARA QUE SOLO SE VEA LA MONEDA DE MANERA VISUAL
         session()->set('carritov', $carritov);

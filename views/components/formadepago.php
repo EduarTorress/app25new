@@ -1,6 +1,6 @@
 <div class="input-group mb-3">
     <label class="form-control form-control-sm" for="">Pago:</label>
-    <select class="form-select-sm form-control form-control-sm" id="cmbforma" name="cmbforma" onchange="grabarCabecera();" onkeypress="enterformapago(this)">
+    <select class="form-select-sm form-control form-control-sm cmbforma" id="cmbforma" name="cmbforma" onchange="grabarCabecera();" onkeypress="enterformapago(this)">
         <option <?php echo empty($cform) ? 'selected' : ($cform == 'E' ? 'selected' : '') ?> value="E">Efectivo</option>
         <option <?php echo ($cform == 'C' ? 'selected' : '') ?> value="C">Crédito</option>
         <option <?php echo ($cform == 'D' ? 'selected' : '') ?> value="D">Depósito / Transferencia</option>
