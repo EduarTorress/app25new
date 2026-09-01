@@ -100,7 +100,7 @@ class Transportista extends Modelo
     }
     function save()
     {
-        $sql = "INSERT INTO fe_tra (razon,ructr,nombr,placa,placa1,breve,marca,cons,tran_tipo) VALUES (:txtrazon,:txtruc,:txttransportista,:txtplaca,:txtplaca1,:txtbrevete,:txtmarca,:cons;:tran_tipo)";
+        $sql = "INSERT INTO fe_tra (razon,ructr,nombr,placa,placa1,breve,marca,cons,tran_tipo) VALUES (:txtrazon,:txtruc,:txttransportista,:txtplaca,:txtplaca1,:txtbrevete,:txtmarca,:cons,:tran_tipo)";
         $query = $this->prepare($sql);
         $query->execute([
             'txtrazon' => $this->txtrazon,
@@ -114,7 +114,7 @@ class Transportista extends Modelo
              'tran_tipo' => $this->cmbtipotransporte
         ]);
         if ($query->errorCode() != '00000') {
-            // var_dump($query->errorInfo());
+            var_dump($query->errorInfo());
             return false;
         } else {
             return true;
