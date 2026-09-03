@@ -421,6 +421,8 @@ class Producto extends Modelo
         } catch (PDOException $pdo_error) {
             $pdo->rollBack();
             $data = ["mensaje" => 'Hubieron problemas al ingresar stock ' . $pdo_error->getMessage(), 'estado' => '0'];
+        } finally {
+            $con->close();
         }
         return json_encode($data);
     }

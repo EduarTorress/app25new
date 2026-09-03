@@ -17,7 +17,16 @@ $this->startSection('contenido');
                                         <div class="row">
                                             <div>
                                                 <label class="radio-inline">
-                                                    <input type="radio" name="optradios" value="nombre" checked>&nbsp;Nombre&nbsp;
+                                                    <input type="radio" name="optradios" value="nombre" onchange="obtenertipobusquedacliente(); $('#txtbuscar').select();" checked>&nbsp;Nombre&nbsp;
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradios" value="ruc" onchange="obtenertipobusquedacliente(); $('#txtbuscar').select();">&nbsp;RUC&nbsp;
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradios" value="dni" onchange="obtenertipobusquedacliente();$('#txtbuscar').select();">&nbsp;DNI&nbsp;
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="optradios" value="codigo" onchange="obtenertipobusquedacliente();$('#txtbuscar').select();">&nbsp;Código&nbsp;
                                                 </label>
                                             </div>
                                             <div class="col-8" style="display:inline-block;">
@@ -71,13 +80,15 @@ $this->startSection('javascript');
 
     function buscar() {
         var abuscar = document.querySelector('#txtbuscar').value;
+        noption = obtenertipobusquedacliente();
         if (abuscar.length == 0) {
             toastr.error("Ingrese un cliente a buscar", 'Mensaje del Sistema')
             return;
         }
         axios.get('/cliente/lista', {
             "params": {
-                "cbuscar": abuscar
+                "cbuscar": abuscar,
+                option: noption
             }
         }).then(function(respuesta) {
             const contenido_tabla = respuesta.data;

@@ -50,7 +50,8 @@ class ClienteController extends Controller
     function lista(Request $request)
     {
         $cbuscar = "%" . $request->get('cbuscar') . "%";
-        $lista = $this->cliente->listar($cbuscar);
+        $opt = intval($request->get("option"));
+        $lista = $this->cliente->buscarClientes($cbuscar, $opt, 0);
         return view('admin/cliente/listaclientes', ['lista' => $lista]);
     }
     function listarremitentes($cbuscar)
@@ -96,25 +97,25 @@ class ClienteController extends Controller
             if (!empty($request->get('txtRUC'))) {
                 $existe = $cliente->consultarclientexruc($request->get('txtRUC'));
                 if ($existe == "T") {
-                    return response()->json(['message' => 'Cliente ya existente.'], 400);
+                    return response()->json(['message' => 'Cliente ya existente por ruc.'], 422);
                 }
             }
             if (!empty($request->get('txtDNI'))) {
                 $existe = $cliente->consultarclientexdni($request->get('txtDNI'));
                 if ($existe == "T") {
-                    return response()->json(['message' => 'Cliente ya existente.'], 400);
+                    return response()->json(['message' => 'Cliente ya existente por dni.'], 422);
                 }
             }
             if (!empty($request->get('txtNombre'))) {
                 $existe = $cliente->consultarclientexrazon($request->get('txtNombre'));
                 if ($existe == "T") {
-                    return response()->json(['message' => 'Cliente ya existente.'], 400);
+                    return response()->json(['message' => 'Cliente ya existente por nombre.'], 422);
                 }
             }
             if ($cliente->save()) {
                 return response()->json(['message' => 'Cliente registrado correctamente'], 200);
             } else {
-                return response()->json(['message' => 'Error al registrar'], 400);
+                return response()->json(['message' => 'Error al registrar'], 422);
             }
         } catch (\Exception $error) {
             return response()->json(['message' => 'Hubo un error ' . $error->getMessage()], 500);
