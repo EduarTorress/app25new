@@ -58,7 +58,7 @@ class ProductoController extends Controller
         $abuscar = $request->get('cbuscar');
         $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
         $nid = intval($request->get('cbuscar'));
-        $nd =session()->get('gene_dola');
+        $nd = session()->get('gene_dola');
         \session()->set('busquedaPV', $abuscar);
         $lista = $this->producto->BuscarProductos($abuscar, $nd, $opt, $nid);
         \session()->set("listaPV", $lista);
@@ -115,13 +115,17 @@ class ProductoController extends Controller
             $data = ["errors" => ['Sesión vencida, por favor ingrese nuevamente al sistema']];
             return response()->json($data, 422);
         }
-        if (!empty(trim($request->get('txtcoda1')))) {
-            $exiscodprov = $this->producto->verificarsiexistecodprov($request->get("txtcoda1"));
-            if ($exiscodprov['estado'] == '1') {
-                $data = ["errors" => ['Código de Proveedor ya registrado previamente']];
-                return response()->json($data, 422);
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
+        if ($proyecto != 'xsys5') {
+            if (!empty(trim($request->get('txtcoda1')))) {
+                $exiscodprov = $this->producto->verificarsiexistecodprov($request->get("txtcoda1"));
+                if ($exiscodprov['estado'] == '1') {
+                    $data = ["errors" => ['Código de Proveedor ya registrado previamente']];
+                    return response()->json($data, 422);
+                }
             }
         }
+
         // $validar = new Validator($request->getBody());
         // $validar->rule("required", "txtdescrip");
         // $validar->rule("required", "txtpeso");
@@ -275,12 +279,14 @@ class ProductoController extends Controller
             $data = ["errors" => ['Sesión vencida, por favor ingrese nuevamente al sistema']];
             return response()->json($data, 422);
         }
-
-        if (!empty(trim($request->get('txtcoda1')))) {
-            $exiscodprov = $this->producto->verificarsiexistecodprovactu($request->get("txtcoda1"), $request->get('idart'));
-            if ($exiscodprov['estado'] == '1') {
-                $data = ["errors" => ['Código de Proveedor ya registrado previamente']];
-                return response()->json($data, 422);
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
+        if ($proyecto != 'xsys5') {
+            if (!empty(trim($request->get('txtcoda1')))) {
+                $exiscodprov = $this->producto->verificarsiexistecodprovactu($request->get("txtcoda1"), $request->get('idart'));
+                if ($exiscodprov['estado'] == '1') {
+                    $data = ["errors" => ['Código de Proveedor ya registrado previamente']];
+                    return response()->json($data, 422);
+                }
             }
         }
         // $exiscodprov = $this->producto->verificarsiexistecodprovactu($request->get("txtcoda1"));
