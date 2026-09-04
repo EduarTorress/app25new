@@ -1087,7 +1087,7 @@ class ComprasController extends Controller
         $i = 0;
 
         foreach ($comprobante['carrito_de_compras'] as $item) {
-            $precioconIGV = round($item["precio"] * 1.18, 2);
+            $precioconIGV = round($item["precio"] * floatval($_SESSION['gene_igv']), 2);
             $c[] = array(
                 'indice' => $i++,
                 'coda' => 0,
