@@ -2348,7 +2348,7 @@ class Imprimir
         $pdf->ln();
         $pdf->cell(100, 5,  'Motivo de Traslado: Traspaso entre Almacenes');
         $pdf->setx(120);
-        $pdf->cell(100, 5,  "Descripción del Motivo:");
+        $pdf->cell(100, 5,  "Descripción del Motivo: -");
         $pdf->ln();
         $pdf->SetFont('Tahomab', '', 6);
         $pdf->SetFillColor(240, 240, 240);
