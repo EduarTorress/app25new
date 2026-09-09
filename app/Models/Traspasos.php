@@ -110,11 +110,9 @@ class Traspasos extends Modelo
         // nv FLOAT,nigv FLOAT,nt FLOAT,cndo2 VARCHAR(10),cm CHAR,
         // ndolar FLOAT,ni FLOAT,ctg CHAR,ccodp INTEGER,cmvto CHAR,nus INTEGER,opt INTEGER,nidcodt INTEGER,
         // n1 INTEGER,n2 INTEGER,n3 INTEGER,nitem INTEGER,npvta FLOAT,copt CHAR) RETURNS INT
-
         $sqlrcom = "SELECT FunIngresaCabeceraTraspasoN(:tdoc,:form,:cndoc,:dfecha,:dfechar,:detalle,
         :nv,:nigv,:nt,:cndoc2,:cm,:ndolar,:ni,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcot,
         :n1,:n2,:n3,:nitem,:npvta,:copt) AS ID";
-
         try {
             $correlativo = SerieController::correlativo($_SESSION['nserie'], '09');
             if ($correlativo[0]['estado'] == 0) {
@@ -165,11 +163,9 @@ class Traspasos extends Modelo
 
             $sqlguias = "SELECT FunIngresaGuiasT(:dfecha,:cptop,:cptoll,:nidauto,:dfechat,:nidus,
             :cdeta,:nidtr,:cndoc,:nidt,:cubigeo) AS ID";
-
             // CREATE FUNCTION `FunIngresaGuiasT`(`dfecha` DATETIME, `cptop` VARCHAR(100), `cptoll` VARCHAR(150), `nidauto` INTEGER, `dfechat` DATETIME, 
             // `nidus` INTEGER, `cdeta` VARCHAR(150), `nidtr` INTEGER, `cndoc` VARCHAR(12), `nidt` INTEGER,
             // cubiego VARCHAR(8)) RETURNS INT
-
             $exeguias = $pdo->prepare($sqlguias);
             $exeguias->execute([
                 'dfecha' => $this->dfecha,
@@ -240,9 +236,7 @@ class Traspasos extends Modelo
                         $sw = 0;
                         break;
                     }
-
                     $idkar = $execiki->fetchColumn();
-
                     $execguiase = $pdo->prepare($sqlguiase);
                     $ncant = floatval($item['cantidad']);
                     $npeso = floatval($item['precio']);
@@ -262,7 +256,6 @@ class Traspasos extends Modelo
                     }
                 }
             }
-
             // $sqlikc = "SELECT FunIngresaKardex1(:nauto,:coda,'C',:prec,:cant,:igv,'K','0',:alm,'0','0',:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS NID";
             // $sqlasc = "CALL astock(:coda,:nalma,:ccant,'C',:cantequi)";
             // $carritot = session()->get('carritot', []);
@@ -310,18 +303,15 @@ class Traspasos extends Modelo
                 $pdo->rollBack();
                 return false;
             }
-
             $sqlrcomestado = "update fe_rcom set rcom_ccaj='E' where idauto=:idautoc";
             $execrcomestado = $pdo->prepare($sqlrcomestado);
             $execrcomestado->execute([
                 'idautoc' => $this->idautoc
             ]);
-
             if ($execrcomestado->errorCode() != '00000') {
                 $pdo->rollBack();
                 return false;
             }
-
             if (!Serie::aumentarcorrelativo($idserie, $pdo)) {
                 $pdo->rollBack();
                 $rpta = array('mensaje' => 'Error al aumentar correlativo', "ndoc" => "", "estado" => '0');
