@@ -1335,9 +1335,7 @@ class Ventas extends Modelo
                 $rpta = array('mensaje' => "No se actualizo la caja", "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
-
             $execidce->closeCursor();
-
             if ($cabecera['formv'] == 'C') {
                 $sqlcreditos = "select FunRegistraCreditos(:nauto,:nid,:cndoc,'C',:cmon,:crefe,:dfecha,:dfevto,
                 :ctipo,:cdocp,:nimpo,:ninic,:idven,:nimpoo,:nidus,:nalma,'web') as nid";
@@ -1366,12 +1364,10 @@ class Ventas extends Modelo
                     return $rpta;
                 }
             }
-
             $sw = 1;
             $sqlk = "update fe_kar set prec=:prec and incl=:igv where idart=:idart and idauto=:idauto";
             $idauto = $cabecera["idautov"];
             $optigv = $cabecera['optigv'];
-
             foreach ($detallecanje as $item) {
                 $execk = $pdo->prepare($sqlk);
                 $execk->execute([
@@ -1386,13 +1382,11 @@ class Ventas extends Modelo
                     break;
                 }
             }
-
             if ($sw == 0) {
                 $pdo->rollBack();
                 $rpta = array('mensaje' => $execk->errorInfo(), "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
-
             if (!Serie::aumentarcorrelativo($idserie, $pdo)) {
                 $pdo->rollBack();
                 $rpta = array('mensaje' => "Error al actualizar correlativo", "ndoc" => "", "estado" => '0');
@@ -1452,16 +1446,13 @@ class Ventas extends Modelo
                 return $rpta;
             }
             $id = $st->fetchColumn();
-
             $st->closeCursor();
-
             $sqlacguiatr = "update fe_guiastr set guia_idau=:nid where guia_idgui=:nidg";
             $stguiastr = $pdo->prepare($sqlacguiatr);
             $stguiastr->execute([
                 'nid' => $id,
                 'nidg' => session()->get('idautog')
             ]);
-
             if ($stguiastr->errorCode() != '00000') {
                 $pdo->rollBack();
                 // $st->debugDumpParams();
@@ -1470,7 +1461,6 @@ class Ventas extends Modelo
                 return $rpta;
             }
             $stguiastr->closeCursor();
-
             $sqlidc = "call ProIngresaDatosLcajaEefectivo11(:fechv,:cndocv,:deta,:n3,:total,'0','S','0',:nidus,:nidclie,:nidauto,:cform,:cndocv,:ctdoc,:almv) ";
             $execidc = $pdo->prepare($sqlidc);
             $execidc->execute([
@@ -1486,7 +1476,6 @@ class Ventas extends Modelo
                 'ctdoc' => $cabecera["tdocv"],
                 'almv' => $_SESSION['idalmacen']
             ]);
-
             // $query->debugDumpParams();
             if ($execidc->errorCode() != '00000') {
                 // \print_r($query->errorInfo());
@@ -1496,9 +1485,7 @@ class Ventas extends Modelo
                 $rpta = array('mensaje' => $execidc->errorInfo(), "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
-
             $execidc->closeCursor();
-
             if ($cabecera['formv'] == 'C') {
                 $sqlcreditos = "select FunRegistraCreditos(:nauto,:nid,:cndoc,'C',:cmon,:crefe,:dfecha,:dfevto,
                 :ctipo,:cdocp,:nimpo,:ninic,:idven,:nimpoo,:nidus,1,'web') as nid";
@@ -1529,7 +1516,6 @@ class Ventas extends Modelo
                     return $rpta;
                 }
             }
-
             $sqlidv = "CALL ProIngresaDetalleVta(:cdesc,:nitem,'0','0',:nid,:nprecio,:ncant,:cunid)";
             $i = 0;
             $sw = 1;
