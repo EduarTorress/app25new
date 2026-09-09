@@ -239,7 +239,7 @@ $this->startSection('javascript');
     }
 
     function limpiardatos() {
-         $("#btngrabar").removeAttr("disabled");
+        $("#btngrabar").removeAttr("disabled");
         $("#cmbmoneda").attr('disabled', false);
         $("#txtcliente").val("");
         $("#titulo").html("Facturar Cotizaciones");
@@ -277,6 +277,11 @@ $this->startSection('javascript');
             confirmButtonText: 'Si'
         }).then(function(respuesta) {
             if (respuesta.isConfirmed) {
+                // Deshabilita el botón "Sí"
+                Swal.getConfirmButton().disabled = true;
+                // Cambia el texto
+                Swal.getConfirmButton().innerHTML =
+                    '<i class="fa fa-spinner fa-spin"></i> Registrando...';
                 const detalle = []
                 $("#griddetalle tbody tr").each(function() {
                     json = "";
@@ -353,6 +358,8 @@ $this->startSection('javascript');
                         limpiardatos();
                         <?php $_SESSION['carritov'] = []; ?>
                     }).catch(function(error) {
+                        Swal.getConfirmButton().disabled = false;
+                        Swal.getConfirmButton().innerHTML = 'Sí';
                         mostrarerroresvalidacion(error);
                     });
             }
