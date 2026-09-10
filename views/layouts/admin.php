@@ -30,7 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!--- DataTables -->
     <link rel="stylesheet" type="text/css" href="plugins/datatables-custom/DataTables-1.12.1/css/jquery.dataTables.min.css" />
-        <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
+    <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
 
     <!-- <link rel="stylesheet" type="text/css" href="plugins/datatables-custom/Buttons-2.2.3/css/buttons.dataTables.min.css" /> -->
     <link rel="stylesheet" type="text/css" href="plugins/datatables-custom/KeyTable-2.7.0/css/keyTable.dataTables.min.css" />
@@ -163,7 +163,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </aside>
         <!-- section => contenido -->
         <?php echo $this->section('contenido') ?>
-
         <!-- Main Footer -->
         <footer class="main-footer small">
             <!-- To the right -->
@@ -265,4 +264,5 @@ scratch. This page gets rid of all links and provides the needed markup only.
         color: white
     }
 </style>
+
 </html>

@@ -127,7 +127,6 @@ $this->startSection('javascript');
         buscar();
     });
 
-
     function obtener() {
         let vdvto = 0;
         if (document.getElementsByName('optradios')[0].checked) {
@@ -156,7 +155,7 @@ $this->startSection('javascript');
             $('#search').html(contenido_tabla);
         }).catch(function(error) {
             $('#loading').modal('hide');
-            toastr.error('Error al cargar el listado')
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
 
