@@ -54,6 +54,9 @@
         if ($('#txtclienteretencion').val()) {
             document.getElementById("txtclienteretencion").value = datos.parametro6;
         }
+        if ($('#txtcreditocliente').val()) {
+            document.getElementById("txtcreditocliente").value = datos.parametro7;
+        }
         axios.get('/cliente/seleccionar', {
             "params": {
                 'idclie': datos.parametro1,
@@ -61,7 +64,8 @@
                 'ruc': datos.parametro3,
                 'txtdireccion': datos.parametro5,
                 'dni': datos.parametro4,
-                'clienteretencion': datos.parametro6
+                'clienteretencion': datos.parametro6,
+                'txtcreditocliente': datos.parametro7
             }
         }).then(function(respuesta) {
             $('#modal_clientes').modal('toggle');

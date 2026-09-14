@@ -456,7 +456,7 @@ class Ventas extends Modelo
                 `d`.`ciud`        AS `ciud`,  `d`.`ndni`        AS `ndni`, `a`.`tipo`        AS `tipo`, `c`.`tdoc`        AS `tdoc`,
                 `c`.`ndoc`        AS `ndoc`, `c`.`dolar`       AS `dolar`, `c`.`mone`        AS `mone`,  `b`.`descri`      AS `descri`,
                 `a`.`kar_unid`        AS `unid`, `b`.`pre1`        AS `pre1`, `b`.`peso`        AS `peso`, `b`.`pre2`        AS `pre2`,
-                `c`.`vigv`        AS `vigv`, `a`.`dsnc`        AS `dsnc`, `a`.`dsnd`        AS `dsnd`, `a`.`gast`        AS `gast`,
+                `c`.`vigv`        AS `vigv`, `a`.`dsnc`        AS `dsnc`, `a`.`dsnd`        AS `dsnd`, `a`.`gast`        AS `gast`,clie_lcre,
                 `c`.`idcliente`   AS `idcliente`, `c`.`codt`        AS `codt`, `b`.`pre3`        AS `pre3`, `b`.`cost`        AS `costo`,kar_tigv as tigv,
                 `b`.`uno`         AS `uno`, `b`.`dos`         AS `dos`, (`b`.`uno` + `b`.`dos`) AS `TAlma`, `c`.`fusua`       AS `fusua`,b.tipro,
                 `p`.`nomv`        AS `vendedor`, `q`.`nomb`        AS `Usuario`, `c`.`rcom_idtr`   AS `rcom_idtr`, `c`.`rcom_tipo`   AS `rcom_tipo`,a.`incl`,
@@ -551,7 +551,7 @@ class Ventas extends Modelo
                 // \print_r($st->debugDumpParams());
                 // \print_r($st->errorCode());
                 $pdo->rollBack();
-                $rpta = array('mensaje' => "No Se Actualizo", "ndoc" => "", "estado" => '0');
+                $rpta = array('mensaje' => "No se actualizo correctamente", "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
 
@@ -685,7 +685,7 @@ class Ventas extends Modelo
         $this->fechv = $cabecera["fechv"];
         $this->fechvv = $cabecera["fechvv"];
         $sql = "SELECT FunIngresaCabeceraVtasicbper(:tdocv,:formv,:cndocv,:fechv,:txtreferencia,:subtotal,:igv,:total,:ndo2v,:monev,
-            :dola,:vigv,'K',:idcliev,'V',:nidus,:almv,:n1,:n2,:n3,:totalexonerado,'0',:reten,:vuelto) AS ID";
+            :dola,:vigv,'K',:idcliev,'V',:nidus,:almv,:n1,:n2,:n3,:totalexonerado,:cargovta,:reten,:vuelto) AS ID";
 
         if ($cabecera['tdocv'] == '01' || $cabecera['tdocv'] == '03') {
             $nidcta1 = session()->get("gene_idctav");
@@ -732,6 +732,7 @@ class Ventas extends Modelo
                 'n2' => $nidcta2,
                 'n3' => $nidcta3,
                 'txtreferencia' => $cabecera["txtreferencia"],
+                'cargovta' => ($cabecera['cargocredito'] > 0 ? $cabecera['total'] * $cabecera['cargocredito'] : 0),
                 'reten' => $rete,
                 'vuelto' => empty($cabecera['txtvuelto']) ? '0' : $cabecera['txtvuelto'],
                 'totalexonerado' => empty($cabecera['totalexonerado']) ? 0 : $cabecera['totalexonerado']
@@ -926,7 +927,7 @@ class Ventas extends Modelo
     {
         $this->fechv = $cabecera["fechv"];
         $ls = "CALL ProActualizaCabeceraCVtasicbper(:ctdoc,:cform,:cndoc,:dfecha,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,:ndolar,:ni,:ctg,:ccodp,
-            :cmvto,:nus,:reten,:nidcodt,:n1,:n2,:n3,:totalexonerado,:npvta,:nidauto)";
+            :cmvto,:nus,:reten,:nidcodt,:n1,:n2,:n3,:totalexonerado,:cargovta,:nidauto)";
 
         if ($cabecera['tdocv'] == '01' || $cabecera['tdocv'] == '03') {
             $nidcta1 = session()->get("gene_idctav");
@@ -941,7 +942,6 @@ class Ventas extends Modelo
         if ($cabecera['tdocv'] == '01') {
             $rete = (floatval($_SESSION['gene_montoretencion']) <= floatval($cabecera['total']) ? ($cabecera['txtclienteretencion'] == 'S' ? round($cabecera['total'] * ($_SESSION['gene_retencion'] / 100), 2) : 0) : 0);
         }
-
         try {
             $ncon = new conexion();
             $pdo = $ncon->conectar();
@@ -970,7 +970,8 @@ class Ventas extends Modelo
                 'n2' =>  $nidcta2,
                 'n3' => $nidcta3,
                 'totalexonerado' => empty($cabecera['totalexonerado']) ? 0 : $cabecera['totalexonerado'],
-                'npvta' => '0',
+                //  'cargovta'=>$cabecera['cargocredito'],
+                'cargovta' => ($cabecera['cargocredito'] > 0 ? $cabecera['total'] * $cabecera['cargocredito'] : 0),
                 'nidauto' => $cabecera["nidautov"]
             ]);
 

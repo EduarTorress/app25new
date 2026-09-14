@@ -40,11 +40,12 @@ class ClienteController extends Controller
             'ruc' => $request->get('ruc'),
             'txtdnicliente' => $request->get('txtdnicliente'),
             'txtdireccion' => $request->get('txtdireccion'),
-            'clienteretencion' => empty($request->get('clienteretencion')) ? 'N'  : $request->get('clienteretencion')
+            'clienteretencion' => empty($request->get('clienteretencion')) ? 'N' : $request->get('clienteretencion'),
+            'txtcreditocliente' => empty($request->get('txtcreditocliente')) ? 0 : $request->get('txtcreditocliente')
         );
         \session()->set('cliente', $cliente);
         return response()->json([
-            'message' => 'Cliente Seleccionado  correctamente'
+            'message' => 'Cliente Seleccionado correctamente'
         ], 200);
     }
     function lista(Request $request)
@@ -54,11 +55,11 @@ class ClienteController extends Controller
         $lista = $this->cliente->buscarClientes($cbuscar, $opt, 0);
         return view('admin/cliente/listaclientes', ['lista' => $lista]);
     }
-    function listarremitentes($cbuscar)
-    {
-        $lista = $this->cliente->listar($cbuscar);
-        return $lista;
-    }
+    // function listarremitentes($cbuscar)
+    // {
+    //     $lista = $this->cliente->buscarClientes($cbuscar, 0, 0);
+    //     return $lista;
+    // }
     function create()
     {
         $titulo = 'Registrar cliente';
@@ -93,6 +94,7 @@ class ClienteController extends Controller
             $cliente->txtDireccion = $request->get('txtDireccion');
             $cliente->txtCiudad = $request->get('txtCiudad');
             $cliente->txtUbigeo = $request->get('cmbUbigeo');
+            $cliente->txtcredito = empty($request->get('txtcredito')) ? 0 : $request->get('txtcredito');
             $cliente->clienterete = (empty($request->get('cmbretencion')) ? 'N' : $request->get('cmbretencion'));
             if (!empty($request->get('txtRUC'))) {
                 $existe = $cliente->consultarclientexruc($request->get('txtRUC'));
@@ -144,6 +146,7 @@ class ClienteController extends Controller
             $cliente->txtCiudad = $request->get('txtCiudad');
             $cliente->txtUbigeo = $request->get('cmbUbigeo');
             $cliente->clienterete = $request->get('cmbretencion');
+            $cliente->txtcredito = empty($request->get('txtcredito')) ? 0 : $request->get('txtcredito');
             // if (!empty($request->get('txtRUC'))) {
             //     $existe = $cliente->consultarclientexruc($request->get('txtRUC'));
             //     if ($existe == "T") {

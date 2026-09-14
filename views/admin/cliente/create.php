@@ -58,6 +58,12 @@ use App\View\Components\UbigeosComponent;
                 </select>
             </div>
         </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="">Linea Crédito:</label>
+            <div class="col-sm-8">
+                <input type="text" name="txtcredito" id="txtcredito" class="form-control txtcredito" onkeypress="return isNumber(event);" onclick="$(this).select();" value="<?php echo ($modo == 'A' ?  $lista['clie_lcre'] : '0.00') ?>">
+            </div>
+        </div>
         <div class="modal-footer justify-content-between">
             <button type="button" class="btn btn-danger" id="cmdcerrar" onclick="cerrarmodal()" data-dismiss="modal"><i class="fa fa-window-close"></i> Cerrar
             </button>

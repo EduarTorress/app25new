@@ -188,6 +188,14 @@ class impresiondefault extends Imprimir
             $pdf->setx(6.5);
             $pdf->Cell(67, 5, number_format($this->igv, 2, '.', ','), 0, 1, 'R');
         }
+        // if (floatval($this->cargovta) > 0) {
+        //     if ($this->formadepago == 'E') {
+        //         $pdf->Cell(67, 5, 'Cargo aplicado:', 0, 0, 'R');
+        //         $pdf->setx(6.5);
+        //         $pdf->Cell(67, 5, number_format($this->cargovta, 2, '.', ','), 0, 1, 'R');
+        //     }
+        // }
+
         // $pdf->setx(0);
         $pdf->Cell(67, 5, 'Total:', 0, 0, 'R');
         $pdf->setx(6.5);
@@ -253,7 +261,6 @@ class impresiondefault extends Imprimir
                 }
             }
         }
-
         // Cerrar conexiones y generar el PDF
         if ($estilo == 'I') {
             // $pdf->Output('I', $rutapdf);

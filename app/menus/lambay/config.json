@@ -3,7 +3,8 @@
       "facturardolares": "N",
       "allcamposproductos": "N",
       "multiigv": "N",
-      "codigobarras": "N",
-      "controlinterno":"S"
+      "controlinterno": "S",
+      "validarcreditoxcliente": "S",
+      "cargoxvtacredito": "S"
    }
 ]

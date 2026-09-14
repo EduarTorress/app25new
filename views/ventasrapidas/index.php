@@ -42,6 +42,7 @@ echo $login->render();
                             <input type="hidden" id="txtdireccion" value="">
                             <input type="hidden" id="txtdnicliente" value="">
                             <input type="hidden" id="txtclienteretencion" value="<?php echo isset($datosclientev['clienteretencion']) ?  $datosclientev['clienteretencion'] : 'N' ?>">
+                            <input type="hidden" id="txtcreditocliente" value="<?php echo isset($datosclientev['txtcreditocliente']) ?  $datosclientev['txtcreditocliente'] : 0 ?>">
                             <input type="hidden" id="txtidauto" value="">
                             <button class="btn btn-outline-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_clientes"><i style="color:black" class="fas fa-user-alt"></i></button>
                             <button class="btn btn-outline-primary" role="button" onclick="mostrardatoscliente()"><i style="color:black" class="fa fa-address-card-o"></i></button>
@@ -187,6 +188,7 @@ $this->endSection('contenido');
 $this->startSection('javascript');
 ?>
 <script>
+    var cargoxvtacredito = "<?php echo (empty($_SESSION['config']['cargoxvtacredito']) ? 'N' : $_SESSION['config']['cargoxvtacredito']) ?>"
     window.onload = function() {
         // abrirDisplay();
         idsolicitud = 1;
@@ -199,6 +201,8 @@ $this->startSection('javascript');
         $("#txtfechavto").val("<?php echo (empty($datosclientev['fvto']) ?  date("Y-m-d") :  $datosclientev['fvto']) ?>");
         $("#modal_productos").modal('show');
     }
+
+    // console.log(cargoxvtacredito);
 
     function listardetalle() {
         axios.get('/ventasrapidas/listardetalle').then(function(respuesta) {
@@ -248,6 +252,13 @@ $this->startSection('javascript');
 
     $('#modal_clientes').on('hidden.bs.modal', function() {
         $("#mdpreregistro").modal('show');
+    });
+
+    $('#mdpreregistro').on('hidden.bs.modal', function() {
+        if (cargoxvtacredito == 'S') {
+            $("#cmbforma").val("E");
+            calcularIGV();
+        }
     });
 
     $('#divfecha').click(function() {
@@ -827,6 +838,7 @@ $this->startSection('javascript');
         data.append("txtpago", $("#txtpago").val());
         data.append("txtvuelto", $("#txtvuelto").val());
         data.append("respaldo", "S");
+        data.append("txtcreditocliente", $("#txtcreditocliente").val())
         axios.post("/vtas/registrar", data)
             .then(function(respuesta) {
                 estadorpta = respuesta.data.estado;
@@ -906,6 +918,7 @@ $this->startSection('javascript');
         $("#txtdireccion").val("");
         $("#ndo2").val("");
         $("#cmbforma").val("E");
+        $("#txtcreditocliente").val("0");
         // $("#cmbAlmacen").val("1");
         $("#cmbmoneda").val("S");
         $("#optigv").val("I");
@@ -915,7 +928,7 @@ $this->startSection('javascript');
         $("#subtotal").val("0.00");
         $("#totalitems").val("0.00");
         $("#txtreferencia").val("");
-        $("#cmbdcto").val("03");
+        // $("#cmbdcto").val("03");
         $("#divefectivo").css("display", "none")
         $("#searchP").empty();
         document.getElementById("grabar").innerHTML = "Grabar";
@@ -1009,45 +1022,62 @@ $this->startSection('javascript');
     $("#cmbvendedor").on("change", function() {
         grabarCabecera();
     });
+
+    $("#cmbforma").on("change", function() {
+        if (cargoxvtacredito == 'S') {
+            cargocredito = "<?php echo (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']) ?>";
+            formapago = $(this).val();
+            var totalOriginal = parseFloat($("#total").val()) || 0;
+            var incremento = totalOriginal * (cargocredito / 100);
+            var nuevoTotal = totalOriginal + incremento;
+            var totalOriginalFormateado = totalOriginal.toFixed(2);
+            var nuevoTotalFormateado = nuevoTotal.toFixed(2);
+            if (formapago == 'C') {
+                Swal.fire({
+                    title: "Aviso de recargo",
+                    html: `Se aplicará un cargo adicional del <b>${cargocredito}%</b>.<br><br>
+                       <div style="text-align: left; max-width: 250px; margin: 0 auto;">
+                           • Importe actual: <b>S/ ${totalOriginal}</b><br>
+                           • Nuevo importe: <b style="color: #d33;">S/ ${nuevoTotalFormateado}</b>
+                       </div>`,
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                }).then(function() {
+                    $("#txttotal").val(nuevoTotalFormateado);
+                    $("#total").val(nuevoTotalFormateado);
+                });
+            }
+        }
+    });
 </script>
 <script>
-    let displayWindow = null;
+    // let displayWindow = null;
 
-    function abrirDisplay() {
-        displayWindow = window.open('/displayclientes', 'displaycliente', 'width=800,height=600');
-    }
+    // function abrirDisplay() {
+    //     displayWindow = window.open('/displayclientes', 'displaycliente', 'width=800,height=600');
+    // }
 
-    function actualizarDisplay() {
-        if (!displayWindow) {
-            return;
-        }
-        let productos = [];
-        $('#griddetalle tbody tr').each(function() {
-
-            let descripcion = $(this)
-                .find("td")
-                .eq(2)
-                .text()
-                .trim();
-            let cantidad = $(this)
-                .find("td")
-                .eq(4)
-                .find("input")
-                .val();
-            productos.push({
-                descripcion,
-                cantidad
-            });
-        });
-
-        let data = {
-            total: $("#total").val(),
-            vuelto: $("#txtvuelto").val(),
-            productos: productos
-        };
-
-        displayWindow.postMessage(data, "*");
-    }
+    // function actualizarDisplay() {
+    //     if (!displayWindow) {
+    //         return;
+    //     }
+    //     let productos = [];
+    //     $('#griddetalle tbody tr').each(function() {
+    //         let descripcion = $(this).find("td").eq(2).text().trim();
+    //         let cantidad = $(this).find("td").eq(4).find("input").val();
+    //         productos.push({
+    //             descripcion,
+    //             cantidad
+    //         });
+    //     });
+    //     let data = {
+    //         total: $("#total").val(),
+    //         vuelto: $("#txtvuelto").val(),
+    //         productos: productos
+    //     };
+    //     displayWindow.postMessage(data, "*");
+    // }
 </script>
 <?php
 $this->endSection("javascript");

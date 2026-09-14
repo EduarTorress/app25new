@@ -38,6 +38,7 @@ echo $login->render();
                         <input type="hidden" id="txtdireccion" value="<?php echo isset($datosclientev['direcliev']) ?  $datosclientev['direcliev'] : '' ?>">
                         <input type="hidden" id="txtdnicliente" value="<?php echo isset($datosclientev['dnicliev']) ?  $datosclientev['dnicliev'] : '' ?>">
                         <input type="hidden" id="txtclienteretencion" value="<?php echo isset($datosclientev['clienteretencion']) ?  $datosclientev['clienteretencion'] : 'N' ?>">
+                        <input type="hidden" id="txtcreditocliente" value="<?php echo isset($datosclientev['txtcreditocliente']) ?  $datosclientev['txtcreditocliente'] : 0 ?>">
                         <input type="hidden" id="txtidauto" value="<?php echo isset($idventa) ? $idventa : 0 ?>">
                         <button class="btn btn-outline-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_clientes"><i style="color:black" class="fas fa-user-alt"></i></button>
                         <button class="btn btn-outline-primary" role="button" onclick="mostrardatoscliente()"><i style="color:black" class="fa fa-address-card-o"></i></button>
@@ -189,6 +190,7 @@ $this->endSection('contenido');
 $this->startSection('javascript');
 ?>
 <script>
+    var cargoxvtacredito = "<?php echo (empty($_SESSION['config']['cargoxvtacredito']) ? 'N' : $_SESSION['config']['cargoxvtacredito']) ?>"
     window.onload = function() {
         idcliente = 0;
         titulo("<?php echo isset($titulo) ? $titulo : ''; ?>");
@@ -450,7 +452,6 @@ $this->startSection('javascript');
             columnatotal = "<?php echo (empty($_SESSION['config']['tipobotica']) ? 7 : 9); ?>";
             columnatigv = "<?php echo (empty($_SESSION['config']['tipobotica']) ? 8 : 10); ?>";
             valorigv = $(this).find('td').eq(columnatigv).text();
-
             if (Number(valorigv) == Number("<?php echo $_SESSION['gene_igv']; ?>")) {
                 tn = $(this).find('td').eq(columnatotal).text();
                 total_normal += parseFloat(tn);
@@ -664,6 +665,7 @@ $this->startSection('javascript');
         $("#igv").val("0.00");
         $("#subtotal").val("0.00");
         $("#totalitems").val("0.00");
+        $("#txtcreditocliente").val("0")
         $("#txtreferencia").val("");
         $("#txtclienteretencion").val("N");
         document.getElementById("grabar").innerHTML = "Grabar";
@@ -705,6 +707,7 @@ $this->startSection('javascript');
                 data.append("txtefectivo", $("#txtefectivo").val());
                 data.append("txtpago", $("#txtpago").val());
                 data.append("txtvuelto", $("#txtvuelto").val());
+                data.append("txtcreditocliente", $("#txtcreditocliente").val())
                 axios.post("/vtas/registrar", data)
                     .then(function(respuesta) {
                         toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
@@ -780,6 +783,7 @@ $this->startSection('javascript');
                 data.append("txtreferencia", $("#txtreferencia").val());
                 data.append("txtefectivo", $("#txtefectivo").val());
                 data.append("txtpago", $("#txtpago").val());
+                data.append("txtcreditocliente", $("#txtcreditocliente").val());
                 data.append("txtvuelto", $("#txtvuelto").val());
                 axios.post("/vtas/actualizar", data)
                     .then(function(respuesta) {
@@ -829,6 +833,41 @@ $this->startSection('javascript');
 
     $("#cmbvendedor").on("change", function() {
         grabarCabecera();
+    });
+
+    $("#cmbforma").on("change", function() {
+        if (cargoxvtacredito == 'S') {
+            cargocredito = "<?php echo (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']) ?>";
+            formapago = $(this).val();
+            var totalActual = parseFloat($("#total").val()) || 0;
+            if ($("#total").data("total-original") === undefined) {
+                $("#total").data("total-original", totalActual);
+            }
+            var totalOriginal = parseFloat($("#total").data("total-original")) || 0;
+            var incremento = totalOriginal * (cargocredito / 100);
+            var nuevoTotal = totalOriginal + incremento;
+            var totalOriginalFormateado = totalOriginal.toFixed(2);
+            var nuevoTotalFormateado = nuevoTotal.toFixed(2);
+            if (formapago == 'C') {
+                Swal.fire({
+                    title: "Aviso de recargo",
+                    html: `Se aplicará un cargo adicional del <b>${cargocredito}%</b>.<br><br>
+                    <div style="text-align: left; max-width: 250px; margin: 0 auto;">
+                        • Importe actual: <b>S/ ${totalOriginalFormateado}</b><br>
+                        • Nuevo importe: <b style="color: #d33;">S/ ${nuevoTotalFormateado}</b>
+                    </div>`,
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                }).then(function() {
+                    $("#txttotal").val(nuevoTotalFormateado);
+                    $("#total").val(nuevoTotalFormateado);
+                });
+            } else {
+                $("#txttotal").val(totalOriginalFormateado);
+                $("#total").val(totalOriginalFormateado);
+            }
+        }
     });
 </script>
 <?php

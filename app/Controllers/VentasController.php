@@ -141,7 +141,6 @@ class VentasController extends Controller
         }
 
         $ovtas = new Ventas();
-
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
             "tdocv" => $request->get("tdocv"),
@@ -543,6 +542,7 @@ class VentasController extends Controller
         session()->remove('idcliev');
         session()->remove('razov');
         session()->remove('ruccliev');
+        session()->remove('txtcreditocliente');
         session()->remove('tdocv');
         session()->remove('cndocv');
         session()->remove('numv');
@@ -561,6 +561,7 @@ class VentasController extends Controller
         session()->remove('idventa');
         session()->remove('idcliev');
         session()->remove('razov');
+        session()->remove('txtcreditocliente');
         session()->remove('ruccliev');
         session()->remove('tdocv');
         session()->remove('cndocv');
@@ -620,15 +621,12 @@ class VentasController extends Controller
         if ($ovalidar['estado'] == 0) {
             return response()->json($ovalidar['errors'], 422);
         }
-
         if (!validarrucregistro($request->get("txtruccliente"), $request->get("tdocv"))) {
-            return response()->json(['errors' => 'No se puede hacer una venta a la misma empresa'], 422);
+            return response()->json(['errors' => ['No se puede hacer una venta a la misma empresa']], 422);
         }
-
         if (!validardiasatrasocpe($request->get("fechv"))) {
-            return response()->json(['errors' => 'No se puede emitir una venta con más de dos días de atraso'], 422);
+            return response()->json(['errors' => ['No se puede emitir una venta con más de dos días de atraso']], 422);
         }
-
         $carritov = session()->get('carritov', []);
         foreach ($carritov as $c) {
             if ($c['activo'] == 'A') {
@@ -637,7 +635,15 @@ class VentasController extends Controller
                 }
             }
         }
-
+        $validarcreditoxcliente = (empty($_SESSION['config']['validarcreditoxcliente']) ? 'N' : $_SESSION['config']['validarcreditoxcliente']);
+        if ($validarcreditoxcliente == 'S') {
+            if ($request->get('formv') == 'C') {
+                if (floatval(CarritoService::totalVenta()) > floatval($request->get('txtcreditocliente'))) {
+                    return response()->json(['errors' => ['El limite máximo de crédito para ese cliente es: ' . $request->get('txtcreditocliente')]], 422);
+                }
+            }
+        }
+        $cargocredito = (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
         $venta = new Ventas();
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
@@ -667,7 +673,8 @@ class VentasController extends Controller
             "txtreferencia" => $request->get("txtreferencia"),
             'txtefectivo' => $request->get('txtefectivo'),
             'txtpago' => $request->get('txtpago'),
-            'txtvuelto' => $request->get('txtvuelto')
+            'txtvuelto' => $request->get('txtvuelto'),
+            'cargocredito' => $cargocredito
         );
 
         $registro = $venta->grabarVentaGeneral($cabecera);
@@ -698,7 +705,6 @@ class VentasController extends Controller
             return response()->json($ovalidar['errors'], 422);
         }
         $numeroDocumento = $_SESSION['nroventa'];
-
         $carritov = session()->get('carritov', []);
         foreach ($carritov as $c) {
             if ($c['activo'] == 'A') {
@@ -707,7 +713,15 @@ class VentasController extends Controller
                 }
             }
         }
-
+        $validarcreditoxcliente = (empty($_SESSION['config']['validarcreditoxcliente']) ? 'N' : $_SESSION['config']['validarcreditoxcliente']);
+        if ($validarcreditoxcliente == 'S') {
+            if ($request->get('formv') == 'C') {
+                if (floatval(CarritoService::totalVenta()) < floatval($request->get('txtcreditocliente'))) {
+                    return response()->json(['errors' => 'El limite máximo de crédito es: ' . $request->get('txtcreditocliente')], 422);
+                }
+            }
+        }
+        $cargocredito = (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
         $venta = new Ventas();
         $deta =  "";
         $cabecera = array(
@@ -734,7 +748,8 @@ class VentasController extends Controller
             "nitemsv" => str_pad(CarritoService::numeroItemsVenta(), 2, '0', STR_PAD_LEFT),
             "txtreferencia" => $request->get("txtreferencia"),
             'txtefectivo' => $request->get('txtefectivo'),
-            'txtpago' => $request->get('txtpago')
+            'txtpago' => $request->get('txtpago'),
+            'cargocredito' => $cargocredito
         );
         $rpta = $venta->actualizarVenta($cabecera);
         if ($rpta['estado'] == '1') {
@@ -801,6 +816,7 @@ class VentasController extends Controller
                     'subtotalv' => $item['valor'],
                     'igvv' => $item['igv'],
                     'impov' => $item['impo'],
+                    'txtcreditocliente' => $item['clie_lcre'],
                     'mensajesunat' => $item['rcom_mens']
                 );
                 $nroventa = $item['ndoc'];

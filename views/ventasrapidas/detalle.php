@@ -425,7 +425,7 @@
         calcularsubtotal(o);
         $(o).each(function() {
             var _tr = $(o);
-            let premiun = <?php echo json_encode($_SESSION["carritov"]) ?>;
+            let premiun = <?php echo json_encode(empty($_SESSION["carritov"]) ? [] : $_SESSION["carritov"]) ?>;
             var id = _tr.find("td").eq(1).html();
             var cant = _tr.find("td").eq(4).find("input").val();
             var precio = _tr.find("td").eq(5).find("input").val();
@@ -454,7 +454,7 @@
     function validarvaloresporgrupo() {
         $('#griddetalle tbody tr').each(function() {
             _tr = $(this);
-            let premiun = <?php echo json_encode($_SESSION["carritov"]) ?>;
+            let premiun = <?php echo json_encode(empty($_SESSION["carritov"]) ? [] : $_SESSION["carritov"]) ?>;
             var id = _tr.find("td").eq(1).html();
             var cant = _tr.find("td").eq(4).find("input").val();
             var precio = _tr.find("td").eq(5).find("input").val();
