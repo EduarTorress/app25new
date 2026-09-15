@@ -63,7 +63,7 @@ $this->startSection('javascript');
     function search() {
         var mes = document.getElementById("cmbmes").value;
         var ano = document.getElementById("cmbano").value;
-        $("#btnconsultar").attr('disabled', true);
+        $("#btnconsultar").prop('disabled', true);
         axios.get('/vtas/regvtas', {
             "params": {
                 "mes": mes,
@@ -305,9 +305,9 @@ $this->startSection('javascript');
             ]
             cargartabla(listado, "table", detalletabla);
             reportetablebt("#table");
-            $("#btnconsultar").attr('disabled', false);
+            $("#btnconsultar").prop('disabled', false);
         }).catch(function(error) {
-            $("#btnconsultar").attr('disabled', false);
+            $("#btnconsultar").prop('disabled', false);
             toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
         });
     }
