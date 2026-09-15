@@ -541,6 +541,7 @@ $this->startSection('javascript');
         if (cmbforma == 'T' || cmbforma == 'Y' || cmbforma == 'P' || cmbforma == 'D') {
             $("#mddatosapagar").modal('show');
         } else {
+
             grabarVenta();
         }
     }
@@ -613,6 +614,45 @@ $this->startSection('javascript');
         if (!validarVenta()) {
             return;
         }
+        if (cargoxvtacredito == 'S') {
+            cargocredito = "<?php echo (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']) ?>";
+            formapago = $(this).val();
+            var totalActual = parseFloat($("#total").val()) || 0;
+            if ($("#total").data("total-original") === undefined) {
+                $("#total").data("total-original", totalActual);
+            }
+            var totalOriginal = parseFloat($("#total").data("total-original")) || 0;
+            var incremento = totalOriginal * (cargocredito / 100);
+            var nuevoTotal = totalOriginal + incremento;
+            var totalOriginalFormateado = totalOriginal.toFixed(2);
+            var nuevoTotalFormateado = nuevoTotal.toFixed(2);
+            if (formapago == 'C') {
+                Swal.fire({
+                    title: "Aviso de recargo",
+                    html: `Se aplicará un cargo adicional del <b>${cargocredito}%</b>.<br><br>
+                    <div style="text-align: left; max-width: 250px; margin: 0 auto;">
+                        • Importe actual: <b>S/ ${totalOriginalFormateado}</b><br>
+                        • Nuevo importe: <b style="color: #d33;">S/ ${nuevoTotalFormateado}</b>
+                    </div>`,
+                    icon: 'info',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                }).then(function() {
+                    $("#txttotal").val(nuevoTotalFormateado);
+                    $("#total").val(nuevoTotalFormateado);
+                    procesarguardado();
+                });
+            } else {
+                $("#txttotal").val(totalOriginalFormateado);
+                $("#total").val(totalOriginalFormateado);
+                procesarguardado();
+            }
+        } else {
+            procesarguardado();
+        }
+    }
+
+    function procesarguardado() {
         var cmensaje = "";
         if (document.querySelector('#txtidauto').value == '0') {
             cmensaje = '¿Registrar Venta?';

@@ -248,7 +248,8 @@ class Ventas extends Modelo
             where rcre_acti='A' and acti='A' and rcre_idau=:nidauto group by rcre_idau) as p on p.rcre_idau=r.idauto,fe_gene AS v
             WHERE r.idauto=:nidauto AND r.acti='A' AND detv_item>0 AND detv_acti='A'";
         } else {
-            $columna =  empty($_SESSION['config']['ventasexon']) ? 'rcom_inaf' : 'rcom_exon';
+            $columnaexon =  empty($_SESSION['config']['ventasexon']) ? 'rcom_inaf' : 'rcom_exon';
+            $rcom_carg = empty($_SESSION['config']['cargoxvtacredito']) ? ' ,0 AS montoacargocredito ' : ' ,rcom_carg AS montoacargocredito ';
             $consulta = "SELECT r.idauto,r.ndoc,r.tdoc,r.fech AS dfecha,IF(r.mone='S','PEN','USD') AS mone,valor,rcom_vuelto,
             CAST(0 AS DECIMAL(12,2)) AS inafectas,CAST(0 AS DECIMAL(12,2)) AS gratificaciones,r.mone AS moneda,clie_rete,
             CAST(0 AS DECIMAL(12,2)) AS exoneradas,'10' AS tigv,vigv,v.rucfirmad,v.razonfirmad,ndo2,rcom_mret,
@@ -258,8 +259,8 @@ class Ventas extends Modelo
             CAST(0 AS DECIMAL(12,2)) AS Tisc, impo,CAST(0 AS DECIMAL(12,2)) AS montoper,k.incl,p.nomv AS vendedor,
             CAST(0 AS DECIMAL(12,2)) AS totalpercepcion,k.cant,k.prec,LEFT(r.ndoc,4) AS serie, SUBSTR(r.ndoc,5) AS numero,
             k.kar_unid as unid,a.descri,k.idart AS coda, IFNULL(unid_codu,'NIU')AS unid1,s.codigoestab,r.form,v.gene_usol,v.gene_csol,
-            'PE' AS pais, v.gene_cert,v.clavecertificado,IFNULL(p.fevto,r.fech) AS fvto,k.incl," . $columna . " as totalexonerado
-            FROM fe_rcom r INNER JOIN fe_clie c ON c.idclie=r.idcliente 
+            'PE' AS pais, v.gene_cert,v.clavecertificado,IFNULL(p.fevto,r.fech) AS fvto,k.incl," . $columnaexon . " as totalexonerado" . $rcom_carg .
+                "FROM fe_rcom r INNER JOIN fe_clie c ON c.idclie=r.idcliente 
             INNER JOIN fe_kar k ON k.idauto=r.idauto 
             LEFT JOIN `fe_vend` `p`  ON ((`p`.`idven` = `k`.`codv`))
             INNER JOIN fe_art a ON a.idart=k.idart 
@@ -732,7 +733,7 @@ class Ventas extends Modelo
                 'n2' => $nidcta2,
                 'n3' => $nidcta3,
                 'txtreferencia' => $cabecera["txtreferencia"],
-                'cargovta' => ($cabecera['cargocredito'] > 0 ? $cabecera['total'] * $cabecera['cargocredito'] : 0),
+                'cargovta' => ($cabecera['montoacargocredito'] > 0 ? $cabecera['montoacargocredito']  : 0),
                 'reten' => $rete,
                 'vuelto' => empty($cabecera['txtvuelto']) ? '0' : $cabecera['txtvuelto'],
                 'totalexonerado' => empty($cabecera['totalexonerado']) ? 0 : $cabecera['totalexonerado']
@@ -749,6 +750,11 @@ class Ventas extends Modelo
             if ($cabecera['formv'] == 'C') {
                 $sqlcreditos = "select FunRegistraCreditos(:nauto,:nid,:cndoc,'C',:cmon,:crefe,:dfecha,:dfevto,
                 :ctipo,:cdocp,:nimpo,:ninic,:idven,:nimpoo,:nidus,:nalma,'') as nid";
+                $importefinal = $cabecera["total"];
+                $cargocredito =  (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
+                if ($cargocredito != 0) {
+                    $importefinal = $cabecera["total"] + $cabecera['montoacargocredito'];
+                }
                 $stcreditos = $pdo->prepare($sqlcreditos);
                 $stcreditos->execute([
                     "nauto" => $id,
@@ -760,10 +766,10 @@ class Ventas extends Modelo
                     "dfevto" => $cabecera['fechvv'],
                     "ctipo" => "F",
                     "cdocp" => $this->cndoc,
-                    "nimpo" => $cabecera["total"],
+                    "nimpo" => $importefinal,
                     "ninic" => 0,
                     "idven" => $cabecera['idvenv'],
-                    "nimpoo" => $cabecera["total"],
+                    "nimpoo" => $importefinal,
                     "nidus" => $cabecera["nidus"],
                     'nalma' => $_SESSION['idalmacen']
                 ]);
@@ -971,7 +977,7 @@ class Ventas extends Modelo
                 'n3' => $nidcta3,
                 'totalexonerado' => empty($cabecera['totalexonerado']) ? 0 : $cabecera['totalexonerado'],
                 //  'cargovta'=>$cabecera['cargocredito'],
-                'cargovta' => ($cabecera['cargocredito'] > 0 ? $cabecera['total'] * $cabecera['cargocredito'] : 0),
+                'cargovta' => ($cabecera['montoacargocredito'] > 0 ? $cabecera['montoacargocredito']  : 0),
                 'nidauto' => $cabecera["nidautov"]
             ]);
 
@@ -1077,6 +1083,11 @@ class Ventas extends Modelo
             if ($cabecera['formv'] == 'C') {
                 $sqlcreditos = "select FunRegistraCreditos(:nauto,:nid,:cndoc,'C',:cmon,:crefe,:dfecha,:dfevto,
                 :ctipo,:cdocp,:nimpo,:ninic,:idven,:nimpoo,:nidus,:nalma,'') as nid";
+                $importefinal = $cabecera["total"];
+                $cargocredito =  (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
+                if ($cargocredito != 0) {
+                    $importefinal = $cabecera["total"] + $cabecera['montoacargocredito'];
+                }
                 $stcreditos = $pdo->prepare($sqlcreditos);
                 $stcreditos->execute([
                     "nauto" => $cabecera["nidautov"],
@@ -1088,10 +1099,10 @@ class Ventas extends Modelo
                     "dfevto" => $cabecera['fechvv'],
                     "ctipo" => "F",
                     "cdocp" => $this->cndoc,
-                    "nimpo" => $cabecera["total"],
+                    "nimpo" => $importefinal,
                     "ninic" => 0,
                     "idven" => $cabecera["idvenv"],
-                    "nimpoo" => $cabecera["total"],
+                    "nimpoo" => $importefinal,
                     "nidus" => $cabecera["nidus"],
                     'nalma' => $_SESSION['idalmacen']
                 ]);

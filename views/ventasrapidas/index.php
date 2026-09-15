@@ -1033,6 +1033,8 @@ $this->startSection('javascript');
             var totalOriginalFormateado = totalOriginal.toFixed(2);
             var nuevoTotalFormateado = nuevoTotal.toFixed(2);
             if (formapago == 'C') {
+                $("#txtdias").val("5");
+                $("#txtdias").keyup();
                 Swal.fire({
                     title: "Aviso de recargo",
                     html: `Se aplicará un cargo adicional del <b>${cargocredito}%</b>.<br><br>

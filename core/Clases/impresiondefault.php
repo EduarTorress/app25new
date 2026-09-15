@@ -196,10 +196,26 @@ class impresiondefault extends Imprimir
         //     }
         // }
 
-        // $pdf->setx(0);
-        $pdf->Cell(67, 5, 'Total:', 0, 0, 'R');
-        $pdf->setx(6.5);
-        $pdf->Cell(67, 5, number_format($this->total, 2, '.', ','), 0, 1, 'R');
+        if (floatval($this->montoacargocredito) <= 0) {
+            // $pdf->setx(0);
+            $pdf->Cell(67, 5, 'Total:', 0, 0, 'R');
+            $pdf->setx(6.5);
+            $pdf->Cell(67, 5, number_format($this->total, 2, '.', ','), 0, 1, 'R');
+        } else {
+            // $pdf->setx(0);
+            $pdf->Cell(67, 5, 'Total S/C:', 0, 0, 'R');
+            $pdf->setx(6.5);
+            $pdf->Cell(67, 5, number_format($this->total, 2, '.', ','), 0, 1, 'R');
+            // $pdf->setx(0);
+            $pdf->Cell(67, 5, 'A cargo:', 0, 0, 'R');
+            $pdf->setx(6.5);
+            $pdf->Cell(67, 5, number_format($this->montoacargocredito, 2, '.', ','), 0, 1, 'R');
+            // $pdf->setx(0);
+            $pdf->Cell(67, 5, 'Total:', 0, 0, 'R');
+            $pdf->setx(6.5);
+            $pdf->Cell(67, 5, number_format($this->total + $this->montoacargocredito, 2, '.', ','), 0, 1, 'R');
+        }
+
 
         $pdf->SetFont('Arial', 'B', 7);
         $pdf->Ln(6);

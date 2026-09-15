@@ -80,6 +80,7 @@ class Imprimir
     var $forma;
     var $plazo;
     var $validez;
+    var $montoacargocredito;
     var $entrega;
     var $items = array();
     var $urlguiasunat = "https://e-factura.sunat.gob.pe/v1/contribuyente/gre/comprobantes/descargaqr?";
@@ -301,26 +302,44 @@ class Imprimir
 
         $pdf->SetY($y);
 
-        $pdf->SetFont('Tahomab', '', 7);
-        $pdf->setx(144);
-        $pdf->cell(25, 6, 'VALOR EXON.', 1, 0, 'R', 0);
-        $pdf->cell(29, 6, number_format($this->totalexonerado, 2, '.', ','), 1, 0, 'R', 0);
-        $pdf->ln();
 
-        $pdf->SetFont('Tahomab', '', 7);
-        $pdf->setx(144);
-        $pdf->cell(25, 6, 'I.G.V. ' . number_format(($this->vigv - 1) * 100, 2, '.', ',') . '%', 1, 0, 'R', 0);
-        $pdf->cell(29, 6, number_format($this->igv, 2, '.', ','), 1, 0, 'R', 0);
-        $pdf->ln();
+        if ($this->tdoc != '20') {
+            $pdf->SetFont('Tahomab', '', 7);
+            $pdf->setx(144);
+            $pdf->cell(25, 6, 'VALOR EXON.', 1, 0, 'R', 0);
+            $pdf->cell(29, 6, number_format($this->totalexonerado, 2, '.', ','), 1, 0, 'R', 0);
+            $pdf->ln();
 
-        $pdf->setx(144);
-        $pdf->cell(25, 6, 'ICBPER ', 1, 0, 'R', 0);
-        $pdf->cell(29, 6, '0.00', 1, 0, 'R', 0);
-        $pdf->ln();
+            $pdf->SetFont('Tahomab', '', 7);
+            $pdf->setx(144);
+            $pdf->cell(25, 6, 'I.G.V. ' . number_format(($this->vigv - 1) * 100, 2, '.', ',') . '%', 1, 0, 'R', 0);
+            $pdf->cell(29, 6, number_format($this->igv, 2, '.', ','), 1, 0, 'R', 0);
+            $pdf->ln();
 
-        $pdf->setx(144);
-        $pdf->cell(25, 6, 'TOTAL ', 1, 0, 'R', 0);
-        $pdf->cell(29, 6, number_format($this->total, 2, '.', ','), 1, 0, 'R', 0);
+            $pdf->setx(144);
+            $pdf->cell(25, 6, 'ICBPER ', 1, 0, 'R', 0);
+            $pdf->cell(29, 6, '0.00', 1, 0, 'R', 0);
+            $pdf->ln();
+        }
+
+        if (floatval($this->montoacargocredito) <= 0) {
+            $pdf->setx(144);
+            $pdf->cell(25, 6, 'TOTAL ', 1, 0, 'R', 0);
+            $pdf->cell(29, 6, number_format($this->total, 2, '.', ','), 1, 0, 'R', 0);
+        } else {
+            $pdf->setx(144);
+            $pdf->cell(25, 6, 'Total S/C ', 1, 0, 'R', 0);
+            $pdf->cell(29, 6, number_format($this->total - $this->montoacargocredito, 2, '.', ','), 1, 1, 'R', 0);
+
+            $pdf->setx(144);
+            $pdf->cell(25, 6, 'A cargo ', 1, 0, 'R', 0);
+            $pdf->cell(29, 6, number_format($this->montoacargocredito, 2, '.', ','), 1, 1, 'R', 0);
+
+            $pdf->setx(144);
+            $pdf->cell(25, 6, 'TOTAL ', 1, 0, 'R', 0);
+            $pdf->cell(29, 6, number_format($this->total, 2, '.', ','), 1, 1, 'R', 0);
+        }
+
         $y = $pdf->GetY();
         if ($this->clienteretencion == 'S') {
             if (floatval($_SESSION['gene_montoretencion']) <= floatval($this->total)) {
@@ -1514,6 +1533,7 @@ class Imprimir
         $vars->clienteretencion = $this->clienteretencion;
         $vars->hora = date('H:i:s', strtotime($this->hora));
         $vars->vuelto = $this->vuelto;
+        $vars->montoacargocredito = $this->montoacargocredito;
         $vars->generarpdfticket($rutapdf, $estilo);
         // $totalitems = count($this->items);
         // $ti = 240;

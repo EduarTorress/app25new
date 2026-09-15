@@ -643,7 +643,13 @@ class VentasController extends Controller
                 }
             }
         }
+
+        $montoacargocredito = 0;
         $cargocredito = (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
+        if ($request->get('formv') == 'C') {
+            $montoacargocredito = CarritoService::totalVenta() * ($cargocredito / 100);
+        }
+
         $venta = new Ventas();
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
@@ -674,7 +680,7 @@ class VentasController extends Controller
             'txtefectivo' => $request->get('txtefectivo'),
             'txtpago' => $request->get('txtpago'),
             'txtvuelto' => $request->get('txtvuelto'),
-            'cargocredito' => $cargocredito
+            'montoacargocredito' => $montoacargocredito
         );
 
         $registro = $venta->grabarVentaGeneral($cabecera);
@@ -721,7 +727,12 @@ class VentasController extends Controller
                 }
             }
         }
+        $montoacargocredito = 0;
         $cargocredito = (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
+        if ($request->get('formv') == 'C') {
+            $montoacargocredito = CarritoService::totalVenta() * ($cargocredito / 100);
+        }
+
         $venta = new Ventas();
         $deta =  "";
         $cabecera = array(
@@ -749,7 +760,7 @@ class VentasController extends Controller
             "txtreferencia" => $request->get("txtreferencia"),
             'txtefectivo' => $request->get('txtefectivo'),
             'txtpago' => $request->get('txtpago'),
-            'cargocredito' => $cargocredito
+            'montoacargocredito' => $montoacargocredito
         );
         $rpta = $venta->actualizarVenta($cabecera);
         if ($rpta['estado'] == '1') {
@@ -1070,6 +1081,7 @@ class VentasController extends Controller
                 $oimp->vigv = session()->get('gene_igv');
                 $oimp->total = $fila['total'];
                 $oimp->vuelto = $fila['txtvuelto'];
+                $oimp->montoacargocredito = $fila['montoacargocredito'];
                 $rutapdf = 'descargas/' . $_SESSION['ndoc'] . '.pdf';
             }
             $i++;
