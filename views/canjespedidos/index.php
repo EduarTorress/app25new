@@ -31,7 +31,7 @@ echo $prod->render();
             <div class="row ">
                 <div class="col-sm-4">
                     <div class="input-group ">
-                        <button class="btn btn-light" onclick="buscarpedidos();" role="button" data-bs-toggle="modal" data-bs-target="#modal_pedidos"><i class="fa fa-file-text-o" aria-hidden="true"></i></button> &nbsp;&nbsp;
+                        <button class="btn btn-light" onclick="buscarpedidos();" id="btnabrirmodalpedidos" role="button" data-bs-toggle="modal" data-bs-target="#modal_pedidos"><i class="fa fa-file-text-o" aria-hidden="true"></i></button> &nbsp;&nbsp;
                         <input type="text" class="form-control form-control-sm" id="txtcliente" placeholder="Cliente" disabled value="">
                         <input type="hidden" id="txtidcliente" value="">
                         <input type="hidden" id="txtruccliente" value="">
@@ -239,7 +239,6 @@ $this->startSection('javascript');
     }
 
     function limpiardatos() {
-        $("#btngrabar").removeAttr("disabled");
         $("#cmbmoneda").attr('disabled', false);
         $("#txtcliente").val("");
         $("#titulo").html("Facturar Cotizaciones");
@@ -266,104 +265,111 @@ $this->startSection('javascript');
     }
 
     function grabar(cmensaje) {
-        $("#grabar").attr("disabled");
-        Swal.fire({
-            title: cmensaje,
-            text: "Se registrará en el sistema ",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Si'
-        }).then(function(respuesta) {
-            if (respuesta.isConfirmed) {
-                // Deshabilita el botón "Sí"
-                Swal.getConfirmButton().disabled = true;
-                // Cambia el texto
-                Swal.getConfirmButton().innerHTML =
-                    '<i class="fa fa-spinner fa-spin"></i> Registrando...';
-                const detalle = []
-                $("#griddetalle tbody tr").each(function() {
-                    json = "";
-                    $(this).find("td").each(function() {
-                        $this = $(this);
-                        key = $this.attr("class");
-                        key = key.replace(/dtr-control/g, '')
-                        if (key == 'eliminar') {
-                            val = '';
-                        } else {
-                            val = $this.text();
-                            val = val.replace(/"/g, '\\"');
-                        }
-                        json += ',"' + key.trim() + '":"' + val + '"'
-                    })
-                    obj = JSON.parse('{' + json.substr(1) + ',"activo":"A"}');
-                    detalle.push(obj)
-                });
-                data = new FormData();
-                data.append("idcliev", $("#txtidcliente").val());
-                data.append("idautop", $("#txtidautop").val());
-                data.append("razov", $("#txtcliente").val());
-                data.append("tdocv", $("#cmbdcto").val());
-                data.append("txtdireccion", $("#txtdireccion").val());
-                data.append("txtruccliente", $("#txtruccliente").val());
-                data.append("txtdnicliente", $("#txtdnicliente").val());
-                data.append("ndo2v", $("#ndo2").val());
-                data.append("almv", $("#cmbAlmacen").val());
-                data.append("fechv", $("#txtfecha").val());
-                data.append("monev", $("#cmbmoneda").val());
-                data.append("formv", $("#cmbforma").val());
-                data.append("fechvv", $("#txtfechavto").val());
-                let tigv = obtenerTipoIGV();
-                data.append("optigv", tigv);
-                data.append("idvenv", $("#cmbvendedor").val());
-                data.append("subtotal", $("#subtotal").val());
-                data.append("igv", $("#igv").val());
-                data.append("total", $("#total").val());
-                data.append("detalle", JSON.stringify(detalle));
-                data.append("txtreferencia", $("#txtreferencia").val());
-                axios.post("/vtas/registrarpedido", data)
-                    .then(function(respuesta) {
-                        toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
-                        $('#griddetalle tbody tr').remove();
-                        var cruta = '/vtas/imprimirdirecto/';
-                        var xhr = new XMLHttpRequest();
-                        xhr.open('GET', cruta, true);
-                        xhr.responseType = 'blob';
-                        xhr.onload = function(e) {
-                            if (this.status == 200) {
-                                var w = screen.width;
-                                url = location.protocol + '//' + document.domain + '/descargas/' + respuesta.data.ndoc + ".pdf"
-                                // console.log(w)
-                                if (w <= 768) {
-                                    var req = new XMLHttpRequest();
-                                    req.open("GET", url, true);
-                                    req.responseType = "blob";
-                                    req.onload = function(event) {
-                                        var blob = req.response;
-                                        // console.log(blob.size);
-                                        var link = document.createElement('a');
-                                        link.href = window.URL.createObjectURL(blob);
-                                        link.download = respuesta.data.ndoc + ".pdf"
-                                        link.click();
-                                    };
-                                    req.send();
-                                } else {
-                                    $("#pdfguia").attr("src", url)
-                                    $("#abrirguia").click();
-                                }
-                            }
-                        };
-                        xhr.send();
-                        limpiardatos();
-                        <?php $_SESSION['carritov'] = []; ?>
-                    }).catch(function(error) {
-                        Swal.getConfirmButton().disabled = false;
-                        Swal.getConfirmButton().innerHTML = 'Sí';
-                        mostrarerroresvalidacion(error);
-                    });
-            }
+        bloquearBotonesVenta(true);
+        // Swal.fire({
+        //     title: cmensaje,
+        //     text: "Se registrará en el sistema ",
+        //     icon: 'question',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Si'
+        // }).then(function(respuesta) {
+        //     if (respuesta.isConfirmed) {
+        //         // Deshabilita el botón "Sí"
+        //         Swal.getConfirmButton().disabled = true;
+        //         // Cambia el texto
+        //         Swal.getConfirmButton().innerHTML =
+        //             '<i class="fa fa-spinner fa-spin"></i> Registrando...';
+        const detalle = []
+        $("#griddetalle tbody tr").each(function() {
+            json = "";
+            $(this).find("td").each(function() {
+                $this = $(this);
+                key = $this.attr("class");
+                key = key.replace(/dtr-control/g, '')
+                if (key == 'eliminar') {
+                    val = '';
+                } else {
+                    val = $this.text();
+                    val = val.replace(/"/g, '\\"');
+                }
+                json += ',"' + key.trim() + '":"' + val + '"'
+            })
+            obj = JSON.parse('{' + json.substr(1) + ',"activo":"A"}');
+            detalle.push(obj)
         });
+        data = new FormData();
+        data.append("idcliev", $("#txtidcliente").val());
+        data.append("idautop", $("#txtidautop").val());
+        data.append("razov", $("#txtcliente").val());
+        data.append("tdocv", $("#cmbdcto").val());
+        data.append("txtdireccion", $("#txtdireccion").val());
+        data.append("txtruccliente", $("#txtruccliente").val());
+        data.append("txtdnicliente", $("#txtdnicliente").val());
+        data.append("ndo2v", $("#ndo2").val());
+        data.append("almv", $("#cmbAlmacen").val());
+        data.append("fechv", $("#txtfecha").val());
+        data.append("monev", $("#cmbmoneda").val());
+        data.append("formv", $("#cmbforma").val());
+        data.append("fechvv", $("#txtfechavto").val());
+        let tigv = obtenerTipoIGV();
+        data.append("optigv", tigv);
+        data.append("idvenv", $("#cmbvendedor").val());
+        data.append("subtotal", $("#subtotal").val());
+        data.append("igv", $("#igv").val());
+        data.append("total", $("#total").val());
+        data.append("detalle", JSON.stringify(detalle));
+        data.append("txtreferencia", $("#txtreferencia").val());
+        axios.post("/vtas/registrarpedido", data)
+            .then(function(respuesta) {
+                toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
+                $('#griddetalle tbody tr').remove();
+                var cruta = '/vtas/imprimirdirecto/';
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', cruta, true);
+                xhr.responseType = 'blob';
+                xhr.onload = function(e) {
+                    bloquearBotonesVenta(false);
+                    if (this.status == 200) {
+                        var w = screen.width;
+                        url = location.protocol + '//' + document.domain + '/descargas/' + respuesta.data.ndoc + ".pdf"
+                        // console.log(w)
+                        if (w <= 768) {
+                            var req = new XMLHttpRequest();
+                            req.open("GET", url, true);
+                            req.responseType = "blob";
+                            req.onload = function(event) {
+                                var blob = req.response;
+                                // console.log(blob.size);
+                                var link = document.createElement('a');
+                                link.href = window.URL.createObjectURL(blob);
+                                link.download = respuesta.data.ndoc + ".pdf"
+                                link.click();
+                            };
+                            req.send();
+                        } else {
+                            $("#pdfguia").attr("src", url)
+                            $("#abrirguia").click();
+                        }
+                    }
+                };
+                xhr.send();
+                limpiardatos();
+                <?php $_SESSION['carritov'] = []; ?>
+            }).catch(function(error) {
+                // Swal.getConfirmButton().disabled = false;
+                // Swal.getConfirmButton().innerHTML = 'Sí';
+                mostrarerroresvalidacion(error);
+                bloquearBotonesVenta(false);
+            });
+    }
+    //     });
+    // }
+
+    function bloquearBotonesVenta(bloquear) {
+        $("#grabar").prop("disabled", bloquear);
+        $("#btnabrirmodalpedidos").prop("disabled", bloquear);
     }
 
     function cancelarVenta() {

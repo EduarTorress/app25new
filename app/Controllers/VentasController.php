@@ -638,18 +638,21 @@ class VentasController extends Controller
         $validarcreditoxcliente = (empty($_SESSION['config']['validarcreditoxcliente']) ? 'N' : $_SESSION['config']['validarcreditoxcliente']);
         if ($validarcreditoxcliente == 'S') {
             if ($request->get('formv') == 'C') {
-                if (floatval(CarritoService::totalVenta()) > floatval($request->get('txtcreditocliente'))) {
-                    return response()->json(['errors' => ['El limite máximo de crédito para ese cliente es: ' . $request->get('txtcreditocliente')]], 422);
-                }
+                // $ctas = new CtasporCobrar();
+                // $idcliente = $request->get("idcliente");
+                // $txtfechai = $request->get("txtfechai");
+                // $txtfechaf = $request->get("txtfechaf");
+                // $lista = $ctas->vencimientosporcliente($idcliente, $txtfechai, $txtfechaf);
+                // if (floatval(CarritoService::totalVenta()) > floatval($request->get('txtcreditocliente'))) {
+                //     return response()->json(['errors' => ['El limite máximo de crédito para ese cliente es: ' . $request->get('txtcreditocliente')]], 422);
+                // }
             }
         }
-
         $montoacargocredito = 0;
         $cargocredito = (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
         if ($request->get('formv') == 'C') {
             $montoacargocredito = CarritoService::totalVenta() * ($cargocredito / 100);
         }
-
         $venta = new Ventas();
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
@@ -1512,6 +1515,11 @@ class VentasController extends Controller
         }
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
+        $montoacargocredito = 0;
+        $cargocredito = (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
+        if ($request->get('formv') == 'C') {
+            $montoacargocredito = CarritoService::totalVenta() * ($cargocredito / 100);
+        }
         $venta = new Ventas();
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
@@ -1535,6 +1543,7 @@ class VentasController extends Controller
             'optigv' => $request->get("optigv"),
             "txtreferencia" => $request->get("txtreferencia"),
             "txtefectivo" => 0,
+            'montoacargocredito' => $montoacargocredito
         );
         $_SESSION['carritov'] = $detalle;
         $registro = $venta->grabarVentaGeneral($cabecera);
