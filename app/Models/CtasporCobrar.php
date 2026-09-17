@@ -29,7 +29,7 @@ class CtasporCobrar extends Modelo
             INNER JOIN fe_rcred AS rr ON rr.rcre_idrc =v.rcre_idrc
             INNER JOIN fe_vend AS vv ON vv.idven =rr. rcre_codv  
             LEFT JOIN
-            (SELECT tdoc,ndoc,idauto FROM fe_rcom WHERE  acti='A' AND idcliente=:idclie) AS cc ON cc.idauto=rr. rcre_idau  
+            (SELECT tdoc,ndoc,idauto FROM fe_rcom WHERE acti='A' AND idcliente=:idclie) AS cc ON cc.idauto=rr. rcre_idau  
             INNER JOIN 	fe_cred AS a ON a.idcred=v.ncontrol where fech between :dfi and :dff order by fech desc";
             $lista['items'] = array();
             $query = $this->prepare($sql);

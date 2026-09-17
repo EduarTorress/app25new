@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Caja;
+use App\Models\CtasporCobrar;
 use App\Models\GuiaRemitente;
 use App\Models\GuiaTransportista;
 use App\Models\Pedido;
@@ -638,14 +639,17 @@ class VentasController extends Controller
         $validarcreditoxcliente = (empty($_SESSION['config']['validarcreditoxcliente']) ? 'N' : $_SESSION['config']['validarcreditoxcliente']);
         if ($validarcreditoxcliente == 'S') {
             if ($request->get('formv') == 'C') {
-                // $ctas = new CtasporCobrar();
-                // $idcliente = $request->get("idcliente");
-                // $txtfechai = $request->get("txtfechai");
-                // $txtfechaf = $request->get("txtfechaf");
-                // $lista = $ctas->vencimientosporcliente($idcliente, $txtfechai, $txtfechaf);
-                // if (floatval(CarritoService::totalVenta()) > floatval($request->get('txtcreditocliente'))) {
-                //     return response()->json(['errors' => ['El limite máximo de crédito para ese cliente es: ' . $request->get('txtcreditocliente')]], 422);
-                // }
+                if (floatval(CarritoService::totalVenta()) > floatval($request->get('txtcreditocliente'))) {
+                    return response()->json(['errors' => ['El limite máximo de crédito para ese cliente es: ' . $request->get('txtcreditocliente')]], 422);
+                }
+                $ctas = new CtasporCobrar();
+                $lista = $ctas->vencimientosporcliente($request->get("idcliev"), '2025-01-01', date('Y-m-d'));
+                $importedeuda = array_column($lista['lista']['items'], 'importe');
+                $totaldeuda = array_sum($importedeuda);
+                $totalcreditoconventa = floatval($totaldeuda) + floatval(CarritoService::totalVenta());
+                if (floatval($request->get('txtcreditocliente') < $totalcreditoconventa)) {
+                    return response()->json(['errors' => ['Excede del limite de crédito establecido a ese cliente:  ' . $request->get('txtcreditocliente')]], 422);
+                }
             }
         }
         $montoacargocredito = 0;
@@ -725,8 +729,16 @@ class VentasController extends Controller
         $validarcreditoxcliente = (empty($_SESSION['config']['validarcreditoxcliente']) ? 'N' : $_SESSION['config']['validarcreditoxcliente']);
         if ($validarcreditoxcliente == 'S') {
             if ($request->get('formv') == 'C') {
-                if (floatval(CarritoService::totalVenta()) < floatval($request->get('txtcreditocliente'))) {
-                    return response()->json(['errors' => 'El limite máximo de crédito es: ' . $request->get('txtcreditocliente')], 422);
+                if (floatval(CarritoService::totalVenta()) > floatval($request->get('txtcreditocliente'))) {
+                    return response()->json(['errors' => ['El limite máximo de crédito para ese cliente es: ' . $request->get('txtcreditocliente')]], 422);
+                }
+                $ctas = new CtasporCobrar();
+                $lista = $ctas->vencimientosporcliente($request->get("idcliev"), '2025-01-01', date('Y-m-d'));
+                $importedeuda = array_column($lista['lista']['items'], 'importe');
+                $totaldeuda = array_sum($importedeuda);
+                $totalcreditoconventa = floatval($totaldeuda) + floatval(CarritoService::totalVenta());
+                if (floatval($request->get('txtcreditocliente') < $totalcreditoconventa)) {
+                    return response()->json(['errors' => ['Excede del limite de crédito establecido a ese cliente:  ' . $request->get('txtcreditocliente')]], 422);
                 }
             }
         }
