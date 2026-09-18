@@ -37,6 +37,7 @@ echo $prod->render();
                         <input type="hidden" id="txtruccliente" value="">
                         <input type="hidden" id="txtdireccion" value="">
                         <input type="hidden" id="txtdnicliente" value="">
+                        <input type="hidden" id="txtclienteretencion" value="">
                         <input type="hidden" id="txtidautop" value="0">
                     </div>
                 </div>
@@ -308,6 +309,7 @@ $this->startSection('javascript');
         data.append("txtdireccion", $("#txtdireccion").val());
         data.append("txtruccliente", $("#txtruccliente").val());
         data.append("txtdnicliente", $("#txtdnicliente").val());
+        data.append("txtclienteretencion", $("#txtclienteretencion").val());
         data.append("ndo2v", $("#ndo2").val());
         data.append("almv", $("#cmbAlmacen").val());
         data.append("fechv", $("#txtfecha").val());

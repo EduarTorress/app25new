@@ -1540,6 +1540,7 @@ class VentasController extends Controller
             "txtdireccion" => $request->get("txtdireccion"),
             "txtruccliente" => $request->get("txtruccliente"),
             "txtdnicliente" => $request->get("txtdnicliente"),
+            'txtclienteretencion' => $request->get('txtclienteretencion'),
             "ndo2v" => $request->get("ndo2v"),
             "almv" => $request->get("almv"),
             "fechv" => $request->get("fechv"),
