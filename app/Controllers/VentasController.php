@@ -1530,7 +1530,7 @@ class VentasController extends Controller
         $montoacargocredito = 0;
         $cargocredito = (empty($_SESSION['gene_cargocredito']) ? 0 : $_SESSION['gene_cargocredito']);
         if ($request->get('formv') == 'C') {
-            $montoacargocredito = CarritoService::totalVenta() * ($cargocredito / 100);
+            $montoacargocredito = $request->get("total") * ($cargocredito / 100);
         }
         $venta = new Ventas();
         $cabecera = array(

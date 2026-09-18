@@ -701,7 +701,6 @@ class Ventas extends Modelo
         if ($cabecera['tdocv'] == '01') {
             $rete = (floatval($_SESSION['gene_montoretencion']) <= floatval($cabecera['total']) ? ($cabecera['txtclienteretencion'] == 'S' ? round($cabecera['total'] * ($_SESSION['gene_retencion'] / 100), 2) : 0) : 0);
         }
-
         try {
             $correlativo = SerieController::correlativo($_SESSION['nserie'], $cabecera["tdocv"]);
             if ($correlativo[0]['estado'] == 0) {
