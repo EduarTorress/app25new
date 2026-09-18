@@ -46,12 +46,14 @@
                     <a class="btn btn-primary" role="button" onclick="descargarpdf10('<?= $item['idauto'] ?>','<?= $item['tcom'] ?>','<?= pathinfo($item['nombrexml'], PATHINFO_FILENAME) . '.pdf' ?>','<?= $item['tdoc'] ?>')">
                         <i class="fas fa-print"></i>
                     </a>
-                    <a class="btn btn-secondary" role="button" onclick="descargarpdfticket('<?= $item['idauto'] ?>','<?= $item['tcom'] ?>','<?= pathinfo($item['nombrexml'], PATHINFO_FILENAME) . '.pdf' ?>','<?= $item['tdoc'] ?>')">
-                        <i class="fas fa-print"></i>
-                    </a>
-                    <a class="btn btn-info" role="button" onclick="descargarxml('<?= $item['idauto'] ?>','<?= $item['nombrexml'] ?>')">
-                        <i class="fas fa-cloud-download-alt"></i>
-                    </a>
+                    <?php if (floatval($item['impo']) > 0): ?>
+                        <a class="btn btn-secondary" role="button" onclick="descargarpdfticket('<?= $item['idauto'] ?>','<?= $item['tcom'] ?>','<?= pathinfo($item['nombrexml'], PATHINFO_FILENAME) . '.pdf' ?>','<?= $item['tdoc'] ?>')">
+                            <i class="fas fa-print"></i>
+                        </a>
+                        <a class="btn btn-info" role="button" onclick="descargarxml('<?= $item['idauto'] ?>','<?= $item['nombrexml'] ?>')">
+                            <i class="fas fa-cloud-download-alt"></i>
+                        </a>
+                    <?php endif; ?>
                     <?php if ($item['tdoc'] != '07') : ?>
                         <?php if (floatval($item['impo']) > 0) : ?>
                             <?php if ($item['tcom'] == 'K') : ?>
