@@ -256,7 +256,8 @@ $this->startSection('javascript');
         $("#totalitems").val("0.00");
         $("#txtreferencia").val("");
         document.getElementById("grabar").innerHTML = "Grabar";
-        $("#griddetalle tbody tr").remove();
+        $("#griddetalle tbody tr").remove();        
+        buscarpedidos();
     }
 
     function quitaritem(i) {
@@ -375,7 +376,6 @@ $this->startSection('javascript');
 
     function cancelarVenta() {
         limpiardatos();
-        buscarpedidos();
         <?php $_SESSION['carritov'] = []; ?>
     }
 </script>

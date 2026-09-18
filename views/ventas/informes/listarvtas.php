@@ -65,9 +65,11 @@
                                 <?php endif; ?>
                             <?php endif; ?>
                         <?php endif; ?>
-                        <a class="btn btn-outline-dark" role="button" onclick="enviarwhatsapp('<?= $item['idauto'] ?>','<?= $item['tcom'] ?>','<?= pathinfo($item['nombrexml'], PATHINFO_FILENAME) . '.pdf' ?>','<?= $item['tdoc'] ?>')">
-                            <i class="fa fa-whatsapp"></i>
-                        </a>
+                        <?php if (floatval($item['impo']) > 0): ?>
+                            <a class="btn btn-outline-dark" role="button" onclick="enviarwhatsapp('<?= $item['idauto'] ?>','<?= $item['tcom'] ?>','<?= pathinfo($item['nombrexml'], PATHINFO_FILENAME) . '.pdf' ?>','<?= $item['tdoc'] ?>')">
+                                <i class="fa fa-whatsapp"></i>
+                            </a>
+                        <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>
