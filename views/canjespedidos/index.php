@@ -358,6 +358,7 @@ $this->startSection('javascript');
                 limpiardatos();
                 <?php $_SESSION['carritov'] = []; ?>
             }).catch(function(error) {
+                limpiardatos();
                 // Swal.getConfirmButton().disabled = false;
                 // Swal.getConfirmButton().innerHTML = 'Sí';
                 mostrarerroresvalidacion(error);
@@ -374,6 +375,7 @@ $this->startSection('javascript');
 
     function cancelarVenta() {
         limpiardatos();
+        buscarpedidos();
         <?php $_SESSION['carritov'] = []; ?>
     }
 </script>
