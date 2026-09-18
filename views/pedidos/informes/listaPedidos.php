@@ -26,9 +26,9 @@
                     <a class="btn btn-primary" role="button" onclick="imprimirpedido(<?php echo $item['idautop'] ?>,<?php echo $item['ndoc'] ?>);">
                         <i class="fas fa-print"></i>
                     </a>
-                    <a class="btn btn-warning" role="button" onclick="confirmDelete(<?php echo $item['idautop'] ?>);">
+                    <!-- <a class="btn btn-warning" role="button" onclick="confirmDelete(<?php echo $item['idautop'] ?>);">
                         <i class="fas fa-trash-alt "></i>
-                    </a>
+                    </a> -->
                 </td>
             </tr>
         <?php endforeach; ?>
