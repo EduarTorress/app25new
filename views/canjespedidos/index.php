@@ -146,10 +146,15 @@ $this->startSection('javascript');
     window.onload = function() {
         idcliente = 0;
         titulo("<?php echo $titulo ?>");
-        buscarpedidos();
         $(".tipodocumentos option[value='07']").remove();
         $(".tipodocumentos option[value='08']").remove();
+        buscarpedidos();
     }
+
+    const onFocus = () => {
+        buscarpedidos();
+    }
+    window.addEventListener("focus", onFocus)
 
     $('#divfecha').click(function() {
         $("#txtfecha").prop("readonly", false);
@@ -257,7 +262,7 @@ $this->startSection('javascript');
         $("#totalitems").val("0.00");
         $("#txtreferencia").val("");
         document.getElementById("grabar").innerHTML = "Grabar";
-        $("#griddetalle tbody tr").remove();        
+        $("#griddetalle tbody tr").remove();
         buscarpedidos();
     }
 
