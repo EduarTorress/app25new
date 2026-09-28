@@ -535,20 +535,31 @@ class Envio
         $st->bindParam('dfecha', $dfecha);
         $st->execute();
     }
-    function consultarcpexenviar()
+    function consultarcpexenviar($dataf)
     {
+        if ($dataf['chkfechas'] == 0) {
+            $cwhere = "";
+        } else {
+            $cwhere = " AND a.fech BETWEEN '" . $dataf['fechai'] . "' AND '" . $dataf['fechaf'] . "'";
+        }
+        if ($dataf['cforma'] == 'TT') {
+            $cwhere .= "";
+        } else {
+            $cwhere .= " AND a.tdoc='" . $dataf['cforma'] . "'";
+        }
         $ncon = new conexion();
-        $this->sql = "SELECT idauto,ndoc,fech,razo,mone,valor,igv,impo,a.tdoc
-        FROM fe_rcom AS a JOIN fe_clie AS b ON (a.idcliente=b.idclie)
+        $this->sql = "SELECT idauto,ndoc,fech,razo,mone,valor,igv,impo,a.tdoc,tcom
+        FROM fe_rcom AS a 
+        JOIN fe_clie AS b ON (a.idcliente=b.idclie)
         WHERE  a.acti<>'I' AND LEFT(rcom_mens,1)<>'0'
-        AND impo<>0 AND a.tdoc IN('01','03')
-        UNION ALL
-        SELECT  a.idauto,a.ndoc,a.fech,b.razo,a.mone,a.valor,a.igv,a.impo,a.tdoc
+        AND impo<>0 AND a.tdoc IN('01','03') " . $cwhere .
+            "UNION ALL
+        SELECT  a.idauto,a.ndoc,a.fech,b.razo,a.mone,a.valor,a.igv,a.impo,a.tdoc,a.tcom
         FROM fe_rcom AS a JOIN fe_clie AS b ON (a.idcliente=b.idclie)
         INNER JOIN fe_ncven g ON g.ncre_idan=a.idauto 
         INNER JOIN fe_rcom AS w ON w.idauto=g.ncre_idau
         WHERE a.acti<>'I' AND  LEFT(a.rcom_mens,1)<>'0'
-        AND a.impo<>0 AND a.tdoc IN('07','08') ORDER BY fech,ndoc";
+        AND a.impo<>0 AND a.tdoc IN('07','08') " . $cwhere . " ORDER BY fech,ndoc";
         $st = $ncon->conectar()->prepare($this->sql);
         $st->execute();
         $query = $st->fetchAll(PDO::FETCH_ASSOC);

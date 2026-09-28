@@ -28,7 +28,8 @@ class CpeController extends Controller
     function noenviados(Request $request)
     {
         $app = Application::getInstance();
-        $listado = $app->envio->consultarcpexenviar();
+        $data = json_decode($request->get("datos"), true);
+        $listado = $app->envio->consultarcpexenviar($data);
         //header('Content-Type:application/json');
         // return response()->json(['message' => 'Se logró listar correctamente', 'listado' => $listado], 200)
         return view('cpe/re_cpelista', ['listado' => $listado]);
@@ -855,5 +856,110 @@ class CpeController extends Controller
         } else {
             return response()->json(['message' => 'Las credenciales no son correctas'], 422);
         }
+    }
+    function enviardctosunat(Request $request)
+    {
+        $app = \Core\Foundation\Application::getInstance();
+        $chost = $_SESSION['db_config']['host'];
+        if ($request->get("tdoc") == '03') {
+            switch ($chost) {
+                case 'host1':
+                    $cserverurl = 'http://compania-sysven.com/app88/envioboletasunat.php';
+                    break;
+                case 'host2':
+                    $cserverurl = 'http://companiasysven.com/app88/envioboletasunat.php';
+                    break;
+                case 'host3':
+                    $cserverurl = 'http://companysysven.com/app88/envioboletasunat.php';
+                    break;
+                default:
+                    $cserverurl = 'http://compania-sysven.com/app88/envioboletasunat.php';
+                    break;
+            }
+        } else {
+            switch ($chost) {
+                case 'host1':
+                    $cserverurl = 'http://compania-sysven.com/app88/enviofacturasunat.php';
+                    break;
+                case 'host2':
+                    $cserverurl = 'http://companiasysven.com/app88/enviofacturasunat.php';
+                    break;
+                case 'host3':
+                    $cserverurl = 'http://companysysven.com/app88/enviofacturasunat.php';
+                    break;
+                default:
+                    $cserverurl = 'http://compania-sysven.com/app88/enviofacturasunat.php';
+                    break;
+            }
+        }
+        $curl = curl_init();
+        $datos = json_encode(array(
+            "idauto" => $request->get("idauto"),
+            "nruc" => session()->get("gene_nruc"),
+            "tdoc" => $request->get("tdoc"),
+            "ndoc" => $request->get("ndoc"),
+            "tcom" => $request->get("tcom"),
+            "empresa" => $app->empresa,
+            "entidad" => $app->entidad,
+            "dias" => 0,
+            "region" => "",
+            "urlenvio" => $_SESSION['db_config']['urlenvio'],
+            "urlconsulta" => $_SESSION['db_config']['urlconsulta']
+        ));
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $cserverurl,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => $datos,
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+    }
+    function consultarcdr(Request $request)
+    {
+        $app = \Core\Foundation\Application::getInstance();
+        $curl = curl_init();
+        $arrayenvio = array(
+            "entidad" => $app->entidad,
+            "rucempresa" => session()->get("gene_nruc"),
+            "usol" => session()->get("gene_gene_usol"),
+            "csol" =>  session()->get("gene_gene_csol"),
+            "tdoc" => $request->get("tdoc"),
+            "ndoc" => $request->get("ndoc"),
+            "idauto" => $request->get("idauto")
+        );
+        $postFields = json_encode($arrayenvio, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "companiasysven.com/app88/consultacdr.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $postFields,
+            CURLOPT_HTTPHEADER => [
+                "Accept: */*",
+                "User-Agent: Thunder Client (https://www.thunderclient.com)",
+                "Content-Type: application/json",
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+        echo $response;
     }
 }

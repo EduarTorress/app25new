@@ -3,12 +3,9 @@
 namespace Core\Clases;
 
 // use chillerlan\QRCode\QRCode as QRCodeQRCode;
-use Core\Foundation\Application;
 use Fpdf\Fpdf;
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
-use Picqer\Barcode\BarcodeGeneratorPNG;
-use tFPDF;
 
 class necglobal extends Imprimir
 {

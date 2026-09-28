@@ -296,6 +296,8 @@ $app->router->get('/empresa/importarucydni', [\App\Controllers\EmpresaController
 $app->router->get('/empresa/obtenervalordolar', [\App\Controllers\EmpresaController::class, 'obtenervalordolar']);
 
 #rutas de informes
+$app->router->get("/cpe/enviardctosunat", [\App\Controllers\CpeController::class, 'enviardctosunat']);
+$app->router->get("/cpe/consultarcdr", [\App\Controllers\CpeController::class, 'consultarcdr']);
 $app->router->get("/cpe/rpte", [\App\Controllers\CpeController::class, 'informeventas']);
 $app->router->get("/cpe/fxe", [\App\Controllers\CpeController::class, 'consultafne']);
 $app->router->get("/cpe/lista", [\App\Controllers\CpeController::class, 'noenviados']);

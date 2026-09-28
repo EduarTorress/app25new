@@ -40,6 +40,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+    <!-- Tabulator -->
+    <link href="https://unpkg.com/tabulator-tables@6.3.0/dist/css/tabulator.min.css" rel="stylesheet">
     <!-- Theme style -->
     <link rel="stylesheet" href="css/adminlte.min.css">
 
@@ -225,6 +227,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="js/app.js"> </script>
     <script src="https://companiasysven.com/jsgeneral/index.js?fecha='<?php echo date('d'); ?>'"></script>
     <!-- para compornentes React -->
+    <!-- Tabulador -->
+    <script src="https://unpkg.com/tabulator-tables@6.3.0/dist/js/tabulator.min.js"></script>
     <script type="module" src="js/fechas.js"></script>
     <?php echo $this->section('javascript') ?>
     <script>

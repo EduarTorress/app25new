@@ -85,6 +85,7 @@ function setempresa(String $empresa)
     $clave = array_search($entidad, array_column($urls, 'entidad'));
     $app->urlenvio = $urls[$clave]['urlenvio'];
     $app->urlconsulta = $urls[$clave]['urlconsulta'];
+    $app->host = $empresas[$clave1]['host'];
 }
 if (!function_exists('auth')) {
     function auth(): \Core\Authentication\Authentication

@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\DatosGlobales;
 use App\Models\Usuario;
 use App\Models\Empresa;
 use Core\Http\Request;
@@ -10,7 +9,6 @@ use Core\Routing\Controller;
 use Valitron\Validator;
 use App\Models\Serie;
 use App\Models\Vendedor;
-use Core\Foundation\Application;
 use Core\Routing\Modelo;
 
 class LoginController extends Controller
@@ -22,7 +20,6 @@ class LoginController extends Controller
     }
     public function login()
     {
-        // header('Location: https://yaquamarket.compania-sysven.com/');
         $errores = session()->getFlash('errores', []);
         $inputs = session()->getFlash('inputs', []);
         return view('auth/login', [

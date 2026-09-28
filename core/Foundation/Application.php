@@ -28,10 +28,12 @@ class Application
     public string $dt;
     public string $us;
     public string $pw;
+    public string $host;
+    public int $dias;
+    public string $region;
     public Envio $envio;
     protected function __construct($root_dir, $config, $empresa)
     {
-        // ORM::init();
         Validator::lang("es");
         self::$rootdir = $root_dir;
         $this->request = Request::createFromGlobals();
@@ -46,6 +48,7 @@ class Application
         $this->dt = "";
         $this->pw = "";
         $this->us = "";
+        $this->host = "";
         $this->envio = new Envio();
     }
 

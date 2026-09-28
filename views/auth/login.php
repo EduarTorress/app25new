@@ -27,7 +27,7 @@
                     <b>Sysven</b>
                 </a>
             </div>
-            <div class="card-body ">
+            <div class="card-body">
                 <p class="login-box-msg">Iniciar sesión</p>
                 <form action="/login" method="post">
                     <div class="input-group mb-3">

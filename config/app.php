@@ -37,33 +37,26 @@ if (empty($_SESSION['db_config'])) {
         'ht' => $odatac->server,
         'dt' => $odatac->data,
         'us' => $odatac->usuario,
-        'pw' => $odatac->pwd
+        'pw' => $odatac->pwd,
+        'host' => $odatac->host,
+        'entidad' => $odatac->entidad,
+        'urlenvio' => $odatac->urlenvio,
+        'urlconsulta' => $odatac->urlconsulta,
+        'region' => $odatac->region,
+        'empresa' => $app->empresa
     ];
-
 }
-// $_ENV["DB_HOST"] = $odatac->server;
-// $_ENV["DB_USER"] = $odatac->usuario;;
-// $_ENV["DB_DATABASE"]  = $odatac->data;
-// $_ENV["DB_PASSWORD"] = $odatac->pwd;
-// $dotenv = \Dotenv\Dotenv::createImmutable($_ENV['DIR_ROOT']);
-// $dotenv->load();
-// return [
-//     "database" => [
-//         'driver' => $_ENV["DB_DRIVER"],
-//         'host' => $_ENV["DB_HOST"],
-//         'database' => $_ENV["DB_DATABASE"],
-//         'username' => $_ENV["DB_USER"],
-//         'password' => $_ENV["DB_PASSWORD"],
-//         'charset' => 'utf8mb4',
-//         'collation' => 'utf8mb4_unicode_ci',
-//         'prefix' => '',
-//     ],
-//     "mail" => [],
-// ];
+
 $app->ht = $_SESSION['db_config']['ht'];
 $app->dt = $_SESSION['db_config']['dt'];
 $app->us = $_SESSION['db_config']['us'];
 $app->pw = $_SESSION['db_config']['pw'];
+$app->host = $_SESSION['db_config']['host'];
+$app->entidad = $_SESSION['db_config']['entidad'];
+$app->urlenvio = $_SESSION['db_config']['urlenvio'];
+$app->urlconsulta = $_SESSION['db_config']['urlconsulta'];
+$app->region = $_SESSION['db_config']['region'];
+$app->dias = 0;
 return [
     "database" => [
         'driver' => 'mysql',
