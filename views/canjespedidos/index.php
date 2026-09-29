@@ -191,7 +191,6 @@ $this->startSection('javascript');
         $("#igv").val(nigv);
         $("#subtotal").val(valor);
         $("#total").val(impo);
-
         let impor = document.querySelector("#total").value;
         if (isNaN(impor)) {
             $("#subtotal").val("0.00");
