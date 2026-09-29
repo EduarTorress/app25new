@@ -1872,4 +1872,44 @@ class VentasController extends Controller
             'listacuentas' => $listacuentas['lista']
         ]);
     }
+    function indexcanjearnotas()
+    {
+        $titulo = "Facturar Notas";
+        return view('ventasd/indexcanjenotas', ['titulo' => $titulo]);
+    }
+    function listarnotastocanje(Request $request)
+    {
+        $idCliente = $request->get('idCliente');
+        $ventas = new Ventas();
+        $listado = $ventas->consultarNotasporCliente($idCliente);
+        return view('ventasd/listanotastocanje', [
+            "listado" => $listado
+        ]);
+    }
+    function listardetallenotastocanje(Request $request)
+    {
+        $idauto = $request->get('idauto');
+        $ventas = new Ventas();
+        $listado = $ventas->consultarDetalleVtaDirecta($idauto);
+        return view('ventasd/detallecanjenotas', [
+            "listado" => $listado
+        ]);
+    }
+    function registrarcanjearnota(Request $request)
+    {
+        $idauto = $request->get('idauto');
+        $cmbdcto = $request->get('cmbdcto');
+        $clienteretencion = $request->get('clienteretencion');
+        $total = $request->get('total');
+        $documentoantiguo = $request->get('documentoantiguo');
+        $txtformapago = $request->get('txtformapago');
+        $ventas = new Ventas();
+        $registro = $ventas->facturarnotasdeventa($idauto, $cmbdcto, $clienteretencion, $total, $documentoantiguo, $txtformapago);
+        if ($registro['estado'] == 1) {
+            $rpta = array('mensaje' => "Se Genero la venta satisfactoriamente ", "ndoc" => $registro['ndoc'], "estado" => '1');
+            return json_encode($rpta, 200);
+        } else {
+            return response()->json(['message' => 'Error al registrar venta' . $registro['mensaje'], 'error' => $registro['mensaje']], 422);
+        }
+    }
 }

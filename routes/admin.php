@@ -96,6 +96,13 @@ $app->router->get('/pedidos/listarpedidosparacanje', [\App\Controllers\PedidoCon
 $app->router->get('/pedidos/listardetallepedidoxid', [\App\Controllers\PedidoController::class, 'listardetallepedidoxid']);
 $app->router->post('/vtas/registrarpedido', [\App\Controllers\VentasController::class, 'registrarcanjepedido']);
 
+
+#rutas de canjes notas a facturas 
+$app->router->get('/vtas/indexcanjearnotas', [\App\Controllers\VentasController::class, 'indexcanjearnotas']);
+$app->router->get('/vtas/listardetallenotastocanje', [\App\Controllers\VentasController::class, 'listardetallenotastocanje']);
+$app->router->get('/vtas/listarnotastocanje', [\App\Controllers\VentasController::class, 'listarnotastocanje']);
+$app->router->post('/vtas/registrarcanjearnota', [\App\Controllers\VentasController::class, 'registrarcanjearnota']);
+
 #rutas de canjes transportistas
 $app->router->get('/guiastr/listarGuiasTrparacanje', [\App\Controllers\GuiasController::class, 'listarGuiasTrparacanje']);
 $app->router->get('/vtas/canjestr', [\App\Controllers\VentasController::class, 'indexcanjestr']);
