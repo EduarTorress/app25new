@@ -640,7 +640,6 @@ class PedidoController extends Controller
         \session()->set('mone', $request->get('cmbmoneda'));
         \session()->set('optigvp', $request->get('optigvp'));
     }
-
     function listarpedidosparacanje()
     {
         $p = new Pedido();

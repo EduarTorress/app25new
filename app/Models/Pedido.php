@@ -307,7 +307,7 @@ class Pedido extends Modelo
             FROM fe_rped rp
             INNER JOIN fe_clie AS c ON rp.`idclie`=c.`idclie`
             WHERE rp.`acti`='A' and facturado='N' and idtienda=:codt
-            ORDER BY fech,ndoc DESC";
+            ORDER BY fech DESC";
             $query = $this->prepare($sql);
             $query->fetchAll(PDO::FETCH_ASSOC);
             $query->execute([

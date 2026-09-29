@@ -40,7 +40,7 @@
         $("#txtidautop").val(datos.idautop);
         $("#cmbmoneda").attr('disabled', true);
         $("#cmbmoneda").val(datos.mone);
-        $("#titulo").text("Canjear Pedido " + datos.ndoc);
+        $("#titulo").text("Canjear Cotización " + datos.ndoc);
         axios.get('/pedidos/listardetallepedidoxid', {
             "params": {
                 "idautop": datos.idautop

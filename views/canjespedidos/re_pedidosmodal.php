@@ -20,7 +20,7 @@
                         <?php
                         $idautop = $item['idautop'];
                         $ndoc = $item['ndoc'];
-                        $fech = $item['fech'];
+                        $fech = date('Y-m-d');
                         $impo = $item['impo'];
                         $idclie = $item['idclie'];
                         $razo = $item['razo'];
