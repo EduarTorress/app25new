@@ -132,12 +132,13 @@ $app->router->get('/compras/indexcompradproducto', [\App\Controllers\ComprasCont
 $app->router->get('/compras/listarcompradproducto', [\App\Controllers\ComprasController::class, 'listarcompradproducto']);
 $app->router->get("/compras/exportarsire", [\App\Controllers\ComprasController::class, 'exportarsire']);
 $app->router->post("/compras/generardescuento", [\App\Controllers\ComprasController::class, 'generardescuento']);
-
 $app->router->post('/compras/agregaritemxposicion', [\App\Controllers\ComprasController::class, 'agregaritemxposicion']);
-
 $app->router->get("/compras/indexlistacomprasxprov", [\App\Controllers\ComprasController::class, 'indexlistacomprasxprov']);
 $app->router->get("/compras/listacomprasxprov", [\App\Controllers\ComprasController::class, 'listacomprasxprov']);
 
+$app->router->get('/compras/documentoguiaparacanje/{id}', [\App\Controllers\ComprasController::class, 'documentoguiaparacanje']);
+$app->router->get('/compras/detalleguiaparacanje', [\App\Controllers\ComprasController::class, 'detalleguiaparacanje']);
+$app->router->post('/compras/registrarcanjedeguia', [\App\Controllers\ComprasController::class, 'registrarcanjedeguia']);
 
 $app->router->get("/compras/indexlistacomprasmodificadas", [\App\Controllers\ComprasController::class, 'indexlistacomprasmodificadas']);
 $app->router->get("/compras/listarcomprasmodificadas", [\App\Controllers\ComprasController::class, 'listarcomprasmodificadas']);

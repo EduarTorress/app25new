@@ -536,7 +536,7 @@ class ComprasController extends Controller
             'pimpo' => $request->get('pimpo'),
             'cmbtipodocumentocuentasxpagar' => $request->get('cmbtipodocumentocuentasxpagar'),
             'cuentasxpagar' => $cuentasxpagar,
-            'exonerado' => $request->get('exonerado')
+            'exonerado' => $request->get('exonerado'),
         );
         if ($compra->grabarCompra($cabecera)) {
             $this->LimpiarSesion();
@@ -552,7 +552,7 @@ class ComprasController extends Controller
     }
     function buscarCompraPorId($idauto)
     {
-        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
+        // $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $compra = new Compra();
         $nrocompra = "";
         $this->LimpiarSesion();
@@ -711,6 +711,140 @@ class ComprasController extends Controller
             'valor' => $valor,
             'igvvalor' => $igv
         ]);
+    }
+    function documentoguiaparacanje($idauto)
+    {
+        $compra = new Compra();
+        $nrocompra = "";
+        $this->LimpiarSesion();
+        $carritoc = session()->get('carritoc', []);
+        $lista = $compra->buscarCompraPorID($idauto);
+        $i = 0;
+        $montototal = 0;
+        foreach ($lista as $item) {
+            if ($i == 0) {
+                $datosproveedor = array(
+                    'idauto' => $item['idauto'],
+                    'alm' => $item['alma'],
+                    'fech' => $item['fech'],
+                    'fecr' => $item['fecr'],
+                    'form' => $item['form'],
+                    'tdoc' => $item['tdoc'],
+                    'dolar' => $item['dolar'],
+                    'tipo' => $item['tipo'],
+                    'mone' => $item['mone'],
+                    'razo' => $item['razo'],
+                    'idprov' => $item['idprov'],
+                    'ndo2' => $item['ndo2'],
+                    'optigv' => $item['incl'],
+                    'pimpo' => $item['pimpo']
+                );
+                $nrocompra = $item['ndoc'];
+                $idauto = $item['idauto'];
+                $checknodescontarstock = ($item['alma'] == 0) ? 'true' : 'false';
+            }
+
+            $montototal = $item['impo'];
+            $valor = $item['valor'];
+            $igv = $item['igv'];
+            $rcom_exon = $item['rcom_exon'];
+            $i++;
+
+            $c[] = array(
+                'coda' => $item["idart"],
+                'descri' => $item["descri"],
+                'unidad' => $item['unid'],
+                'cantidad' => $item['cant'],
+                'precio' => $item["prec"],
+                'preciocopia' => $item['prec'],
+                'nreg' => $item["idkar"],
+                'idprov' => $item['idprov'],
+                'subtotal' => $item['prec'] * $item['cant'],
+                'activo' => 'A',
+                'epta_idep' => empty($item['epta_idep']) ? 0 : $item['epta_idep'],
+                'pres_desc' => empty(trim($item['pres_desc'])) ? 'UNID' : $item['pres_desc'],
+                'epta_cant' => empty($item['epta_cant']) ? 1 : $item['epta_cant'],
+                'epta_prec' => empty($item['epta_prec']) ? $item['prec'] : $item['epta_prec'],
+                'presseleccionada' => empty($item['kar_epta']) ? 0 : $item['kar_epta'],
+                'kar_equi' => empty($item['kar_equi']) ? 1 : $item['kar_equi'],
+                'checkafecto' => (floatval($item['kar_tigv']) > 1 ? "false" : "true"),
+                'kar_lote' => empty($item['kar_lote']) ? '' : $item['kar_lote'],
+                'kar_fvto' => empty($item['kar_fvto']) ? '' : $item['kar_fvto'],
+                'flete' => empty($item['kar_flet']) ? 0 : $item['kar_flet']
+            );
+        }
+
+        $ltagrupada = array();
+        foreach ($c as $k => $producto) {
+            $idart = $producto["nreg"];
+            $ltagrupada[$idart][] = $producto;
+        }
+
+        foreach ($ltagrupada as $k => $items) {
+            $presentaciones = [];
+            $j = 0;
+            foreach ($items as $p) {
+                $presentaciones[$j] = array(
+                    'epta_idep' => $p['epta_idep'],
+                    'pres_desc' => $p['pres_desc'],
+                    'epta_cant' => $p['epta_cant'],
+                    'epta_prec' => $p['epta_prec']
+                );
+                $j += 1;
+            }
+
+            $carritoc[] = array(
+                'coda' => $items[0]["coda"],
+                'descri' => $items[0]["descri"],
+                'unidad' => $items[0]['unidad'],
+                'cantidad' => $items[0]['cantidad'],
+                'caant' => $items[0]['cantidad'],
+                'precio' => $items[0]["precio"],
+                'preciocopia' => $items[0]['precio'],
+                'nreg' => $items[0]["nreg"],
+                'idprov' => $items[0]['idprov'],
+                'subtotal' => $items[0]['precio'] * $items[0]['cantidad'],
+                'activo' => 'A',
+                'presentaciones' => json_encode($presentaciones),
+                'presseleccionada' => $items[0]['presseleccionada'],
+                'cantequi' => $items[0]['kar_equi'],
+                'checkafecto' => $items[0]['checkafecto'],
+                'lote' => $items[0]['kar_lote'],
+                'fechavto' => $items[0]['kar_fvto'],
+                "flete" => $items[0]['flete'],
+                'activo' => 'A'
+            );
+        }
+
+        $items = $i;
+        session()->set('carritocg', $carritoc);
+        $titulo = 'Canjear Guia' . ' ' . $nrocompra;
+
+        $serie = substr($nrocompra, 0, 4);
+        $num = substr($nrocompra, 4);
+
+        return view('compras/canjeguias/index', [
+            'titulo' => $titulo,
+            'datosproveedor' => $datosproveedor,
+            'idcompra' => $idauto,
+            'serie' => $serie,
+            'num' => $num,
+            'rcom_exon' => $rcom_exon,
+            'valor' => $valor,
+            'igvvalor' => $igv,
+            'total' => $montototal
+        ]);
+    }
+    function detalleguiaparacanje()
+    {
+        $carritoc = session()->get('carritocg', []);
+        $btn = 'Canjear';
+        $numero_items = str_pad(CarritoService::numeroItemsCompra(), 2, '0', STR_PAD_LEFT);
+        $checknodescontarstock = 'false';
+        $total = array_reduce($carritoc, function ($total, $item) {
+            return $total + ($item['precio'] * $item['cantidad']);
+        }, 0);
+        return view('compras/canjeguias/detalle', ['carritoc' => $carritoc, 'items' => $numero_items, 'total' => $total, 'btn' => $btn, 'checknodescontarstock' => $checknodescontarstock]);
     }
     function modificar(Request $request)
     {
@@ -1168,5 +1302,91 @@ class ComprasController extends Controller
             'message' => 'Flete ingresado correctamente',
             'array' => []
         ], 200);
+    }
+    function registrarcanjedeguia(Request $request)
+    {
+        $compra = new Compra();
+        $existecompra = $compra->validarsicompraexiste($request->get('cndoc'), $request->get('idprov'));
+        // echo count($existecompra) . 'hola';
+        if (count($existecompra) > 0) {
+            return response()->json(['errors' => 'Número de compra ya registrado previamente'], 422);
+        }
+        if (!validarrucregistro($request->get("txtrucproveedor"), $request->get("tdoc"))) {
+            return response()->json(['errors' => 'No se puede hacer un comprobante electrónico a la misma empresa'], 422);
+        }
+
+        $validar = new Validator($request->getBody());
+        $validar->rule("required", "tdoc");
+        $validar->rule("required", "cndoc");
+        $validar->rule("required", "idprov");
+        $validar->rule("required", "impo");
+        // $validar->rule("required", "coda");
+        $validar->rule("required", "form");
+        $validar->rule("required", "mon");
+        $validar->rule("required", "alm");
+        // $validar->rule("required", "ndo2");
+        $validar->rule("required", "dolar");
+        $validar->rule("required", "igv");
+        $cserie = $request->get('cndoc');
+        $cserie = $cserie . substr(0, 4);
+        switch ($request->get('tdoc')) {
+            case '01':
+                $validar->rule('regex', $cserie, '/^[F]{1,1}[D|N0-9]{1,1}[0-9]{2,2}$/');
+                break;
+            case '03':
+                $validar->rule('regex', $cserie, '/^[B|B]{1,1}[D|N0-9]{1,1}[0-9]{2,2}$/');
+                break;
+        }
+        if (!$validar->validate()) {
+            $data = ["errors" => $validar->errors()];
+            return response()->json($data, 422);
+        }
+        if (empty($_SESSION['checknodescontarstock'])) {
+            $_SESSION['checknodescontarstock'] = 'false';
+        }
+        $compra = new Compra();
+        $var =  $request->get('deta');
+        $deta = (isset($var)) ? $request->get('deta') : "";
+
+        $cuentasxpagar = json_decode($request->get("cuentasxpagar"));
+        $cuentasxpagar = json_decode(json_encode($cuentasxpagar), true);
+
+        $cabecera = array(
+            "tdoc" => $request->get("tdoc"),
+            "cndoc" => $request->get("cndoc"),
+            "form" => $request->get("form"),
+            "fechi" => $request->get("fechi"),
+            "fechf" => $request->get("fechf"),
+            "deta" => $deta,
+            "valor" => $request->get("valor"),
+            "nigv" => $request->get("nigv"),
+            "impo" => $request->get("impo"),
+            "ndo2" => $request->get("ndo2"),
+            "mon" => $request->get("mon"),
+            "dolar" => $request->get("dolar"),
+            "idprov" => $request->get("idprov"),
+            'txtproveedor' => $request->get('txtproveedor'),
+            "nidus" => session()->get('usuario_id'),
+            "alm" => $request->get("alm"),
+            "nitem" => str_pad(CarritoService::numeroItemsCompra(), 2, '0', STR_PAD_LEFT),
+            "igv" => $request->get("igv"),
+            'actualizarprecios' => $request->get('actualizarprecios'),
+            'pimpo' => $request->get('pimpo'),
+            'cmbtipodocumentocuentasxpagar' => $request->get('cmbtipodocumentocuentasxpagar'),
+            'cuentasxpagar' => $cuentasxpagar,
+            'exonerado' => $request->get('exonerado'),
+            'productos' => json_decode($request->get('productos'), true),
+            'idauto' => $request->get('txtidauto')
+        );
+        if ($compra->registrarcanjeguia($cabecera)) {
+            $this->LimpiarSesion();
+            $carritoc = session()->get('carritoc', []);
+            $total = number_format(CarritoService::totalCompra(), 2, '.', '');
+            $numero_items = str_pad(CarritoService::numeroItemsCompra(), 2, '0', STR_PAD_LEFT);
+            $checknodescontarstock = \session()->get('checknodescontarstock', 'false');
+            return view('compras/canjeguias/detalle', ['carritoc' => $carritoc, 'total' => $total, 'items' => $numero_items, 'checknodescontarstock' => $checknodescontarstock]);
+        } else {
+            return response()->json(['message' => 'Error al canjear compra'], 422);
+        }
     }
 }

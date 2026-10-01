@@ -116,7 +116,6 @@ echo $prod->render();
                 <div class="col-lg-12">
                     <div class="card card-success card-outline" style="width:max-content; width:auto;">
                         <div class="col-12" id="detalle">
-
                         </div>
                     </div>
                 </div>
@@ -165,14 +164,20 @@ $this->startSection('javascript');
             const contenido_tabla = respuesta.data;
             $('#detalle').html(contenido_tabla);
             calcularIGV();
+            <?php
+            $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
+            if ($proyecto == 'xsys5'):
+                if ($v == 'M'): ?>
+                    $("#exonerado").val("<?php echo (empty($rcom_exon) ? 0 : $rcom_exon) ?>");
+                    $("#total").val("<?php echo (empty($total) ? 0 : $total) ?>");
+                    $("input#igv").val("<?php echo (empty($igvvalor) ? 0 : $igvvalor) ?>");
+                    $("#subtotal").val("<?php echo (empty($valor) ? 0 : $valor) ?>");
+                <?php endif; ?>
+            <?php endif; ?>
         }).catch(function(error) {
             toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
         });
         // }
-        $(".tipodocumentos option[value='07']").remove();
-        $(".tipodocumentos option[value='08']").remove();
-        $(".tipodocumentos option[value='22']").remove();
-        $(".tipodocumentos option[value='20']").remove();
         $(".codigo").css("display", "none");
         $("#cmbAlmacen").removeAttr("disabled");
         fechai = document.getElementById('txtfechai').value;
@@ -1082,16 +1087,6 @@ $this->startSection('javascript');
             $("#igv").val("0.00");
             $("#total").val("0.00");
         }
-        <?php
-        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
-        if ($proyecto == 'xsys5'):
-            if ($v == 'M'): ?>
-                $("#exonerado").val("<?php echo (empty($rcom_exon) ? 0 : $rcom_exon) ?>");
-                $("#total").val("<?php echo (empty($total) ? 0 : $total) ?>");
-                $("input#igv").val("<?php echo (empty($igvvalor) ? 0 : $igvvalor) ?>");
-                $("#subtotal").val("<?php echo (empty($valor) ? 0 : $valor) ?>");
-            <?php endif; ?>
-        <?php endif; ?>
     }
 
     function actualizar(cmensaje, actualizarprecios) {
@@ -1252,151 +1247,151 @@ $this->startSection('javascript');
     //     grabarCabecera();
     // }, true);
 
-    function actualizarProducto(o, i) {
-        $(o).each(function() {
-            var _tr = $(o);
-            cmbpresentacion = _tr.find("td").eq(3).find("select").val();
-            cmbpresentacion = cmbpresentacion.split("-");
-            textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
-            textpresentacion = textpresentacion.split("-");
-            const data = new FormData();
-            var id = _tr.find("td").eq(1).html();
-            data.append("txtprecio", _tr.find("td").eq(5).find("input").val());
-            data.append("txtcantidad", _tr.find("td").eq(4).find("input").val());
-            data.append("unidad", (textpresentacion[0]).trim());
-            data.append("presseleccionada", cmbpresentacion[0])
-            data.append("cantequi", textpresentacion[1]);
-            tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
-            if (tipobotica == 'S') {
-                data.append("lote", _tr.find("td").eq(6).find("input").val());
-                data.append("fechavto", _tr.find("td").eq(7).find("input").val());
-            }
-            data.append("indice", i);
-            axios.post('/compras/EditarUno', data)
-                .then(function(respuesta) {}).catch(function(error) {
-                    if (error.hasOwnProperty("response")) {
-                        if (error.response.status === 422) {
-                            console.log(error);
-                        }
-                    }
-                });
-        });
-    }
+    // function actualizarProducto(o, i) {
+    //     $(o).each(function() {
+    //         var _tr = $(o);
+    //         cmbpresentacion = _tr.find("td").eq(3).find("select").val();
+    //         cmbpresentacion = cmbpresentacion.split("-");
+    //         textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
+    //         textpresentacion = textpresentacion.split("-");
+    //         const data = new FormData();
+    //         var id = _tr.find("td").eq(1).html();
+    //         data.append("txtprecio", _tr.find("td").eq(5).find("input").val());
+    //         data.append("txtcantidad", _tr.find("td").eq(4).find("input").val());
+    //         data.append("unidad", (textpresentacion[0]).trim());
+    //         data.append("presseleccionada", cmbpresentacion[0])
+    //         data.append("cantequi", textpresentacion[1]);
+    //         tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
+    //         if (tipobotica == 'S') {
+    //             data.append("lote", _tr.find("td").eq(6).find("input").val());
+    //             data.append("fechavto", _tr.find("td").eq(7).find("input").val());
+    //         }
+    //         data.append("indice", i);
+    //         axios.post('/compras/EditarUno', data)
+    //             .then(function(respuesta) {}).catch(function(error) {
+    //                 if (error.hasOwnProperty("response")) {
+    //                     if (error.response.status === 422) {
+    //                         console.log(error);
+    //                     }
+    //                 }
+    //             });
+    //     });
+    // }
 
-    function cambiarpresentacion(o, i) {
-        row = $(o).parent().parent();
-        $(row).each(function() {
-            var _tr = $(row);
-            cmbpresentacion = _tr.find("td").eq(3).find("select").val();
-            cmbpresentacion = cmbpresentacion.split("-");
-            textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
-            textpresentacion = textpresentacion.split("-");
-            _tr.find("td").eq(5).find("input").val(Number(cmbpresentacion[1]).toFixed(2));
-            const data = new FormData();
-            var id = _tr.find("td").eq(1).html();
-            data.append("txtcantidad", _tr.find("td").eq(4).find("input").val());
-            data.append("txtprecio", _tr.find("td").eq(5).find("input").val());
-            data.append("unidad", (textpresentacion[0]).trim());
-            data.append("cantequi", textpresentacion[1]);
-            data.append("presseleccionada", cmbpresentacion[0])
-            tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
-            if (tipobotica == 'S') {
-                data.append("lote", _tr.find("td").eq(6).find("input").val());
-                data.append("fechavto", _tr.find("td").eq(7).find("input").val());
-            }
-            data.append("indice", i);
-            axios.post('/compras/EditarUno', data)
-                .then(function(respuesta) {
-                    calcularIGV();
-                    calcularsubtotal(row);
-                }).catch(function(error) {
-                    if (error.hasOwnProperty("response")) {
-                        if (error.response.status == 422) {
-                            console.log(error);
-                        }
-                    }
-                });
-        });
-    }
+    // function cambiarpresentacion(o, i) {
+    //     row = $(o).parent().parent();
+    //     $(row).each(function() {
+    //         var _tr = $(row);
+    //         cmbpresentacion = _tr.find("td").eq(3).find("select").val();
+    //         cmbpresentacion = cmbpresentacion.split("-");
+    //         textpresentacion = _tr.find("td").eq(3).find("select option:selected").text();
+    //         textpresentacion = textpresentacion.split("-");
+    //         _tr.find("td").eq(5).find("input").val(Number(cmbpresentacion[1]).toFixed(2));
+    //         const data = new FormData();
+    //         var id = _tr.find("td").eq(1).html();
+    //         data.append("txtcantidad", _tr.find("td").eq(4).find("input").val());
+    //         data.append("txtprecio", _tr.find("td").eq(5).find("input").val());
+    //         data.append("unidad", (textpresentacion[0]).trim());
+    //         data.append("cantequi", textpresentacion[1]);
+    //         data.append("presseleccionada", cmbpresentacion[0])
+    //         tipobotica = "<?php echo empty($_SESSION['config']['tipobotica']) ? 'N'  : 'S'; ?>";
+    //         if (tipobotica == 'S') {
+    //             data.append("lote", _tr.find("td").eq(6).find("input").val());
+    //             data.append("fechavto", _tr.find("td").eq(7).find("input").val());
+    //         }
+    //         data.append("indice", i);
+    //         axios.post('/compras/EditarUno', data)
+    //             .then(function(respuesta) {
+    //                 calcularIGV();
+    //                 calcularsubtotal(row);
+    //             }).catch(function(error) {
+    //                 if (error.hasOwnProperty("response")) {
+    //                     if (error.response.status == 422) {
+    //                         console.log(error);
+    //                     }
+    //                 }
+    //             });
+    //     });
+    // }
 
-    function funcionEnterCant(o, i) {
-        //Eliminamos los id anteriores
-        var id1 = document.getElementById("1");
-        $(id1).removeAttr('id', '1');
-        // var id2 = document.getElementById("2");
-        // $(id2).removeAttr('id', '2');
-        var id3 = document.getElementById("3");
-        $(id3).removeAttr('id', '3');
+    // function funcionEnterCant(o, i) {
+    //     //Eliminamos los id anteriores
+    //     var id1 = document.getElementById("1");
+    //     $(id1).removeAttr('id', '1');
+    //     // var id2 = document.getElementById("2");
+    //     // $(id2).removeAttr('id', '2');
+    //     var id3 = document.getElementById("3");
+    //     $(id3).removeAttr('id', '3');
 
-        //Obtenemos la celda cant y le asignamos un id
-        cant = $(o).find("input");
-        $(cant).attr('id', '1');
-        $("#1").select();
+    //     //Obtenemos la celda cant y le asignamos un id
+    //     cant = $(o).find("input");
+    //     $(cant).attr('id', '1');
+    //     $("#1").select();
 
-        //Obtenemos la celda precios y precio, a ambos le asignamos un id
-        var tr = $(o).parent();
-        // tr.find("td").eq(5).attr('id', '2');
-        tr.find("td").eq(5).find("input").attr('id', '3');
-        //Buscamos lo que hay dentro de la celda precios
-        // var p = document.getElementById('precios_' + i);
+    //     //Obtenemos la celda precios y precio, a ambos le asignamos un id
+    //     var tr = $(o).parent();
+    //     // tr.find("td").eq(5).attr('id', '2');
+    //     tr.find("td").eq(5).find("input").attr('id', '3');
+    //     //Buscamos lo que hay dentro de la celda precios
+    //     // var p = document.getElementById('precios_' + i);
 
-        //Obtenemos la celda cantidad con función enter
-        var cant = document.getElementById("1");
-        cant.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                // $('#1').removeClass('focus');
-                // $('#1').removeAttr('contenteditable');
-                // $('#3').focus();
-                tr.find("td").eq(4).removeClass('focus');
-                $("#3").select();
-            }
-        });
-        // var preci = document.getElementById("precios_" + i);
-        // $('body').on('keydown', preci, function(e) {
-        //     if (e.which == 9) {
-        //         e.preventDefault();
-        //         $('#precios_' + i).blur();
-        //         $('#3').addClass('focus');
-        //         $('#3').focus();
-        //     }
-        // });
-        var prec = document.getElementById("3");
-        prec.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                // $('#3').removeClass('focus');
-                // $('#3').removeAttr('contenteditable');
-                // $('#body').trigger('click');
-                tr.find("td").eq(5).removeClass('focus');
-                $("#3").blur();
-                // $('#body').trigger('click');
-                tr.next('tr').find("td:nth-child(5) input").click();
-            }
-        });
-    }
+    //     //Obtenemos la celda cantidad con función enter
+    //     var cant = document.getElementById("1");
+    //     cant.addEventListener("keypress", function(event) {
+    //         if (event.key === "Enter") {
+    //             event.preventDefault();
+    //             // $('#1').removeClass('focus');
+    //             // $('#1').removeAttr('contenteditable');
+    //             // $('#3').focus();
+    //             tr.find("td").eq(4).removeClass('focus');
+    //             $("#3").select();
+    //         }
+    //     });
+    //     // var preci = document.getElementById("precios_" + i);
+    //     // $('body').on('keydown', preci, function(e) {
+    //     //     if (e.which == 9) {
+    //     //         e.preventDefault();
+    //     //         $('#precios_' + i).blur();
+    //     //         $('#3').addClass('focus');
+    //     //         $('#3').focus();
+    //     //     }
+    //     // });
+    //     var prec = document.getElementById("3");
+    //     prec.addEventListener("keypress", function(event) {
+    //         if (event.key === "Enter") {
+    //             event.preventDefault();
+    //             // $('#3').removeClass('focus');
+    //             // $('#3').removeAttr('contenteditable');
+    //             // $('#body').trigger('click');
+    //             tr.find("td").eq(5).removeClass('focus');
+    //             $("#3").blur();
+    //             // $('#body').trigger('click');
+    //             tr.next('tr').find("td:nth-child(5) input").click();
+    //         }
+    //     });
+    // }
 
-    // Evento enter con precio
-    $("table tbody tr td:nth-child(6) input").click(function() {
-        var id = document.getElementById("3");
-        $(id).removeAttr('id', '3')
-        tr = $(this).closest('tr');
-        $(this).attr('id', '3')
-        $(this).select()
-        var prec = document.getElementById("3");
-        prec.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                // $('#3').removeClass('focus');
-                // $('#3').removeAttr('contenteditable');
-                // $('#body').trigger('click');
-                tr.find("td").eq(5).removeClass('focus');
-                $("#3").blur();
-                // $('#body').trigger('click');
-                tr.next('tr').find("td:nth-child(5) input").click();
-            }
-        });
-    });
+    // // Evento enter con precio
+    // $("table tbody tr td:nth-child(6) input").click(function() {
+    //     var id = document.getElementById("3");
+    //     $(id).removeAttr('id', '3')
+    //     tr = $(this).closest('tr');
+    //     $(this).attr('id', '3')
+    //     $(this).select()
+    //     var prec = document.getElementById("3");
+    //     prec.addEventListener("keypress", function(event) {
+    //         if (event.key === "Enter") {
+    //             event.preventDefault();
+    //             // $('#3').removeClass('focus');
+    //             // $('#3').removeAttr('contenteditable');
+    //             // $('#body').trigger('click');
+    //             tr.find("td").eq(5).removeClass('focus');
+    //             $("#3").blur();
+    //             // $('#body').trigger('click');
+    //             tr.next('tr').find("td:nth-child(5) input").click();
+    //         }
+    //     });
+    // });
 
     //Calculamos en el subtotal y total
     // function calcularsubtotal(o) {
@@ -1418,43 +1413,42 @@ $this->startSection('javascript');
     //         });
     //     }
     // }
-    //Calculamos en el subtotal y total
-    function calcularsubtotal(o) {
-        var _tr = $(o);
-        var cant = _tr.find("td").eq(4).find("input").val();
-        var prec = _tr.find("td").eq(5).find("input").val();
-        columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 6 : 8; ?>";
-        var campo = _tr.find("td").eq(columantotal).find("input");
+    // //Calculamos en el subtotal y total
+    // function calcularsubtotal(o) {
+    //     var _tr = $(o);
+    //     var cant = _tr.find("td").eq(4).find("input").val();
+    //     var prec = _tr.find("td").eq(5).find("input").val();
+    //     columantotal = "<?php echo empty($_SESSION['config']['tipobotica']) ? 6 : 8; ?>";
+    //     var campo = _tr.find("td").eq(columantotal).find("input");
+    //     if (clicksubtotal == 0) {
+    //         var subt = parseFloat(cant) * parseFloat(prec);
+    //         if (isNaN(subt)) {
+    //             toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
+    //         } else {
+    //             $(campo).val(subt.toFixed(2));
+    //             $('#griddetalle tbody').find('tr').each(function(i, el) {
+    //                 calcularIGV();
+    //             });
+    //         }
+    //     } else {
+    //         campo = $(campo).val();
+    //         prec = campo / cant;
+    //         _tr.find("td").eq(5).find("input").val(Number(prec).toFixed(5));
+    //         $('#griddetalle tbody').find('tr').each(function(i, el) {
+    //             calcularIGV();
+    //         });
+    //     }
+    // }
 
-        if (clicksubtotal == 0) {
-            var subt = parseFloat(cant) * parseFloat(prec);
-            if (isNaN(subt)) {
-                toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
-            } else {
-                $(campo).val(subt.toFixed(2));
-                $('#griddetalle tbody').find('tr').each(function(i, el) {
-                    calcularIGV();
-                });
-            }
-        } else {
-            campo = $(campo).val();
-            prec = campo / cant;
-            _tr.find("td").eq(5).find("input").val(Number(prec).toFixed(5));
-            $('#griddetalle tbody').find('tr').each(function(i, el) {
-                calcularIGV();
-            });
-        }
-    }
-
-    //Funcionamiento del combobox
-    function obtenerPrecio(o, i) {
-        $(o).each(function() {
-            var precios = $(this).find("#precios_" + i).val();
-            $(this).find(".precio").text(precios);
-        });
-        calcularsubtotal(o);
-        actualizarProducto(o, i);
-    }
+    // //Funcionamiento del combobox
+    // function obtenerPrecio(o, i) {
+    //     $(o).each(function() {
+    //         var precios = $(this).find("#precios_" + i).val();
+    //         $(this).find(".precio").text(precios);
+    //     });
+    //     calcularsubtotal(o);
+    //     actualizarProducto(o, i);
+    // }
 
     $('#cbpercepcion').change(function() {
         calcularpercepcion()

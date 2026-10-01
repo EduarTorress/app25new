@@ -272,69 +272,71 @@ class Compra extends Modelo
                 $acre = $total;
             }
 
-            if ($cabecera['form'] == 'E') {
-                $sqll = "CALL ProIngresaDatosLcajaeEfectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
-                :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
-                $queryy = $pdo->prepare($sqll);
-                $queryy->execute([
-                    'fech' => $this->dfecha,
-                    'cdeta' => $cabecera["txtproveedor"],
-                    'idcta' => $nidcta3,
-                    'sacreedor' => $acre,
-                    'cmone' => $cabecera["mon"],
-                    'ndolar' => $cabecera["dolar"],
-                    'nidus' => $cabecera["nidus"],
-                    'nidauto' => $id,
-                    'cform' => $cabecera["form"],
-                    'cdcto' => $cabecera["cndoc"],
-                    'ctdoc' => $cabecera["tdoc"],
-                    'nidtda' => $cabecera["alm"]
-                ]);
-                $queryy->closeCursor();
-
-                if ($queryy->errorCode() != '00000') {
-                    $queryy->debugDumpParams();
-                    // \print_r($queryy->errorInfo());
-                    $pdo->rollBack();
-                    return false;
-                }
-            }
-
-            if ($cabecera['form'] == 'C') {
-                $sqlidc = "SELECT FUNregistraDeudasCCtas(:nidauto, :nidprov, :cmoneda, :fecha, :impo, :nidusua, :almacen, 'web', :ccta) as NID";
-                $execidc = $pdo->prepare($sqlidc);
-                $execidc->execute([
-                    'nidauto' =>  $id,
-                    'nidprov' => $cabecera["idprov"],
-                    'cmoneda' =>  $cabecera["mon"],
-                    'fecha' => $this->dfecha,
-                    'impo' => $cabecera["impo"],
-                    'nidusua' => session()->get("usuario_id"),
-                    'almacen' => $cabecera["alm"],
-                    'ccta' => '505'
-                ]);
-
-                $ididc = $execidc->fetchColumn();
-
-                $sqlidd = "SELECT FUNINGRESADEUDAS(:nidr,:cndoc,:ctipo,:dfecha,:dfevto,:ctipo,:ndolar,:nimpo,:nidus,:cpc,:nidtda,:cnrou,:cdetalle,:csitua) as nid";
-                foreach ($cabecera['cuentasxpagar'] as $e) {
-                    $execidd = $pdo->prepare($sqlidd);
-                    $execidd->execute([
-                        'nidr' =>  $ididc,
-                        'cndoc' => $cabecera["cndoc"],
-                        'ctipo' =>  $cabecera["cmbtipodocumentocuentasxpagar"],
-                        'dfecha' => $this->dfecha,
-                        'dfevto' => $e["txtfechavto"],
-                        'ctipo' => $cabecera['cmbtipodocumentocuentasxpagar'],
+            if ($cabecera['tdocv'] != '09') {
+                if ($cabecera['form'] == 'E') {
+                    $sqll = "CALL ProIngresaDatosLcajaeEfectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
+                            :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
+                    $queryy = $pdo->prepare($sqll);
+                    $queryy->execute([
+                        'fech' => $this->dfecha,
+                        'cdeta' => $cabecera["txtproveedor"],
+                        'idcta' => $nidcta3,
+                        'sacreedor' => $acre,
+                        'cmone' => $cabecera["mon"],
                         'ndolar' => $cabecera["dolar"],
-                        'nimpo' => $e["txtimporte"],
-                        'nidus' => session()->get("usuario_id"),
-                        'cpc' => 'web',
-                        'nidtda' => $cabecera["alm"],
-                        'cnrou' => '',
-                        'cdetalle' => $e["txtreferenciacxpagar"],
-                        'csitua' => ''
+                        'nidus' => $cabecera["nidus"],
+                        'nidauto' => $id,
+                        'cform' => $cabecera["form"],
+                        'cdcto' => $cabecera["cndoc"],
+                        'ctdoc' => $cabecera["tdoc"],
+                        'nidtda' => $cabecera["alm"]
                     ]);
+                    $queryy->closeCursor();
+
+                    if ($queryy->errorCode() != '00000') {
+                        $queryy->debugDumpParams();
+                        // \print_r($queryy->errorInfo());
+                        $pdo->rollBack();
+                        return false;
+                    }
+                }
+
+                if ($cabecera['form'] == 'C') {
+                    $sqlidc = "SELECT FUNregistraDeudasCCtas(:nidauto, :nidprov, :cmoneda, :fecha, :impo, :nidusua, :almacen, 'web', :ccta) as NID";
+                    $execidc = $pdo->prepare($sqlidc);
+                    $execidc->execute([
+                        'nidauto' =>  $id,
+                        'nidprov' => $cabecera["idprov"],
+                        'cmoneda' =>  $cabecera["mon"],
+                        'fecha' => $this->dfecha,
+                        'impo' => $cabecera["impo"],
+                        'nidusua' => session()->get("usuario_id"),
+                        'almacen' => $cabecera["alm"],
+                        'ccta' => '505'
+                    ]);
+
+                    $ididc = $execidc->fetchColumn();
+
+                    $sqlidd = "SELECT FUNINGRESADEUDAS(:nidr,:cndoc,:ctipo,:dfecha,:dfevto,:ctipo,:ndolar,:nimpo,:nidus,:cpc,:nidtda,:cnrou,:cdetalle,:csitua) as nid";
+                    foreach ($cabecera['cuentasxpagar'] as $e) {
+                        $execidd = $pdo->prepare($sqlidd);
+                        $execidd->execute([
+                            'nidr' =>  $ididc,
+                            'cndoc' => $cabecera["cndoc"],
+                            'ctipo' =>  $cabecera["cmbtipodocumentocuentasxpagar"],
+                            'dfecha' => $this->dfecha,
+                            'dfevto' => $e["txtfechavto"],
+                            'ctipo' => $cabecera['cmbtipodocumentocuentasxpagar'],
+                            'ndolar' => $cabecera["dolar"],
+                            'nimpo' => $e["txtimporte"],
+                            'nidus' => session()->get("usuario_id"),
+                            'cpc' => 'web',
+                            'nidtda' => $cabecera["alm"],
+                            'cnrou' => '',
+                            'cdetalle' => $e["txtreferenciacxpagar"],
+                            'csitua' => ''
+                        ]);
+                    }
                 }
             }
 
@@ -377,7 +379,7 @@ class Compra extends Modelo
                         $query = $pdo->prepare($sql);
                         $cant = floatval($item['cantidad']);
                         $prec = floatval($item['precio']);
-                       $afecto = "1.18";
+                        $afecto = "1.18";
                         if ((trim($item['checkafecto']) == "true")) {
                             $afecto = "1.00";
                         }
@@ -401,9 +403,7 @@ class Compra extends Modelo
                             break;
                         }
                     }
-
                     $idkardex = $query->fetchColumn();
-
                     $execas = $pdo->prepare($sqlas);
                     $cant = floatval($item['cantidad']);
                     $cantequi = floatval($item['cantequi']);
@@ -688,7 +688,7 @@ class Compra extends Modelo
                             }
                         }
                     } else {
-                       $afecto = "1.18";
+                        $afecto = "1.18";
                         if ((trim($item['checkafecto']) == "true")) {
                             $afecto = "1.00";
                         }
@@ -752,7 +752,7 @@ class Compra extends Modelo
                 } else {
                     if ($item['nreg'] > 0) {
                         $query = $pdo->prepare($sqlactualiza);
-                       $afecto = "1.18";
+                        $afecto = "1.18";
                         if ((trim($item['checkafecto']) == "true")) {
                             $afecto = "1.00";
                         }
@@ -1066,5 +1066,255 @@ class Compra extends Modelo
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute();
         return $query;
+    }
+    function registrarcanjeguia($cabecera)
+    {
+        $this->dfecha = $cabecera["fechi"];
+        $this->dfechar = $cabecera["fechf"];
+        $igv = $_SESSION["gene_igv"];
+
+        if ($cabecera['tdoc'] == '01' || $cabecera['tdoc'] == '12' || $cabecera['tdoc'] == '50') {
+            $nidcta1 = session()->get("gene_idctacv");
+            $nidcta2 = session()->get("gene_idctaci");
+            $nidcta3 = session()->get("gene_idctact");
+        } else {
+            $nidcta1 = 0;
+            $nidcta2 = 0;
+            $nidcta3 = 0;
+        }
+
+        try {
+            $ncon = new conexion();
+            $pdo = $ncon->conectar();
+            $pdo->beginTransaction();
+
+            $sql = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,
+            :nv,:nigv,:nt,:cndo2,:cm,:ndolar,:vigv,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,
+            :n1,:n2,:n3,:nitem,:npvta,:exon) AS ID";
+            $st = $pdo->prepare($sql);
+            $st->execute([
+                'ctdoc' => $cabecera["tdoc"],
+                'cndoc' => $cabecera["cndoc"],
+                'cform' => $cabecera["form"],
+                'dfecha' => $this->dfecha,
+                'dfechar' => $this->dfechar,
+                'cdetalle' => $cabecera["deta"],
+                'nv' => $cabecera["valor"],
+                'nigv' => $cabecera["nigv"],
+                'nt' => $cabecera["impo"],
+                'cndo2' => $cabecera["ndo2"],
+                'cm' => $cabecera["mon"],
+                'ndolar' => $cabecera["dolar"],
+                'vigv' => session()->get("gene_igv"),
+                'ctg' => '1',
+                'ccodp' => $cabecera["idprov"],
+                'cmvto' => '1',
+                'nus' => $cabecera["nidus"],
+                'opt' => '0',
+                'nidcodt' => $cabecera["alm"],
+                'n1' => ($nidcta1),
+                'n2' => ($nidcta2),
+                'n3' => ($nidcta3),
+                'nitem' => $cabecera["nitem"],
+                'npvta' => $cabecera['pimpo'],
+                'exon' => $cabecera['exonerado']
+            ]);
+            if ($st->errorCode() != '00000') {
+                \print_r($st->errorInfo());
+                $pdo->rollBack();
+                return false;
+            }
+
+            $id = $st->fetchColumn();
+
+            $total = number_format(CarritoService::totalCompra(), 2, '.', '');
+            $dolar = number_format($cabecera["dolar"], 3, '.', '');
+            if ($cabecera["mon"] === 'D') {
+                $acre = $total * $dolar;
+            } else {
+                $acre = $total;
+            }
+
+            if ($cabecera['form'] == 'E') {
+                $sqll = "CALL ProIngresaDatosLcajaeEfectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
+                :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
+                $queryy = $pdo->prepare($sqll);
+                $queryy->execute([
+                    'fech' => $this->dfecha,
+                    'cdeta' => $cabecera["txtproveedor"],
+                    'idcta' => $nidcta3,
+                    'sacreedor' => $acre,
+                    'cmone' => $cabecera["mon"],
+                    'ndolar' => $cabecera["dolar"],
+                    'nidus' => $cabecera["nidus"],
+                    'nidauto' => $id,
+                    'cform' => $cabecera["form"],
+                    'cdcto' => $cabecera["cndoc"],
+                    'ctdoc' => $cabecera["tdoc"],
+                    'nidtda' => $cabecera["alm"]
+                ]);
+                $queryy->closeCursor();
+
+                if ($queryy->errorCode() != '00000') {
+                    $queryy->debugDumpParams();
+                    // \print_r($queryy->errorInfo());
+                    $pdo->rollBack();
+                    return false;
+                }
+            }
+
+            if ($cabecera['form'] == 'C') {
+                $sqlidc = "SELECT FUNregistraDeudasCCtas(:nidauto, :nidprov, :cmoneda, :fecha, :impo, :nidusua, :almacen, 'web', :ccta) as NID";
+                $execidc = $pdo->prepare($sqlidc);
+                $execidc->execute([
+                    'nidauto' =>  $id,
+                    'nidprov' => $cabecera["idprov"],
+                    'cmoneda' =>  $cabecera["mon"],
+                    'fecha' => $this->dfecha,
+                    'impo' => $cabecera["impo"],
+                    'nidusua' => session()->get("usuario_id"),
+                    'almacen' => $cabecera["alm"],
+                    'ccta' => '505'
+                ]);
+
+                $ididc = $execidc->fetchColumn();
+
+                $sqlidd = "SELECT FUNINGRESADEUDAS(:nidr,:cndoc,:ctipo,:dfecha,:dfevto,:ctipo,:ndolar,:nimpo,:nidus,:cpc,:nidtda,:cnrou,:cdetalle,:csitua) as nid";
+                foreach ($cabecera['cuentasxpagar'] as $e) {
+                    $execidd = $pdo->prepare($sqlidd);
+                    $execidd->execute([
+                        'nidr' =>  $ididc,
+                        'cndoc' => $cabecera["cndoc"],
+                        'ctipo' =>  $cabecera["cmbtipodocumentocuentasxpagar"],
+                        'dfecha' => $this->dfecha,
+                        'dfevto' => $e["txtfechavto"],
+                        'ctipo' => $cabecera['cmbtipodocumentocuentasxpagar'],
+                        'ndolar' => $cabecera["dolar"],
+                        'nimpo' => $e["txtimporte"],
+                        'nidus' => session()->get("usuario_id"),
+                        'cpc' => 'web',
+                        'nidtda' => $cabecera["alm"],
+                        'cnrou' => '',
+                        'cdetalle' => $e["txtreferenciacxpagar"],
+                        'csitua' => ''
+                    ]);
+                }
+            }
+
+            $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
+            // $carritoc = session()->get('carritoc', []);
+            $sw = 1;
+            foreach ($cabecera['productos'] as $item) {
+                $sql = "UPDATE fe_kar SET idauto=:nuevoidauto,prec=:precio WHERE idauto=:antiguoidauto and idart=:codigo";
+                $query = $pdo->prepare($sql);
+                $query->execute([
+                    "nuevoidauto" => $id,
+                    "precio" => $item['precio'],
+                    "antiguoidauto" => $cabecera['idauto'],
+                    "codigo" => $item['codigo']
+                ]);
+                if ($query->errorCode() != '00000') {
+                    $sw = 0;
+                    break;
+                }
+            }
+            if ($sw == 0) {
+                $query->debugDumpParams();
+                $pdo->rollBack();
+                return false;
+            }
+            $wc = 1;
+            if ($cabecera['actualizarprecios'] == 'S') {
+                foreach ($cabecera['productos'] as $item) {
+                    // if ($item['activo'] == 'A') {
+                    if ($cabecera['igv'] == 'N') {
+                        $prec = floatval($item['precio']);
+                    } else {
+                        $prec = floatval($item['precio']) / floatval($_SESSION['gene_igv']);
+                    }
+                    if ($proyecto != 'xsys5') {
+                        $sqlpp = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,'0',:eptaprec,:eptaidep,:cantequi)";
+                        $execpp = $pdo->prepare($sqlpp);
+                        $execpp->execute([
+                            "coda" => $item['codigo'],
+                            "fech" => $this->dfecha,
+                            "prec" => $prec,
+                            "nauto" => $id,
+                            "prov" => $cabecera["idprov"],
+                            "cm" => $cabecera["mon"],
+                            "tigv" => $igv,
+                            "dolar" => $cabecera["dolar"],
+                            "eptaidep" => $item['epta_idep'],
+                            "eptaprec" => $prec,
+                            'cantequi' => trim($item['epta_cant'])
+                        ]);
+                        if ($execpp->errorCode() != '00000') {
+                            $wc = 0;
+                            $execpp->debugDumpParams();
+                            $pdo->rollBack();
+                            break;
+                        }
+                    } else {
+                        // cc INTEGER,dfe DATE,npr DECIMAL(12,4),cnd INTEGER,idp INTEGER,cmda CHAR,ni DECIMAL(5,3),ndolar FLOAT,nidusua INTEGER,nflete DECIMAL(10,6)
+                        $sqlpp = "CALL ProActualizaPreciosProducto(:coda,:fech,:prec,:nauto,:prov,:cm,:tigv,:dolar,:nidusua,:flete)";
+                        $execpp = $pdo->prepare($sqlpp);
+                        $execpp->execute([
+                            "coda" => $item['codigo'],
+                            "fech" => $this->dfecha,
+                            "prec" => $prec,
+                            "nauto" => $id,
+                            "prov" => $cabecera["idprov"],
+                            "cm" => $cabecera["mon"],
+                            "tigv" => $igv,
+                            "dolar" => $cabecera["dolar"],
+                            "nidusua" => session()->get("usuario_id"),
+                            "flete" => empty($item['flete']) ? 0 : $item['flete']
+                        ]);
+                        if ($execpp->errorCode() != '00000') {
+                            $wc = 0;
+                            $execpp->debugDumpParams();
+                            $pdo->rollBack();
+                            break;
+                        }
+                    }
+                    // }
+                }
+            }
+            if ($wc == 0) {
+                $pdo->rollBack();
+                return false;
+            }
+
+            $sqldg = "update fe_rcom set acti='I',valor=0,igv=0,impo=0 where idauto=:idautoantiguo";
+            $exeldg = $pdo->prepare($sqldg);
+            $exeldg->execute([
+                'idautoantiguo' => $cabecera["idauto"]
+            ]);
+            if ($exeldg->errorCode() != '00000') {
+                \print_r($exeldg->errorInfo());
+                $pdo->rollBack();
+                return false;
+            }
+
+
+            $sqlag = "update fe_rcom set acti='A' where idauto=:idautoantiguo";
+            $exelag = $pdo->prepare($sqlag);
+            $exelag->execute([
+                'idautoantiguo' => $cabecera["idauto"]
+            ]);
+            if ($exelag->errorCode() != '00000') {
+                $exelag->debugDumpParams();
+                $pdo->rollBack();
+                return false;
+            }
+            if ($exelag->errorCode() == '00000') {
+                $pdo->commit();
+            }
+            return true;
+        } catch (PDOException $pdo_error) {
+            $pdo->rollBack();
+            print_r($pdo_error->getMessage());
+            return false;
+        }
     }
 }

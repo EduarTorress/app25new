@@ -78,6 +78,9 @@ $this->startSection('javascript');
         // $(".tipodocumentos option[value='07']").remove();
         $(".tipodocumentos option[value='08']").remove();
         $(".tipodocumentos option[value='20']").remove();
+        $(".tipodocumentos").append(
+            '<option value="09">Guía de remisión</option>'
+        );
     }
 
     function search() {
