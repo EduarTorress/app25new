@@ -60,7 +60,7 @@ class Presentacion extends Modelo
         $data = $query->fetchAll(PDO::FETCH_ASSOC);
         return $data;
     }
-    function registrardetapresent($idpres, $idart, $prec, $cant, $costo, $ganancia, $gananciacorp, $preciocorp)
+    function registrardetapresent($idpres, $idart, $prec, $cant, $costo, $ganancia, $gananciacorp, $preciocorp, $cmbalmacen)
     {
         $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         try {
@@ -70,6 +70,10 @@ class Presentacion extends Modelo
             } else {
                 $sql = "INSERT INTO fe_epta(epta_idar,epta_pres,epta_prec,epta_cant,epta_cost,epta_marg,epta_mcor,epta_pcor) 
                 VALUES (:idart,:idpres,:prec,:cant,:costo,:ganancia," . $gananciacorp . "," . $preciocorp . ")";
+            }
+            if ($proyecto == 'xsysg') {
+                $sql = "INSERT INTO fe_epta(epta_idar,epta_pres,epta_prec,epta_cant,epta_cost,epta_marg,epta_codt) 
+                VALUES (:idart,:idpres,:prec,:cant,:costo,:ganancia," . $cmbalmacen . ")";
             }
             $exec = $this->prepare($sql);
             $exec->execute([

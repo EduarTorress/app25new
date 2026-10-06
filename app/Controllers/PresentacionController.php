@@ -35,7 +35,8 @@ class PresentacionController extends Controller
         $prec = $request->get('prec');
         $gananciacorp = $request->get('txtgananciaprescorp');
         $preciocorp = $request->get('txtprecioprescorp');
-        $rpta = $this->pres->registrardetapresent($idpres, $idart, $prec, $cant, $costo, $ganancia, $gananciacorp, $preciocorp);
+        $cmbalmacen = $request->get('cmbalmacen');
+        $rpta = $this->pres->registrardetapresent($idpres, $idart, $prec, $cant, $costo, $ganancia, $gananciacorp, $preciocorp, $cmbalmacen);
         return response()->json(['message' => $rpta['mensaje']], 200);
     }
     function eliminardetapres(Request $request)
