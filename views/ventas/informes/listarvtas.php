@@ -38,7 +38,20 @@
                 <?php
                 $fusua = new DateTime($item['fusua']);
                 $ffinal = $fusua->diff($fnow);
-                $tooltipfecha = 'Hace ' . $ffinal->h . ' horas con ' . $ffinal->i . ' minutos y ' . $ffinal->s . ' segundos.';
+                $partes = [];
+                if ($ffinal->d > 0) {
+                    $partes[] = $ffinal->d . ' día' . ($ffinal->d != 1 ? 's' : '');
+                }
+                if ($ffinal->h > 0) {
+                    $partes[] = $ffinal->h . ' hora' . ($ffinal->h != 1 ? 's' : '');
+                }
+                if ($ffinal->i > 0) {
+                    $partes[] = $ffinal->i . ' minuto' . ($ffinal->i != 1 ? 's' : '');
+                }
+                if ($ffinal->s > 0 && $ffinal->d == 0) {
+                    $partes[] = $ffinal->s . ' segundo' . ($ffinal->s != 1 ? 's' : '');
+                }
+                $tooltipfecha = 'Hace ' . implode(' y ', $partes);
                 ?>
                 <td class="text-center" data-bs-toggle="tooltip" title="<?php echo $tooltipfecha; ?>"><?php echo $item['fusua']; ?>
                 </td>
@@ -107,7 +120,6 @@
         </div>
     </div>
 </div> -->
-
 <script>
     $(document).ready(function() {
         reportetablebt('#table');

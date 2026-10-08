@@ -544,6 +544,7 @@ $app->router->get('/admin/unidadesmedida/create', [\App\Controllers\UnidadesMedi
 $app->router->get('/admin/unidadesmedida/edit/{id}', [\App\Controllers\UnidadesMedidaController::class, 'edit']);
 $app->router->post('/admin/unidadesmedida/store', [\App\Controllers\UnidadesMedidaController::class, 'store']);
 $app->router->post('/admin/unidadesmedida/update/{id}', [\App\Controllers\UnidadesMedidaController::class, 'update']);
+$app->router->post('/admin/unidadesmedida/darbaja/{id}', [\App\Controllers\UnidadesMedidaController::class, 'darbaja']);
 
 #Rutas de grupos
 $app->router->get('/grupos/index', [\App\Controllers\GrupoController::class, 'index']);

@@ -454,7 +454,7 @@ class ProductoController extends Controller
     function consultarlogs(Request $request)
     {
         $p = new Producto();
-        $p->txtidart = $request->get('txtidart');
+        // $p->txtidart = $request->get('txtidart');
         $rpta = $p->consultarlogs();
         return view('admin/productos/listarlogs', ['listado' => $rpta['listado']]);
     }

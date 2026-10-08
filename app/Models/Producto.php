@@ -500,13 +500,13 @@ class Producto extends Modelo
     }
     function consultarlogs()
     {
-        $sql = "SELECT ap.*,u.nomb FROM fe_aproductos ap
+        $sql = "SELECT ap.*,u.nomb as usuario,descri as producto
+                FROM fe_aproductos ap
                 INNER JOIN fe_usua u ON ap.`prod_idus`=u.`idusua`
-                WHERE prod_fope>='2025-05-07'and prod_idar=:idart";
+                INNER JOIN fe_art a ON ap.`prod_idar`=a.`idart`
+                ORDER BY prod_fope DESC";
         $query = $this->prepare($sql);
-        $query->execute([
-            'idart' => $this->txtidart
-        ]);
+        $query->execute();
         $listado = $query->fetchAll(PDO::FETCH_ASSOC);
         $data = ['mensaje' => 'Se obtuvieron los resultados correctamente', 'listado' => $listado, 'estado' => '1'];
         return $data;

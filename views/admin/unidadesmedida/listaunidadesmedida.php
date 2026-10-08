@@ -1,9 +1,10 @@
-<div class="card-body">
+<div class="card card-primary table-responsive">
     <table id="tabla_unidades" class="table table-bordered table-hover table-sm small">
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Cantidad Equivalente</th>
+                <th class="text-center" data-sortable="true">Nombre</th>
+                <th class="text-center" data-sortable="true">Cantidad Equivalente</th>
+                <th class="text-center">Eliminar</th>
             </tr>
         </thead>
         <tbody>
@@ -11,6 +12,10 @@
                 <tr>
                     <td><?php echo $item['pres_desc'] ?></td>
                     <td><?php echo $item['pres_cant'] ?></td>
+                    <td>
+                        <?php $parametro1 = $item['pres_idpr']; ?>
+                        <button onclick='darbaja(<?php echo $parametro1 ?>)' class="btn btn-danger">Eliminar</button>
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -18,6 +23,6 @@
 </div>
 <script>
     $(document).ready(function() {
-        focustabla('#tabla_unidades')
+        reportetablebt('#tabla_unidades');
     });
 </script>

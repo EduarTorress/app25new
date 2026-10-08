@@ -185,23 +185,19 @@ $this->startSection('javascript');
     });
 
     function consultarcambios() {
-        var txtidart = $("#txtidartt").val();
-        if (txtidart == '') {
-            toastr.error("Haga clic en un producto para consultar", 'Mensaje del Sistema')
-            return;
-        }
-        var cmbano = $("#cmbanov").val();
-        axios.get('/productos/consultarlogs', {
-            "params": {
-                "txtidart": txtidart,
-                "cmbano": cmbano
-            }
-        }).then(function(respuesta) {
-            const contenido_tabla = respuesta.data;
-            $('#resultadologs').html(contenido_tabla);
-        }).catch(function(error) {
-            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
-        });
+        // var txtidart = $("#txtidartt").val();
+        // if (txtidart == '') {
+        //     toastr.error("Haga clic en un producto para consultar", 'Mensaje del Sistema')
+        //     return;
+        // }
+        // var cmbano = $("#cmbanov").val();
+        axios.get('/productos/consultarlogs', {})
+            .then(function(respuesta) {
+                const contenido_tabla = respuesta.data;
+                $('#resultadologs').html(contenido_tabla);
+            }).catch(function(error) {
+                toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
+            });
     }
 
     function consultareliminados() {

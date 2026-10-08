@@ -17,7 +17,7 @@ class UnidadMedida extends Modelo
         $lista = array();
         $data = ['resultado' => false];
         $lista['items'] = array();
-        $sql = "select * from fe_presentaciones where pres_desc like :abuscar";
+        $sql = "select * from fe_presentaciones where pres_desc like :abuscar and pres_acti='A'";
         $query = $this->prepare($sql);
         try {
             $query->execute(['abuscar' => $cbuscar]);
@@ -66,6 +66,18 @@ class UnidadMedida extends Modelo
         ]);
         $id = $pdo->lastInsertId();
         $rpta = ['mensaje' => 'Todo ok', 'id' => $id, 'estado' => '1'];
+        return $rpta;
+    }
+    function darbaja($id)
+    {
+        $ncon = new conexion();
+        $pdo = $ncon->conectar();
+        $sql = "UPDATE fe_presentaciones SET pres_acti='I' WHERE pres_idpr=:id";
+        $query = $pdo->prepare($sql);
+        $query->execute([
+            'id' => $id
+        ]);
+        $rpta = ['mensaje' => 'Eliminado correctamente', 'id' => $id, 'estado' => '1'];
         return $rpta;
     }
 }

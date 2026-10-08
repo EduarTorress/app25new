@@ -25,7 +25,7 @@ class UnidadesMedidaController extends Controller
     }
     function lista(Request $request)
     {
-        $lista = $this->um->listar('%'.$request->get('cbuscar').'%');
+        $lista = $this->um->listar('%' . $request->get('cbuscar') . '%');
         return view('admin/unidadesmedida/listaunidadesmedida', ['lista' => $lista]);
     }
     function create()
@@ -65,6 +65,16 @@ class UnidadesMedidaController extends Controller
             }
         } catch (\Exception $error) {
             return response()->json(['message' => 'Ocurrió un error ' . $error], 500);
+        }
+    }
+    function darbaja($id)
+    {
+        $p = new UnidadMedida();
+        $rpta = $p->darbaja($id);
+        if ($rpta['estado'] == '1') {
+            return response()->json(['message' => 'Eliminado correctamente'], 200);
+        } else {
+            return response()->json(['message' => 'Ocurrió un error'], 400);
         }
     }
 }

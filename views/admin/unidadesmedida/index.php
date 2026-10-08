@@ -34,10 +34,10 @@ $this->startSection('contenido');
                                 </div>
                             </div>
                         </form>
-                        <div class="row">
-                            <div class="col-lg-12" id="search">
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="search">
                     </div>
                 </div>
             </div>
@@ -173,6 +173,31 @@ $this->startSection('javascript');
                 }
             })
         }
+    }
+
+    function darbaja(id) {
+        Swal.fire({
+            icon: 'error',
+            title: '¿Estás seguro de eliminar?',
+            text: 'Esta acción no se puede revertir',
+            showCancelButton: true,
+            confirmButtonText: 'Si, estoy seguro',
+            cancelButtonText: 'No, cancelar'
+        }).then(function(respuesta) {
+            if (respuesta.isConfirmed) {
+                const ruta = '/admin/unidadesmedida/darbaja/' + id;
+                axios.post(ruta)
+                    .then(function(respuesta) {
+                        // console.log(respuesta.data);
+                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
+                        buscar();
+                    }).catch(function(error) {
+                        if (error.hasOwnProperty('response')) {
+                            toastr.error(error.response.data.message, 'Mensaje del sistema');
+                        }
+                    })
+            }
+        })
     }
 </script>
 <?php
