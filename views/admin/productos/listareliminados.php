@@ -5,9 +5,9 @@
             <tr>
                 <th>Código</th>
                 <th>Producto</th>
-                <th>Movimiento</th>
-                <th>Usuario</th>
-                <th>Fecha</th>
+                <th class="text-center">Movimiento</th>
+                <th class="text-center">Usuario</th>
+                <th class="text-center">Fecha / Hora</th>
             </tr>
         </thead>
         <tbody>

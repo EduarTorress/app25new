@@ -516,7 +516,7 @@ class Producto extends Modelo
         $sql = "SELECT a.idart,a.`descri` AS producto,u.`nomb` AS usuario,prod_fact AS fechaeliminacion
                 FROM fe_art a
                 INNER JOIN fe_usua u ON a.`prod_uact`=u.`idusua`
-                WHERE prod_acti='I' AND prod_fact IS NOT NULL ORDER BY prod_fact";
+                WHERE prod_acti='I' AND prod_fact IS NOT NULL ORDER BY prod_fact desc";
         $query = $this->prepare($sql);
         $query->execute();
         $listado = $query->fetchAll(PDO::FETCH_ASSOC);
