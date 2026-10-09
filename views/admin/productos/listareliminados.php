@@ -3,7 +3,7 @@
     <table id="tablaeliminados" class="table table-bordered border-dark table-sm small">
         <thead>
             <tr>
-                <th>Código</th>
+                <th  class="text-center">Código</th>
                 <th>Producto</th>
                 <th class="text-center">Movimiento</th>
                 <th class="text-center">Usuario</th>
