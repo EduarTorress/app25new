@@ -13,11 +13,11 @@
         <tbody>
             <?php foreach ($listado as $item) : ?>
                 <tr>
-                    <td><?php echo $item['prod_idar'] ?></td>
-                    <td><?php echo $item['prod_descriold'] ?></td>
-                    <td><?php echo $item['prod_descrinew'] ?></td>
-                    <td><b><?php echo $item['nomb'] ?></b></td>
-                    <td><b><?php echo $item['prod_fope'] ?></b></td>
+                    <td><?php echo $item['idart'] ?></td>
+                    <td><b><?php echo $item['producto'] ?></b></td>
+                    <td><?php echo 'Elimino' ?></td>
+                    <td><b><?php echo $item['usuario'] ?></b></td>
+                    <td><b><?php echo $item['fechaeliminacion'] ?></b></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

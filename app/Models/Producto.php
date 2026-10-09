@@ -513,9 +513,10 @@ class Producto extends Modelo
     }
     function consultareliminados()
     {
-        $sql = "SELECT ap.*,u.nomb FROM fe_aproductos ap
-            INNER JOIN fe_usua u ON ap.`prod_idus`=u.`idusua`
-            WHERE prod_fope>='2025-05-07' AND prod_descrinew LIKE '%ANULADO%'";
+        $sql = "SELECT a.idart,a.`descri` AS producto,u.`nomb` AS usuario,prod_fact AS fechaeliminacion
+                FROM fe_art a
+                INNER JOIN fe_usua u ON a.`prod_uact`=u.`idusua`
+                WHERE prod_acti='I' AND prod_fact IS NOT NULL ORDER BY prod_fact";
         $query = $this->prepare($sql);
         $query->execute();
         $listado = $query->fetchAll(PDO::FETCH_ASSOC);
