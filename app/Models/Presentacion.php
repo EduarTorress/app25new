@@ -41,7 +41,15 @@ class Presentacion extends Modelo
     }
     function listarpresentaciones()
     {
-        $sql = "SELECT * FROM fe_presentaciones WHERE pres_acti='A'";
+        $sql = "SELECT *
+                FROM fe_presentaciones
+                WHERE pres_acti = 'A'
+                ORDER BY
+                    CASE
+                        WHEN pres_desc = 'Unidad' THEN 0
+                        ELSE 1
+                    END,
+                    pres_cant;";
         $query = $this->prepare($sql);
         $query->fetchAll(PDO::FETCH_ASSOC);
         $query->execute();
