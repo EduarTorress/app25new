@@ -844,42 +844,42 @@ class Ventas extends Modelo
             $sw = 1;
             foreach ($carritov as $item) {
                 if ($item['activo'] == 'A') {
-                    if ($item['tipoproducto'] == 'K') {
-                        $execas = $pdo->prepare($sqlas);
-                        $cant = floatval($item['cantidad']);
-                        $cantequi = floatval($item['cantequi']);
-                        $execas->execute([
-                            "coda" => $item['coda'],
-                            "nalma" => $cabecera['almv'],
-                            "ccant" => $cant,
-                            "cantequi" => $cantequi
-                        ]);
-                        if ($execas->errorCode() != '00000') {
-                            enviarmensajerror($sqlas, $execas->errorInfo());
-                            $sw = 0;
-                            break;
-                        }
-                    } else {
-                        $producto = new Producto();
-                        $producto->txtidart = $item['coda'];
-                        $rpta = $producto->verdetallecombo();
-                        foreach ($rpta['listado'] as $l) {
-                            $execas = $pdo->prepare($sqlas);
-                            $cant = floatval($item['cantidad']);
-                            $cantequi = floatval($item['cantequi']);
-                            $execas->execute([
-                                "coda" => $l['idart'],
-                                "nalma" => $cabecera['almv'],
-                                "ccant" => $cant,
-                                "cantequi" => $cantequi
-                            ]);
-                            if ($execas->errorCode() != '00000') {
-                                enviarmensajerror($sqlas, $execas->errorInfo());
-                                $sw = 0;
-                                break;
-                            }
-                        }
+                    // if ($item['tipoproducto'] == 'K') {
+                    $execas = $pdo->prepare($sqlas);
+                    $cant = floatval($item['cantidad']);
+                    $cantequi = floatval($item['cantequi']);
+                    $execas->execute([
+                        "coda" => $item['coda'],
+                        "nalma" => $cabecera['almv'],
+                        "ccant" => $cant,
+                        "cantequi" => $cantequi
+                    ]);
+                    if ($execas->errorCode() != '00000') {
+                        enviarmensajerror($sqlas, $execas->errorInfo());
+                        $sw = 0;
+                        break;
                     }
+                    // } else {
+                    //     $producto = new Producto();
+                    //     $producto->txtidart = $item['coda'];
+                    //     $rpta = $producto->verdetallecombo();
+                    //     foreach ($rpta['listado'] as $l) {
+                    //         $execas = $pdo->prepare($sqlas);
+                    //         $cant = floatval($item['cantidad']);
+                    //         $cantequi = floatval($item['cantequi']);
+                    //         $execas->execute([
+                    //             "coda" => $l['idart'],
+                    //             "nalma" => $cabecera['almv'],
+                    //             "ccant" => $cant,
+                    //             "cantequi" => $cantequi
+                    //         ]);
+                    //         if ($execas->errorCode() != '00000') {
+                    //             enviarmensajerror($sqlas, $execas->errorInfo());
+                    //             $sw = 0;
+                    //             break;
+                    //         }
+                    //     }
+                    // }
                     $execiki = $pdo->prepare($sqliki);
                     $cant = floatval($item['cantidad']);
                     $prec = floatval($item['precio']);
@@ -1205,36 +1205,36 @@ class Ventas extends Modelo
                     break;
                 }
 
-                if ($item['tipoproducto'] == 'C') {
-                    $producto = new Producto();
-                    $producto->txtidart = $item['coda'];
-                    $rpta = $producto->verdetallecombo();
-                    foreach ($rpta['listado'] as $l) {
-                        $execas = $pdo->prepare($sqlas);
-                        $cant = floatval($item['cantidad']);
-                        $cantequi = floatval($item['cantequi']);
-                        $ncaant = floatval($item['caant']);
-                        $execas->execute([
-                            "coda" => $l['idart'],
-                            "nalma" => $cabecera['almv'],
-                            "ccant" => $cant,
-                            "cantequi" => $cantequi,
-                            "ncaant" => $ncaant
-                        ]);
-                    }
-                } else {
-                    $execas = $pdo->prepare($sqlas);
-                    $cant = floatval($item['cantidad']);
-                    $ncaant = floatval($item['caant']);
-                    $karequi = floatval($item['cantequi']);
-                    $execas->execute([
-                        "coda" => $item['coda'],
-                        "nalma" => $cabecera['almv'],
-                        "ccant" => $ncaant,
-                        'cantequi' => $karequi,
-                        "ncaant" => $karequi * $ncaant
-                    ]);
-                }
+                // if ($item['tipoproducto'] == 'C') {
+                //     $producto = new Producto();
+                //     $producto->txtidart = $item['coda'];
+                //     $rpta = $producto->verdetallecombo();
+                //     foreach ($rpta['listado'] as $l) {
+                //         $execas = $pdo->prepare($sqlas);
+                //         $cant = floatval($item['cantidad']);
+                //         $cantequi = floatval($item['cantequi']);
+                //         $ncaant = floatval($item['caant']);
+                //         $execas->execute([
+                //             "coda" => $l['idart'],
+                //             "nalma" => $cabecera['almv'],
+                //             "ccant" => $cant,
+                //             "cantequi" => $cantequi,
+                //             "ncaant" => $ncaant
+                //         ]);
+                //     }
+                // } else {
+                $execas = $pdo->prepare($sqlas);
+                $cant = floatval($item['cantidad']);
+                $ncaant = floatval($item['caant']);
+                $karequi = floatval($item['cantequi']);
+                $execas->execute([
+                    "coda" => $item['coda'],
+                    "nalma" => $cabecera['almv'],
+                    "ccant" => $ncaant,
+                    'cantequi' => $karequi,
+                    "ncaant" => $karequi * $ncaant
+                ]);
+                // }
                 if ($execas->errorCode() != '00000') {
                     enviarmensajerror($sqlas, $execas->errorInfo());
                     $sw = 0;
@@ -1951,7 +1951,7 @@ class Ventas extends Modelo
         $query->execute();
         return $query;
     }
-       function consultarNotasporCliente($idCliente)
+    function consultarNotasporCliente($idCliente)
     {
         $sql = "SELECT ndoc AS dcto,a.fech,b.nruc,b.razo,IF(a.mone='S','Soles','Dólares') AS mone,
         a.valor,a.rcom_exon,CAST(0 AS DECIMAL(12,2)) AS inafecto,b.idclie,b.ndni,form,rcom_mens,
