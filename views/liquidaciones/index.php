@@ -1,5 +1,6 @@
 <?php
 
+use App\View\Components\EmpresaComponent;
 use App\View\Components\ModalImprimir;
 
 $this->setLayout('layouts/admin');
@@ -14,13 +15,19 @@ $this->startSection('contenido');
                 <div class="card-body">
                     <div class="input-group">
                         <label for="txtfecha" class="col-sm-0.5 col-form-label col-form-label-sm">Fecha: </label>
-                        <div class="col-sm-2">
+                        <div class="col-sm-1.5">
                             <input type="date" class="form-control form-control-sm" onkeypress="entergrabar(event)" id="txtfecha" value="<?php echo date("Y-m-d") ?>">
                         </div>
                         <?php
                         $lu = new \App\View\Components\ListasusuarioscomboComponent('');
                         echo $lu->render();
                         ?>
+                        <div class="col-sm-2">
+                            <?php
+                            $ec = new EmpresaComponent($_SESSION['idalmacen']);
+                            echo $ec->render();
+                            ?> &nbsp;
+                        </div>
                         <div class="col-sm-1">
                             <button type="button" class="btn btn-success btn-sm" onclick="buscar()">Consultar</button>
                         </div>
@@ -100,10 +107,23 @@ $this->startSection('javascript');
             "searching": true,
             "paging": false
         });
+        $("#cmbAlmacen option[value='0']").remove();
+
+        tipocaja = "<?php echo (!empty($_SESSION['config']['cajaxtienda']) ? 'A' : 'U') ?>";
         tipousuario = "<?php echo $_SESSION['tipousuario'] ?>";
-        if (tipousuario != 'A') {
-            $("#cmbusuarios").attr("disabled", "disabled");
-            $("#cmbusuarios").val("<?php echo $_SESSION['usuario_id']; ?>");
+
+        if (tipocaja == 'A') {
+            $("#cmbAlmacen").removeAttr("disabled");
+            $("#cmbusuarios").attr("disabled", true);
+            if (tipousuario != 'A') {
+                $("#cmbAlmacen").attr("disabled", "disabled");
+            }
+        } else {
+            $("#cmbusuarios").removeAttr("disabled");
+            $("#cmbAlmacen").attr("disabled", true);
+            if (tipousuario != 'A') {
+                $("#cmbusuarios").attr("disabled", "disabled");
+            }
         }
     }
 
@@ -117,7 +137,8 @@ $this->startSection('javascript');
         axios.get('/cajas/buscar', {
             "params": {
                 "txtfech": $("#txtfecha").val(),
-                "cmbusuarios": $("#cmbusuarios").val()
+                "cmbusuarios": $("#cmbusuarios").val(),
+                "cmbAlmacen": $("#cmbAlmacen").val()
             }
         }).then(function(respuesta) {
             $("#canvas").empty();

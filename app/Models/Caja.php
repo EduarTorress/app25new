@@ -151,6 +151,21 @@ class Caja extends Modelo
         $data = ['mensaje' => 'Todo ok', 'lista' => $lista, 'estado' => '1'];
         return $data;
     }
+    function versaldoxtienda($fechi, $fechf, $codt)
+    {
+        $lista = [];
+        $sql = "SELECT SUM(IF(a.lcaj_deud<>0,lcaj_deud,0)) AS ingresoss,SUM(IF(a.lcaj_acre<>0,lcaj_acre,0)) AS egresoss, SUM(IF(a.lcaj_deud<>0,lcaj_deud,0)) - SUM(IF(a.lcaj_acre<>0,lcaj_acre,0)) AS saldoanterior
+	    FROM fe_lcaja  AS a WHERE  a.lcaj_fech BETWEEN :fechi AND :fechf AND a.lcaj_acti='A' AND a.lcaj_form='E' AND lcaj_codt=:codt";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'fechi' => $fechi,
+            'fechf' => $fechf,
+            'codt' => $codt
+        ]);
+        $lista = $query->fetchAll(PDO::FETCH_ASSOC);
+        $data = ['mensaje' => 'Todo ok', 'lista' => $lista, 'estado' => '1'];
+        return $data;
+    }
     function registrarIngresoEgreso()
     {
         try {

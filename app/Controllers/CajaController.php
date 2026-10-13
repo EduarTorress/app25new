@@ -22,16 +22,19 @@ class CajaController extends Controller
     {
         verificarSesion();
         $fech = $request->get('txtfech');
+        $fechaAnterior = date('Y-m-d', strtotime($fech . ' -1 day'));
         $nidusua = $request->get('cmbusuarios');
         $codt = $_SESSION['almacen'];
         $caja = new Caja();
         if (!empty($_SESSION['config']['cajaxtienda'])) {
             $data = $caja->buscarmulti($fech, $nidusua, $codt);
+            $saldo = $caja->verSaldoxtienda($fechaAnterior, $fech, $codt);
         } else {
             $data = $caja->buscar($fech, $nidusua, $codt);
+            $saldo = $caja->verSaldo($fechaAnterior, $fech, $nidusua);
         }
         $prediccion = $caja->prediccionvtasxusuario($nidusua);
-        $prediccion=floatval($prediccion['lista'][0]['prediccionventas'])/30;
+        $prediccion = floatval($prediccion['lista'][0]['prediccionventas']) / 30;
         $lista = $data['lista'];
         $total = 0;
         $liquidez = 0;
@@ -55,7 +58,7 @@ class CajaController extends Controller
         $totalliquidez = $liquidez - $egresos;
         $listasobrantes = $caja->buscarsobrante($fech, $nidusua, $codt);
         $txtsobrante = empty($listasobrantes['lista'][0]['efectivo']) ? 0 : $listasobrantes['lista'][0]['efectivo'];
-        $saldo = $caja->verSaldo('2021-01-01', $fech, $nidusua);
+
         return \view('liquidaciones/listamovimientos', [
             'lista' => $lista,
             'total' => $total,
@@ -63,7 +66,7 @@ class CajaController extends Controller
             'sobrante' => $txtsobrante,
             'totalliquidez' => $totalliquidez,
             'ingresos' => $ingresos,
-            'prediccion'=>$prediccion
+            'prediccion' => $prediccion
         ]);
     }
     function indexIngresosEgresos()
