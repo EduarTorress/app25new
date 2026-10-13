@@ -92,7 +92,7 @@ echo $mdGs->render();
 <div id="modal-mantenimiento" class="modal fade" tabindex="-1" data-keyboard="false" aria-hidden="true">
 </div>
 <div id="modal-detalle" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content" id="modal-contenidod">
         </div>
     </div>
@@ -447,14 +447,17 @@ $this->startSection('javascript');
                     });
                     data = new FormData();
                     data.append("txtidproducto", $("#txtidproducto").val());
+                    data.append("txtcantidadingresante", $("#txtcantidadingresante").val());
                     data.append("detalle", JSON.stringify(detalle));
                     axios.post("/combos/registrarcombo", data)
                         .then(function(respuesta) {
+                            
                             Swal.fire({
                                 title: "Se ejecuto satisfactoriamente",
                                 text: respuesta.data.mensaje.trimEnd(),
                                 icon: "success"
                             });
+                            buscar();
                             $("#modal-detalle").modal('hide');
                         }).catch(function(error) {
                             e = error['response']['data']['errors']

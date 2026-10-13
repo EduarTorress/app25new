@@ -13,7 +13,7 @@ class Combo extends Modelo
     var $idproducto = "";
     var $costo = 0.00;
 
-    function save($detalle)
+    function save($detalle, $txtcantidadingresante)
     {
         try {
             $ncon = new conexion();
@@ -32,7 +32,7 @@ class Combo extends Modelo
                 return $rpta;
             }
 
-             $correlativo = SerieController::correlativo($_SESSION['nserie'], 'CP');
+            $correlativo = SerieController::correlativo($_SESSION['nserie'], 'CP');
             if ($correlativo[0]['estado'] == 0) {
                 $rpta = array('mensaje' => 'No se pudo obtener el correlativo', "estado" => '0');
                 return $rpta;
@@ -45,22 +45,22 @@ class Combo extends Modelo
                 'ctdoc' => 'CP',
                 'cform' => 'E',
                 'cndoc' => $correlativo[0]['correlativo'],
-                'dfecha' =>date('Y-m-d'),
-                'dfechar' =>date('Y-m-d'),
+                'dfecha' => date('Y-m-d'),
+                'dfechar' => date('Y-m-d'),
                 'cdetalle' => 'Armo combos',
                 'nv' => 0,
                 'nigv' => 0,
                 'nt' => 0,
                 'cndo2' => '',
                 'cm' => 'S',
-                'ndolar' =>0,
+                'ndolar' => 0,
                 'ni' => 0,
                 'ctg' => 'K',
                 'ccodp' => 0,
                 'cmvto' => 'V',
                 'nus' =>  session()->get("usuario_id"),
                 'opt' => 0,
-                'nidcodt' =>$_SESSION['idalmacen'],
+                'nidcodt' => $_SESSION['idalmacen'],
                 'n1' => 0,
                 'n2' => 0,
                 'n3' => 0,
@@ -68,7 +68,23 @@ class Combo extends Modelo
                 'npvta' => 0
             ]);
             $id = $exeIC->fetchColumn();
-           
+
+            $sqlIK = "SELECT FunIngresaKardex1(:idauto,:cc,:ctipo,:npr,:nct,:cincl,:tmvto,:ccdov,:calma,:nidcosto1,:vcom,0,'UNIDAD',1,0,'','2000-01-01') AS NID";
+            $exeIK = $pdo->prepare($sqlIK);
+            $exeIK->execute([
+                'idauto' => $id,
+                'cc' => $this->idproducto,
+                'ctipo' => 'C',
+                'npr' => '0',
+                'nct' =>  $txtcantidadingresante,
+                'cincl' => 'I',
+                'tmvto' => 'K',
+                'ccdov' => '0',
+                'calma' => $_SESSION['idalmacen'],
+                'nidcosto1' => '0',
+                'vcom' => '0'
+            ]);
+
             foreach ($detalle as $d) {
                 $sql = "INSERT INTO fe_epta (epta_coda,epta_idar,epta_cost,epta_codt,epta_cant) VALUES(:idproducto,:idarts,:costo,:codigotienda,1)";
                 $exec = $pdo->prepare($sql);
@@ -78,16 +94,22 @@ class Combo extends Modelo
                     'costo' => $d['costo'],
                     'codigotienda' => $_SESSION['idalmacen']
                 ]);
+
+                if ($exec->errorCode() != '00000') {
+                    $pdo->rollBack();
+                    $rpta = array('mensaje' => $exec->errorInfo(),  "ndoc" => "", "estado" => '0');
+                    return $rpta;
+                }
                 // $this->costo = $this->costo + $d['costo'];
 
-                $sqlIK = "SELECT FunIngresaKardex1(:idauto,:cc,:ctipo,:npr,:nct,:cincl,:tmvto,:ccdov,:calma,:nidcosto1,:vcom,0,'UNIDAD',1,0,'','2000-01-01') AS NID";
-                $exeIK = $pdo->prepare($sqlIK);
-                $exeIK->execute([
+                $sqlSK = "SELECT FunIngresaKardex1(:idauto,:cc,:ctipo,:npr,:nct,:cincl,:tmvto,:ccdov,:calma,:nidcosto1,:vcom,0,'UNIDAD',1,0,'','2000-01-01') AS NID";
+                $exeSK = $pdo->prepare($sqlSK);
+                $exeSK->execute([
                     'idauto' => $id,
                     'cc' => $d['idart'],
                     'ctipo' => 'V',
                     'npr' => '0',
-                    'nct' => '1',
+                    'nct' => $txtcantidadingresante,
                     'cincl' => 'I',
                     'tmvto' => 'K',
                     'ccdov' => '0',
@@ -97,24 +119,23 @@ class Combo extends Modelo
                 ]);
             }
 
-            // $sqlupdateart="update fe_art set cost=:costo,prec=:costo,premay=:costo,premen=:costo,pre3=:costo where idart=:idart";
-            // $execupdateart = $pdo->prepare($sqlupdateart);
-            // $execupdateart->execute([
-            //     'idart' => $this->idproducto,
-            //     'costo' => $this->costo
-            // ]);
+            $sqlupdateart = "update fe_art set cost=:costo,prec=:costo,premay=:costo,premen=:costo,pre3=:costo where idart=:idart";
+            $execupdateart = $pdo->prepare($sqlupdateart);
+            $execupdateart->execute([
+                'idart' => $this->idproducto,
+                'costo' => $this->costo
+            ]);
 
-            // if ($execupdateart->errorCode() != '00000') {
-            //     $pdo->rollBack();
-            //     $rpta = array('mensaje' => $execupdateart->errorInfo(),  "ndoc" => "", "estado" => '0');
-            //     return $rpta;
-            // }
-
-            if ($exec->errorCode() != '00000') {
+            if ($execupdateart->errorCode() != '00000') {
                 $pdo->rollBack();
-                $rpta = array('mensaje' => $exec->errorInfo(),  "ndoc" => "", "estado" => '0');
+                $rpta = array('mensaje' => $execupdateart->errorInfo(),  "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
+
+            $sql = "CALL calcularstock()";
+            $exec = $pdo->prepare($sql);
+            $exec->execute();
+
             $pdo->commit();
             $ncon->close();
             $rpta = array('mensaje' => "Se generó el combo correctamente ", "ndoc" => '', "estado" => '1');

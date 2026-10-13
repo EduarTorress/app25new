@@ -32,7 +32,7 @@ class CombosController extends Controller
         $this->combo->idproducto=$request->get('txtidproducto');
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
-        $rpta = $this->combo->save($detalle);
+        $rpta = $this->combo->save($detalle,$request->get('txtcantidadingresante'));
         return json_encode($rpta);
     }
 }
