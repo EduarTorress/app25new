@@ -37,9 +37,9 @@
                         <td><?php echo $items[0]['prod_cod1'] ?></td>
                         <td><?php echo $items[0]['unid'] ?></td>
                         <td><b><?php echo $items[0]['dcat'] ?></b></td>
-                        <td class="text-right"><?php echo ($items[0]['uno'] + $items[0]['dos'] + $items[0]['tre']) ?></td>
+                        <td class="text-right"><?php echo ($items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'] + $items[0]['cua']) ?></td>
                         <?php
-                        $sucu = array($items[0]['uno'], $items[0]['dos'], $items[0]['tre']);
+                        $sucu = array($items[0]['uno'], $items[0]['dos'], $items[0]['tre'], $items[0]['cua']);
                         $i = 0;
                         ?>
                         <?php foreach ($sucursales as $s) : ?>
@@ -80,6 +80,7 @@
                             $prod_uti2 = $items[0]['prod_uti2'];
                             $prod_uti3 = $items[0]['prod_uti3'];
                             $prod_tigv = $items[0]['prod_tigv'];
+                            $cua = empty($items[0]['cua']) ? 0 : $items[0]['cua'];
                             // $prod_dola = (empty($items[0]['prod_dola']) ? '0' : $items[0]['prod_dola']);
                             $prod_dola = session()->get("gene_dola");
                             $txtcoda1 = str_replace("'", '"', $items[0]['txtcoda1']);
@@ -128,7 +129,8 @@
                                 'costo',
                                 'txtcoda1',
                                 'prod_tigv',
-                                'prod_dola'
+                                'prod_dola',
+                                'cua'
                             );
                             $cadena_json = json_encode($parametros);
                             $opt = session()->get('tiposel', '0');

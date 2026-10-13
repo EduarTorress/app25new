@@ -3,6 +3,7 @@
       "facturardolares": "N",
       "allcamposproductos": "S",
       "multiigv": "N",
-      "codigobarras": "S"
+      "codigobarras": "S",
+      "proyecto": "xsysg"
    }
 ]

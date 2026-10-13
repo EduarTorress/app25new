@@ -22,18 +22,6 @@
                 "opt": "AV"
             },
             {
-                "item": "Facturar Guías",
-                "ruta": "/vtas/canjes",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Facturar Cotizaciones",
-                "ruta": "/vtas/canjespedidos",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
                 "item": "Facturar Notas Ventas",
                 "ruta": "/vtas/indexcanjearnotas",
                 "class": "far fa-circle nav-icon",
@@ -186,12 +174,6 @@
             {
                 "item": "Guia Remitente Ventas",
                 "ruta": "/guiasr/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Guia Remitente Compras",
-                "ruta": "/guiasc/index",
                 "class": "far fa-circle nav-icon",
                 "opt": "AV"
             },
@@ -354,24 +336,6 @@
         ]
     },
     {
-        "main": "Planilla de Trabajadores",
-        "class": "fas fa-address-card",
-        "elementos": [
-            {
-                "item": "Registrar Pagos",
-                "ruta": "/pagosplanilla/indexpagos",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Reporte de Pagos",
-                "ruta": "/pagosplanilla/indexreporte",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            }
-        ]
-    },
-    {
         "main": "Administración",
         "class": "fa fa-bars",
         "elementos": [
@@ -424,20 +388,8 @@
                 "opt": "AS"
             },
             {
-                "item": "Fletes",
-                "ruta": "/fletes/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
                 "item": "Transportistas",
                 "ruta": "/transportista/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Direcciones",
-                "ruta": "/direccion/index",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },

@@ -57,6 +57,11 @@
                 column = 'tre';
                 stock = datos.parametro11
                 break;
+            case 4:
+                almacen = 'SUCURSAL 04';
+                column = 'cua';
+                stock = datos.cua
+                break;
         }
 
         datos = {

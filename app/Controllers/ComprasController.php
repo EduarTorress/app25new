@@ -6,6 +6,7 @@ use Core\Http\Request;
 use App\Models\Compra;
 use App\Models\NotasCredito;
 use App\Models\OCompras;
+use App\Models\Producto;
 use App\Models\Ventas;
 use App\Services\CarritoService;
 use Core\Routing\Controller;
@@ -446,22 +447,19 @@ class ComprasController extends Controller
     }
     function grabar(Request $request)
     {
-        // $validarano = $this->validaranoactual($request->get('fechi'), $request->get('fechf'));
-        // if ($validarano == 1) {
-        //     return response()->json(['errors' => 'El año de la fecha de emisión es diferente al actual'], 422);
-        // }
-
+        $validarano = $this->validaranoactual($request->get('fechi'), $request->get('fechf'));
+        if ($validarano == 1) {
+            return response()->json(['errors' => 'El año de la fecha de emisión es diferente al actual'], 422);
+        }
         $compra = new Compra();
         $existecompra = $compra->validarsicompraexiste($request->get('cndoc'), $request->get('idprov'));
         // echo count($existecompra) . 'hola';
         if (count($existecompra) > 0) {
             return response()->json(['errors' => 'Número de compra ya registrado previamente'], 422);
         }
-
         if (!validarrucregistro($request->get("txtrucproveedor"), $request->get("tdoc"))) {
             return response()->json(['errors' => 'No se puede hacer un comprobante electrónico a la misma empresa'], 422);
         }
-
         $validar = new Validator($request->getBody());
         $validar->rule("required", "tdoc");
         $validar->rule("required", "cndoc");
@@ -1219,43 +1217,83 @@ class ComprasController extends Controller
         $archivoxml = $request->get('archivo');
         $comprobante = ($this->obtenerdetallexdocumento($archivoxml));
         $i = 0;
-
+        $producto = new Producto();
         foreach ($comprobante['carrito_de_compras'] as $item) {
-            $precioconIGV = round($item["precio"] * floatval($_SESSION['gene_igv']), 2);
-            $c[] = array(
-                'indice' => $i++,
-                'coda' => 0,
-                'descri' => $item["descripcion"],
-                'unidad' => $item['unidad'],
-                'cantidad' => $item['cantidad'],
-                'precio' => $precioconIGV,
-                'preciocopia' => $precioconIGV,
-                'nreg' => 0,
-                'idprov' => 0,
-                'subtotal' => $precioconIGV * $item['cantidad'],
-                'activo' => 'A',
-                'epta_idep' =>  0,
-                'pres_desc' => 'UNID',
-                'epta_cant' =>  1,
-                'epta_prec' =>  $precioconIGV,
-                'presseleccionada' => 0,
-                'kar_equi' => 1,
-                'checkafecto' => ($proyecto != 'xsys5' ? "true" :  "false"),
-                'kar_lote' =>  '',
-                'kar_fvto' => '',
-                'presentaciones' => json_encode(
-                    [
+            $data = $producto->BuscarProductos($item['codigoproveedor'], 0, 2, 0);
+            if (empty($data['lista']['items'])) {
+                $precioconIGV = round($item["precio"] * floatval($_SESSION['gene_igv']), 2);
+                $c[] = array(
+                    'indice' => $i++,
+                    'coda' => 0,
+                    'descri' => $item["descripcion"],
+                    'unidad' => $item['unidad'],
+                    'cantidad' => $item['cantidad'],
+                    'codigoproveedor' => empty($item['codigoproveedor']) ? '' : $item['codigoproveedor'],
+                    'precio' => $precioconIGV,
+                    'preciocopia' => $precioconIGV,
+                    'nreg' => 0,
+                    'idprov' => 0,
+                    'subtotal' => $precioconIGV * $item['cantidad'],
+                    'activo' => 'A',
+                    'epta_idep' =>  0,
+                    'pres_desc' => 'UNID',
+                    'epta_cant' =>  1,
+                    'epta_prec' =>  $precioconIGV,
+                    'presseleccionada' => 0,
+                    'kar_equi' => 1,
+                    'checkafecto' => ($proyecto != 'xsys5' ? "true" :  "false"),
+                    'kar_lote' =>  '',
+                    'kar_fvto' => '',
+                    'presentaciones' => json_encode(
                         [
-                            'pres_desc' => 'NIU',
-                            'epta_cant' => 1,
-                            'epta_idep' => 1,
-                            'epta_prec' => $item['precio']
+                            [
+                                'pres_desc' => 'NIU',
+                                'epta_cant' => 1,
+                                'epta_idep' => 1,
+                                'epta_prec' => $item['precio']
+                            ]
                         ]
-                    ]
-                ),
-                'fechavto' => date('Y-m-d'),
-                'lote' => ''
-            );
+                    ),
+                    'fechavto' => date('Y-m-d'),
+                    'lote' => ''
+                );
+            } else {
+                $p = $data['lista']['items'][0];
+                $cantidad = $item['cantidad'];
+                $c[] = [
+                    'indice' => $i++,
+                    'coda' => $p['idart'],
+                    'descri' => $p['descri'],
+                    'unidad' => $p['unid'],
+                    'cantidad' => $cantidad,
+                    'codigoproveedor' => $item['codigoproveedor'] ?? '',
+                    'precio' => $p['pre1'],
+                    'preciocopia' => $p['pre1'],
+                    'nreg' => 0,
+                    'idprov' => 0,
+                    'subtotal' => $p['pre1'] * $cantidad,
+                    'activo' => 'A',
+                    'epta_idep' => $p['epta_idep'],
+                    'pres_desc' => $p['pres_desc'],
+                    'epta_cant' => $p['epta_cant'],
+                    'epta_prec' => $p['epta_prec'],
+                    'presseleccionada' => 0,
+                    'kar_equi' => 1,
+                    'checkafecto' => ($proyecto != 'xsys5' ? 'true' : 'false'),
+                    'kar_lote' => '',
+                    'kar_fvto' => '',
+                    'presentaciones' => json_encode([
+                        [
+                            'pres_desc' => $p['pres_desc'],
+                            'epta_cant' => $p['epta_cant'],
+                            'epta_idep' => $p['epta_idep'],
+                            'epta_prec' => $p['epta_prec']
+                        ]
+                    ]),
+                    'fechavto' => date('Y-m-d'),
+                    'lote' => ''
+                ];
+            }
         }
         session()->set('carritoc', $c);
         return response()->json(['message' => $comprobante], 200);

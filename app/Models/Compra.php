@@ -272,7 +272,7 @@ class Compra extends Modelo
                 $acre = $total;
             }
 
-            if ($cabecera['tdocv'] != '09') {
+            if ($cabecera['tdoc'] != '09') {
                 if ($cabecera['form'] == 'E') {
                     $sqll = "CALL ProIngresaDatosLcajaeEfectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
                             :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
@@ -352,9 +352,9 @@ class Compra extends Modelo
                         $query = $pdo->prepare($sql);
                         $cant = floatval($item['cantidad']);
                         $prec = floatval($item['precio']);
-                        $afecto = "1.18";
+                        $afecto = session()->get("gene_igv");
                         if ((trim($item['checkafecto']) == "true")) {
-                            $afecto = "1.00";
+                            $afecto = 1;
                         }
                         $query->execute([
                             "nauto" => $id,
@@ -374,14 +374,26 @@ class Compra extends Modelo
                             $sw = 0;
                             break;
                         }
+                        if ($proyecto == 'xsysg') {
+                            $sqla = "update fe_art set coda1=:codigoproveedor where idart=:idart";
+                            $execa = $pdo->prepare($sqla);
+                            $execa->execute([
+                                "codigoproveedor" => $item['codigoproveedor'],
+                                "idart" => $item['coda'],
+                            ]);
+                            if ($query->errorCode() != '00000') {
+                                $sw = 0;
+                                break;
+                            }
+                        }
                     } else {
                         $sql = "SELECT FunIngresaKardex3(:nauto,:coda,'C',:prec,:cant,:igv,'K','0',:alm,'0','0',:karequi,:karunid,:epta,:epta,'0',:tigv,:fechavto,:flete) AS NID";
                         $query = $pdo->prepare($sql);
                         $cant = floatval($item['cantidad']);
                         $prec = floatval($item['precio']);
-                        $afecto = "1.18";
+                        $afecto = session()->get("gene_igv");
                         if ((trim($item['checkafecto']) == "true")) {
-                            $afecto = "1.00";
+                            $afecto = 1;
                         }
                         $query->execute([
                             "nauto" => $id,

@@ -57,11 +57,14 @@ class Presentacion extends Modelo
     }
     function listardetapresxproducto($idart)
     {
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $sql = "SELECT e.*,p.pres_desc
                 FROM fe_epta e
                 INNER JOIN `fe_presentaciones` p ON (e.epta_pres=p.pres_idpr)
-                WHERE e.epta_idar=:idart AND e.`epta_acti`='A' order by epta_cant";
-                //  p.pres_acti='A' and
+                WHERE e.epta_idar=:idart AND e.`epta_acti`='A' " .
+            ($proyecto == 'xsysg' ? " AND epta_codt=" . $_SESSION['idalmacen'] : ' ')
+            . " order by epta_cant";
+        //  p.pres_acti='A' and
         $query = $this->prepare($sql);
         $query->execute([
             'idart' => $idart

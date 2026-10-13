@@ -27,6 +27,7 @@ class Producto extends Modelo
 
     function BuscarProductos($buscar, $nd, $opt, $nid)
     {
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $sql = "call promuestraproductos1(:abuscar,:nd,:opt,:nid)";
         $productosxsucu = empty($_SESSION['config']['productoxsucu']) ? 'N' : $_SESSION['config']['productoxsucu'];
         if ($productosxsucu == 'S') {
@@ -35,6 +36,9 @@ class Producto extends Modelo
             } else {
                 $nd = $_SESSION['idalmacen'];
             }
+        }
+        if ($proyecto == 'xsysg') {
+            $nd = $_SESSION['idalmacen'];
         }
         $lista = array();
         $data = ['resultado' => false];

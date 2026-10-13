@@ -4,7 +4,7 @@ $this->setLayout('layouts/admin');
 <?php
 $this->startSection('contenido');
 ?>
-<div class="content-wrapper">
+<div class="content-wrapper bg-white">
     <div class="content">
         <div class="container-fluid">
             <div class="d-flex justify-content-center align-items-center" style="height:600px;">

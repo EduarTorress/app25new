@@ -34,7 +34,6 @@ class impresiondefault extends Imprimir
             $pdf->Image($logo, 9, -12, 62, 60);
             // $pdf->Cell(70, 3, $pdf->Image($logo, 9, -12, 62, 60), 0, 'C');
         }
-
         // Información de la tienda
         $pdf->Ln(21);
         $pdf->setx(5);
@@ -42,7 +41,7 @@ class impresiondefault extends Imprimir
         $pdf->Ln(2);
         $pdf->setx(5);
         $pdf->SetFont('Arial', 'B', 9);
-        $pdf->MultiCell(70, 4, trim($this->direccionempresa), 0, 'C');
+        $pdf->MultiCell(70, 4, "DOM. FIS. " . trim($this->direccionempresa) . "\nSUC. " . trim($_SESSION['direccionsucursal']), 0, 'C');
         $pdf->setx(5);
         $pdf->MultiCell(70, 4, 'EMAIL: ' . trim($_SESSION['gene_correo']), 0, 'C');
         $pdf->setx(5);
