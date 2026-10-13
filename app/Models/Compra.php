@@ -1296,7 +1296,6 @@ class Compra extends Modelo
                 $pdo->rollBack();
                 return false;
             }
-
             $sqldg = "update fe_rcom set acti='I',valor=0,igv=0,impo=0 where idauto=:idautoantiguo";
             $exeldg = $pdo->prepare($sqldg);
             $exeldg->execute([
@@ -1307,8 +1306,6 @@ class Compra extends Modelo
                 $pdo->rollBack();
                 return false;
             }
-
-
             $sqlag = "update fe_rcom set acti='A' where idauto=:idautoantiguo";
             $exelag = $pdo->prepare($sqlag);
             $exelag->execute([
