@@ -88,16 +88,16 @@ class ProductoController extends Controller
         \session()->set("lista", $lista);
         return view($cvista, ['lista' => $lista]);
     }
-    // function buscarproductoparacombo(Request $request)
-    // {
-    //     $abuscar = $request->get('cbuscar');
-    //     $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
-    //     $nid = intval($request->get('cbuscar'));
-    //     $nd = Tipodecambio::dtipocambiosistema();
-    //     $lista = $this->producto->BuscarProductos($abuscar, $nd, $opt, $nid);
-    //     $cvista = \retornavista('components/', 'listaproductomodalparacombo');
-    //     return view($cvista, ['lista' => $lista]);
-    // }
+    function buscarproductoparacombo(Request $request)
+    {
+        $abuscar = $request->get('cbuscar');
+        $opt = $request->get('option') == 'nombre' ?  1 : ($request->get('option') == 'codigo' ? 0 : 2);
+        $nid = intval($request->get('cbuscar'));
+        $nd = Tipodecambio::dtipocambiosistema();
+        $lista = $this->producto->BuscarProductosadmin($abuscar, $nd, $opt, $nid);
+        $cvista = \retornavista('components/', 'listaproductomodalparacombo');
+        return view($cvista, ['lista' => $lista]);
+    }
     function create()
     {
         $titulo = 'Registrar Producto';

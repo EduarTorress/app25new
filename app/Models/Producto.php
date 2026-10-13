@@ -357,10 +357,10 @@ class Producto extends Modelo
     function updateStock($cabecera, $detalle)
     {
         $data = array();
-        $con = new conexion();
-        $pdo = $con->conectar();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         try {
+            $con = new conexion();
+            $pdo = $con->conectar();
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->beginTransaction();
             $sqlIC = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,
                 :ndolar,:ni,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,:nitem,:npvta,0) AS id";
@@ -529,9 +529,9 @@ class Producto extends Modelo
     }
     function verdetallecombo()
     {
-        $sql = "SELECT descri,prec,idart FROM fe_combos c
-        INNER JOIN fe_art a ON c.`com_idart`=a.`idart`
-        WHERE idprodcomb=:idart AND com_acti='A'";
+        $sql = "SELECT descri,prec,idart FROM fe_epta c
+        INNER JOIN fe_art a ON c.`epta_idar`=a.`idart`
+        WHERE epta_coda=:idart AND epta_acti='A'";
         $query = $this->prepare($sql);
         $query->execute([
             'idart' => $this->txtidart

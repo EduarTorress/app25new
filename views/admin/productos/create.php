@@ -26,7 +26,8 @@
                     echo $unid->render();
                     ?>
                 </div>
-                <div class="form-group col-2" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?>>
+                 <!-- <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> -->
+                <div class="form-group col-2">
                     <?php
                     $ctipp = isset($datosProducto['tipop']) ? $datosProducto['tipop'] : '';
                     $tipop = new \App\View\Components\TipoProductoComponent($ctipp);

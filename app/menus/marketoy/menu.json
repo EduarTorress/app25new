@@ -393,6 +393,12 @@
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },
+              {
+                "item": "Combos",
+               "ruta": "/productos/index/3",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
             {
                 "item": "Usuarios",
                 "ruta": "/usuarios/index",

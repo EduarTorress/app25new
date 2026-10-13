@@ -40,15 +40,21 @@ echo $mdGs->render();
                                                 <input type="radio" name="optradios" value="codigo1" onchange="obtener()">Código Fab.&nbsp;
                                             </label>
                                         </div>
-                                        <div class="col-8" style="display:inline-block;">
+                                        <div class="col-10" style="display:inline-block;">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" style="width:40%;" name="txtbuscar" id="txtbuscar" placeholder="Ingrese nombre o código de Producto" onkeyup="mayusculas(this)" aria-label="Buscar" value="<?php echo session()->get('busqueda') ?>">
                                                 <span class="input-group-btn">
                                                     <button type="submit" id="buscar" class="btn btn-outline-secondary">Buscar</button>
+                                                    <button type="button" id="buscarBarras"
+                                                        class="btn btn-secondary"
+                                                        style="display:none;"
+                                                        onclick="abrirEscaner()">
+                                                        <i class="fas fa-barcode"></i> Escanear código de barras
+                                                    </button>
                                                 </span>&nbsp;
                                                 <!-- <?php
-                                                $opt = session()->get('tiposel', '0');
-                                                if ($opt == '1') : ?>
+                                                        $opt = session()->get('tiposel', '0');
+                                                        if ($opt == '1') : ?>
                                                     <a href="/pedidos/listarpedido" class="btn btn-success">Ver Carrito</a>
                                                 <?php endif; ?> -->
                                                 <?php if ($opt == '5') : ?>
@@ -88,6 +94,33 @@ echo $mdGs->render();
 <div id="modal-detalle" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content" id="modal-contenidod">
+        </div>
+    </div>
+</div>
+<div id="modalEscaner" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Escanear código de barras</h5>
+                <button type="button" class="close"
+                    data-bs-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>Apunta la cámara al código de barras del producto.</p>
+                <div id="lectorCodigoBarras" style="width:100%;"></div>
+                <div id="errorEscaner" class="text-danger mt-2"></div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Cerrar cámara
+                </button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -287,8 +320,11 @@ $this->startSection('javascript');
             document.getElementById('txtbuscar').type = 'text';
             vdvto = 'codigofab';
         }
+        document.getElementById('buscarBarras').style.display =
+            vdvto === 'codigo' ? 'inline-block' : 'none';
         return vdvto;
     }
+
 
     function eliminarProducto(datos) {
         id = datos.parametro2;
@@ -427,7 +463,7 @@ $this->startSection('javascript');
                                 result.push([i, e[i]]);
                             }
                             result.forEach(function(numero) {
-                                toastr.error(numero[1],'Mensaje del Sistema')
+                                toastr.error(numero[1], 'Mensaje del Sistema')
                             });
                         });
                 }
@@ -439,6 +475,99 @@ $this->startSection('javascript');
 
     $('#modal-detalle').on('hidden.bs.modal', function() {
         $('#detallecombo tbody tr').remove();
+    });
+</script>
+<script>
+    let lectorBarras = null;
+    let escanerActivo = false;
+    let procesandoCodigo = false;
+
+    function abrirEscaner() {
+        $('#errorEscaner').text('');
+        $('#modalEscaner').modal('show');
+    }
+
+    $('#modalEscaner').on('shown.bs.modal', function() {
+        if (escanerActivo) return;
+
+        if (typeof Html5Qrcode === 'undefined') {
+            $('#errorEscaner').text(
+                'No se pudo cargar la librería del lector.'
+            );
+            return;
+        }
+
+        lectorBarras = new Html5Qrcode('lectorCodigoBarras');
+        procesandoCodigo = false;
+        escanerActivo = true;
+
+        lectorBarras.start({
+                facingMode: 'environment'
+            }, {
+                fps: 10,
+                qrbox: {
+                    width: 300,
+                    height: 130
+                },
+                formatsToSupport: [
+                    Html5QrcodeSupportedFormats.EAN_13,
+                    Html5QrcodeSupportedFormats.EAN_8,
+                    Html5QrcodeSupportedFormats.UPC_A,
+                    Html5QrcodeSupportedFormats.UPC_E,
+                    Html5QrcodeSupportedFormats.CODE_128,
+                    Html5QrcodeSupportedFormats.CODE_39,
+                    Html5QrcodeSupportedFormats.ITF
+                ]
+            },
+            function(codigoLeido) {
+                if (procesandoCodigo) return;
+
+                procesandoCodigo = true;
+
+                document.getElementById('txtbuscar').value =
+                    codigoLeido;
+
+                detenerEscaner().then(function() {
+                    $('#modalEscaner').modal('hide');
+
+                    // Ejecuta la búsqueda existente
+                    buscar();
+                });
+            },
+            function() {
+                // Ignora los intentos en los que aún no
+                // se detecta un código.
+            }
+        ).catch(function(error) {
+            escanerActivo = false;
+
+            $('#errorEscaner').text(
+                'No se pudo abrir la cámara. Verifica los permisos ' +
+                'y que el sitio utilice HTTPS.'
+            );
+
+            console.error('Error al iniciar la cámara:', error);
+        });
+    });
+
+    function detenerEscaner() {
+        if (!lectorBarras || !escanerActivo) {
+            return Promise.resolve();
+        }
+
+        return lectorBarras.stop()
+            .catch(function(error) {
+                console.error('Error al detener el lector:', error);
+            })
+            .then(function() {
+                lectorBarras.clear();
+                lectorBarras = null;
+                escanerActivo = false;
+            });
+    }
+
+    $('#modalEscaner').on('hidden.bs.modal', function() {
+        detenerEscaner();
     });
 </script>
 <?php

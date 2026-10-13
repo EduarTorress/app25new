@@ -32,6 +32,9 @@ class Correlativo extends Modelo
                 case '07':
                     $cletra = 'FN';
                     break;
+                case 'CP':
+                    $cletra = 'CP';
+                    break;
             }
             $serie = array();
             $lsql = "SELECT nume,items,idserie FROM fe_serie WHERE serie=:nserie AND tdoc=:ctdoc limit 1";
@@ -55,7 +58,6 @@ class Correlativo extends Modelo
                     } else {
                         $correlativo = str_pad((string)$r['nume'], 8, "0", STR_PAD_LEFT);
                     }
-
                     if ($ctdoc == 'OC') {
                         $serie1 = str_pad((string)$nserie, 2, "0", STR_PAD_LEFT);
                         $correlativo = str_pad((string)$r['nume'], 8, "0", STR_PAD_LEFT);

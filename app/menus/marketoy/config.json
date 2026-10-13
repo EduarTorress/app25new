@@ -1,7 +1,8 @@
 [
    {
+      "validarstock": "S",
       "facturardolares": "N",
-      "allcamposproductos": "S",
+      "allcamposproductos": "N",
       "multiigv": "N",
       "codigobarras": "S",
       "proyecto": "xsysg"

@@ -579,6 +579,6 @@ $app->router->post('/admin/flete/store', [\App\Controllers\FleteController::clas
 $app->router->post('/admin/flete/update/{id}', [\App\Controllers\FleteController::class, 'update']);
 
 #ruta para combos
-// $app->router->get('/combos/modalcreatedetalle', [\App\Controllers\CombosController::class, 'modalcreatedetalle']);
-// $app->router->get('/productos/buscarproductoparacombo', [\App\Controllers\ProductoController::class, 'buscarproductoparacombo']);
-// $app->router->post('/combos/registrarcombo', [\App\Controllers\CombosController::class, 'registrarcombo']);
+$app->router->get('/combos/modalcreatedetalle', [\App\Controllers\CombosController::class, 'modalcreatedetalle']);
+$app->router->get('/productos/buscarproductoparacombo', [\App\Controllers\ProductoController::class, 'buscarproductoparacombo']);
+$app->router->post('/combos/registrarcombo', [\App\Controllers\CombosController::class, 'registrarcombo']);

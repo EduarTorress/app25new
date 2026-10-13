@@ -29,9 +29,9 @@
                 <tbody>
                     <?php foreach ($combo as $c) : ?>
                         <tr class="fila">
-                            <td scope="col"><input type="text" name="" style="width: 100%;" class="idart" id="" value="<?php echo $c['com_idart']; ?>" readonly></th>
+                            <td scope="col"><input type="text" name="" style="width: 100%;" class="idart" id="" value="<?php echo $c['epta_idar']; ?>" readonly></th>
                             <td scope="col"><input type="text" name="" style="width: 100%;" class="nombre" id="" value="<?php echo $c['descri']; ?>" readonly></th>
-                            <td scope="col"><input type="text" name="" style="width: 100%;" class="costo" id="" value="<?php echo $c['com_costo']; ?>" readonly></th>
+                            <td scope="col"><input type="text" name="" style="width: 100%;" class="costo" id="" value="<?php echo $c['epta_cost']; ?>" readonly></th>
                             <td scope="col"><button class="borrar" style="height:25px; background-color:#FF3838; border-color: #FF3838;">Eliminar</button></th>
                         </tr>
                     <?php endforeach; ?>
