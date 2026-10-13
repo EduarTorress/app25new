@@ -186,6 +186,7 @@ $this->startSection('javascript');
         $("#txtidproveedor").val("<?php echo isset($datosproveedor['idprov']) ?  $datosproveedor['idprov'] : '' ?>");
         $("#txtproveedor").val("<?php echo isset($datosproveedor['razo']) ?  $datosproveedor['razo'] : '' ?>");
         $("#cmbAlmacen option[value='0']").remove();
+        $("#cmbforma option[value='O']").remove();
     }
 
     $(".tipodocumentos").on("change", function() {

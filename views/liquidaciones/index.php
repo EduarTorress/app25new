@@ -112,6 +112,8 @@ $this->startSection('javascript');
         tipocaja = "<?php echo (!empty($_SESSION['config']['cajaxtienda']) ? 'A' : 'U') ?>";
         tipousuario = "<?php echo $_SESSION['tipousuario'] ?>";
 
+        $("#cmbusuarios").val("<?php echo session()-> get("usuario_id") ?>");
+
         if (tipocaja == 'A') {
             $("#cmbAlmacen").removeAttr("disabled");
             $("#cmbusuarios").attr("disabled", true);
