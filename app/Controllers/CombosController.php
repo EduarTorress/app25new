@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Core\Routing\Controller;
 use App\Middlewares\AuthAdminMiddleware;
 use App\Models\Combo;
+use App\Models\Inventario;
 use Core\Http\Request;
 
 class CombosController extends Controller
@@ -21,18 +22,25 @@ class CombosController extends Controller
         $modo = "N";
         $ctitulo = "Agregar Detalle al combo";
         $this->combo = new Combo();
-        $this->combo->idproducto=$request->get('txtidproducto');
-        $combo=$this->combo->buscarid();
+        $this->combo->idproducto = $request->get('txtidproducto');
+        $combo = $this->combo->buscarid();
         $vista = \retornavista('admin/combos/', 'create');
-        return view($vista, ['titulo' => $ctitulo, 'modo' => $modo,'combo'=>$combo]);
+        return view($vista, ['titulo' => $ctitulo, 'modo' => $modo, 'combo' => $combo]);
     }
     function registrarcombo(Request $request)
     {
         $this->combo = new Combo();
-        $this->combo->idproducto=$request->get('txtidproducto');
+        $this->combo->idproducto = $request->get('txtidproducto');
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
-        $rpta = $this->combo->save($detalle,$request->get('txtcantidadingresante'));
+        $rpta = $this->combo->save($detalle, $request->get('txtcantidadingresante'));
+        if ($rpta['estado'] == '1') {
+            $inventario = new Inventario();
+            $inventario->calcularstock();
+            http_response_code(200);
+        } else {
+            http_response_code(400);
+        }
         return json_encode($rpta);
     }
 }

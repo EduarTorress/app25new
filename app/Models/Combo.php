@@ -25,7 +25,6 @@ class Combo extends Modelo
             $execclearcombo->execute([
                 'idproducto' => $this->idproducto
             ]);
-
             if ($execclearcombo->errorCode() != '00000') {
                 $pdo->rollBack();
                 $rpta = array('mensaje' => $execclearcombo->errorInfo(),  "ndoc" => "", "estado" => '0');
@@ -39,7 +38,7 @@ class Combo extends Modelo
             }
 
             $sqlIC = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,
-                :ndolar,:ni,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,:nitem,:npvta,0) AS id";
+                    :ndolar,:ni,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,:nitem,:npvta,0) AS id";
             $exeIC = $pdo->prepare($sqlIC);
             $exeIC->execute([
                 'ctdoc' => 'CP',
@@ -67,6 +66,11 @@ class Combo extends Modelo
                 'nitem' => 0,
                 'npvta' => 0
             ]);
+            if ($exeIC->errorCode() != '00000') {
+                $pdo->rollBack();
+                $rpta = array('mensaje' => $exeIC->errorInfo(),  "ndoc" => "", "estado" => '0');
+                return $rpta;
+            }
             $id = $exeIC->fetchColumn();
 
             $sqlIK = "SELECT FunIngresaKardex1(:idauto,:cc,:ctipo,:npr,:nct,:cincl,:tmvto,:ccdov,:calma,:nidcosto1,:vcom,0,'UNIDAD',1,0,'','2000-01-01') AS NID";
@@ -84,20 +88,24 @@ class Combo extends Modelo
                 'nidcosto1' => '0',
                 'vcom' => '0'
             ]);
+            if ($exeIK->errorCode() != '00000') {
+                $pdo->rollBack();
+                $rpta = array('mensaje' => $exeIK->errorInfo(),  "ndoc" => "", "estado" => '0');
+                return $rpta;
+            }
 
             foreach ($detalle as $d) {
-                $sql = "INSERT INTO fe_epta (epta_coda,epta_idar,epta_cost,epta_codt,epta_cant) VALUES(:idproducto,:idarts,:costo,:codigotienda,1)";
-                $exec = $pdo->prepare($sql);
-                $exec->execute([
+                $sqlepta = "INSERT INTO fe_epta (epta_coda,epta_idar,epta_cost,epta_codt,epta_cant) VALUES(:idproducto,:idarts,:costo,:codigotienda,1)";
+                $execepta = $pdo->prepare($sqlepta);
+                $execepta->execute([
                     'idproducto' => $this->idproducto,
                     'idarts' => $d['idart'],
                     'costo' => $d['costo'],
                     'codigotienda' => $_SESSION['idalmacen']
                 ]);
-
-                if ($exec->errorCode() != '00000') {
+                if ($execepta->errorCode() != '00000') {
                     $pdo->rollBack();
-                    $rpta = array('mensaje' => $exec->errorInfo(),  "ndoc" => "", "estado" => '0');
+                    $rpta = array('mensaje' => $execepta->errorInfo(),  "ndoc" => "", "estado" => '0');
                     return $rpta;
                 }
                 // $this->costo = $this->costo + $d['costo'];
@@ -117,6 +125,11 @@ class Combo extends Modelo
                     'nidcosto1' => '0',
                     'vcom' => '0'
                 ]);
+                if ($exeSK->errorCode() != '00000') {
+                    $pdo->rollBack();
+                    $rpta = array('mensaje' => $exeSK->errorInfo(),  "ndoc" => "", "estado" => '0');
+                    return $rpta;
+                }
             }
 
             $sqlupdateart = "update fe_art set cost=:costo,prec=:costo,premay=:costo,premen=:costo,pre3=:costo where idart=:idart";
@@ -125,16 +138,11 @@ class Combo extends Modelo
                 'idart' => $this->idproducto,
                 'costo' => $this->costo
             ]);
-
             if ($execupdateart->errorCode() != '00000') {
                 $pdo->rollBack();
                 $rpta = array('mensaje' => $execupdateart->errorInfo(),  "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
-
-            $sql = "CALL calcularstock()";
-            $exec = $pdo->prepare($sql);
-            $exec->execute();
 
             $pdo->commit();
             $ncon->close();
