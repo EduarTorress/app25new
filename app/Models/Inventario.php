@@ -110,7 +110,7 @@ class Inventario extends Modelo
     }
     function listarstockxalmacen($fechf, $cmbAlmacen)
     {
-        $sql = "SELECT  a.idart AS Nreg, a.idart, b.Descri AS descri, b.prod_unid1, b.Unid, a.uno, a.Dos, a.tres, a.cuatro, (a.uno + a.Dos + a.tres + a.cuatro) AS Total,
+        $sql = "SELECT  a.idart AS Nreg, a.idart,prod_cod1,coda1,b.Descri AS descri, b.prod_unid1, b.Unid, a.uno, a.Dos, a.tres, a.cuatro, (a.uno + a.Dos + a.tres + a.cuatro) AS Total,
                 ((a.uno + a.Dos + a.tres + a.cuatro)) AS subtotal,b.prod_equi1 AS equi,b.prod_cod1,CAST(alma AS DECIMAL(10,2)) AS alma
                 FROM (SELECT idart, SUM(CASE k.alma WHEN 1 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS uno,
                 SUM(CASE k.alma WHEN 2 THEN IF(Tipo = 'C', cant * k.kar_equi, - cant * k.kar_equi) ELSE 0 END) AS Dos,

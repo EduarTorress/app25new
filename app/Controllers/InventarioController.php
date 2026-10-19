@@ -412,7 +412,7 @@ class InventarioController extends Controller
         $txtfecha = $request->get('txtfecha');
         $cmbalmacen = $request->get('cmbalmacen');
         $inv = new Inventario();
-        $listado = $inv->listarstockxfechavencimiento($txtfecha,$cmbalmacen);
+        $listado = $inv->listarstockxfechavencimiento($txtfecha, $cmbalmacen);
         // nid = ls.idart
         // nstock = ls.stock
         // Sw = 0
@@ -550,8 +550,9 @@ class InventarioController extends Controller
     {
         $fechf = $request->get('txtfechaf');
         $cmbAlmacen = $request->get('cmbAlmacen');
+        $cmbfiltrostock = $request->get('cmbfiltrostock');
         $inv = new Inventario();
         $listado = $inv->listarstockxalmacen($fechf, $cmbAlmacen);
-        return view('inventarios/listastockxalmacen', ["listado" => $listado, 'nalma' => $cmbAlmacen]);
+        return view('inventarios/listastockxalmacen', ["listado" => $listado, 'nalma' => $cmbAlmacen, 'cmbfiltrostock' => $cmbfiltrostock]);
     }
 }

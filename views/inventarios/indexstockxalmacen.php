@@ -22,6 +22,11 @@ $this->startSection('contenido');
                                 <div>
                                     <div class="form-inline">
                                         <input type="date" value="<?php echo date('Y-m-d'); ?>" class="form-control form-control-sm" id="txtfechaf" name="txtfechaf">
+                                        <select name="" id="cmbfiltrostock" class="form-control form-control-sm">
+                                            <option value="0">TODOS LOS PRODUCTOS</option>
+                                            <option value="N">SOLO NEGATIVOS</option>
+                                            <option value="P">SOLO POSITIVOS (MAYOR O IGUAL QUE CERO)</option>
+                                        </select>
                                         <button class="btn btn-primary my-1" id="btnconsultar">Consultar</button>
                                     </div>
                                 </div>
@@ -61,7 +66,8 @@ $this->startSection("javascript")
         axios.get('/inventarios/listarstockxalmacen', {
             "params": {
                 "txtfechaf": dfechaf,
-                "cmbAlmacen": $("#cmbAlmacen").val()
+                "cmbAlmacen": $("#cmbAlmacen").val(),
+                "cmbfiltrostock":$("#cmbfiltrostock").val()
             }
         }).then(function(respuesta) {
             $("#btnconsultar").attr('disabled', false);
