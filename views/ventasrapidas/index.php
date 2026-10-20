@@ -940,7 +940,6 @@ $this->startSection('javascript');
         $("#mdpreregistro").modal('hide');
         listardetalle();
     }
-
     window.addEventListener("focus", onFocus)
 
     // function actualizar(cmensaje) {
