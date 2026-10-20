@@ -577,8 +577,6 @@ $this->startSection('javascript');
         }
     });
 
-
-
     function mostrardatoscliente() {
         txtruccliente = $("#txtruccliente").val();
         txtdireccion = $("#txtdireccion").val();
