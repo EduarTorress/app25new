@@ -4,7 +4,7 @@
             <th>Fecha</th>
             <th>Documento</th>
             <th>Detalle</th>
-            <th>Usuario</th>
+            <th class="text-center">Usuario</th>
             <th class="text-center">Fecha Usuario</th>
             <th class="text-center">Opción</th>
         </tr>
@@ -13,10 +13,10 @@
         <?php foreach ($listado as $item) : ?>
             <tr>
                 <td><?php echo $item['fech'] ?></td>
-                <td><?php echo $item['ndoc'] ?></td>
+                <td><b><?php echo $item['ndoc'] ?></b></td>
                 <td><?php echo $item['deta'] ?></td>
-                <td><?php echo $item['nomb'] ?></td>
-                <td class="text-center"><?php echo $item['fusua'] ?></td>
+                <td><b><?php echo $item['nomb'] ?></b></td>
+                <td class="text-center"><b><?php echo $item['fusua'] ?></b></td>
                 <?php
                 $idauto = $item['idauto'];
                 $fech = $item['fech'];

@@ -31,7 +31,6 @@ $this->startSection('contenido');
         </div>
     </div>
 </div>
-<!-- Modal Ver Ajustes -->
 <div class="modal fade" id="mddetalleajustes" tabindex="-1" aria-labelledby="" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -50,13 +49,13 @@ $this->startSection('contenido');
                         <thead>
                             <tr>
                                 <th>Producto</th>
-                                <th>Cantidad Ingresada</th>
+                                <th class="text-end">Cantidad Ingresada</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><?php echo $item['descri'] ?></td>
-                                <td><?php echo $item['cant'] ?></td>
+                                <td ><?php echo $item['cant'] ?></td>
                             </tr>
                         </tbody>
                     </table>
@@ -122,12 +121,12 @@ $this->startSection("javascript")
                 for (var i = 0; i < listado.length; i++) {
                     var tr = `<tr class="fila">
                         <td>` + listado[i].descri + `</td>
-                        <td>` + listado[i].cant + `</td>
+                        <td class="text-end">` + listado[i].cant + `</td>
                         </tr>`;
                     $('#tbldetalleajuste tbody').append(tr);
                 }
             } else {
-                $('#tbldetalleajuste tbody').append("<tr><td class='text-center' colspan='9'>No se encontraron resultados</td></tr>");
+                $('#tbldetalleajuste tbody').append("<tr><td class='text-center' colspan='2'>No se encontraron resultados</td></tr>");
             }
         }).catch(function(error) {
             console.log(error)

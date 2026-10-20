@@ -1974,7 +1974,8 @@ class Imprimir
         } else {
             $logo = $_SERVER['DOCUMENT_ROOT'] . '/../logos/' . trim($_SESSION['gene_nruc']) . '/logoticket.jpg';
         }
-        $pdf->Cell(70, 3, $pdf->Image($logo, 25, 8, 32, 30), 0, 'C');
+        $pdf->Image($logo, 25, 8, 32, 30);
+        // $pdf->Cell(70, 3, );
         // $pdf->Image($logo, 18, 2, 45);
 
         // Información de la tienda
