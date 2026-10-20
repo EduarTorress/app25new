@@ -31,16 +31,17 @@ $this->startSection('contenido');
                         <div class="col-sm-1">
                             <button type="button" class="btn btn-success btn-sm" onclick="buscar()">Consultar</button>
                         </div>
-                        <label for="" class="">Ingresos: </label>
-                        <div class="col-sm-1">
+                        <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']); ?>
+                        <label for="" class="" <?php echo ($proyecto == 'xsysg' ? 'style="display:none"' : '') ?>>Ingresos: </label>
+                        <div class="col-sm-1" <?php echo ($proyecto == 'xsysg' ? 'style="display:none"' : '') ?>>
                             <input type="text" class="form-control form-control-sm" id="txtingresos" value="" readonly>
                         </div>
-                        <label for="" class="">Egresos: </label>
-                        <div class="col-sm-1">
+                        <label for="" class="" <?php echo ($proyecto == 'xsysg' ? 'style="display:none"' : '') ?>>Egresos: </label>
+                        <div class="col-sm-1" <?php echo ($proyecto == 'xsysg' ? 'style="display:none"' : '') ?>>
                             <input type="text" class="form-control form-control-sm" id="txtegresos" value="" readonly>
                         </div>
-                        <label for="" class="">Saldo Anterior: </label>
-                        <div class="col-sm-1">
+                        <label for="" class="" <?php echo ($proyecto == 'xsysg' ? 'style="display:none"' : '') ?>>Saldo Anterior: </label>
+                        <div class="col-sm-1" <?php echo ($proyecto == 'xsysg' ? 'style="display:none"' : '') ?>>
                             <input type="text" class="form-control form-control-sm" id="txtsaldoanterior" value="" readonly>
                         </div>
                     </div>
@@ -112,7 +113,7 @@ $this->startSection('javascript');
         tipocaja = "<?php echo (!empty($_SESSION['config']['cajaxtienda']) ? 'A' : 'U') ?>";
         tipousuario = "<?php echo $_SESSION['tipousuario'] ?>";
 
-        $("#cmbusuarios").val("<?php echo session()-> get("usuario_id") ?>");
+        $("#cmbusuarios").val("<?php echo session()->get("usuario_id") ?>");
 
         if (tipocaja == 'A') {
             $("#cmbAlmacen").removeAttr("disabled");

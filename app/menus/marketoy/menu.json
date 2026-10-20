@@ -25,7 +25,7 @@
                 "item": "Facturar Notas Ventas",
                 "ruta": "/vtas/indexcanjearnotas",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Informe de Ventas",
@@ -49,7 +49,7 @@
                 "item": "Ventas x Vendedor",
                 "ruta": "/vtas/indexvtasxvendedor",
                 "class": "far fa-circle nav-icon",
-                "opt": "A"
+                "opt": "AV"
             },
             {
                 "item": "Informe de Vtas x Cliente",
@@ -91,7 +91,7 @@
                 "item": "Por Informar a SUNAT",
                 "ruta": "/cpe/fxe",
                 "class": "far fa-circle nav-icon",
-                "opt": "A"
+                "opt": "AV"
             }
         ]
     },
@@ -109,13 +109,13 @@
                 "item": "Otras Compras",
                 "ruta": "ocompras/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Notas de Crédito",
                 "ruta": "/compras/indexnotascredito",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Informe de Compras",
@@ -175,25 +175,25 @@
                 "item": "Guia Remitente Ventas",
                 "ruta": "/guiasr/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Guia por Devolución",
                 "ruta": "/guiasd/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Listar Guias Remitente",
                 "ruta": "/guiasr/listar",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Por Informar a SUNAT",
                 "ruta": "/guias/listarxenviar",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             }
         ]
     },
@@ -222,30 +222,6 @@
         ]
     },
     {
-        "main": "Cotizaciones",
-        "class": "fa fa-pencil-square-o",
-        "elementos": [
-            {
-                "item": "Precios y Stock",
-                "ruta": "/productos/index/1",
-                "class": "far fa-circle nav-icon",
-                "opt": "AVS"
-            },
-            {
-                "item": "Registrar Cotización",
-                "ruta": "/pedidos/indexespecial",
-                "class": "far fa-circle nav-icon",
-                "opt": "AVS"
-            },
-            {
-                "item": "Informe de Cotizaciones",
-                "ruta": "/pedido/listarpedidos",
-                "class": "far fa-circle nav-icon",
-                "opt": "AVS"
-            }
-        ]
-    },
-    {
         "main": "Inventario",
         "class": "fa fa-check",
         "elementos": [
@@ -265,13 +241,13 @@
                 "item": "Visualizar Kardex",
                 "ruta": "/inventarios/kardex",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "AVS"
             },
             {
                 "item": "Lista Stock x Almacen",
                 "ruta": "/inventarios/indexstockxalmacen",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "AVS"
             }
         ]
     },
@@ -295,7 +271,7 @@
                 "item": "Transacciones Generales ",
                 "ruta": "/cajas/indextransaccionesgenerales",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             }
         ]
     },
@@ -343,7 +319,7 @@
                 "item": "Productos",
                 "ruta": "/productos/index/4",
                 "class": "far fa-circle nav-icon",
-                "opt": "AS"
+                "opt": "ASV"
             },
             {
                 "item": "Clientes",
