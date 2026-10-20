@@ -497,7 +497,8 @@ $this->startSection('javascript');
         data.append("cmbmoneda", $("#cmbmoneda").val());
         data.append("tigv", datos.tigv);
         data.append("stock", parseFloat(datos.parametro4.toFixed(2)));
-        data.append("opt", 0)
+        data.append("opt", 0);
+        idart = "#agregar" + datos.parametro2;
         axios.post('/ventasrapidas/agregaritem', data)
             .then(function(respuesta) {
                 // // $('#modal_productos').modal('hide')
@@ -511,9 +512,9 @@ $this->startSection('javascript');
                 const contenido_tabla = respuesta.data;
                 $('#detalle').html(contenido_tabla);
                 calcularIGV();
-                idart = "#agregar" + datos.parametro2;
                 $(idart).attr('disabled', 'disabled');
             }).catch(function(error) {
+                $(idart).prop('disabled', false);
                 if (error.hasOwnProperty("response")) {
                     if (error.response.status == 422) {
                         if (error.response.data.errors) {
