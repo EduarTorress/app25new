@@ -302,7 +302,6 @@ class Imprimir
 
         $pdf->SetY($y);
 
-
         if ($this->tdoc != '20') {
             $pdf->SetFont('Tahomab', '', 7);
             $pdf->setx(144);
