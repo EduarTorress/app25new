@@ -393,7 +393,6 @@ $app->router->get('/planescontables/edit/{id}', [\App\Controllers\PlanContableCo
 $app->router->post('/planescontables/store', [\App\Controllers\PlanContableController::class, 'store']);
 $app->router->post('/planescontables/update/{id}', [\App\Controllers\PlanContableController::class, 'update']);
 
-
 $app->router->get('/planescontables/getctabynro', [\App\Controllers\PlanContableController::class, 'getctabynro']);
 
 #caja y bancos
