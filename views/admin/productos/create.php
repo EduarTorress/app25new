@@ -506,9 +506,12 @@
                 axios.post("/productos/actualizar", data)
                     .then(function(respuesta) {
                         toastr.success(respuesta.data.message, 'Mensaje del Sistema')
-                        limpiarTodo();
-                        $("#modal-mantenimiento").modal('hide');
-                        buscar();
+                        <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']); ?>
+                        <?php if ($proyecto != 'xsysg'): ?>
+                            limpiarTodo();
+                            $("#modal-mantenimiento").modal('hide');
+                            buscar();
+                        <?php endif; ?>
                     }).catch(function(error) {
                         if (error.response.status === 422) {
                             errors = error.response.data.errors;
