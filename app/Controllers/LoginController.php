@@ -53,7 +53,6 @@ class LoginController extends Controller
                 return;
             }
             cargarconfig();
-
             $usuarioxalmacen = (empty($_SESSION['config']['usuarioxalmacen']) ? 'N' : $_SESSION['config']['usuarioxalmacen']);
             if ($usuarioxalmacen == 'S') {
                 if ($valor[0]['idalma'] != '0') {
@@ -75,7 +74,6 @@ class LoginController extends Controller
             $ser = new Serie();
             $ser->obtenerSerieDadoAlma($request->get("cmbAlmacen"));
             datosglobales();
-
             $em = new Empresa();
             $em->actualizaFecha();
             $modelo = new Modelo();
