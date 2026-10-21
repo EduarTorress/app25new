@@ -544,25 +544,25 @@
             }
         }
     }
-    // A $( document ).ready() block.
+
+    function listardetapresxproducto() {
+        idart = $("#txtidart").val();
+        axios.get('/presentaciondetalle/listar', {
+            "params": {
+                "idart": idart,
+                "cmbAlmacen": $('.divproducto #cmbAlmacen').val()
+            }
+        }).then(function(respuesta) {
+            const contenido_tabla = respuesta.data;
+            $('#divdetapresentaciones').html(contenido_tabla);
+        }).catch(function(error) {
+            toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
+        });
+    }
+
     $(document).ready(function() {
         $('.divproducto #cmbAlmacen option[value="0"]').remove();
         $(".divproducto #cmbAlmacen").removeAttr("disabled");
-
-        function listardetapresxproducto() {
-            idart = $("#txtidart").val();
-            axios.get('/presentaciondetalle/listar', {
-                "params": {
-                    "idart": idart,
-                    "cmbAlmacen": $('.divproducto #cmbAlmacen').val()
-                }
-            }).then(function(respuesta) {
-                const contenido_tabla = respuesta.data;
-                $('#divdetapresentaciones').html(contenido_tabla);
-            }).catch(function(error) {
-                toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
-            });
-        }
         listardetapresxproducto();
         $('.divproducto #cmbAlmacen').on('change', function() {
             listardetapresxproducto();
