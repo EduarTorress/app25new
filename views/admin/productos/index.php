@@ -325,32 +325,31 @@ $this->startSection('javascript');
         return vdvto;
     }
 
-
-    function eliminarProducto(datos) {
-        id = datos.parametro2;
-        Swal.fire({
-            icon: 'error',
-            title: '¿Estás seguro de eliminar?',
-            text: 'Esta acción no se puede revertir',
-            showCancelButton: true,
-            confirmButtonText: 'Si, estoy seguro',
-            cancelButtonText: 'No, cancelar'
-        }).then(function(respuesta) {
-            if (respuesta.isConfirmed) {
-                const ruta = '/productos/darBaja/' + id;
-                axios.post(ruta)
-                    .then(function(respuesta) {
-                        // console.log(respuesta.data);
-                        toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
-                        buscar();
-                    }).catch(function(error) {
-                        if (error.hasOwnProperty('response')) {
-                            toastr.error(error.response.data.message, 'Mensaje del Sistema');
-                        }
-                    })
-            }
-        })
-    }
+    // function eliminarProducto(datos) {
+    //     id = datos.parametro2;
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: '¿Estás seguro de eliminar?',
+    //         text: 'Esta acción no se puede revertir',
+    //         showCancelButton: true,
+    //         confirmButtonText: 'Si, estoy seguro',
+    //         cancelButtonText: 'No, cancelar'
+    //     }).then(function(respuesta) {
+    //         if (respuesta.isConfirmed) {
+    //             const ruta = '/productos/darBaja/' + id;
+    //             axios.post(ruta)
+    //                 .then(function(respuesta) {
+    //                     // console.log(respuesta.data);
+    //                     toastr.success('Eliminado correctamente', 'Mensaje del Sistema');
+    //                     buscar();
+    //                 }).catch(function(error) {
+    //                     if (error.hasOwnProperty('response')) {
+    //                         toastr.error(error.response.data.message, 'Mensaje del Sistema');
+    //                     }
+    //                 })
+    //         }
+    //     })
+    // }
 
     function obteneridart(idart) {}
 

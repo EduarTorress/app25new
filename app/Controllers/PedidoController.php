@@ -619,7 +619,7 @@ class PedidoController extends Controller
             $tipo = "E";
             $presentacion = new Presentacion();
             $itemcarrito = CarritoService::item($id);
-            $presentaciones = $presentacion->listardetapresxproducto($itemcarrito['coda']);
+            $presentaciones = $presentacion->listardetapresxproducto($itemcarrito['coda'], 0);
             if (count($presentaciones) < 1) {
                 $presentaciones[0] = array(
                     'epta_idep' => 0,
