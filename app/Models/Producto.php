@@ -273,11 +273,11 @@ class Producto extends Modelo
                 'prod_tigv' => $datos['prod_tigv']
             ]);
             foreach ($datos['presentaciones'] as $d) {
-                if ($proyecto != 'xsys5') {
-                    $sqlpresentaciones = "UPDATE fe_epta SET epta_cant=:epta_cant,epta_cost=:epta_cost,epta_marg=:epta_marg,epta_prec=:epta_prec WHERE epta_idep=:epta_idep";
-                } else {
+                if ($proyecto == 'xsys5') {
                     $sqlpresentaciones = "UPDATE fe_epta SET epta_cant=:epta_cant,epta_cost=:epta_cost,epta_marg=:epta_marg,
                     epta_prec=:epta_prec,epta_mcor=" . $d['epta_mcor'] . ",epta_pcor=" . $d['epta_pcor'] . " WHERE epta_idep=:epta_idep";
+                } else {
+                    $sqlpresentaciones = "UPDATE fe_epta SET epta_cant=:epta_cant,epta_cost=:epta_cost,epta_marg=:epta_marg,epta_prec=:epta_prec WHERE epta_idep=:epta_idep";
                 }
                 $execpresentaciones = $this->prepare($sqlpresentaciones);
                 $execpresentaciones->execute([

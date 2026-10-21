@@ -26,7 +26,7 @@
                     echo $unid->render();
                     ?>
                 </div>
-                 <!-- <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> -->
+                <!-- <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> -->
                 <div class="form-group col-2">
                     <?php
                     $ctipp = isset($datosProducto['tipop']) ? $datosProducto['tipop'] : '';
@@ -139,6 +139,18 @@
                 <div class="form-group col-4" <?php echo (($_SESSION['config']['allcamposproductos'] == 'N') ? 'style="display:none"' : '') ?> <?php echo (($proyecto == 'xsys5') ? 'style="display:none"' : '') ?>>
                     <label for="">Precio Menor:</label>
                     <input type="text" onkeypress="return isNumber(event);" onclick="select()" class="form-control form-control-sm inputright" id="txtpreciome" value="<?php echo (empty($datosProducto) ? '' : $datosProducto['pre3']) ?>" required>
+                </div>
+                <div class="form-group col-12">
+                    <div class="row">
+                        <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']); ?>
+                        <div class="form-group col-md-4" <?php echo ($proyecto != 'xsysg' ? 'style="display:none;"' : ' ') ?>>
+                            <?php
+                            $cempresa = isset($datosclientev['almv']) ? $datosclientev['almv'] : $_SESSION['idalmacen'];
+                            $empresa = new \App\View\Components\EmpresaComponent($cempresa);
+                            echo $empresa->render();
+                            ?>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group col-12">
                     <div class="row" id="divdetapresentaciones">
@@ -507,6 +519,9 @@
         });
     }
 
+
+    function grabarCabecera() {}
+
     function obtenerFlete() {
         cmbCostoT = document.getElementById("cmbCostoT").value;
         cmbCostoT = cmbCostoT.split('-');
@@ -514,20 +529,6 @@
         costot = $("#txtcostot").val();
         txtcostocig = $("#txtcostocig").val();
         $("#txtcoston").val((Number(costot) + Number(txtcostocig)).toFixed(4));
-    }
-
-    function listardetapresxproducto() {
-        idart = $("#txtidart").val();
-        axios.get('/presentaciondetalle/listar', {
-            "params": {
-                "idart": idart
-            }
-        }).then(function(respuesta) {
-            const contenido_tabla = respuesta.data;
-            $('#divdetapresentaciones').html(contenido_tabla);
-        }).catch(function(error) {
-            toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
-        });
     }
 
     function limpiarTodo() {
@@ -540,8 +541,34 @@
             }
         }
     }
+    // A $( document ).ready() block.
+    $(document).ready(function() {
+        $('.divproducto #cmbAlmacen option[value="0"]').remove();
+        $(".divproducto #cmbAlmacen").removeAttr("disabled");
 
-    listardetapresxproducto();
+        function listardetapresxproducto() {
+            idart = $("#txtidart").val();
+            axios.get('/presentaciondetalle/listar', {
+                "params": {
+                    "idart": idart,
+                    "cmbAlmacen": $('.divproducto #cmbAlmacen').val()
+                }
+            }).then(function(respuesta) {
+                const contenido_tabla = respuesta.data;
+                $('#divdetapresentaciones').html(contenido_tabla);
+            }).catch(function(error) {
+                toastr.error('Error al cargar el listado ' + error, 'Mensaje del sistema')
+            });
+        }
+        listardetapresxproducto();
+        $('.divproducto #cmbAlmacen').on('change', function() {
+            listardetapresxproducto();
+        });
+        $('#modal_presentaciones').on('hidden.bs.modal', function(e) {
+            listardetapresxproducto();
+        });
+    });
+
 
     function eliminardetallepres(id) {
         filabtlpresentaciones = $('#tblpresentaciones tbody tr').length;

@@ -48,7 +48,7 @@ class PresentacionController extends Controller
     function listarpresentaciondetalle(Request $request)
     {
         $idart = empty($request->get('idart')) ? '0' : $request->get('idart');
-        $listadetapresxproducto = $this->pres->listardetapresxproducto($idart);
+        $listadetapresxproducto = $this->pres->listardetapresxproducto($idart,$request->get('cmbAlmacen'));
         return view('components/listadetapresentaciones', ['listadetapresxproducto' => $listadetapresxproducto]);
     }
 }

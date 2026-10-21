@@ -178,6 +178,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- REQUIRED SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        axios.interceptors.response.use(
+            response => response,
+            async error => {
+                const config = error.config;
+                // No reintentar si no existe la configuración
+                // o si la petición ya fue reintentada
+                if (!config || config._retry) {
+                    return Promise.reject(error);
+                }
+                // No reintentar peticiones canceladas
+                if (error.code === 'ERR_CANCELED') {
+                    return Promise.reject(error);
+                }
+                // Reintentar si no se recibió una respuesta HTTP
+                if (!error.response) {
+                    config._retry = true;
+                    console.warn(
+                        'Error de red. Reintentando solicitud...',
+                        config.url
+                    );
+                    await new Promise(resolve =>
+                        setTimeout(resolve, 1000)
+                    );
+                    return axios(config);
+                }
+                return Promise.reject(error);
+            }
+        );
+    </script>
     <!-- jQuery -->
     <script src="/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->

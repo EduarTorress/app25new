@@ -8,17 +8,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+              <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']) ?>
             <div class="modal-body" id="">
-                <div class="row">
-                    <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']); ?>
-                    <div class="form-group col-md-4" <?php echo ($proyecto != 'xsysg' ? 'style="display:none;"' : ' ') ?>>
-                        <?php
-                        $cempresa = isset($datosclientev['almv']) ? $datosclientev['almv'] : $_SESSION['idalmacen'];
-                        $empresa = new \App\View\Components\EmpresaComponent($cempresa);
-                        echo $empresa->render();
-                        ?>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="form-group col-md-4">
                         <label for="">Presentaciones:</label>
@@ -71,7 +62,6 @@
     </div>
 </div>
 <script>
-    // $("#cmbAlmacen").prop("disabled", "false");
     $('#cmbpresentacionesc').selectpicker();
 
     function calcularprecioxganancia() {
