@@ -572,7 +572,6 @@
         });
     });
 
-
     function eliminardetallepres(id) {
         filabtlpresentaciones = $('#tblpresentaciones tbody tr').length;
         if (filabtlpresentaciones == 1) {
