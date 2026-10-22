@@ -19,7 +19,7 @@
                 "item": "Notas de Crédito",
                 "ruta": "/notascredito/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "AV"
+                "opt": "A"
             },
             {
                 "item": "Facturar Notas Ventas",
