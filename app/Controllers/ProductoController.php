@@ -198,7 +198,6 @@ class ProductoController extends Controller
             "prod_tigv" => empty($request->get("prod_tigv")) ? 1 : $request->get("prod_tigv")
         );
         $rpta = $this->producto->registrarProducto($datos);
-
         if ($rpta['estado']) {
             return response()->json(['message' => 'Producto registrado correctamente', 'idregistro' => $rpta['idregistro']], 200);
         } else {

@@ -707,7 +707,6 @@ $this->startSection('javascript');
                 }
             }
         }
-
         valorescarrito = verificarvalorescarrito();
         const data = new FormData();
         data.append("detalle", JSON.stringify(valorescarrito));
