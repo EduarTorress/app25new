@@ -34,7 +34,11 @@
                 $parametro1 = str_replace("'", '"', $items[0]['descri']);
                 $parametro2 = $items[0]['idart'];
                 $parametro3 = $items[0]['unid'];
-                $parametro4 = $items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'];
+                $parametro4 = $items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'] + $items[0]['cua'] + $items[0]['cin'];
+                // $validarstock = (empty($_SESSION['config']['validarstock']) ? 'N' : $_SESSION['config']['validarstock']);
+                // if ($validarstock == 'S') {
+                //     $parametro4 = $items[0][verificarenquesucursalestoy()];
+                // }
                 $parametro5 = $items[0]['pre1'];
                 $parametro6 = $items[0]['pre2'];
                 $parametro7 = $items[0]['pre3'];
@@ -140,7 +144,11 @@
                     $parametro1 = $descri . ' - ' . $cmarca;
                     $parametro2 = $items[0]['idart'];
                     $parametro3 = $items[0]['unid'];
-                    $parametro4 = $items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'] + $items[0]['cua'];
+                    $parametro4 = $items[0]['uno'] + $items[0]['dos'] + $items[0]['tre'] + $items[0]['cua'] + $items[0]['cin'];
+                    $validarstock = (empty($_SESSION['config']['validarstock']) ? 'N' : $_SESSION['config']['validarstock']);
+                    if ($validarstock == 'S') {
+                        $parametro4 = floatval($items[0][verificarenquesucursalestoy()]);
+                    }
                     if ($items[0]['tipro'] == 'K') {
                         $parametro5 = $items[0]['pre3'];
                     } else {

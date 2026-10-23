@@ -205,6 +205,12 @@ function verificarenquesucursalestoy()
         case 3:
             $nombsucu = "tre";
             break;
+        case 4:
+            $nombsucu = "cua";
+            break;
+        case 5:
+            $nombsucu = "cin";
+            break;
     }
     return $nombsucu;
 }
