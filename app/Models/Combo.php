@@ -155,7 +155,7 @@ class Combo extends Modelo
     }
     function buscarid()
     {
-        $sql = "SELECT c.*,a.descri
+        $sql = "SELECT c.*,a.descri,a.uno,a.dos,a.tre,a.cua,a.cin,a.sei
                 FROM fe_epta c 
                 INNER JOIN fe_art a ON c.epta_idar=a.idart 
                 WHERE epta_coda=:id AND epta_acti='A'";

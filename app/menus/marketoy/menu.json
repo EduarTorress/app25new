@@ -248,6 +248,12 @@
                 "ruta": "/inventarios/indexstockxalmacen",
                 "class": "far fa-circle nav-icon",
                 "opt": "AVS"
+            },
+            {
+                "item": "Lista Stock Valorizado",
+                "ruta": "/inventarios/indexlistastockvalorizado",
+                "class": "far fa-circle nav-icon",
+                "opt": "AL"
             }
         ]
     },
@@ -369,9 +375,9 @@
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },
-              {
+            {
                 "item": "Combos",
-               "ruta": "/productos/index/3",
+                "ruta": "/productos/index/3",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },

@@ -284,6 +284,9 @@ $app->router->get('/inventarios/listarexistenciaalmacen', [\App\Controllers\Inve
 $app->router->get('/inventarios/indexstockxfechavencimiento', [\App\Controllers\InventarioController::class, 'indexstockxfechavencimiento']);
 $app->router->get('/inventarios/listarstockxfechavencimiento', [\App\Controllers\InventarioController::class, 'listarstockxfechavencimiento']);
 
+$app->router->get('/inventarios/indexlistastockvalorizado', [\App\Controllers\InventarioController::class, 'indexlistastockvalorizado']);
+$app->router->get('/inventarios/listarstockvalorizado', [\App\Controllers\InventarioController::class, 'listarstockvalorizado']);
+
 $app->router->get('/inventarios/indexlistaajustes', [\App\Controllers\InventarioController::class, 'indexlistaajustes']);
 $app->router->get('/inventarios/listaajustes', [\App\Controllers\InventarioController::class, 'listaajustes']);
 $app->router->get('/inventarios/verdetalleajuste', [\App\Controllers\InventarioController::class, 'verdetalleajuste']);

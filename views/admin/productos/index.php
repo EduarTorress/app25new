@@ -396,10 +396,10 @@ $this->startSection('javascript');
     //PARA COMBOS DE PRODUCTOS
     function agregarunitemVenta(datos) {
         var tr = `<tr class="fila"> 
-                    <td><input type="text" name="idart1" style="width: 100%;" class="idart" id="idart1"  value='` + datos.parametro2 + `' readonly></td>
+                    <td><input type="text" data-stock='` + datos.parametro4 + `' name="idart1" style="width: 100%;" class="idart" id="idart1"  value='` + datos.parametro2 + `' readonly></td>
                     <td><input type="text" name="nombre1" style="width: 100%;" class="nombre" id="nombre1"  value='` + datos.parametro1.trim() + `' readonly></td>
                     <td><input type="text" name="costo1" style="width: 100%;" class="costo" id="costo1"  value='` + datos.parametro8 + `' readonly></td>
-                    <td> <button class="borrar" style="height:25px; background-color:#FF3838; border-color: #FF3838;">Eliminar</button></td>
+                    <td><button class="borrar" style="height:25px; background-color:#FF3838; border-color: #FF3838;">Eliminar</button></td>
                     </tr>`;
         $('#detallecombo tbody').append(tr);
         calcularcostototal();
@@ -422,6 +422,81 @@ $this->startSection('javascript');
     });
 
     function registrarcombo() {
+        const cantidadIngresante = parseFloat(
+            $("#txtcantidadingresante").val()
+        );
+        // Validar cantidad ingresante
+        if (!Number.isFinite(cantidadIngresante) || cantidadIngresante <= 0) {
+            toastr.warning(
+                "Ingrese una cantidad válida para armar el combo.",
+                "Mensaje del sistema"
+            );
+            return;
+        }
+
+        const filas = $("#detallecombo tbody tr");
+        if (filas.length === 0) {
+            toastr.info("Agregue productos al combo", "Mensaje del sistema");
+            return;
+        }
+
+        // Agrupar los productos repetidos por ID
+        const productos = {};
+        let stockInvalido = false;
+
+        filas.each(function() {
+            const inputId = $(this).find(".idart");
+            const idart = String(inputId.val()).trim();
+            const stock = parseFloat(inputId.attr("data-stock"));
+            if (idart === "" || !Number.isFinite(stock) || stock < 0) {
+                stockInvalido = true;
+                return false;
+            }
+            if (!productos[idart]) {
+                productos[idart] = {
+                    id: idart,
+                    nombre: $(this).find(".nombre").val(),
+                    stock: stock,
+                    cantidadNecesaria: 0
+                };
+            } else {
+                // Si el mismo producto aparece varias veces,
+                // conservar el menor stock informado.
+                productos[idart].stock = Math.min(
+                    productos[idart].stock,
+                    stock
+                );
+            }
+            // Cada fila representa el consumo de una unidad
+            // de ese producto por cada combo que se va a armar.
+            productos[idart].cantidadNecesaria += cantidadIngresante;
+        });
+        if (stockInvalido) {
+            toastr.error(
+                "No se pudo validar el stock de uno de los productos.",
+                "Mensaje del sistema"
+            );
+            return;
+        }
+        // Validar el stock acumulado de cada producto
+        const faltantes = Object.values(productos).filter(
+            producto =>
+            producto.cantidadNecesaria > producto.stock
+        );
+        if (faltantes.length > 0) {
+            let mensaje = faltantes.map(producto => {
+                return `${producto.nombre} (ID: ${producto.id}): ` +
+                    `stock disponible ${producto.stock}, ` +
+                    `necesario ${producto.cantidadNecesaria}.`;
+            }).join("\n");
+            Swal.fire({
+                title: "Stock insuficiente",
+                text: mensaje,
+                icon: "error",
+                confirmButtonText: "Entendido"
+            });
+            return;
+        }
         if ($('#detallecombo tbody tr').length != 0) {
             Swal.fire({
                 title: "¿Desea registrar el combo?",
@@ -450,7 +525,6 @@ $this->startSection('javascript');
                     data.append("detalle", JSON.stringify(detalle));
                     axios.post("/combos/registrarcombo", data)
                         .then(function(respuesta) {
-                            
                             Swal.fire({
                                 title: "Se ejecuto satisfactoriamente",
                                 text: respuesta.data.mensaje.trimEnd(),

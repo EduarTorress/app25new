@@ -555,4 +555,35 @@ class InventarioController extends Controller
         $listado = $inv->listarstockxalmacen($fechf, $cmbAlmacen);
         return view('inventarios/listastockxalmacen', ["listado" => $listado, 'nalma' => $cmbAlmacen, 'cmbfiltrostock' => $cmbfiltrostock]);
     }
+    public function indexlistastockvalorizado()
+    {
+        $titulo = 'Lista Stock Valorizado';
+        return view('inventarios/indexlistastockvalorizado', ["titulo" => $titulo]);
+    }
+    public function listarstockvalorizado(Request $request)
+    {
+        $datapost = array(
+            'fecha' => $request->get('txtfecha'),
+            'variaspresentaciones' => 'S',
+            'ruc' => $_SESSION['gene_nruc'],
+            'tipocosto' => $request->get("tipocosto"),
+            'cmbalmacen' => $request->get('cmbalmacen')
+        );
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://companiasysven.com/API/listarstockvalorizado.php',
+            CURLOPT_POSTFIELDS => $datapost,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response, true);
+        return view('/inventarios/listarstockvalorizado', ['listado' => $data['result']]);
+    }
 }

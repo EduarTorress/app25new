@@ -632,7 +632,7 @@ class VentasController extends Controller
         foreach ($carritov as $c) {
             if ($c['activo'] == 'A') {
                 if (floatval($c['precio']) == 0 || floatval($c['cantidad'] == 0)) {
-                    return response()->json(['errors' => 'No se puede registrar una venta con un precio o cantidad con valor 0'], 422);
+                    return response()->json(['errors' => 'No se puede registrar una venta con un precio o cantidad de algun producto con valor 0'], 422);
                 }
             }
         }
@@ -1414,7 +1414,8 @@ class VentasController extends Controller
             if ($validarstock == 'S') {
                 foreach ($_SESSION['carritov'] as $item) {
                     if ($item['activo'] == 'A') {
-                        if (intval($item['cantidad']) > intval($item['stock'])) {
+                        $cantidad = floatval($item['cantequi']) * floatval($item['cantidad']);
+                        if ($cantidad > floatval($item['stock'])) {
                             $data = ["errors" => ['El producto ' . $item['descripcion'] . ' solo tiene ' . $item['stock']], "estado" => 0];
                             return $data;
                         }

@@ -26,7 +26,7 @@
                 <td><?php echo $item['prod_cod1'] ?></td>
                 <td><?php echo $item['coda1'] ?></td>
                 <td class="text-end"><?php echo $item['alma'] ?></td>
-                <td><a target="_blank" rel="noopener noreferrer" href="<?php echo "/inventarios/kardex?coda=" . $item['idart'] . "&producto=" . $item['descri'] . "&alma=" . $nalma . "&fecha=" . $fecha ?>"><?php echo 'Kardex' ?></a></td>
+                <td><a target="_blank" rel="noopener noreferrer" href="<?php echo "/inventarios/kardex?coda=" . $item['idart'] . "&producto=" . str_replace('"', "'", $item['descri']) . "&alma=" . $nalma . "&fecha=" . $fecha ?>"><?php echo 'Kardex' ?></a></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

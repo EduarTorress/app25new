@@ -329,102 +329,61 @@
         text-overflow: ellipsis;
     }
 </style>
-
 <div id="modalCombo">
-
     <div class="modal-header combo-header">
         <div>
             <h4 id="lbltitulodetalle">
                 <?php echo htmlspecialchars($titulo ?? '', ENT_QUOTES, 'UTF-8'); ?>
             </h4>
-            <p class="combo-subtitle">
-                Busca productos, configura el combo y revisa su costo.
-            </p>
+            <p class="combo-subtitle"> Busca productos, configura el combo y revisa su costo. </p>
         </div>
-
-        <button type="button"
-            class="btn-close"
-            aria-label="Cerrar"
-            onclick="closemodaldetalle()">
-        </button>
+        <button type="button" class="btn-close" aria-label="Cerrar" onclick="closemodaldetalle()"></button>
     </div>
-
     <div class="modal-body">
-
         <div class="row g-3">
-
             <!-- PANEL DE BÚSQUEDA -->
             <div class="col-12 col-lg-7">
                 <div class="combo-panel">
-
                     <div class="panel-title">
                         <span class="panel-number">1</span>
                         Buscar productos
                     </div>
-
                     <label for="txtbuscarProducto" class="form-label small fw-semibold">
                         Nombre del producto
                     </label>
-
                     <div class="input-group">
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="txtbuscarProducto"
-                            name="txtbuscarProducto"
-                            placeholder="Escribe el nombre o código..."
-                            autocomplete="off">
-
-                        <input
-                            type="hidden"
-                            id="txtidproducto"
-                            name="txtidproducto">
-
-                        <button
-                            class="btn btn-primary"
-                            type="button"
-                            onclick="buscarProductoModal()">
-                            <!-- <span class="me-1">&#128269;</span> -->
+                        <input type="text" class="form-control" id="txtbuscarProducto" name="txtbuscarProducto" placeholder="Escribe el nombre o código..." autocomplete="off">
+                        <input type="hidden" id="txtidproducto" name="txtidproducto">
+                        <button class="btn btn-primary" type="button" onclick="buscarProductoModal()">
                             Buscar
                         </button>
                     </div>
-
                     <div class="search-help">
                         Escribe el producto y pulsa Buscar o presiona Enter.
                     </div>
-
                     <hr class="my-3">
-
                     <div class="panel-title mb-3">
                         Resultados
                     </div>
-
                     <div class="table-responsive">
                         <div id="searchP">
                             <!-- Aquí se muestran los productos encontrados -->
                         </div>
                     </div>
-
                 </div>
             </div>
-
             <!-- PANEL DE DETALLE -->
             <div class="col-12 col-lg-5">
                 <div class="combo-panel">
-
                     <div class="panel-title">
                         <span class="panel-number">2</span>
                         Productos del combo
                     </div>
-
                     <p class="text-secondary small mb-3">
                         Revisa los productos agregados y elimina los que no necesites.
                     </p>
-
                     <div class="table-responsive">
-                        <table id="detallecombo"
-                            class="table table-hover table-sm">
-
+                        <table id="detallecombo" class="table table-hover table-sm">
                             <thead>
                                 <tr>
                                     <th scope="col">ID</th>
@@ -433,126 +392,74 @@
                                     <th scope="col" class="text-center">Acción</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                                 <?php foreach ($combo as $c): ?>
                                     <tr class="fila">
+                                        <?php
+                                        $stock = $c['uno'] + $c['dos'] + $c['tre'] + $c['cua'] + $c['cin'];
+                                        $validarstock = (empty($_SESSION['config']['validarstock']) ? 'N' : $_SESSION['config']['validarstock']);
+                                        if ($validarstock == 'S') {
+                                            $stock = floatval($c[verificarenquesucursalestoy()]);
+                                        }
+                                        ?>
                                         <td>
-                                            <input
-                                                type="text"
-                                                class="idart"
-                                                value="<?php echo htmlspecialchars((string)$c['epta_idar'], ENT_QUOTES, 'UTF-8'); ?>"
-                                                readonly>
+                                            <input type="text" data-stock="<?php echo htmlspecialchars((string)$stock, ENT_QUOTES, 'UTF-8'); ?>" class="idart" value="<?php echo htmlspecialchars((string)$c['epta_idar'], ENT_QUOTES, 'UTF-8'); ?>" readonly>
                                         </td>
-
                                         <td>
-                                            <input
-                                                type="text"
-                                                class="nombre"
-                                                value="<?php echo htmlspecialchars((string)$c['descri'], ENT_QUOTES, 'UTF-8'); ?>"
-                                                readonly>
+                                            <input type="text" class="nombre" value="<?php echo htmlspecialchars((string)$c['descri'], ENT_QUOTES, 'UTF-8'); ?>" readonly>
                                         </td>
-
                                         <td>
-                                            <input
-                                                type="text"
-                                                class="costo"
-                                                value="<?php echo htmlspecialchars((string)$c['epta_cost'], ENT_QUOTES, 'UTF-8'); ?>"
-                                                readonly>
+                                            <input type="text" class="costo" value="<?php echo htmlspecialchars((string)$c['epta_cost'], ENT_QUOTES, 'UTF-8'); ?>" readonly>
                                         </td>
-
                                         <td class="text-center">
-                                            <button
-                                                type="button"
-                                                class="borrar"
-                                                title="Eliminar producto"
-                                                aria-label="Eliminar producto">
+                                            <button type="button" class="borrar" title="Eliminar producto" aria-label="Eliminar producto">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
-
                         </table>
                     </div>
-
                     <!-- RESUMEN DEL COSTO -->
                     <div class="combo-summary">
                         <div class="d-flex align-items-center justify-content-between gap-3">
                             <div>
                                 <span class="summary-label">Costo total del combo</span>
-                                <small class="text-secondary">
-                                    Suma de los productos agregados
-                                </small>
+                                <small class="text-secondary">Suma de los productos agregados</small>
                             </div>
-
                             <div style="max-width: 155px;">
-                                <input
-                                    type="text"
-                                    class="form-control total-input text-end"
-                                    id="txtcostototal"
-                                    value="0.00"
-                                    readonly
-                                    aria-label="Costo total del combo">
+                                <input type="text" class="form-control total-input text-end" id="txtcostototal" value="0.00" readonlyaria-label="Costo total del combo">
                             </div>
                         </div>
                     </div>
-
                     <!-- STOCK -->
                     <div class="stock-section">
-                        <label for="txtcantidadingresante">
-                            Cantidad de combos a ingresar al stock
-                        </label>
-
+                        <label for="txtcantidadingresante">Cantidad de combos a ingresar al stock</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light">
                                 <span aria-hidden="true">&#128230;</span>
                             </span>
-
-                            <input
-                                type="number"
-                                class="form-control"
-                                id="txtcantidadingresante"
-                                min="1"
-                                step="1"
-                                inputmode="numeric"
-                                placeholder="Ej. 10">
-
+                            <input type="number" class="form-control" id="txtcantidadingresante" min="1" step="1" inputmode="numeric" placeholder="Ej. 10">
                             <span class="input-group-text">unidades</span>
                         </div>
-
                         <div class="stock-help">
                             Indica cuántas unidades del combo deseas ingresar.
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
-
     <!-- ACCIONES -->
     <div class="modal-footer">
-        <button
-            type="button"
-            class="btn btn-outline-secondary"
-            onclick="closemodaldetalle()">
-            Cerrar
-        </button>
-
-        <button
-            type="button"
-            class="btn btn-success btn-registrar"
-            onclick="registrarcombo()">
+        <button type="button" class="btn btn-outline-secondary" onclick="closemodaldetalle()">Cerrar</button>
+        <button type="button" class="btn btn-success btn-registrar" onclick="registrarcombo()">
             <span class="me-1">&#10003;</span>
             Registrar combo
         </button>
     </div>
-
 </div>
-
 <script>
     // Mantiene el cálculo inicial del costo.
     calcularcostototal();
