@@ -1085,8 +1085,45 @@ class ComprasController extends Controller
         $i = 0;
         $producto = new Producto();
         foreach ($comprobante['carrito_de_compras'] as $item) {
+
             $data = $producto->BuscarProductos($item['codigoproveedor'], 0, 2, 0);
-            if (empty($data['lista']['items'])) {
+            if (!empty($data['lista']['items']) &&  $proyecto == 'xsysg') {
+                $p = $data['lista']['items'][0];
+                $cantidad = $item['cantidad'];
+                $c[] = [
+                    'indice' => $i++,
+                    'coda' => $p['idart'],
+                    'descri' => $p['descri'],
+                    'unidad' => $p['unid'],
+                    'cantidad' => $cantidad,
+                    'codigoproveedor' => $item['codigoproveedor'] ?? '',
+                    'precio' => $p['pre1'],
+                    'preciocopia' => $p['pre1'],
+                    'nreg' => 0,
+                    'idprov' => 0,
+                    'subtotal' => $p['pre1'] * $cantidad,
+                    'activo' => 'A',
+                    'epta_idep' => $p['epta_idep'],
+                    'pres_desc' => $p['pres_desc'],
+                    'epta_cant' => $p['epta_cant'],
+                    'epta_prec' => $p['epta_prec'],
+                    'presseleccionada' => 0,
+                    'kar_equi' => 1,
+                    'checkafecto' => ($proyecto != 'xsys5' ? 'true' : 'false'),
+                    'kar_lote' => '',
+                    'kar_fvto' => '',
+                    'presentaciones' => json_encode([
+                        [
+                            'pres_desc' => $p['pres_desc'],
+                            'epta_cant' => $p['epta_cant'],
+                            'epta_idep' => $p['epta_idep'],
+                            'epta_prec' => $p['epta_prec']
+                        ]
+                    ]),
+                    'fechavto' => date('Y-m-d'),
+                    'lote' => ''
+                ];
+            } else {
                 $precioconIGV = round($item["precio"] * floatval($_SESSION['gene_igv']), 2);
                 $c[] = array(
                     'indice' => $i++,
@@ -1123,42 +1160,6 @@ class ComprasController extends Controller
                     'fechavto' => date('Y-m-d'),
                     'lote' => ''
                 );
-            } else {
-                $p = $data['lista']['items'][0];
-                $cantidad = $item['cantidad'];
-                $c[] = [
-                    'indice' => $i++,
-                    'coda' => $p['idart'],
-                    'descri' => $p['descri'],
-                    'unidad' => $p['unid'],
-                    'cantidad' => $cantidad,
-                    'codigoproveedor' => $item['codigoproveedor'] ?? '',
-                    'precio' => $p['pre1'],
-                    'preciocopia' => $p['pre1'],
-                    'nreg' => 0,
-                    'idprov' => 0,
-                    'subtotal' => $p['pre1'] * $cantidad,
-                    'activo' => 'A',
-                    'epta_idep' => $p['epta_idep'],
-                    'pres_desc' => $p['pres_desc'],
-                    'epta_cant' => $p['epta_cant'],
-                    'epta_prec' => $p['epta_prec'],
-                    'presseleccionada' => 0,
-                    'kar_equi' => 1,
-                    'checkafecto' => ($proyecto != 'xsys5' ? 'true' : 'false'),
-                    'kar_lote' => '',
-                    'kar_fvto' => '',
-                    'presentaciones' => json_encode([
-                        [
-                            'pres_desc' => $p['pres_desc'],
-                            'epta_cant' => $p['epta_cant'],
-                            'epta_idep' => $p['epta_idep'],
-                            'epta_prec' => $p['epta_prec']
-                        ]
-                    ]),
-                    'fechavto' => date('Y-m-d'),
-                    'lote' => ''
-                ];
             }
         }
         session()->set('carritoc', $c);
@@ -1293,7 +1294,7 @@ class ComprasController extends Controller
             return response()->json(['message' => 'Error al canjear compra'], 422);
         }
     }
-     function documentoguiaparacanje($idauto)
+    function documentoguiaparacanje($idauto)
     {
         $compra = new Compra();
         $nrocompra = "";
