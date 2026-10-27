@@ -770,7 +770,8 @@ $this->startSection('javascript');
 
     // $('#mdactualizarprecios').on('hidden.bs.modal', function() {});
 
-    // Modal Registro Cuentas x Pagar inicio
+    // Modal Registro Cuentas x Pagar START
+
     $('#modalregistrocuentasxpagar').on('shown.bs.modal', function() {
         $("#txtnumeroletras").select();
     });
