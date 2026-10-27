@@ -1085,7 +1085,6 @@ class ComprasController extends Controller
         $i = 0;
         $producto = new Producto();
         foreach ($comprobante['carrito_de_compras'] as $item) {
-
             $data = $producto->BuscarProductos($item['codigoproveedor'], 0, 2, 0);
             if (!empty($data['lista']['items']) &&  $proyecto == 'xsysg') {
                 $p = $data['lista']['items'][0];
