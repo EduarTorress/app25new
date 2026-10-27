@@ -303,7 +303,6 @@ $this->startSection('javascript');
                         $("#cmbdcto").val("GI");
                 }
                 $("#cmbdcto").addClass("border border-success border-3");
-
                 switch (rpta.moneda) {
                     case 'USD':
                         $("#cmbmoneda").val("D");
@@ -312,11 +311,9 @@ $this->startSection('javascript');
                         $("#cmbmoneda").val("S");
                 }
                 $("#cmbmoneda").addClass("border border-success border-3");
-
                 axios.get('/compras/listardetalle').then(function(respuesta) {
                     const contenido_tabla = respuesta.data;
                     $('#detalle').html(contenido_tabla);
-
                     $("#griddetalle").addClass("border border-success border-5");
                 }).catch(function(error) {
                     toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
