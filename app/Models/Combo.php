@@ -36,6 +36,7 @@ class Combo extends Modelo
                 $rpta = array('mensaje' => 'No se pudo obtener el correlativo', "estado" => '0');
                 return $rpta;
             }
+               $idserie = $correlativo[0]['idserie'];
 
             $sqlIC = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,
                     :ndolar,:ni,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,:nitem,:npvta,0) AS id";
@@ -143,7 +144,11 @@ class Combo extends Modelo
                 $rpta = array('mensaje' => $execupdateart->errorInfo(),  "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
-
+            if (!Serie::aumentarcorrelativo($idserie, $pdo)) {
+                $pdo->rollBack();
+                $rpta = array('mensaje' => 'Error al aumentar correlativo', "ndoc" => "", "estado" => '0');
+                return $rpta;
+            }
             $pdo->commit();
             $ncon->close();
             $rpta = array('mensaje' => "Se generó el combo correctamente ", "ndoc" => '', "estado" => '1');
