@@ -22,7 +22,7 @@
                         <a class="btn btn-danger" role="button" onclick="abrirModalEliminar('<?= $item['idauto'] ?>','<?= $item['ndoc'] ?>','<?= trim($item['estadoenviado']) ?>','<?= $item['tdoc'] ?>')">
                             <i class="fas fa-trash-alt"></i>
                         </a>
-                        <?php if (intval($item['codi']) > 0): ?>
+                        <?php if ((!empty($item['codi'])) && (intval($item['codi']) > 0)): ?>
                             <a class="btn btn-success" role="button" onclick="abrirModalBaja('<?= $item['idauto'] ?>','<?= $item['ndoc'] ?>','<?= trim($item['estadoenviado']) ?>','<?= trim($item['fech']) ?>','<?= $item['tdoc'] ?>')">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
