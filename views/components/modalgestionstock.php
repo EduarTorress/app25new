@@ -16,6 +16,7 @@
                                 <th scope="col">Produc.</th>
                                 <th scope="col">Stock</th>
                                 <th scope="col">Físico </th>
+                                <th scope="col">Diferencia</th>
                                 <th scope="col">Eliminar</th>
                             </tr>
                         </thead>
@@ -25,6 +26,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="exportarStockExcel()">
+                    <i class="fas fa-file-excel"></i> Exportar a Excel
+                </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-warning" onclick="clearTbGStock()">Limpiar</button>
                 <button type="button" onclick="saveDataArtStock()" class="btn btn-primary">Guardar cambios</button>
@@ -94,6 +98,9 @@
                     <td><input type="text" name="nombre1" style="width: 100%;" class="nombre" id="nombre1"  value='` + datos.producto.trim() + `' readonly></td>
                     <td style="width:10px;"><input type="text" name="stock1" style="width: 100%;" class="stock" id="stock1"  value='` + datos.stock + `' readonly></td>
                     <td style="width:10px;"><input type="number" name="ingreso1" style="width: 100%;" onclick="this.select()" onkeypress="enter(this,event)" class="ingreso" id="ingreso1" value="1"> </td>
+                    <td style="width:10px;">
+                        <input type="number" name="diferencia1" class="diferencia" style="width:100%;" value="${1 - Number(datos.stock)}" readonly>
+                    </td>
                     <td> <button class="borrar" style="height:25px; background-color:#FF3838; border-color: #FF3838;">Eliminar</button></td>
                     </tr>`;
         $('#tblGestionStock tbody').append(tr);
@@ -103,13 +110,17 @@
         $("#mdStockProducto").modal('show');
     }
 
+    // $('#mdStockProducto').on('show.bs.modal', function(event) {
+    //     reportetablebt('#tblGestionStock');
+    // });
+
     function enter(e, event) {
         if (event.key === "Enter") {
             event.preventDefault();
             tr = $(e).parent().parent();
             // console.log($(tr).html());
             td = $(tr).next('tr').find("td:nth-child(4) input");
-            console.log($(td).length);
+            // console.log($(td).length);
             if ($(td).length >= 1) {
                 $(tr).next('tr').find("td:nth-child(4) input").click()
                 $(tr).next('tr').find("td:nth-child(4) input").select()
@@ -119,6 +130,14 @@
             }
         }
     }
+
+    // Calcular la diferencia cuando cambia el físico
+    $(document).on('input', '#tblGestionStock .ingreso', function() {
+        var fila = $(this).closest('tr');
+        var fisico = Number($(this).val()) || 0;
+        var stock = Number(fila.find('.stock').val()) || 0;
+        fila.find('.diferencia').val(fisico - stock);
+    });
 
     function saveDataArtStock() {
         var table = document.getElementById("tblGestionStock");
@@ -152,7 +171,8 @@
                     data.append("detalle", JSON.stringify(detalle));
                     axios.post("/producto/updateStock", data)
                         .then(function(respuesta) {
-                            console.log(respuesta)
+                            exportarStockExcel();
+                            // console.log(respuesta)
                             toastr.success(respuesta.data.mensaje.trimEnd(), 'Mensaje del Sistema');
                             clearTbGStock();
                             buscar();
@@ -173,4 +193,62 @@
         event.preventDefault();
         $(this).closest('tr').remove();
     });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+    function exportarStockExcel() {
+        const filas = document.querySelectorAll('#tblGestionStock tbody tr');
+
+        if (filas.length === 0) {
+            toastr.error("No hay productos para exportar", "Mensaje del Sistema");
+            return;
+        }
+
+        // Encabezados del archivo Excel
+        const datosExcel = [
+            ["Producto", "Stock", "Físico", "Diferencia"]
+        ];
+
+        // Recorrer los productos de la tabla
+        filas.forEach(function(fila) {
+            const producto = fila.querySelector('.nombre').value;
+            const stock = Number(fila.querySelector('.stock').value) || 0;
+            const fisico = Number(fila.querySelector('.ingreso').value) || 0;
+            const diferencia = Number(fila.querySelector('.diferencia').value) || 0;
+
+            datosExcel.push([
+                producto,
+                stock,
+                fisico,
+                diferencia
+            ]);
+        });
+
+        // Crear el libro y la hoja de Excel
+        const hoja = XLSX.utils.aoa_to_sheet(datosExcel);
+        const libro = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(libro, hoja, "Gestion de Stock");
+
+        // Ajustar el ancho de las columnas
+        hoja['!cols'] = [{
+                wch: 35
+            },
+            {
+                wch: 12
+            },
+            {
+                wch: 12
+            },
+            {
+                wch: 15
+            }
+        ];
+
+        // Generar y descargar el archivo
+        const fecha = new Date().toISOString().slice(0, 10);
+        XLSX.writeFile(libro, `Gestion_Stock_${fecha}.xlsx`);
+
+        toastr.success("Archivo Excel generado correctamente", "Mensaje del Sistema");
+    }
 </script>
