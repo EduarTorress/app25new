@@ -541,7 +541,6 @@ $this->startSection('javascript');
         if (cmbforma == 'T' || cmbforma == 'Y' || cmbforma == 'P' || cmbforma == 'D') {
             $("#mddatosapagar").modal('show');
         } else {
-
             grabarVenta();
         }
     }
