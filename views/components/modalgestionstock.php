@@ -215,7 +215,6 @@
             const stock = Number(fila.querySelector('.stock').value) || 0;
             const fisico = Number(fila.querySelector('.ingreso').value) || 0;
             const diferencia = Number(fila.querySelector('.diferencia').value) || 0;
-
             datosExcel.push([
                 producto,
                 stock,
