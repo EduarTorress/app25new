@@ -94,7 +94,17 @@ class Inventario extends Modelo
     }
     function verdetalleajuste($idauto)
     {
-        $sql = "SELECT a.descri,k.cant FROM fe_kar k INNER JOIN fe_art a ON k.idart=a.idart WHERE idauto=:idauto";
+        $stock = verificarenquesucursalestoy();
+        // $sql = "SELECT a.descri,k.cant FROM fe_kar k INNER JOIN fe_art a ON k.idart=a.idart WHERE idauto=:idauto";
+        $sql = "SELECT
+                a.descri,
+                a." . $stock . " AS stock_actual,
+                (a." . $stock . " - k.cant) AS stock_anterior,
+                (a." . $stock . ") AS cantidad_fisica,
+                k.cant AS diferencia
+            FROM fe_kar k
+            INNER JOIN fe_art a ON k.idart = a.idart
+            WHERE k.idauto = :idauto;";
         $query = $this->prepare($sql);
         $query->execute([
             'idauto' => $idauto

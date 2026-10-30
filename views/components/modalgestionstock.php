@@ -26,9 +26,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" onclick="exportarStockExcel()">
+                <!-- <button type="button" class="btn btn-success" onclick="exportarStockExcel()">
                     <i class="fas fa-file-excel"></i> Exportar a Excel
-                </button>
+                </button> -->
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-warning" onclick="clearTbGStock()">Limpiar</button>
                 <button type="button" onclick="saveDataArtStock()" class="btn btn-primary">Guardar cambios</button>

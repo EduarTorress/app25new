@@ -186,6 +186,9 @@ function cargarsucursalestbody()
             case 4:
                 array_push($nomb, "cua");
                 break;
+            case 5:
+                array_push($nomb, "cin");
+                break;
         }
         $i += 1;
     }

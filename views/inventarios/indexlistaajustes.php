@@ -32,7 +32,7 @@ $this->startSection('contenido');
     </div>
 </div>
 <div class="modal fade" id="mddetalleajustes" tabindex="-1" aria-labelledby="" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="lblndoc"></h1>
@@ -49,19 +49,28 @@ $this->startSection('contenido');
                         <thead>
                             <tr>
                                 <th>Producto</th>
-                                <th class="text-end">Cantidad Ingresada</th>
+                                <th class="text-end">Stock Actual</th>
+                                <th class="text-end">Stock Anterior</th>
+                                <th class="text-end">Cantidad Física</th>
+                                <th class="text-end">Diferencia</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><?php echo $item['descri'] ?></td>
-                                <td ><?php echo $item['cant'] ?></td>
+                                <td><?php echo $item['stock_actual'] ?></td>
+                                <td><?php echo $item['stock_anterior'] ?></td>
+                                <td><?php echo $item['cantidad_fisica'] ?></td>
+                                <td><?php echo $item['diferencia'] ?></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="exportarStockExcel()">
+                    <i class="fas fa-file-excel"></i> Exportar a Excel
+                </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
@@ -121,7 +130,10 @@ $this->startSection("javascript")
                 for (var i = 0; i < listado.length; i++) {
                     var tr = `<tr class="fila">
                         <td>` + listado[i].descri + `</td>
-                        <td class="text-end">` + listado[i].cant + `</td>
+                        <td class="text-end">` + listado[i].stock_actual + `</td>
+                        <td class="text-end">` + listado[i].stock_anterior + `</td>
+                        <td class="text-end">` + listado[i].cantidad_fisica + `</td>
+                        <td class="text-end">` + listado[i].diferencia + `</td>
                         </tr>`;
                     $('#tbldetalleajuste tbody').append(tr);
                 }
@@ -131,6 +143,72 @@ $this->startSection("javascript")
         }).catch(function(error) {
             console.log(error)
         });
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+    function exportarStockExcel() {
+        const filas = document.querySelectorAll('#tbldetalleajuste tbody tr');
+
+        if (filas.length === 0 || !filas[0].classList.contains('fila')) {
+            toastr.error("No hay productos para exportar", "Mensaje del Sistema");
+            return;
+        }
+
+        // Encabezados del archivo Excel
+        const datosExcel = [
+            ["Producto", "Stock Actual", "Stock Anterior", "Cantidad Física", "Diferencia"]
+        ];
+
+        // Recorrer las filas de la tabla
+        filas.forEach(function(fila) {
+            const columnas = fila.querySelectorAll('td');
+
+            if (columnas.length === 5) {
+                datosExcel.push([
+                    columnas[0].textContent.trim(),
+                    Number(columnas[1].textContent.trim()) || 0,
+                    Number(columnas[2].textContent.trim()) || 0,
+                    Number(columnas[3].textContent.trim()) || 0,
+                    Number(columnas[4].textContent.trim()) || 0
+                ]);
+            }
+        });
+
+        if (datosExcel.length === 1) {
+            toastr.error("No hay productos para exportar", "Mensaje del Sistema");
+            return;
+        }
+
+        // Crear el libro y la hoja de Excel
+        const hoja = XLSX.utils.aoa_to_sheet(datosExcel);
+        const libro = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(libro, hoja, "Detalle Ajustes");
+
+        // Ajustar el ancho de las columnas
+        hoja['!cols'] = [{
+                wch: 35
+            },
+            {
+                wch: 15
+            },
+            {
+                wch: 15
+            },
+            {
+                wch: 18
+            },
+            {
+                wch: 15
+            }
+        ];
+
+        // Generar y descargar el archivo
+        const fecha = new Date().toISOString().slice(0, 10);
+        XLSX.writeFile(libro, `Detalle_Ajuste_Inventario_${fecha}.xlsx`);
+
+        toastr.success("Archivo Excel generado correctamente", "Mensaje del Sistema");
     }
 </script>
 <?php
