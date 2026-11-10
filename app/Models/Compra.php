@@ -276,7 +276,7 @@ class Compra extends Modelo
                 if ($proyecto != 'xsysg') {
                     if ($cabecera['form'] == 'E') {
                         $sqll = "CALL ProIngresaDatosLcajaeEfectivo12(:fech,'',:cdeta,:idcta,'0',:sacreedor,
-                            :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
+                                    :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda)";
                         $queryy = $pdo->prepare($sqll);
                         $queryy->execute([
                             'fech' => $this->dfecha,

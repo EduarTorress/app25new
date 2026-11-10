@@ -572,7 +572,7 @@ class ComprasController extends Controller
         // session()->set('idauto', $idauto);
         $i = 0;
         $montototal = 0;
-        $subtotal = 0;
+        // $subtotal = 0;
         foreach ($lista as $item) {
             if ($i == 0) {
                 $datosproveedor = array(
