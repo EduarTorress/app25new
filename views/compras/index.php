@@ -450,46 +450,86 @@ $this->startSection('javascript');
         $("#txtbuscarprov").focus();
     });
 
+    // function calcularpercepcion() {
+    //     subtotal = $("#total").val();
+    //     nper = <?php echo round($_SESSION['gene_nper']) / 100; ?>;
+    //     percepcion = Number(subtotal) * Number(nper);
+    //     total = Number(subtotal) + Number(percepcion);
+    //     if ($("#cbpercepcion").is(':checked')) {
+    //         $("#txtpercepcion").val(percepcion.toFixed(2));
+    //         $("#txttotalpercepcion").val(total.toFixed(2));
+    //     };
+    //     if ($("#cbpercepcion").is(':checked') == false) {
+    //         $("#txtpercepcion").val("0.00");
+    //         subtotal = $("#total").val();
+    //         $("#txttotalpercepcion").val(subtotal);
+    //         // igv = obtenerTipoIGV();
+    //         // var total_col = 0;
+    //         // $('#griddetalle tbody').find('tr').each(function(i, el) {
+    //         //     total_col += parseFloat($(this).find('td').eq(6).text());
+    //         // });
+    //         // if (igv == 'I') {
+    //         //     //Si el IGV está incluido
+    //         //     let impo = (Number(total_col)).toFixed(2);
+    //         //     let valor = (impo / 1.18).toFixed(2);
+    //         //     let nigv = (impo - valor).toFixed(2);
+    //         //     $("#igv").val(nigv);
+    //         //     $("#subtotal").val(valor);
+    //         //     $("#total").val(impo);
+    //         // } else {
+    //         //     impo = Number(total_col);
+    //         //     $("#subtotal").val(impo.toFixed(2));
+    //         //     $("#igv").val("18");
+    //         //     imponoigv = ((impo * 0.18) + impo);
+    //         //     $("#total").val(imponoigv.toFixed(2));
+    //         // }
+    //         // let impor = $("#total").val();
+    //         // if (isNaN(impor)) {
+    //         //     $("#subtotal").val("0.00");
+    //         //     $("#igv").val("0.00");
+    //         //     $("#total").val("0.00");
+    //         // }
+    //     };
+    // }
+
     function calcularpercepcion() {
-        subtotal = $("#total").val();
-        nper = <?php echo round($_SESSION['gene_nper']) / 100; ?>;
-        percepcion = Number(subtotal) * Number(nper);
-        total = Number(subtotal) + Number(percepcion);
-        if ($("#cbpercepcion").is(':checked')) {
-            $("#txtpercepcion").val(percepcion.toFixed(2));
-            $("#txttotalpercepcion").val(total.toFixed(2));
-        };
-        if ($("#cbpercepcion").is(':checked') == false) {
-            $("#txtpercepcion").val("0.00");
-            subtotal = $("#total").val();
-            $("#txttotalpercepcion").val(subtotal);
-            // igv = obtenerTipoIGV();
-            // var total_col = 0;
-            // $('#griddetalle tbody').find('tr').each(function(i, el) {
-            //     total_col += parseFloat($(this).find('td').eq(6).text());
-            // });
-            // if (igv == 'I') {
-            //     //Si el IGV está incluido
-            //     let impo = (Number(total_col)).toFixed(2);
-            //     let valor = (impo / 1.18).toFixed(2);
-            //     let nigv = (impo - valor).toFixed(2);
-            //     $("#igv").val(nigv);
-            //     $("#subtotal").val(valor);
-            //     $("#total").val(impo);
-            // } else {
-            //     impo = Number(total_col);
-            //     $("#subtotal").val(impo.toFixed(2));
-            //     $("#igv").val("18");
-            //     imponoigv = ((impo * 0.18) + impo);
-            //     $("#total").val(imponoigv.toFixed(2));
-            // }
-            // let impor = $("#total").val();
-            // if (isNaN(impor)) {
-            //     $("#subtotal").val("0.00");
-            //     $("#igv").val("0.00");
-            //     $("#total").val("0.00");
-            // }
-        };
+        // Porcentaje de percepción configurado en el sistema.
+        let nper = <?php echo round($_SESSION['gene_nper']) / 100; ?>;
+        // Total general de la compra, calculado por calcularIGV().
+        let totalCompra = Number($("#total").val()) || 0;
+        // Suma de los importes de todos los productos.
+        let totalProductos = 0;
+        // Suma de los importes de los productos seleccionados.
+        let totalProductosSeleccionados = 0;
+        $("#griddetalle tbody tr").each(function() {
+            let fila = $(this);
+            let importe = Number(fila.find(".total input").val()) || 0;
+            totalProductos += importe;
+            // Verificamos si el producto tiene marcada su percepción.
+            let seleccionado = fila.find("input[name='checkpercepcion']").is(":checked");
+            if (seleccionado) {
+                totalProductosSeleccionados += importe;
+            }
+        });
+        console.log(totalProductosSeleccionados)
+        let basePercepcion = 0;
+        // OPCIÓN 1: Aplicar percepción a todos los productos.
+        if ($("#cbpercepcion").is(":checked")) {
+            basePercepcion = totalCompra;
+        } else {
+            // OPCIÓN 2: Aplicar percepción solo a productos seleccionados.
+            if (totalProductos > 0 && totalProductosSeleccionados > 0) {
+                // Distribuimos proporcionalmente el total de la compra.
+                basePercepcion = totalCompra * (totalProductosSeleccionados / totalProductos);
+            }
+        }
+        // Calculamos la percepción.
+        let percepcion = basePercepcion * Number(nper);
+        // Total a pagar.
+        let totalPagar = totalCompra + percepcion;
+        // Actualizamos los campos existentes.
+        $("#txtpercepcion").val(percepcion.toFixed(2));
+        $("#txttotalpercepcion").val(totalPagar.toFixed(2));
     }
 
     function grabardescuento() {
@@ -1449,8 +1489,8 @@ $this->startSection('javascript');
     //     actualizarProducto(o, i);
     // }
 
-    $('#cbpercepcion').change(function() {
-        calcularpercepcion()
+    $(document).on('change', '#cbpercepcion', function() {
+        calcularpercepcion();
     });
 </script>
 <?php

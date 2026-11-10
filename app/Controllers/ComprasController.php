@@ -289,6 +289,19 @@ class ComprasController extends Controller
             'array' => $producto
         ], 200);
     }
+    function checkpercepcion(Request $request)
+    {
+        $producto = array();
+        $producto = array(
+            'indice' => $request->get('indice'),
+            'checkpercepcion' => $request->get('marcado'),
+        );
+        CarritoService::editarproductopercepcion($producto);
+        return response()->json([
+            'message' => 'Item actualizado correctamente',
+            'array' => $producto
+        ], 200);
+    }
     function checknodescontarstock(Request $request)
     {
         // $producto = array();

@@ -145,6 +145,8 @@ $app->router->get("/compras/listarcomprasmodificadas", [\App\Controllers\Compras
 
 $app->router->post('/compras/importarcompraxarchivo', [\App\Controllers\ComprasController::class, 'importarcompraxarchivo']);
 
+$app->router->post('/compras/checkpercepcion', [\App\Controllers\ComprasController::class, 'checkpercepcion']);
+
 #rutas de notas de crédito compras
 $app->router->get('/compras/indexnotascredito', [\App\Controllers\ComprasController::class, "indexnotascredito"]);
 $app->router->post('/compras/registrarnotacredito', [\App\Controllers\ComprasController::class, "registrarnotacredito"]);

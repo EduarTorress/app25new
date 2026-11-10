@@ -61,6 +61,7 @@ $this->startSection("javascript")
 
     window.onload = function() {
         titulo("<?php echo $titulo ?>");
+        $("#cmbAlmacen").prop("disabled", false);
     }
 
     function search() {

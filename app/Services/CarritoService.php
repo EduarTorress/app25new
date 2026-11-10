@@ -474,6 +474,20 @@ class CarritoService
         $carritoc[$indice]['checkafecto'] = $producto['checkafecto'];
         session()->set('carritoc', $carritoc);
     }
+    public static function editarproductopercepcion($producto)
+    {
+        $carritoc = session()->get('carritoc', []);
+        $pos = $producto['indice'];
+        $indice = 0;
+        foreach ($carritoc as $posicion => $item) {
+            if ($posicion == $pos) {
+                $indice = $posicion;
+                break;
+            }
+        }
+        $carritoc[$indice]['checkpercepcion'] = $producto['checkpercepcion'];
+        session()->set('carritoc', $carritoc);
+    }
     /////////VENTAS
     public static function cambiardetalledolar()
     {

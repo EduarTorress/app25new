@@ -16,6 +16,7 @@
                 <th scope="col" style="width:5%; text-align:center;">Importe</th>
                 <th scope="col" style="width:5%" class="text-center afecto">No Afecto</th>
                 <th scope="col" style="width:5%" class="text-center flete">Costo (Flete)</th>
+                <th scope="col" style="width:5%" class="text-center percepcion">Percepción</th>
             </tr>
         </thead>
         <tbody id="bodycompras">
@@ -78,6 +79,16 @@
                         </td>
                         <?php $flete = empty($item['flete']) ? 0 : $item['flete']; ?>
                         <td class="text-center flete"><input onclick="this.select();" onkeyup="ingresarfletexproducto(<?php echo $indice ?>,this)" onkeypress="return isNumber(event);" type="text" class="inputright" value="<?php echo $flete; ?>"></td>
+                        <td class="text-center percepcion">
+                            <?php
+                            $checkpercepcion = "";
+                            if (isset($item['checkpercepcion']) && trim($item['checkpercepcion']) == "true") {
+                                $checkpercepcion = "checked";
+                            }
+                            ?>
+                            <input type="checkbox" <?php echo $checkpercepcion; ?> id="checkpercepcion<?php echo $indice; ?>"
+                                name="checkpercepcion" onclick="cambiarcheckpercepcion(this, <?php echo $indice; ?>)">
+                        </td>
                         <?php $i++; ?>
                     </tr>
                 <?php } ?>
@@ -118,7 +129,7 @@
                 <div class="form-check" id="inputpercepcion">
                     <input class="form-check-input" type="checkbox" class="" value="S" id="cbpercepcion">
                     <label class="form-check-label" for="">
-                        Aplica Percepción
+                        Aplica Percepción para todos
                     </label>
                 </div>
                 <?php
@@ -201,6 +212,7 @@
 </div>
 <script>
     calcularIGV();
+
     <?php $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']) ?>
     <?php if ($proyecto == 'xsys5'): ?>
         $(".afecto").css("display", "none");
@@ -215,6 +227,23 @@
         }
     }
 
+    function cambiarcheckpercepcion(element, i) {
+        let marcado = element.checked ? "true" : "false";
+        const data = new FormData();
+        data.append("indice", i);
+        data.append("marcado", marcado);
+        axios.post('/compras/checkpercepcion', data)
+            .then(function(respuesta) {
+                calcularpercepcion();
+            }).catch(function(error) {
+                console.log(error);
+                // Si falla el guardado, revertimos visualmente el checkbox.
+                element.checked = !element.checked;
+                toastr.error("No se pudo actualizar la percepción del producto", "Mensaje del sistema");
+                calcularpercepcion();
+            });
+    }
+
     function ingresarfletexproducto(indice, valorflete) {
         const data = new FormData();
         data.append("indice", indice);
@@ -225,7 +254,10 @@
             });
     }
 
-    $('#cbpercepcion').change(function() {
+    // $('#cbpercepcion').change(function() {
+    //     calcularpercepcion();
+    // });
+    $(document).on('change', '#cbpercepcion', function() {
         calcularpercepcion();
     });
 
