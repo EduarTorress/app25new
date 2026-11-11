@@ -644,7 +644,7 @@ class Caja extends Modelo
     {
         $sql = "SELECT lcaj_ndoc as ndoc,lcaj_fech as fech,if(lcaj_deud>0,'EGRESO','INGRESO') as razo,lcaj_mone as mone,
         if(lcaj_deud>0,lcaj_deud,lcaj_acre) as importe,lcaj_idca as idauto,'1' as estadoenviado,'CE' as tdoc
-        FROM fe_lcaja WHERE lcaj_ndoc LIKE :lcaj_ndoc and lcaj_fech=CURRENT_DATE() AND lcaj_acti='A'";
+        FROM fe_lcaja WHERE lcaj_ndoc LIKE TRIM(LEADING '0' FROM :lcaj_ndoc) and lcaj_fech=CURRENT_DATE() AND lcaj_acti='A'";
         $query = $this->prepare($sql);
         $query->execute([
             'lcaj_ndoc' => '%' . $ndoc . '%'
