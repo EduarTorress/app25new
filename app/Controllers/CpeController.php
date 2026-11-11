@@ -730,7 +730,7 @@ class CpeController extends Controller
                     }
                 } else {
                     if ($cmbTipoMovimiento == 'CE') {
-                        $listado = $caja->buscarcajaparaanular($txtNumeroDocumento);
+                        $listado = $caja->buscarcajaparaanular(ltrim($txtNumeroDocumento, '0'));
                         $listado = $listado['lista'];
                     } else {
                         if ($cmbTipoMovimiento == 'CB') {
