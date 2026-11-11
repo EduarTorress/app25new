@@ -548,6 +548,7 @@ class ComprasController extends Controller
             'cmbtipodocumentocuentasxpagar' => $request->get('cmbtipodocumentocuentasxpagar'),
             'cuentasxpagar' => $cuentasxpagar,
             'exonerado' => $request->get('exonerado'),
+            'aplicarpercepciontodos' => $request->get('aplicarpercepciontodos')
         );
         if ($compra->grabarCompra($cabecera)) {
             $this->LimpiarSesion();
@@ -563,7 +564,7 @@ class ComprasController extends Controller
     }
     function buscarCompraPorId($idauto)
     {
-        // $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
+        $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $compra = new Compra();
         $nrocompra = "";
         $this->LimpiarSesion();
@@ -604,6 +605,9 @@ class ComprasController extends Controller
             $rcom_exon = $item['rcom_exon'];
             $i++;
 
+            $kar_icbper = (float) ($item['kar_icbper'] ?? 0);
+            $checkpercepcion = ($kar_icbper > 0) ? 'true' : 'false';
+
             $c[] = array(
                 'coda' => $item["idart"],
                 'descri' => $item["descri"],
@@ -619,12 +623,14 @@ class ComprasController extends Controller
                 'pres_desc' => empty(trim($item['pres_desc'])) ? 'UNID' : $item['pres_desc'],
                 'epta_cant' => empty($item['epta_cant']) ? 1 : $item['epta_cant'],
                 'epta_prec' => empty($item['epta_prec']) ? $item['prec'] : $item['epta_prec'],
+                'epta_codt' => empty($item['epta_codt']) ? 1 : $item['epta_codt'],
                 'presseleccionada' => empty($item['kar_epta']) ? 0 : $item['kar_epta'],
                 'kar_equi' => empty($item['kar_equi']) ? 1 : $item['kar_equi'],
                 'checkafecto' => (floatval($item['kar_tigv']) > 1 ? "false" : "true"),
                 'kar_lote' => empty($item['kar_lote']) ? '' : $item['kar_lote'],
                 'kar_fvto' => empty($item['kar_fvto']) ? '' : $item['kar_fvto'],
-                'flete' => empty($item['kar_flet']) ? 0 : $item['kar_flet']
+                'flete' => empty($item['kar_flet']) ? 0 : $item['kar_flet'],
+                'checkpercepcion' => $checkpercepcion
                 // ($item['rcom_exon'] > 0 ? true : false)
             );
         }
@@ -645,15 +651,26 @@ class ComprasController extends Controller
             $presentaciones = [];
             $j = 0;
             foreach ($items as $p) {
-                $presentaciones[$j] = array(
-                    'epta_idep' => $p['epta_idep'],
-                    'pres_desc' => $p['pres_desc'],
-                    'epta_cant' => $p['epta_cant'],
-                    'epta_prec' => $p['epta_prec']
-                );
-                $j += 1;
+                if ($proyecto == 'xsysg') {
+                    if ($p['epta_codt'] == $item['alma']) {
+                        $presentaciones[$j] = array(
+                            'epta_idep' => $p['epta_idep'],
+                            'pres_desc' => $p['pres_desc'],
+                            'epta_cant' => $p['epta_cant'],
+                            'epta_prec' => $p['epta_prec']
+                        );
+                        $j++;
+                    }
+                } else {
+                    $presentaciones[$j] = array(
+                        'epta_idep' => $p['epta_idep'],
+                        'pres_desc' => $p['pres_desc'],
+                        'epta_cant' => $p['epta_cant'],
+                        'epta_prec' => $p['epta_prec']
+                    );
+                    $j += 1;
+                }
             }
-
             $carritoc[] = array(
                 'coda' => $items[0]["coda"],
                 'descri' => $items[0]["descri"],
@@ -670,6 +687,7 @@ class ComprasController extends Controller
                 'presseleccionada' => $items[0]['presseleccionada'],
                 'cantequi' => $items[0]['kar_equi'],
                 'checkafecto' => $items[0]['checkafecto'],
+                'checkpercepcion' => $items[0]['checkpercepcion'],
                 'lote' => $items[0]['kar_lote'],
                 'fechavto' => $items[0]['kar_fvto'],
                 "flete" => $items[0]['flete'],
@@ -681,9 +699,7 @@ class ComprasController extends Controller
         session()->set('proveedor', $datosproveedor);
         session()->set('carritoc', $carritoc);
         $titulo = 'Actualizar Compra' . ' ' . $nrocompra;
-
         // session()->set('nrocompra', $nrocompra);
-
         $serie = substr($nrocompra, 0, 4);
         $num = substr($nrocompra, 4);
 
@@ -792,7 +808,8 @@ class ComprasController extends Controller
             'pimpo' => $request->get('pimpo'),
             "nidauto" => \session()->get('idcompra'),
             'actualizarprecios' => $request->get('actualizarprecios'),
-            'exonerado' => $request->get('exonerado')
+            'exonerado' => $request->get('exonerado'),
+            'aplicarpercepciontodos' => $request->get('aplicarpercepciontodos')
         );
         if ($compra->actualizarCompra($cabecera)) {
             $inventariocontroller = new InventarioController();

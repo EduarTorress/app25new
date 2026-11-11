@@ -192,10 +192,10 @@ class Compra extends Modelo
     {
         $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
         $sql = "SELECT idauto,codt,idkar,descri,unid,tipro,idart,incl,ndoc,valor,igv,impo,pimpo,prod_idco,rcom_exon,kar_tigv,
-                cant,prec,fech,fecr,form,exon,ndo2,vigv,idprov,tipo,tdoc,dolar,mone,razo,dire,ciud,nruc,lcaj_idus,alma,
-                kar_epta,kar_equi,pe.pres_desc,e.epta_prec,epta_cant,epta_idep,kar_lote,kar_fvto " . ($proyecto == 'xsys5' ? ' ,kar_flet ' : ' ') .
+                cant,prec,fech,fecr,form,exon,ndo2,vigv,idprov,tipo,tdoc,dolar,mone,razo,dire,ciud,nruc,lcaj_idus,alma," . ($proyecto == 'xsysg' ? ' kar_icbper,epta_codt, ' : ' ') .
+            "kar_epta,kar_equi,pe.pres_desc,e.epta_prec,epta_cant,epta_idep,kar_lote,kar_fvto " . ($proyecto == 'xsys5' ? ' ,kar_flet ' : ' ') .
             "FROM vmuestracompras AS a 
-                LEFT JOIN (SELECT lcaj_idau,lcaj_idus FROM fe_lcaja  WHERE lcaj_acti='A' ) AS l ON l.lcaj_idau=a.idauto
+                LEFT JOIN (SELECT lcaj_idau,lcaj_idus FROM fe_lcaja WHERE lcaj_acti='A' ) AS l ON l.lcaj_idau=a.idauto
                 LEFT JOIN fe_epta e ON (idart=e.epta_idar)
                 LEFT JOIN `fe_presentaciones` pe ON (e.epta_pres=pe.pres_idpr)
                 WHERE idauto=:idauto ORDER BY idkar";
@@ -340,22 +340,24 @@ class Compra extends Modelo
                     }
                 }
             }
-
             $proyecto = (empty($_SESSION['config']['proyecto']) ? '' : $_SESSION['config']['proyecto']);
             $sqlas = "CALL astock(:coda,:nalma,:ccant,'C',:cantequi)";
             $carritoc = session()->get('carritoc', []);
-
             $sw = 1;
             foreach ($carritoc as $item) {
                 if ($item['activo'] == 'A') {
                     if ($proyecto != 'xsys5') {
-                        $sql = "SELECT FunIngresaKardex1(:nauto,:coda,'C',:prec,:cant,:igv,'K','0',:alm,'0','0',:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS NID";
+                        $sql = "SELECT FunIngresaKardex1(:nauto,:coda,'C',:prec,:cant,:igv,'K','0',:alm,'0',:checkpercepcion,:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS NID";
                         $query = $pdo->prepare($sql);
                         $cant = floatval($item['cantidad']);
                         $prec = floatval($item['precio']);
                         $afecto = session()->get("gene_igv");
                         if ((trim($item['checkafecto']) == "true")) {
                             $afecto = 1;
+                        }
+                        $checkpercepcion = ($item['checkpercepcion'] == "true" ? ($cant * $prec) * 0.02 : 0);
+                        if ($cabecera['aplicarpercepciontodos'] == 'S') {
+                            $checkpercepcion = ($cant * $prec) * 0.02;
                         }
                         $query->execute([
                             "nauto" => $id,
@@ -364,6 +366,7 @@ class Compra extends Modelo
                             "cant" => $cant,
                             "igv" => $cabecera['igv'],
                             "alm" => $_SESSION['checknodescontarstock'] == 'true' ? 0 : $cabecera['alm'],
+                            "checkpercepcion" => $checkpercepcion,
                             'epta' => $item['presseleccionada'],
                             'karunid' => $item['unidad'],
                             'karequi' => $item['cantequi'],
@@ -409,7 +412,6 @@ class Compra extends Modelo
                             'tigv' => $afecto,
                             'fechavto' => date('Y-m-d'),
                             'flete' => empty($item['flete']) ? 0 : $item['flete']
-
                         ]);
                         if ($query->errorCode() != '00000') {
                             $sw = 0;
@@ -637,19 +639,22 @@ class Compra extends Modelo
             $carritoc = session()->get('carritoc', []);
             $sw = 1;
             foreach ($carritoc as $item) {
+                $ncant = floatval($item['cantidad']);
+                $nprecio = floatval($item['precio']);
+                $checkpercepcion = ($item['checkpercepcion'] == "true" ? ($ncant * $nprecio) * 0.02 : 0);
+                if ($cabecera['aplicarpercepciontodos'] == 'S') {
+                    $checkpercepcion = ($ncant * $nprecio) * 0.02;
+                }
                 $sqlactualiza = "CALL ProActualizaKardex1(:nid,:cc,:ct,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:nidkar,
-                :op,:xcom,:epta,:karunid,:karequi,:tigv,:lote,:fechavto" . ($proyecto == 'xsys5' ? ',' . $item['flete'] : ' ') . ")";
-                // $nreg = isset($item['nreg']) ?  $item['nreg'] : '0';
+                            :op,:checkpercepcion,:epta,:karunid,:karequi,:tigv,:lote,:fechavto" . ($proyecto == 'xsys5' ? ',' . $item['flete'] : ' ') . ")";
                 if ($item['activo'] == 'A') {
                     if ($item['nreg'] == 0) {
-                        $ncant = floatval($item['cantidad']);
-                        $nprecio = floatval($item['precio']);
-                        $afecto = "1.18";
+                        $afecto = session()->get("gene_igv");
                         if ((trim($item['checkafecto']) == "true")) {
-                            $afecto = "1.00";
+                            $afecto = 1;
                         }
                         if ($proyecto != 'xsys5') {
-                            $sqlinserta = "SELECT FunIngresaKardex1(:nid,:cc,:ct,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:vcom,:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS IDD";
+                            $sqlinserta = "SELECT FunIngresaKardex1(:nid,:cc,:ct,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:checkpercepcion,:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS IDD";
                             $query = $pdo->prepare($sqlinserta);
                             $costo = empty($item['costo']) ? '0.00' : $item['costo'];
                             $query->execute([
@@ -663,7 +668,7 @@ class Compra extends Modelo
                                 "ccodv" => '0',
                                 "calma" => $_SESSION['checknodescontarstock'] == 'true' ? 0 : $cabecera['alm'],
                                 "nidcosto1" => $costo,
-                                "vcom" => '0',
+                                "checkpercepcion" => $checkpercepcion,
                                 'epta' => $item['presseleccionada'],
                                 'karunid' => $item['unidad'],
                                 'karequi' => $item['cantequi'],
@@ -672,7 +677,8 @@ class Compra extends Modelo
                                 'fechavto' => empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto']
                             ]);
                         } else {
-                            $sqlinserta = "SELECT FunIngresaKardex1(:nauto,:coda,'C',:prec,:cant,:igv,'K','0',:alm,'0','0',:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS NID";
+                            $sqlinserta = "SELECT FunIngresaKardex3(:nauto,:coda,'C',:prec,:cant,:igv,'K','0',:alm,'0','0',:karequi,:karunid,:epta,:epta,'0',:tigv,:fechavto,:flete) AS NID";
+                            // $sqlinserta = "SELECT FunIngresaKardex1(:nauto,:coda,'C',:prec,:cant,:igv,'K','0',:alm,'0','0',:epta,:karunid,:karequi,:tigv,:lote,:fechavto) AS NID";
                             $query = $pdo->prepare($sqlinserta);
                             $query->execute([
                                 "nauto" => $cabecera["nidauto"],
@@ -685,8 +691,8 @@ class Compra extends Modelo
                                 'karunid' => $item['unidad'],
                                 'karequi' => $item['cantequi'],
                                 'tigv' => $afecto,
-                                'lote' => empty($item['lote']) ? '' : $item['lote'],
-                                'fechavto' => empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto']
+                                'fechavto' => empty($item['fechavto']) ? date('Y-m-d') : $item['fechavto'],
+                                'flete' => empty($item['flete']) ? 0 : $item['flete']
                             ]);
                         }
                         $idkardex = $query->fetchColumn();
@@ -706,11 +712,11 @@ class Compra extends Modelo
                             }
                         }
                     } else {
-                        $afecto = "1.18";
+                        $afecto = session()->get("gene_igv");
                         if ((trim($item['checkafecto']) == "true")) {
-                            $afecto = "1.00";
+                            $afecto = 1;
                         }
-                        // echo $item['checkafecto'] . '<br>';
+                        // $nreg = isset($item['nreg']) ?  $item['nreg'] : '0';
                         $query = $pdo->prepare($sqlactualiza);
                         $ncant = floatval($item['cantidad']);
                         $nprecio = floatval($item['precio']);
@@ -728,7 +734,7 @@ class Compra extends Modelo
                             "nidcosto1" => $costo,
                             "nidkar" => $item['nreg'],
                             "op" => '1',
-                            "xcom" => '0',
+                            "checkpercepcion" => $checkpercepcion,
                             'epta' => $item['presseleccionada'],
                             'karunid' => $item['unidad'],
                             'karequi' => $item['cantequi'],
@@ -790,7 +796,7 @@ class Compra extends Modelo
                             "nidcosto1" => $costo,
                             "nidkar" => $item['nreg'],
                             "op" => '0',
-                            "xcom" => '0',
+                            "checkpercepcion" => $checkpercepcion,
                             'epta' => $item['presseleccionada'],
                             'karunid' => $item['unidad'],
                             'karequi' => $item['cantequi'],

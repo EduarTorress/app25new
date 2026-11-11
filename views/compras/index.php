@@ -511,7 +511,7 @@ $this->startSection('javascript');
                 totalProductosSeleccionados += importe;
             }
         });
-        console.log(totalProductosSeleccionados)
+        // console.log(totalProductosSeleccionados)
         let basePercepcion = 0;
         // OPCIÓN 1: Aplicar percepción a todos los productos.
         if ($("#cbpercepcion").is(":checked")) {
@@ -918,7 +918,6 @@ $this->startSection('javascript');
                     return;
                 }
             }
-
             txtnumeroletras = $("#txtnumeroletras").val();
             if (txtnumeroletras.length == 0 || txtnumeroletras == '' || Number(txtnumeroletras) == 0) {
                 toastr.error("Ingrese el numero de letras", 'Mensaje del sistema');
@@ -983,6 +982,7 @@ $this->startSection('javascript');
                 data.append("cuentasxpagar", JSON.stringify(detalle));
                 data.append("actualizarprecios", $("#actualizarprecios").val());
                 data.append("exonerado", $("#exonerado").val())
+                data.append("aplicarpercepciontodos", $("#cbpercepcion").is(":checked") ? "S" : "N");
                 axios.post("/compras/registrar", data)
                     .then(function(respuesta) {
                         const tabla = respuesta.data;
@@ -1180,6 +1180,7 @@ $this->startSection('javascript');
                 data.append("igv", igv);
                 data.append("actualizarprecios", $("#actualizarprecios").val());
                 data.append("exonerado", $("#exonerado").val())
+                data.append("aplicarpercepciontodos", $("#cbpercepcion").is(":checked") ? "S" : "N");
                 axios.post("/compras/actualizar", data)
                     .then(function(respuesta) {
                         const tabla = respuesta.data;
