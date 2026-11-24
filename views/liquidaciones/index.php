@@ -162,7 +162,7 @@ $this->startSection('javascript');
         //     }).catch(function(error) {
         //         console.log(error)
         //     });
-        idusuario = "<?php empty($_SESSION['usuario']) ? '0' : '1' ?>";
+        idusuario = "<?php echo empty($_SESSION['usuario'] ? '0' : '1') ?>";
         if (idusuario == '0') {
             toastr.error("Sesión vencida, por favor ingrese de nuevo al sistema", 'Mensaje del Sistema');
             return;
