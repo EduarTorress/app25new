@@ -355,6 +355,9 @@ class Compra extends Modelo
                         if ((trim($item['checkafecto']) == "true")) {
                             $afecto = 1;
                         }
+                        if (empty($item['checkpercepcion'])) {
+                            $item['checkpercepcion'] = 'false';
+                        }
                         $checkpercepcion = ($item['checkpercepcion'] == "true" ? ($cant * $prec) * 0.02 : 0);
                         if ($cabecera['aplicarpercepciontodos'] == 'S') {
                             $checkpercepcion = ($cant * $prec) * 0.02;
@@ -641,12 +644,15 @@ class Compra extends Modelo
             foreach ($carritoc as $item) {
                 $ncant = floatval($item['cantidad']);
                 $nprecio = floatval($item['precio']);
+                if (empty($item['checkpercepcion'])) {
+                    $item['checkpercepcion'] = 'false';
+                }
                 $checkpercepcion = ($item['checkpercepcion'] == "true" ? ($ncant * $nprecio) * 0.02 : 0);
                 if ($cabecera['aplicarpercepciontodos'] == 'S') {
                     $checkpercepcion = ($ncant * $nprecio) * 0.02;
                 }
                 $sqlactualiza = "CALL ProActualizaKardex1(:nid,:cc,:ct,:npr,:nct,:cincl,:tmvto,:ccodv,:calma,:nidcosto1,:nidkar,
-                            :op,:checkpercepcion,:epta,:karunid,:karequi,:tigv,:lote,:fechavto" . ($proyecto == 'xsys5' ? ',' . $item['flete'] : ' ') . ")";
+                                :op,:checkpercepcion,:epta,:karunid,:karequi,:tigv,:lote,:fechavto" . ($proyecto == 'xsys5' ? ',' . $item['flete'] : ' ') . ")";
                 if ($item['activo'] == 'A') {
                     if ($item['nreg'] == 0) {
                         $afecto = session()->get("gene_igv");
