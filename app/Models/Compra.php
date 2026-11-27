@@ -782,9 +782,9 @@ class Compra extends Modelo
                 } else {
                     if ($item['nreg'] > 0) {
                         $query = $pdo->prepare($sqlactualiza);
-                        $afecto = "1.18";
+                        $afecto = session()->get("gene_igv");
                         if ((trim($item['checkafecto']) == "true")) {
-                            $afecto = "1.00";
+                            $afecto = 1;
                         }
                         $ncant = floatval($item['cantidad']);
                         $nprecio = floatval($item['precio']);
